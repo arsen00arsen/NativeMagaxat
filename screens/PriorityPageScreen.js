@@ -10,10 +10,15 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
+import {useSelector, useDispatch} from 'react-redux';
 
 const PriorityPageScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [selectedInter1, setSselectedInter1] = React.useState('');
   const [selectedInter2, setSselectedInter2] = React.useState('');
+
+  // const name = useSelector(state => state.usser);
+  // console.log(name);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -45,9 +50,13 @@ const PriorityPageScreen = ({navigation}) => {
             <Picker
               selectedValue={selectedInter1}
               style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) =>
-                setSselectedInter1(itemValue)
-              }>
+              onValueChange={(itemValue, itemIndex) => {
+                setSselectedInter1(itemValue),
+                  dispatch({
+                    type: 'USSER_SIGN_UP_INTERESTEDTYPE',
+                    payload: {interesting_type: itemValue},
+                  });
+              }}>
               <Picker.Item label="It" value="it" />
               <Picker.Item label="Footbole" value="footbole" />
             </Picker>
@@ -57,9 +66,13 @@ const PriorityPageScreen = ({navigation}) => {
             <Picker
               selectedValue={selectedInter2}
               style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) =>
-                setSselectedInter2(itemValue)
-              }>
+              onValueChange={(itemValue, itemIndex) => {
+                setSselectedInter2(itemValue),
+                  dispatch({
+                    type: 'USSER_SIGN_UP_INTERESTEDTYPE_INDIGENT',
+                    payload: {interesting_typeIndigent: itemValue},
+                  });
+              }}>
               <Picker.Item label="Talent" value="talent" />
               <Picker.Item label="Advertising" value="advertising" />
             </Picker>

@@ -5,61 +5,34 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
   ScrollView,
+  TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Avatar from '../components/Avatar';
+// import Avatar from '../components/Avatar';
+import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import DatePicker from 'react-native-date-picker';
+import {useForm} from 'react-hook-form';
+import CustomInput from '../components/loginComponents/CustomInput';
+import {useSelector, useDispatch} from 'react-redux';
 
 const SignUpScreen = ({navigation}) => {
-  const [data, setData] = React.useState({
-    name: '',
-    lastName: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
-    isValidUser: true,
-    // isValidPassword: true,
+  const [date, setDate] = React.useState(new Date());
+  const [open, setOpen] = React.useState(false);
+  const {control, handleSubmit} = useForm();
+  const name = useSelector(state => state.usser);
+  const dispatch = useDispatch();
+  const submitFormHandler = handleSubmit(data => {
+    dispatch({type: 'USSER_SIGN_UP_FLNAMES', payload: data});
   });
 
-  const nameInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        name: val,
-        check_textInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        name: val,
-        check_textInputChange: false,
-        isValidUser: false,
-      });
-    }
-  };
-  const lastNameInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        lastName: val,
-      });
-    } else {
-      setData({
-        ...data,
-        lastName: val,
-      });
-    }
-  };
-
-  // const updateSecureTextEntry = () => {
-  //   setData({
-  //     ...data,
-  //     secureTextEntry: !data.secureTextEntry,
-  //   });
-  // };
-
+  function nextStep() {
+    submitFormHandler();
+    control?._formState.errors !== {}
+      ? navigation.navigate('AccountInfoScreen')
+      : navigation.navigate(null);
+  }
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -76,38 +49,66 @@ const SignUpScreen = ({navigation}) => {
               <Icon name="home-outline" color={'#FFFFFF'} size={20} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
-              <Text style={styles.text}>Create Your</Text>
-              <Text style={styles.text}>Profile</Text>
+              <Text style={styles.text}>Create Your Profile</Text>
+              <Animatable.Image
+                animation="fadeInUpBig"
+                duraton="1500"
+                source={require('../assets/logo.png')}
+                style={styles.logo}
+                resizeMode="stretch"
+              />
             </View>
             <View />
           </View>
-          <Avatar width={180} height={180} />
+          {/* <Avatar width={180} height={180} /> */}
           <View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>First Name</Text>
-              <TextInput
-                placeholderTextColor="#666666"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={val => nameInputChange(val)}
+            <CustomInput
+              name="name"
+              control={control}
+              // placeholder="Name"
+              rules={true}
+              title="First Name"
+            />
+            <CustomInput
+              name="lastName"
+              control={control}
+              title="Last Name"
+              rules={true}
+            />
+            <View>
+              <TouchableOpacity
+                style={styles.action}
+                onPress={() => setOpen(true)}>
+                <View>
+                  <Text style={styles.inputHeader}>Date</Text>
+                  <TextInput
+                    placeholderTextColor="#666666"
+                    style={styles.textInput}
+                    autoCapitalize="none"
+                  />
+                </View>
+              </TouchableOpacity>
+              <DatePicker
+                mode="date"
+                modal
+                open={open}
+                date={date}
+                onConfirm={dates => {
+                  setOpen(false);
+                  setDate(dates);
+                  dispatch({
+                    type: 'USSER_SIGN_UP_DATE',
+                    payload: {birthDate: dates},
+                  });
+                }}
+                onCancel={() => {
+                  setOpen(false);
+                }}
               />
             </View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Last Name</Text>
-              <TextInput
-                // placeholder="Your Email"
-                placeholderTextColor="#666666"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={val => lastNameInputChange(val)}
-              />
-            </View>
-            {/* <DataPicker /> */}
           </View>
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('AccountInfoScreen')}>
+            <TouchableOpacity style={styles.button} onPress={nextStep}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="home-outline" color={'#FFFFFF'} size={20} />
@@ -151,6 +152,7 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: 57,
+    marginTop: 20,
   },
   text: {
     color: 'white',
