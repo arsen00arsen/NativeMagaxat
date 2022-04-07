@@ -10,7 +10,7 @@ import {USSER_SIGN_UP_INTERESTEDTYPE_INDIGENT} from '../constants';
 import {USSER_SIGN_UP_PASSWORD} from '../constants';
 import {USSER_SIGN_UPLOCATION} from '../constants';
 import {USSER_SIGN_UP_LANGUEGE} from '../constants';
-
+import {LOGIN} from '../constants';
 const initialState = {
   usserDatNLnames: '',
   usserDatDate: '',
@@ -24,6 +24,7 @@ const initialState = {
   usserDatePassword: '',
   usserDateLocation: '',
   usserDateLanguage: '',
+  login: {},
 };
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -87,6 +88,12 @@ const signUpReducer = (state = initialState, action) => {
         ...state,
         usserDateLanguage: action.payload,
       };
+    case LOGIN:
+      return {
+        ...state,
+        login: action.payload,
+      };
+
     default:
       // case USSER_SIGN_UP_DATA:
       //   let newArr = state.usserDatas.concat(action.payload);

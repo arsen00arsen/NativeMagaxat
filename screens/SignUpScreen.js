@@ -26,13 +26,14 @@ const SignUpScreen = ({navigation}) => {
   const submitFormHandler = handleSubmit(data => {
     dispatch({type: 'USSER_SIGN_UP_FLNAMES', payload: data});
   });
+  let nextStep = async () => {
+    await submitFormHandler();
 
-  function nextStep() {
-    submitFormHandler();
     control?._formState.errors !== {}
       ? navigation.navigate('AccountInfoScreen')
       : navigation.navigate(null);
-  }
+  };
+  // console.log(name?.usserDatDate?.birthDate?.substring(0, 11));
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -65,7 +66,6 @@ const SignUpScreen = ({navigation}) => {
             <CustomInput
               name="name"
               control={control}
-              // placeholder="Name"
               rules={true}
               title="First Name"
             />
@@ -98,7 +98,7 @@ const SignUpScreen = ({navigation}) => {
                   setDate(dates);
                   dispatch({
                     type: 'USSER_SIGN_UP_DATE',
-                    payload: {birthDate: dates},
+                    payload: {birthDate: JSON.stringify(dates)},
                   });
                 }}
                 onCancel={() => {

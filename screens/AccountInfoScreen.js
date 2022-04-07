@@ -89,7 +89,7 @@ const AccountInfoScreen = ({navigation}) => {
               }}
             />
             <CustomInput
-              name="phone"
+              name="phone_number"
               control={control}
               type="number"
               title="Phone"

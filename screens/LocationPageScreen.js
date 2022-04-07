@@ -18,8 +18,30 @@ const LocationPageScreen = ({navigation}) => {
   const [countrySelect, setCountrySelect] = React.useState('');
   const name = useSelector(state => state.usser);
   const dispatch = useDispatch();
-  let change = () => {};
-  console.log(name);
+
+  let change = async () => {
+    let dataObjects = Object.assign(
+      name.usserDatNLnames,
+      name.userEmailPhone,
+      name.usserDateLocation,
+      name.usserDatePassword,
+      // name.userInterested1,
+      // name.userInterested2,
+      // name.userInterested3,
+      // name.userInterestedType,
+      // name.userInterestedTypeIndigent,
+      // name.userDateGender,
+      // name.usserDatDate,
+    );
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dataObjects),
+    };
+    fetch('http://192.168.0.107:8081/api/v1/register', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data));
+  };
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -51,16 +73,16 @@ const LocationPageScreen = ({navigation}) => {
             <Picker
               selectedValue={countrySelect}
               style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) => {
-                setCountrySelect(itemValue);
+              onValueChange={(itemValues, itemIndex) => {
+                setCountrySelect(itemValues);
                 dispatch({
-                  type: 'USSER_SIGN_UP_LANGUEGE',
-                  payload: {usserLocation: itemValue},
+                  type: 'USSER_SIGN_UPLOCATION',
+                  payload: {country: itemValues},
                 });
               }}>
-              <Picker.Item label="Armenia" value="Armenia" />
-              <Picker.Item label="Russia" value="russia" />
-              <Picker.Item label="US" value="us" />
+              <Picker.Item label="Armenia" value={1} />
+              <Picker.Item label="Russia" value={2} />
+              <Picker.Item label="US" value={3} />
             </Picker>
           </View>
           <View style={styles.action}>
@@ -71,13 +93,13 @@ const LocationPageScreen = ({navigation}) => {
               onValueChange={(itemValue, itemIndex) => {
                 setSselectedInter(itemValue);
                 dispatch({
-                  type: 'USSER_SIGN_UPLOCATION',
+                  type: 'USSER_SIGN_UP_LANGUEGE',
                   payload: {usserLanguage: itemValue},
                 });
               }}>
-              <Picker.Item label="English" value="english" />
-              <Picker.Item label="Armenian" value="armenian" />
-              <Picker.Item label="Russian" value="russian" />
+              <Picker.Item label="English" value="3" />
+              <Picker.Item label="Armenian" value="2" />
+              <Picker.Item label="Russian" value="1" />
             </Picker>
           </View>
         </View>
