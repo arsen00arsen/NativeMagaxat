@@ -1,38 +1,45 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
-import {useSelector, useDispatch} from 'react-redux';
-
+import {useDispatch} from 'react-redux';
+import {baseUrl} from '../http/index';
+// import LoaderComponent from '../components/LoaderComponent';
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignInScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const submitFormHandler = handleSubmit(data => {
-    const requestOptions = {
+    setLoading(true);
+    fetch(baseUrl + '/login', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data),
-    };
-    fetch('http://192.168.0.107:8081/api/v1/login', requestOptions)
+    })
       .then(response => response.json())
-      .then(datas =>
+      .then(response => {
+        setLoading(false);
         dispatch({
           type: 'LOGIN',
-          payload: datas,
-        }),
-      );
+          payload: response,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   });
 
   return (
@@ -61,34 +68,6 @@ const SignInScreen = ({navigation}) => {
               pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
             }}
           />
-          {/* <View style={styles.action}>
-            <View style={styles.passHeader}>
-              <Text style={styles.inputHeader}>Password</Text>
-              <TouchableOpacity onPress={updateSecureTextEntry}>
-                {data.secureTextEntry ? (
-                  <Feather
-                    style={styles.eyeIcon}
-                    name="eye-off"
-                    color="grey"
-                    size={20}
-                  />
-                ) : (
-                  <Feather
-                    style={styles.eyeIcon}
-                    name="eye"
-                    color="grey"
-                    size={20}
-                  />
-                )}
-              </TouchableOpacity>
-            </View> */}
-
-          {/* {data.isValidPassword ? null :
-                        <Animatable.View animation="fadeInLeft" duration={500}>
-                            <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-                        </Animatable.View>
-                    } */}
-          {/* </View> */}
           <CustomInput
             name="password"
             control={control}
@@ -109,6 +88,7 @@ const SignInScreen = ({navigation}) => {
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Sign In</Text>
+              {/* {isLoading === true ? <LoaderComponent /> : null}  */}
             </LinearGradient>
           </TouchableOpacity>
 
@@ -222,5 +202,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     height: 28,
+  },
+  loadingStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 555,
   },
 });

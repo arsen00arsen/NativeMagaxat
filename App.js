@@ -6,18 +6,26 @@
  * @flow
  */
 import React from 'react';
+import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackScreen from './screens/RootStackScreen';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import MainTabScreen from './screens/navBarScreens/MainTabScreen';
 import {useSelector} from 'react-redux';
 
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 const App = () => {
-  const name = useSelector(state => state.usser);
-  console.log(name);
+  const loginState = useSelector(state => state.usser.login);
+  // console.log(name.success);
   return (
     <NavigationContainer>
-      <RootStackScreen />
+      {loginState?.success === true ? (
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={MainTabScreen} />
+        </Stack.Navigator>
+      ) : (
+        <RootStackScreen />
+      )}
     </NavigationContainer>
   );
 };
