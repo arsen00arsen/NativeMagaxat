@@ -20,7 +20,7 @@ import {baseUrl} from '../../../http/index';
 import {useDispatch} from 'react-redux';
 import LikeButton from '../../../components/LikeButton';
 import {Share} from 'react-native';
-import Video from 'react-native-video';
+// import Video from 'react-native-video';
 // import ShareButton from '../../../components/ShareButton';
 
 const HomeScreen = ({navigation}) => {
@@ -136,14 +136,14 @@ const HomeScreen = ({navigation}) => {
         {/* <PostsComponent /> */}
         {/*  <PostsComponent />
         <PostsComponent /> */}
-        <Video
+        {/* <Video
           source={{
             uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
           }}
           paused={false} // make it start
           style={styles.backgroundVideo} // any style you want
           repeat={true} // make it a loop
-        />
+        /> */}
       </ScrollView>
     </View>
   );
