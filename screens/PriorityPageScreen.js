@@ -8,17 +8,14 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import {Picker} from '@react-native-picker/picker';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const PriorityPageScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [selectedInter1, setSselectedInter1] = React.useState('');
   const [selectedInter2, setSselectedInter2] = React.useState('');
-
-  // const name = useSelector(state => state.usser);
-  // console.log(name);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -29,7 +26,7 @@ const PriorityPageScreen = ({navigation}) => {
       <View style={styles.content}>
         <View style={styles.headerWidthButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+            <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
           </TouchableOpacity>
           <View style={styles.titlecontent}>
             <Text style={styles.text}>Choose</Text>
@@ -50,7 +47,7 @@ const PriorityPageScreen = ({navigation}) => {
             <Picker
               selectedValue={selectedInter1}
               style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) => {
+              onValueChange={itemValue => {
                 setSselectedInter1(itemValue),
                   dispatch({
                     type: 'USSER_SIGN_UP_INTERESTEDTYPE',
@@ -84,7 +81,7 @@ const PriorityPageScreen = ({navigation}) => {
             onPress={() => navigation.navigate('CreatePasswordScreen')}>
             <View />
             <Text style={styles.textSign}>Next</Text>
-            <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+            <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
           </TouchableOpacity>
         </View>
       </View>
@@ -118,6 +115,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginRight: 40,
   },
   logo: {
     width: 245,

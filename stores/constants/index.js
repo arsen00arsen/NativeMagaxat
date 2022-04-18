@@ -13,3 +13,4 @@ export const USSER_SIGN_UPLOCATION = 'USSER_SIGN_UPLOCATION';
 export const USSER_SIGN_UP_LANGUEGE = 'USSER_SIGN_UP_LANGUEGE';
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const USSER_ID = 'USSER_ID';

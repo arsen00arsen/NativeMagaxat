@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/Feather';
+import {useDispatch} from 'react-redux';
 
 const CreatePasswordScreen = ({navigation}) => {
   const [password, setpassword] = React.useState('');
@@ -21,10 +21,6 @@ const CreatePasswordScreen = ({navigation}) => {
     React.useState('');
   const [loading, setloading] = React.useState(false);
   const dispatch = useDispatch();
-  const name = useSelector(state => state.usser);
-  // console.log(confirmPassword);
-  // console.log(password);
-
   let formValidation = async () => {
     setloading(true);
     let errorFlag = false;
@@ -75,7 +71,7 @@ const CreatePasswordScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <Text style={styles.text}>Password</Text>
             <View />
@@ -128,7 +124,7 @@ const CreatePasswordScreen = ({navigation}) => {
             <TouchableOpacity style={styles.button} onPress={nextStep}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -161,6 +157,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
+    marginRight: 30,
   },
   button: {
     display: 'flex',

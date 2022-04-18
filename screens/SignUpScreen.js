@@ -11,7 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 // import Avatar from '../components/Avatar';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
 import {useForm} from 'react-hook-form';
 import CustomInput from '../components/loginComponents/CustomInput';
@@ -21,19 +21,21 @@ const SignUpScreen = ({navigation}) => {
   const [date, setDate] = React.useState(new Date());
   const [open, setOpen] = React.useState(false);
   const {control, handleSubmit} = useForm();
-  const name = useSelector(state => state.usser);
+  const birthDate = useSelector(state => state.usser);
   const dispatch = useDispatch();
   const submitFormHandler = handleSubmit(data => {
     dispatch({type: 'USSER_SIGN_UP_FLNAMES', payload: data});
   });
+
   let nextStep = async () => {
     await submitFormHandler();
-
-    control?._formState.errors !== {}
+    control?._formValues !== {} &&
+    control?._formValues.lastName !== undefined &&
+    control?._formValues.name !== undefined
       ? navigation.navigate('AccountInfoScreen')
       : navigation.navigate(null);
   };
-  // console.log(name?.usserDatDate?.birthDate?.substring(0, 11));
+  let datas = birthDate?.usserDatDate?.birthDate?.substring(1, 11);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -47,7 +49,7 @@ const SignUpScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
               <Text style={styles.text}>Create Your Profile</Text>
@@ -86,6 +88,7 @@ const SignUpScreen = ({navigation}) => {
                     style={styles.textInput}
                     autoCapitalize="none"
                   />
+                  <Text style={styles.dateText}>{datas}</Text>
                 </View>
               </TouchableOpacity>
               <DatePicker
@@ -111,7 +114,7 @@ const SignUpScreen = ({navigation}) => {
             <TouchableOpacity style={styles.button} onPress={nextStep}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -148,6 +151,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginRight: 40,
+    marginVertical: 20,
   },
   logo: {
     width: '100%',
@@ -183,6 +188,13 @@ const styles = StyleSheet.create({
   text_footer: {
     color: '#05375a',
     fontSize: 18,
+  },
+  dateText: {
+    // marginTop: Platform.OS === 'ios' ? 0 : -12,
+    paddingLeft: 10,
+    color: '#05375a',
+    height: '100%',
+    width: '100%',
   },
   action: {
     flexDirection: 'column',

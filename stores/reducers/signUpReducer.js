@@ -12,6 +12,8 @@ import {USSER_SIGN_UPLOCATION} from '../constants';
 import {USSER_SIGN_UP_LANGUEGE} from '../constants';
 import {LOGIN} from '../constants';
 import {LOGOUT} from '../constants';
+import {USSER_ID} from '../constants';
+
 const initialState = {
   usserDatNLnames: '',
   usserDatDate: '',
@@ -27,6 +29,7 @@ const initialState = {
   usserDateLanguage: '',
   login: {},
   logut: {},
+  usserAccountId: '',
 };
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -99,6 +102,11 @@ const signUpReducer = (state = initialState, action) => {
       return {
         ...state,
         logout: null,
+      };
+    case USSER_ID:
+      return {
+        ...state,
+        usserAccountId: action.payload,
       };
     default:
       // case USSER_SIGN_UP_DATA:

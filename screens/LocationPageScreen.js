@@ -12,7 +12,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
-
+import {baseUrl} from '../http/index';
 const LocationPageScreen = ({navigation}) => {
   const [selectedInter, setSselectedInter] = React.useState('');
   const [countrySelect, setCountrySelect] = React.useState('');
@@ -38,7 +38,7 @@ const LocationPageScreen = ({navigation}) => {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(dataObjects),
     };
-    fetch('http://192.168.0.107:8081/api/v1/register', requestOptions)
+    fetch(baseUrl + '/register', requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   };
@@ -52,7 +52,7 @@ const LocationPageScreen = ({navigation}) => {
       <View style={styles.content}>
         <View style={styles.headerWidthButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+            <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
           </TouchableOpacity>
           <View style={styles.titlecontent}>
             <Text style={styles.text}>Choose</Text>
@@ -113,13 +113,7 @@ const LocationPageScreen = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.startButton} onPress={change}>
             <Text style={styles.textStartButton}>Start</Text>
-            <Icon name="home-outline" color={'black'} size={20} />
           </TouchableOpacity>
-          {/* <TouchableOpacity style={styles.button}>
-              <View />
-              <Text style={styles.textSign}>Start</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-            </TouchableOpacity> */}
         </View>
       </View>
     </LinearGradient>
@@ -157,6 +151,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 30,
+    marginRight: 40,
   },
   logo: {
     width: 193,

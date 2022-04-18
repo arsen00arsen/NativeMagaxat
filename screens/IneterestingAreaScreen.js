@@ -8,17 +8,16 @@ import {
   ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
-import {useSelector, useDispatch} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 const IneterestingAreaScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [selectedInter1, setSselectedInter1] = React.useState('');
   const [selectedInter2, setSselectedInter2] = React.useState('');
   const [selectedInter3, setSselectedInter3] = React.useState('');
-  const name = useSelector(state => state.usser);
 
   return (
     <LinearGradient
@@ -33,7 +32,7 @@ const IneterestingAreaScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
               <Text style={styles.text}>Your 3 most</Text>
@@ -104,7 +103,7 @@ const IneterestingAreaScreen = ({navigation}) => {
               onPress={() => navigation.navigate('PriorityPageScreen')}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>

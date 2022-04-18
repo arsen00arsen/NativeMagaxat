@@ -1,13 +1,14 @@
 import React from 'react';
 
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-// import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 // import {MaterialCommunityIcons} from '@expo/vector-icons';
 // import {MaterialIcons} from '@expo/vector-icons';
 // import {FontAwesome5} from '@expo/vector-icons';
-import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
-import HomeScreen from './HomeScreen';
+import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
+import AccounProfiletScreen from '../navBarScreens/AccounProfiletScreen';
 import Media from './Media';
 // import MediaScreen from '../MediaScreens/MediaScreen';
 // import RowVideosScreen from '../MediaScreens/RowVideosScreen';
@@ -28,19 +29,21 @@ import Media from './Media';
 // const AccountStack = createStackNavigator();
 // const MediaStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const HomePage = createStackNavigator();
 
 const MainTabScreen = () => (
   <Tab.Navigator
     initialRouteName="Home"
     activeColor="#A48A66"
+    barStyle={{backgroundColor: '#C6B7A2'}}
     inactiveColor="#ffffff">
     <Tab.Screen
-      name="Home"
-      component={HomeScreen}
+      name="Homes"
+      component={HomeScreens}
       options={{
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
-          <Icon name="ios-home" color={color} size={26} />
+          <MaterialIcons name="home" color={color} size={26} />
         ),
       }}
     />
@@ -48,10 +51,9 @@ const MainTabScreen = () => (
       name="Media"
       component={Media}
       options={{
-        // tabBarLabel: 'Updates',
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
-          <Icon name="ios-home" color={color} size={26} />
+          <MaterialIcons name="perm-media" color={color} size={26} />
         ),
       }}
     />
@@ -100,7 +102,7 @@ export default MainTabScreen;
 // const MediaPageScreen = ({navigation}) => (
 //   <MediaStack.Navigator
 //     screenOptions={{
-//       headerShown: false,,
+//       headerShown: false,
 //     }}>
 //     <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
 //     <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
@@ -128,3 +130,15 @@ export default MainTabScreen;
 //     <AccountStack.Screen name="SettingsScreen" component={SettingsScreen} />
 //   </AccountStack.Navigator>
 // );
+const HomeScreens = ({navigation}) => (
+  <HomePage.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <HomePage.Screen name="HomeScreen" component={HomeScreen} />
+    <HomePage.Screen
+      name="AccounProfiletScreen"
+      component={AccounProfiletScreen}
+    />
+  </HomePage.Navigator>
+);

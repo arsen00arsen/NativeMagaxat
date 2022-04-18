@@ -32,6 +32,7 @@ const SignInScreen = ({navigation}) => {
       .then(response => response.json())
       .then(response => {
         setLoading(false);
+        console.log(response);
         dispatch({
           type: 'LOGIN',
           payload: response,
