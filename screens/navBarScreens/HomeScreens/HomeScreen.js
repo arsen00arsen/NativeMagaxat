@@ -11,7 +11,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import PostsComponent from '../../../components/PostsComponent';
+// import PostsComponent from '../../../components/PostsComponent';
 // import HeaderChatSearch from '../../components/HeaderComponent/HeaderChatSearch';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
@@ -20,7 +20,8 @@ import {baseUrl} from '../../../http/index';
 import {useDispatch} from 'react-redux';
 import LikeButton from '../../../components/LikeButton';
 import {Share} from 'react-native';
-import ShareButton from '../../../components/ShareButton';
+import Video from 'react-native-video';
+// import ShareButton from '../../../components/ShareButton';
 
 const HomeScreen = ({navigation}) => {
   const [data, setData] = React.useState('');
@@ -131,10 +132,18 @@ const HomeScreen = ({navigation}) => {
             )
           }
         />
-        <ShareButton />
-        <PostsComponent />
+        {/* <ShareButton /> */}
+        {/* <PostsComponent /> */}
         {/*  <PostsComponent />
         <PostsComponent /> */}
+        <Video
+          source={{
+            uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+          }}
+          paused={false} // make it start
+          style={styles.backgroundVideo} // any style you want
+          repeat={true} // make it a loop
+        />
       </ScrollView>
     </View>
   );
