@@ -11,17 +11,12 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-// import PostsComponent from '../../../components/PostsComponent';
-// import HeaderChatSearch from '../../components/HeaderComponent/HeaderChatSearch';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {baseUrl} from '../../../http/index';
 // import HeaderFilterSearch from '../../components/HeaderComponent/HeaderFilterSearch';
 import {useDispatch} from 'react-redux';
-import LikeButton from '../../../components/LikeButton';
-import {Share} from 'react-native';
-// import Video from 'react-native-video';
-// import ShareButton from '../../../components/ShareButton';
+import PostsComponent from '../../../components/PostsComponent';
 
 const HomeScreen = ({navigation}) => {
   const [data, setData] = React.useState('');
@@ -30,14 +25,14 @@ const HomeScreen = ({navigation}) => {
 
   const fetchData = async () => {
     const resp = await fetch(baseUrl + '/users/list');
-    const data = await resp.json();
+    const {data} = await resp.json();
     setData(data);
     // setLoading(false);
   };
   React.useEffect(() => {
     fetchData();
   }, []);
-
+  console.log(data.dat, ';');
   const ItemRender = item => (
     <View style={styles.usersProfile}>
       <Image
@@ -64,13 +59,13 @@ const HomeScreen = ({navigation}) => {
     navigation.navigate('AccounProfiletScreen');
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <HeaderBackSearch />
       <StatusBar
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} horizontal={false}>
         <View style={styles.lastUsersContainerBody}>
           <LinearGradient
             style={styles.lastUsersContainer}
@@ -111,41 +106,9 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
           </View>
         </LinearGradient>
-        <LikeButton />
-        <TouchableOpacity
-          onPress={() =>
-            Share.share(
-              {
-                message:
-                  "BAM: we're helping your business with awesome React Native apps",
-                url: 'http://bam.tech',
-                title: 'Wow, did you see that?',
-              },
-              {
-                // Android only:
-                dialogTitle: 'Share BAM goodness',
-                // iOS only:
-                excludedActivityTypes: [
-                  'com.apple.UIKit.activity.PostToTwitter',
-                ],
-              },
-            )
-          }
-        />
-        {/* <ShareButton /> */}
-        {/* <PostsComponent /> */}
-        {/*  <PostsComponent />
-        <PostsComponent /> */}
-        {/* <Video
-          source={{
-            uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-          }}
-          paused={false} // make it start
-          style={styles.backgroundVideo} // any style you want
-          repeat={true} // make it a loop
-        /> */}
+        <PostsComponent />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 

@@ -8,9 +8,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
-import AccounProfiletScreen from '../navBarScreens/AccounProfiletScreen';
-import Media from './Media';
-// import MediaScreen from '../MediaScreens/MediaScreen';
+import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
+// import MediaScreen from './MediaScreens/MediaScreen';
 // import RowVideosScreen from '../MediaScreens/RowVideosScreen';
 // import GridVediosScreen from '../MediaScreens/GridVediosScreen';
 
@@ -27,7 +26,7 @@ import Media from './Media';
 //  import MyPostsScreen from "../MyAccountScreens/MyPostsScreen"
 
 // const AccountStack = createStackNavigator();
-// const MediaStack = createStackNavigator();
+const MediaStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const HomePage = createStackNavigator();
 
@@ -47,16 +46,16 @@ const MainTabScreen = () => (
         ),
       }}
     />
-    <Tab.Screen
+    {/* <Tab.Screen
       name="Media"
-      component={Media}
+      component={MediaPageScreen}
       options={{
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
           <MaterialIcons name="perm-media" color={color} size={26} />
         ),
       }}
-    />
+    /> */}
     {/* <Tab.Screen
       name="Benefactors"
       component={BenefactorsScreen}
@@ -105,8 +104,8 @@ export default MainTabScreen;
 //       headerShown: false,
 //     }}>
 //     <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
-//     <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
-//     <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
+//     {/* <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
+//     <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} /> */}
 //   </MediaStack.Navigator>
 // );
 

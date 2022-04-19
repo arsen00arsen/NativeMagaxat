@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HeaderBackSearch from '../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl} from '../../http/index';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import {baseUrl} from '../../../http/index';
 import {useSelector} from 'react-redux';
 const AccounProfiletScreen = () => {
   const [data, setData] = React.useState('');
@@ -43,7 +43,7 @@ const AccounProfiletScreen = () => {
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
           <Image
-            source={require('../../assets/Nikol.png')}
+            source={require('../../../assets/Nikol.png')}
             style={styles.userImage}
           />
           <View style={styles.usernameIcon}>
