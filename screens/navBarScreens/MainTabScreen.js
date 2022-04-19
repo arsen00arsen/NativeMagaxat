@@ -9,10 +9,10 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
-// import MediaScreen from './MediaScreens/MediaScreen';
-// import RowVideosScreen from '../MediaScreens/RowVideosScreen';
-// import GridVediosScreen from '../MediaScreens/GridVediosScreen';
-
+import MediaScreen from './MediaScreens/MediaScreen';
+import RowVideosScreen from './MediaScreens/RowVideosScreen';
+import GridVediosScreen from './MediaScreens/GridVediosScreen';
+import IconSec from 'react-native-vector-icons/FontAwesome5';
 // import BenefactorsScreen from './BenefactorsScreen';
 // import AccountsScreen from './AccountsScreen';
 // import AccountScreen from './AccountScreen';
@@ -46,7 +46,7 @@ const MainTabScreen = () => (
         ),
       }}
     />
-    {/* <Tab.Screen
+    <Tab.Screen
       name="Media"
       component={MediaPageScreen}
       options={{
@@ -55,19 +55,19 @@ const MainTabScreen = () => (
           <MaterialIcons name="perm-media" color={color} size={26} />
         ),
       }}
-    /> */}
-    {/* <Tab.Screen
+    />
+    <Tab.Screen
       name="Benefactors"
       component={BenefactorsScreen}
       options={{
         tabBarLabel: 'Benefactors',
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
-            <Icon name="ios-home" color={color} size={26} />
+          <IconSec name="hand-holding-usd" color={color} size={26} />
         ),
       }}
     />
-    <Tab.Screen
+    {/*  <Tab.Screen
       name="Accounts"
       component={AccountsScreen}
       options={{
@@ -98,16 +98,16 @@ const MainTabScreen = () => (
 );
 export default MainTabScreen;
 
-// const MediaPageScreen = ({navigation}) => (
-//   <MediaStack.Navigator
-//     screenOptions={{
-//       headerShown: false,
-//     }}>
-//     <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
-//     {/* <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
-//     <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} /> */}
-//   </MediaStack.Navigator>
-// );
+const MediaPageScreen = ({navigation}) => (
+  <MediaStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
+    <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
+    <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
+  </MediaStack.Navigator>
+);
 
 // const MyAccountStackScreen = ({navigation}) => (
 //   <AccountStack.Navigator

@@ -106,8 +106,8 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
           </View>
         </LinearGradient>
-        <PostsComponent />
       </ScrollView>
+      <PostsComponent />
     </SafeAreaView>
   );
 };
