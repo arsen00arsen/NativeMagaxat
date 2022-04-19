@@ -93,7 +93,7 @@ export default function RowVideosScreen() {
           սկսեցինք՝ 2010թ․ և որոնց ուղղվածությունը և՛ կրթական է, և՛ սոցիալական։
         </Text>
         <View style={styles.line} />
-        <View>{content}</View>
+        <View style={styles.contentContainer}>{content}</View>
       </ScrollView>
     </View>
   );
@@ -116,6 +116,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     marginTop: 20,
     borderRadius: 8,
+    marginBottom: 40,
   },
   columnVideo: {
     alignSelf: 'center',
@@ -196,5 +197,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+  },
+  contentContainer: {
+    marginBottom: 40,
   },
 });

@@ -2,9 +2,6 @@ import React from 'react';
 
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-// import {MaterialCommunityIcons} from '@expo/vector-icons';
-// import {MaterialIcons} from '@expo/vector-icons';
-// import {FontAwesome5} from '@expo/vector-icons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
@@ -13,7 +10,8 @@ import MediaScreen from './MediaScreens/MediaScreen';
 import RowVideosScreen from './MediaScreens/RowVideosScreen';
 import GridVediosScreen from './MediaScreens/GridVediosScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
-// import BenefactorsScreen from './BenefactorsScreen';
+import BenefactorsScreen from './BenefactorsScreen/BenefactorsScreen';
+import BenefactorUserPageScreen from './BenefactorsScreen/BenefactorUserPageScreen';
 // import AccountsScreen from './AccountsScreen';
 // import AccountScreen from './AccountScreen';
 // import MyAccountScreen from '../MyAccountScreens/MyAccountScreen';
@@ -26,9 +24,10 @@ import IconSec from 'react-native-vector-icons/FontAwesome5';
 //  import MyPostsScreen from "../MyAccountScreens/MyPostsScreen"
 
 // const AccountStack = createStackNavigator();
-const MediaStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
+const MediaStack = createStackNavigator();
 const HomePage = createStackNavigator();
+const Ben = createStackNavigator();
 
 const MainTabScreen = () => (
   <Tab.Navigator
@@ -58,9 +57,8 @@ const MainTabScreen = () => (
     />
     <Tab.Screen
       name="Benefactors"
-      component={BenefactorsScreen}
+      component={BensScreens}
       options={{
-        tabBarLabel: 'Benefactors',
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
           <IconSec name="hand-holding-usd" color={color} size={26} />
@@ -98,17 +96,6 @@ const MainTabScreen = () => (
 );
 export default MainTabScreen;
 
-const MediaPageScreen = ({navigation}) => (
-  <MediaStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
-    <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
-    <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
-  </MediaStack.Navigator>
-);
-
 // const MyAccountStackScreen = ({navigation}) => (
 //   <AccountStack.Navigator
 //     screenOptions={{
@@ -140,4 +127,28 @@ const HomeScreens = ({navigation}) => (
       component={AccounProfiletScreen}
     />
   </HomePage.Navigator>
+);
+
+const MediaPageScreen = ({navigation}) => (
+  <MediaStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
+    <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
+    <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
+  </MediaStack.Navigator>
+);
+
+const BensScreens = ({navigation}) => (
+  <Ben.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Ben.Screen name="BenefactorsScreen" component={BenefactorsScreen} />
+    <Ben.Screen
+      name="BenefactorUserPageScreen"
+      component={BenefactorUserPageScreen}
+    />
+  </Ben.Navigator>
 );

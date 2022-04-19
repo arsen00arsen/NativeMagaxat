@@ -39,7 +39,6 @@ export default function GridVediosScreen() {
           defaultMuted={true}
           thumbnail={require('../../../assets/logoHeader.png')}
           style={styles.rowVideo}
-          resizeMode="cover"
         />
       </View>
     );
@@ -108,6 +107,7 @@ const styles = StyleSheet.create({
   },
   rowVideo: {
     width: '100%',
+    minWidth: 180,
     height: 100,
     borderRadius: 8,
   },
@@ -198,5 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    marginBottom: 40,
   },
 });
