@@ -3,6 +3,7 @@ import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
@@ -12,10 +13,9 @@ import GridVediosScreen from './MediaScreens/GridVediosScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
 import BenefactorsScreen from './BenefactorsScreen/BenefactorsScreen';
 import BenefactorUserPageScreen from './BenefactorsScreen/BenefactorUserPageScreen';
-// import AccountsScreen from './AccountsScreen';
-// import AccountScreen from './AccountScreen';
-// import MyAccountScreen from '../MyAccountScreens/MyAccountScreen';
-// import GeneralScreen from '../MyAccountScreens/GeneralScreen';;
+import AccountsScreen from './AccountScreens/AccountsScreen';
+import MyAccountScreen from './MyAccountScreens/MyAccountScreen';
+import GeneralScreen from './MyAccountScreens/GeneralScreen';
 // import MyPostsScreen from '../MyAccountScreens/MyPostsScreen';;
 // import MyMediaScreen from '../MyAccountScreens/MyMediaScreen';;
 // import MySubscribtionsScreen from '../MyAccountScreens/MySubscribtionsScreen';;
@@ -23,11 +23,11 @@ import BenefactorUserPageScreen from './BenefactorsScreen/BenefactorUserPageScre
 // import SettingsScreen from '../MyAccountScreens/SettingsScreen';;
 //  import MyPostsScreen from "../MyAccountScreens/MyPostsScreen"
 
-// const AccountStack = createStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
 const MediaStack = createStackNavigator();
 const HomePage = createStackNavigator();
 const Ben = createStackNavigator();
+const AccountStack = createStackNavigator();
 
 const MainTabScreen = () => (
   <Tab.Navigator
@@ -65,14 +65,17 @@ const MainTabScreen = () => (
         ),
       }}
     />
-    {/*  <Tab.Screen
+    <Tab.Screen
       name="Accounts"
       component={AccountsScreen}
       options={{
         tabBarLabel: 'Accounts',
         tabBarColor: '#C6B7A2',
         tabBarIcon: ({color}) => (
-            <Icon name="ios-home" color={color} size={26} />
+          <MaterialCommunityIcons
+            name="account-group"
+            color={color}
+            size={26}
           />
         ),
       }}
@@ -91,31 +94,31 @@ const MainTabScreen = () => (
           />
         ),
       }}
-    /> */}
+    />
   </Tab.Navigator>
 );
 export default MainTabScreen;
 
-// const MyAccountStackScreen = ({navigation}) => (
-//   <AccountStack.Navigator
-//     screenOptions={{
-//       headerShown: false,,
-//     }}>
-//     <AccountStack.Screen name="MyAccountScreen" component={MyAccountScreen} />
-//     <AccountStack.Screen name="GeneralScreen" component={GeneralScreen} />
-//     <AccountStack.Screen name="MyPostsScreen" component={MyPostsScreen} />
-//     <AccountStack.Screen name="MyMediaScreen" component={MyMediaScreen} />
-//     <AccountStack.Screen
-//       name="MySubscribtionsScreen"
-//       component={MySubscribtionsScreen}
-//     />
-//     <AccountStack.Screen
-//       name="MySubscribersScreen"
-//       component={MySubscribersScreen}
-//     />
-//     <AccountStack.Screen name="SettingsScreen" component={SettingsScreen} />
-//   </AccountStack.Navigator>
-// );
+const MyAccountStackScreen = ({navigation}) => (
+  <AccountStack.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <AccountStack.Screen name="MyAccountScreen" component={MyAccountScreen} />
+    <AccountStack.Screen name="GeneralScreen" component={GeneralScreen} />
+    {/* <AccountStack.Screen name="MyPostsScreen" component={MyPostsScreen} />
+    <AccountStack.Screen name="MyMediaScreen" component={MyMediaScreen} />
+    <AccountStack.Screen
+      name="MySubscribtionsScreen"
+      component={MySubscribtionsScreen}
+    />
+    <AccountStack.Screen
+      name="MySubscribersScreen"
+      component={MySubscribersScreen}
+    />
+    <AccountStack.Screen name="SettingsScreen" component={SettingsScreen} /> */}
+  </AccountStack.Navigator>
+);
 const HomeScreens = ({navigation}) => (
   <HomePage.Navigator
     screenOptions={{
