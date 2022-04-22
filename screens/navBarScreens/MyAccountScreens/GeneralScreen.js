@@ -152,6 +152,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interested areas</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interested areas'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -182,6 +183,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interesting Area 1</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 1'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -212,6 +214,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interesting Area 2</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 2'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -242,6 +245,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interesting Area 3</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 3'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -272,6 +276,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interesting Area 4</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 4'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -302,6 +307,7 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>Interesting Area 5</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 5'}}
+            useNativeAndroidPickerStyle={false}
             style={{
               ...pickerSelectStyles,
               iconContainer: {
@@ -356,7 +362,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#ffffff',
     paddingLeft: 10,
-    color: '#222222',
+    color: 'black',
     height: '100%',
     width: '100%',
     borderRadius: 8,
@@ -377,7 +383,7 @@ const styles = StyleSheet.create({
   inputHeader: {
     fontSize: 12,
     color: '#828282',
-    paddingTop: 10,
+    paddingTop: 7,
     paddingLeft: 12,
   },
   icon: {
@@ -410,10 +416,12 @@ const pickerSelectStyles = StyleSheet.create({
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
-    fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    paddingHorizontal: 12,
     color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
+    fontWeight: '700',
+    fontSize: 16,
+    paddingVertical: 8,
+    bottom: 5,
+    minWidth: 350,
   },
 });

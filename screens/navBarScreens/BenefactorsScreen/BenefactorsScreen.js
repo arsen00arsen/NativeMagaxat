@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,51 +10,48 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-// import HeaderFilterSearch from '../../components/HeaderComponent/HeaderFilterSearch';
-// import {LinearGradient} from 'expo-linear-gradient';
+import {baseUrl2} from '../../../http/index';
 import {useNavigation} from '@react-navigation/native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import HeaderChatSearchSecond from '../../../components/HeaderComponents/HeaderChatSearchSecond';
+import {useDispatch} from 'react-redux';
 
 const BenefactorsScreen = () => {
+  const [data, setData] = useState('');
   const theme = useTheme();
   const navigation = useNavigation();
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      name: 'Nikol Pashinyan',
-      // userImage: "../../assets/FakeImages/Nikol.png"
-    },
-    {
-      id: 2,
-      name: 'Robert Qocharyan',
-    },
-    {
-      id: 3,
-      name: 'Anjela Sargsyan',
-    },
-    {
-      id: 4,
-      name: 'Serj Sargsyan',
-    },
-    {
-      id: 5,
-      name: 'Hayk Marutyan',
-    },
-    {
-      id: 6,
-      name: 'Levon Ter-Petrosyan',
-    },
-    {
-      id: 7,
-      name: 'Vazgen Sargsyan',
-    },
-  ];
-  let content = ANIMAL_NAMES.map((elem, index) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const url = baseUrl2 + '/benefactors_api';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  let userProfilePage = item => {
+    dispatch({type: 'USSER_ID', payload: item.id});
+    navigation.navigate('BenefactorUserPageScreen');
+  };
+  let content = data.data?.map((elem, index) => {
+    let img;
+    if (elem?.image !== null) {
+      img = {uri: elem.image};
+    } else {
+      img = require('../../../assets/defoult.png');
+    }
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('BenefactorUserPageScreen')}>
+          onPress={() => userProfilePage(elem)}>
           <LinearGradient
             style={styles.userProfile}
             start={{x: 0, y: 0}}
@@ -62,10 +59,7 @@ const BenefactorsScreen = () => {
             locations={[0.0, 0.9]}
             colors={['#AFAFAF', '#E8E8E8']}>
             <View style={styles.imgFrame}>
-              <Image
-                source={require('../../../assets/Nikol.png')}
-                style={styles.userImage}
-              />
+              <Image source={img} style={styles.userImage} />
             </View>
             <Text style={styles.userName}>{elem.name}</Text>
           </LinearGradient>
@@ -80,8 +74,7 @@ const BenefactorsScreen = () => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      {/* <HeaderFilterSearch /> */}
-      <HeaderBackSearch />
+      <HeaderChatSearchSecond />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.flexWraps}>{content}</View>
       </ScrollView>
@@ -97,14 +90,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
   },
   users: {
-    width: '49%',
+    width: '46%',
   },
   userProfile: {
     width: 164,

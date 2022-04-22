@@ -5,20 +5,25 @@ import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 
 const VideoComponent = props => {
+  let user = props.uri;
+  let img;
+  if (user.user_photo !== null) {
+    img = {uri: user.image};
+  } else {
+    img = require('../assets/defoult.png');
+  }
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image
-          source={require('../assets/Nikol.png')}
-          style={styles.userspic}
-        />
-        <Text style={styles.usersname}>Nikol Pashinyan</Text>
+        <Image source={img} style={styles.userspic} />
+        <Text style={styles.usersname}>{user?.user_name} </Text>
+        <Text style={styles.usersname}>{user?.user_lastname} </Text>
       </View>
       <VideoPlayer
-        video={{uri: props.uri}}
+        video={{uri: user?.video_path}}
         autoplay={false}
         defaultMuted={true}
-        thumbnail={require('../assets/logoHeader.png')}
+        // thumbnail={require('../assets/logoHeader.png')}
         style={styles.mediaVideo}
       />
       <View style={styles.postIcons}>

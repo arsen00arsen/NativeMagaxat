@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -19,11 +19,30 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Brands from 'react-native-vector-icons/Fontisto';
+import {baseUrl2} from '../../../http/index';
+import {useSelector} from 'react-redux';
 
 const BenefactorUserPageScreen = ({navigation}) => {
   const theme = useTheme();
+  const [text, onChangeText] = useState('');
+  const [data, setData] = useState('');
+  const id = useSelector(state => state.usser.usserAccountId);
+  let i = id.toString();
 
-  const [text, onChangeText] = React.useState('');
+  useEffect(() => {
+    const url = baseUrl2 + '/benefactors_api/' + i;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    fetchData();
+  }, []);
+  console.log(data.data);
   const ANIMAL_NAMES = [
     {
       id: 1,

@@ -1,37 +1,34 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
-import {ScrollView} from 'react-native-gesture-handler';
+import {baseUrl2} from '../http/index';
 import VideoComponent from './VideoComponent';
 
 const PostsComponent = () => {
-  const data = [
-    {
-      id: 1,
-      name: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    },
-    {
-      id: 2,
-      name: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    },
-    {
-      id: 3,
-      name: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    },
-    {
-      id: 4,
-      name: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
-    },
-  ];
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    const url = baseUrl2 + '/videos_api';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <FlatList
-        data={data}
+        data={data.data}
         horizontal={false}
-        keyExtractor={(item, index) => `${index}`}
+        keyExtractor={(item, index) => `${data.data.id}`}
         renderItem={({item, index}) => {
-          return (
-              <VideoComponent uri={item.name} />
-          );
+          return <VideoComponent uri={item} />;
         }}
       />
     </SafeAreaView>
@@ -57,8 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   safeAreaView: {
-    flex: 1,
-    width: '100%'
+    width: '100%',
   },
   scroll: {
     marginTop: 10,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -12,43 +12,52 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl} from '../../../http/index';
-// import HeaderFilterSearch from '../../components/HeaderComponent/HeaderFilterSearch';
+import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
+import {baseUrl2} from '../../../http/index';
 import {useDispatch} from 'react-redux';
 import PostsComponent from '../../../components/PostsComponent';
 
 const HomeScreen = ({navigation}) => {
-  const [data, setData] = React.useState('');
+  const [data, setData] = useState('');
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
-    const resp = await fetch(baseUrl + '/users/list');
-    const {data} = await resp.json();
-    setData(data);
-    // setLoading(false);
-  };
-  React.useEffect(() => {
+  useEffect(() => {
+    const url = baseUrl2 + '/users/list';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
     fetchData();
   }, []);
-  console.log(data.dat, ';');
-  const ItemRender = item => (
-    <View style={styles.usersProfile}>
-      <Image
-        source={require('../../../assets/Nikol.png')}
-        resizeMode="cover"
-        style={styles.usersProfileBGimage}
-      />
-      <View style={styles.info}>
+
+  const ItemRender = item => {
+    let img;
+    if (item.userImage !== undefined) {
+      img = {uri: item.userImage};
+    } else {
+      img = require('../../../assets/defoult.png');
+    }
+    return (
+      <View style={styles.usersProfile}>
         <Image
-          style={styles.img}
-          source={require('../../../assets/Nikol.png')}
+          source={img}
+          resizeMode="cover"
+          style={styles.usersProfileBGimage}
         />
-        <Text style={styles.itemText}>{item.name}</Text>
+        <View style={styles.info}>
+          <Image style={styles.img} source={img} />
+          <Text style={styles.itemText}>{item.name}</Text>
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   const Separator = () => {
     return <View style={styles.seperator} />;
@@ -60,7 +69,7 @@ const HomeScreen = ({navigation}) => {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <HeaderBackSearch />
+      <HeaderChatSearch />
       <StatusBar
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
@@ -85,7 +94,7 @@ const HomeScreen = ({navigation}) => {
               data={data.data}
               renderItem={({item}) => (
                 <TouchableOpacity onPress={() => userProfilePage(item)}>
-                  <ItemRender name={item.name} userImage={item.userImage} />
+                  <ItemRender name={item.name} userImage={item.image} />
                 </TouchableOpacity>
               )}
               keyExtractor={item => item.id}
@@ -107,7 +116,7 @@ const HomeScreen = ({navigation}) => {
           </View>
         </LinearGradient>
       </ScrollView>
-      <PostsComponent />
+      {/* <PostsComponent /> */}
     </SafeAreaView>
   );
 };

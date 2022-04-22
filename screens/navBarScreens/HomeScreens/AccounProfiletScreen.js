@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,28 +11,35 @@ import {
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl} from '../../../http/index';
+import {baseUrl2} from '../../../http/index';
 import {useSelector} from 'react-redux';
 const AccounProfiletScreen = () => {
-  const [data, setData] = React.useState('');
+  const [data, setData] = useState('');
   const id = useSelector(state => state.usser.usserAccountId);
   const theme = useTheme();
   let i = id.toString();
-  let url = baseUrl + '/users/' + i;
-  const fetchData = async () => {
-    const resp = await fetch(baseUrl + '/users/' + i);
-    const data = await resp.json();
-    setData(data);
-    // setLoading(false);
-  };
-  React.useEffect(() => {
+
+  useEffect(() => {
+    const url = baseUrl2 + '/users/list/' + i;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
     fetchData();
   }, []);
-  let user;
-  if (data !== undefined) {
-    user = data.data;
-  }
 
+  let user = data.data !== undefined ? data.data[0] : null;
+  let img;
+  if (user?.image !== null) {
+    img = {uri: user?.image};
+  } else {
+    img = require('../../../assets/defoult.png');
+  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -42,12 +49,10 @@ const AccounProfiletScreen = () => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image
-            source={require('../../../assets/Nikol.png')}
-            style={styles.userImage}
-          />
+          <Image source={img} style={styles.userImage} />
           <View style={styles.usernameIcon}>
             <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>{user?.last_name}</Text>
             <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
           </View>
         </View>
@@ -56,15 +61,15 @@ const AccounProfiletScreen = () => {
           <View style={styles.postSubscribeBody}>
             <View style={styles.postSubscribeCounts}>
               <View style={styles.post}>
-                <Text style={styles.postCount}>29</Text>
+                <Text style={styles.postCount}>{user?.posts_count}</Text>
                 <Text style={styles.postText}>Posts</Text>
               </View>
               <View style={styles.post}>
-                <Text style={styles.postCount}>334</Text>
+                <Text style={styles.postCount}>{user?.subscribers_count}</Text>
                 <Text style={styles.postText}>Subscribers</Text>
               </View>
               <View style={styles.post}>
-                <Text style={styles.postCount}>334</Text>
+                <Text style={styles.postCount}>{user?.subscription_count}</Text>
                 <Text style={styles.postText}>Subscribing</Text>
               </View>
             </View>
