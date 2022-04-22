@@ -4,19 +4,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
 
-const ChatScreen = () => {
+const ChatScreen = ({route, navigation}) => {
   const [messages, setMessages] = useState([]);
-
+  const {usserId, message, usserImage, userName} = route.params;
   useEffect(() => {
     setMessages([
       {
-        _id: 1,
-        text: 'Hello developer',
+        _id: usserId,
+        text: message,
         createdAt: new Date(),
         user: {
           _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any',
+          name: userName,
+          avatar: usserImage,
         },
       },
     ]);

@@ -12,7 +12,7 @@ import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {baseUrl2} from '../../../http/index';
 import {useNavigation} from '@react-navigation/native';
-import HeaderChatSearchSecond from '../../../components/HeaderComponents/HeaderChatSearchSecond';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import {useDispatch} from 'react-redux';
 
 const BenefactorsScreen = () => {
@@ -74,8 +74,8 @@ const BenefactorsScreen = () => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderChatSearchSecond />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
+      <HeaderBackSearchSecond pageTo={'BenefactorSearchPage'} />
+      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
         <View style={styles.flexWraps}>{content}</View>
       </ScrollView>
     </View>
@@ -95,6 +95,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
+  },
+  scroll: {
+    width: '100%',
   },
   users: {
     width: '46%',

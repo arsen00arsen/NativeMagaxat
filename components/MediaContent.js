@@ -1,44 +1,29 @@
-import * as React from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import VideoPlayer from 'react-native-video-player';
+import {baseUrl2} from '../http/index';
 
 export default function MediaContent() {
+  const [data, setData] = useState([]);
   const navigation = useNavigation();
-  //   const [status, setStatus] = React.useState({});
-  const [columnOrGrid, setcolumnOrGrid] = React.useState('column');
+  const [columnOrGrid, setcolumnOrGrid] = useState('column');
 
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 2,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 3,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 4,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 5,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 6,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 7,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-  ];
+  useEffect(() => {
+    const url = baseUrl2 + '/videos_api';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setData(json.data);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const changeContainer = e => {
     if (e === 'column') {
@@ -48,14 +33,20 @@ export default function MediaContent() {
     }
   };
 
-  let content = ANIMAL_NAMES.map(elem => {
+  let content = data.map(elem => {
+    let img;
+    if (elem.user_photo !== undefined) {
+      img = {uri: elem.user_photo};
+    } else {
+      img = require('../assets/defoult.png');
+    }
     if (columnOrGrid === 'column') {
       return (content = (
         <View key={elem.id} style={styles.column}>
           <TouchableOpacity
             onPress={() => navigation.navigate('RowVideosScreen')}>
             <VideoPlayer
-              uri={elem.userVedio}
+              uri={elem.video_path}
               autoplay={false}
               defaultMuted={true}
               thumbnail={require('../assets/logoHeader.png')}
@@ -64,10 +55,7 @@ export default function MediaContent() {
             <View style={styles.opacity}>
               <View style={styles.rowEffect}>
                 <View style={styles.imgFrame}>
-                  <Image
-                    source={require('../assets/Nikol.png')}
-                    style={styles.userImage}
-                  />
+                  <Image source={img} style={styles.userImage} />
                 </View>
                 <Text style={styles.userName}>Nikol Pashinyan</Text>
               </View>
@@ -82,7 +70,7 @@ export default function MediaContent() {
           style={styles.row}
           key={elem.id}>
           <VideoPlayer
-            uri={elem.userVedio}
+            uri={elem.video_path}
             autoplay={false}
             defaultMuted={true}
             thumbnail={require('../assets/logoHeader.png')}
@@ -91,10 +79,7 @@ export default function MediaContent() {
           <View style={styles.opacityGrid}>
             <View style={styles.rowEffect}>
               <View style={styles.imgFrame}>
-                <Image
-                  source={require('../assets/Nikol.png')}
-                  style={styles.userImage}
-                />
+                <Image source={img} style={styles.userImage} />
               </View>
               <Text style={styles.userName}>Nikol Pashinyan</Text>
             </View>

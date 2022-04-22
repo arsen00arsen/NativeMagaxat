@@ -42,31 +42,31 @@ const BenefactorUserPageScreen = ({navigation}) => {
     };
     fetchData();
   }, []);
-  console.log(data.data);
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 2,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-  ];
-  let videoContent = ANIMAL_NAMES.map((elem, index) => {
-    return (
-      <View key={elem.id} style={styles.column}>
-        <VideoPlayer
-          uri={elem.userVedio}
-          autoplay={false}
-          defaultMuted={true}
-          thumbnail={require('../../../assets/logoHeader.png')}
-          style={styles.video}
-        />
-      </View>
-    );
-  });
+  let videoContent;
+  if (data.data !== undefined ? data.data[0].latest_two_videos : null) {
+    videoContent = data.data[0].latest_two_videos.map((elem, index) => {
+      console.log(elem, 'llllllllllllllllll');
+      return (
+        <View key={elem.id} style={styles.column}>
+          <VideoPlayer
+            uri={elem.userVedio}
+            autoplay={false}
+            defaultMuted={true}
+            thumbnail={require('../../../assets/logoHeader.png')}
+            style={styles.video}
+          />
+        </View>
+      );
+    });
+  }
 
+  let user = data.data !== undefined ? data.data[0] : null;
+  let img;
+  if (user?.image !== null) {
+    img = {uri: user?.image};
+  } else {
+    img = require('../../../assets/defoult.png');
+  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -76,23 +76,15 @@ const BenefactorUserPageScreen = ({navigation}) => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image
-            source={require('../../../assets/Nikol.png')}
-            style={styles.userImage}
-          />
+          <Image source={img} style={styles.userImage} />
           <View>
-            <Text style={styles.nameSurname}>Nikol</Text>
-            <Text style={styles.nameSurname}>Pashinyan</Text>
-            <Text style={styles.idNumber}>ID 620e4b6a4908b</Text>
+            <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>{user?.last_name}</Text>
+            {/* <Text style={styles.idNumber}>ID 620e4b6a4908b</Text> */}
           </View>
         </View>
         <View style={styles.textBody}>
-          <Text style={styles.text}>
-            Հիմնադրվելով 1992 թվականին՝ «Հայաստան» համահայկական հիմնադրամը եզակի
-            մի կառույց է, որի նպատակն է ստեղծել համահայկական ցանց, աջակցել
-            Հայաստանին և աշխարհի հայերին, իրականացնել Հայաստանի և Արցախի կայուն
-            ու համաչափ զարգացումը ապահովող ծրագրեր։
-          </Text>
+          <Text style={styles.text}>{user?.description}</Text>
         </View>
         <View style={styles.contentVideo}>{videoContent}</View>
         <View style={styles.helpTextContainer}>

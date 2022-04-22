@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
@@ -14,8 +13,9 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
+import VideoPlayer from 'react-native-video-player';
 
-const BenefactorSearchPage = () => {
+const MediaSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
@@ -23,7 +23,7 @@ const BenefactorSearchPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const url = baseUrl2 + '/benefactors_api?name=' + data;
+    const url = baseUrl2 + '/videos_api?title=' + data;
     const fetchData = async () => {
       try {
         const response = await fetch(url);
@@ -38,6 +38,7 @@ const BenefactorSearchPage = () => {
   }, [data]);
 
   const ItemRender = item => {
+    console.log(item, 'lllll');
     let img;
     if (item.userImage !== undefined) {
       img = {uri: item.userImage};
@@ -47,14 +48,25 @@ const BenefactorSearchPage = () => {
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
-          <Image source={img} style={styles.usersProfilemage} />
+          <VideoPlayer
+            uri={item.userVedio}
+            autoplay={false}
+            defaultMuted={true}
+            thumbnail={require('../../../assets/logoHeader.png')}
+            style={styles.searchVideo}
+          />
           <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.name}</Text>
-            <Text style={styles.itemText}>{item.lastName}</Text>
+            <Text style={styles.itemText}>{item.vedioTitle}</Text>
+            <View style={styles.usserdatarow}>
+              <Text style={[styles.itemText, styles.paddingName]}>
+                {item.name}
+              </Text>
+              <Text style={styles.itemText}>{item.lastName}</Text>
+            </View>
           </View>
           <MaterialCommunityIcons
             name="account-arrow-right"
-            size={35}
+            size={30}
             color="#BB9E79"
             style={styles.itemIcon}
           />
@@ -68,7 +80,7 @@ const BenefactorSearchPage = () => {
   };
   let userProfilePage = item => {
     dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('BenefactorUserPageScreen');
+    navigation.navigate('GridVediosScreen');
   };
   return (
     <View style={styles.container}>
@@ -79,7 +91,7 @@ const BenefactorSearchPage = () => {
       <View style={styles.serachContainer}>
         <SearchComponent
           setText={setData}
-          searchText="Search Your Benefactors ..."
+          searchText="Search Media by title ..."
         />
       </View>
       <FlatList
@@ -88,9 +100,10 @@ const BenefactorSearchPage = () => {
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender
-              name={item.name}
-              lastName={item.last_name}
-              userImage={item.image}
+              name={item.user_name}
+              lastName={item.user_lastname}
+              userVedio={item.video_path}
+              vedioTitle={item.video_title}
             />
           </TouchableOpacity>
         )}
@@ -103,7 +116,7 @@ const BenefactorSearchPage = () => {
   );
 };
 
-export default BenefactorSearchPage;
+export default MediaSearch;
 
 const styles = StyleSheet.create({
   container: {
@@ -136,7 +149,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   flatlist: {
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     width: '100%',
   },
   usersProfile: {
@@ -150,14 +163,30 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
+    paddingLeft: 20,
   },
   itemIcon: {
     marginLeft: 'auto',
+    marginBottom: 'auto',
   },
   serachContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  searchVideo: {
+    maxWidth: 150,
+    maxHeight: 90,
+    borderRadius: 8,
+  },
+  usserdatarow: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  paddingName: {
+    paddingRight: 5,
   },
 });

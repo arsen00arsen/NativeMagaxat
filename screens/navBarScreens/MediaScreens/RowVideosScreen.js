@@ -201,4 +201,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     marginBottom: 40,
   },
+  mediaVideo: {
+    borderRadius: 8,
+  },
 });

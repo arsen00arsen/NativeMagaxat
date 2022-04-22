@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -11,28 +11,15 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import Icon from 'react-native-vector-icons/Entypo';
-// import * as ImagePicker from 'expo-image-picker';
+// import {useSelector} from 'react-redux';
 import MediaContent from '../../../components/MediaContent';
 
 const MediaScreen = ({navigation}) => {
   const theme = useTheme();
-  const [text, onChangeText] = React.useState('');
-  const [image, setImage] = React.useState(null);
-
-  //   const pickImage = async () => {
-  //     let result = await ImagePicker.launchImageLibraryAsync({
-  //       mediaTypes: ImagePicker.MediaTypeOptions.All,
-  //       allowsEditing: true,
-  //       aspect: [4, 3],
-  //       quality: 1,
-  //     });
-
-  //     if (!result.cancelled) {
-  //       setImage(result.uri);
-  //     }
-  //   };
+  const [text, onChangeText] = useState('');
+  const [image, setImage] = useState(null);
 
   return (
     <View style={styles.container}>
@@ -40,7 +27,7 @@ const MediaScreen = ({navigation}) => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearchSecond pageTo={'MediaSearch'} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.postContainer}>
           <View style={styles.postBody}>
@@ -72,10 +59,8 @@ const MediaScreen = ({navigation}) => {
             </View>
           </View>
           <MediaContent />
-          <View style={{alignItems: 'center', justifyContent: 'center'}}>
-            {image && (
-              <Image source={{uri: image}} style={{width: 160, height: 100}} />
-            )}
+          <View style={styles.contentStyle}>
+            {image && <Image source={{uri: image}} style={styles.vedioImg} />}
           </View>
         </View>
       </ScrollView>
@@ -173,5 +158,13 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: 'bold',
     paddingLeft: 20,
+  },
+  vedioImg: {
+    width: 160,
+    height: 100,
+  },
+  contentStyle: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

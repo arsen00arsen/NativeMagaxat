@@ -8,6 +8,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
 import MediaScreen from './MediaScreens/MediaScreen';
+import MediaSearch from './MediaScreens/MediaSearch';
 import RowVideosScreen from './MediaScreens/RowVideosScreen';
 import GridVediosScreen from './MediaScreens/GridVediosScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
@@ -24,7 +25,6 @@ import MySubscribersScreen from './MyAccountScreens/MySubscribersScreen';
 import SettingsScreen from './MyAccountScreens/SettingsScreen';
 import MesageScreen from './MesageScreen';
 import ChatScreen from './ChatScreen';
-
 const Tab = createMaterialBottomTabNavigator();
 const MediaStack = createStackNavigator();
 const HomePage = createStackNavigator();
@@ -146,6 +146,7 @@ const MediaPageScreen = ({navigation}) => (
     <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
     <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
     <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
+    <MediaStack.Screen name="MediaSearch" component={MediaSearch} />
   </MediaStack.Navigator>
 );
 

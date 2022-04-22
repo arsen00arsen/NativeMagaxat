@@ -57,15 +57,20 @@ const MesageScreen = () => {
       <HeaderBackSearch />
       <View style={styles.messageBody}>
         <FlatList
-          data={data}
+          data={Message}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() =>
-                navigation.navigate('Chat', {userName: item.usserName})
+                navigation.navigate('Chat', {
+                  userName: item.usserName,
+                  usserId: item.id,
+                  message: item.messageText,
+                  usserImage: item.usserImag,
+                })
               }>
               <View style={styles.messageContainer}>
-                {/* <View>
+                <View>
                   <Image style={styles.userImg} source={item.usserImag} />
                 </View>
                 <View style={styles.userInfo}>
@@ -74,7 +79,7 @@ const MesageScreen = () => {
                 </View>
                 <View style={styles.messageInfo}>
                   <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View> */}
+                </View>
               </View>
             </TouchableOpacity>
           )}

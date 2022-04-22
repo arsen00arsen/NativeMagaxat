@@ -1,44 +1,39 @@
-import React from 'react';
-import {
-  View,
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import React, {useState} from 'react';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
 // import TestSerachBar from './TestSerachBar';
 
 const SearchComponent = props => {
   const navigation = useNavigation();
-  const [openSearch, setopenSearch] = React.useState(false);
-
-  const openToggle = () => {
-    setopenSearch(!openSearch);
-  };
+  const [openSearch, setopenSearch] = useState(false);
 
   let content;
-
   content = (
     <Animatable.View
       animation="bounceInDown"
       duraton="1500"
       style={styles.container}>
       <SearchBar
-        placeholder="Search here"
-        height={50}
+        fontSize={14}
+        fontColor="#BB9E79"
+        iconColor="#BB9E79"
+        shadowColor="#282828"
+        cancelIconColor="#BB9E79"
+        placeholder={props.searchText}
         onChangeText={text => {
           props.setText(text);
         }}
         onPressCancel={() => {
-          this.filterList('');
+          this.filterList();
         }}
-        onPress={() => setopenSearch(false)}
+        onPress={() => setopenSearch(!openSearch)}
+        style={styles.searchbody}
       />
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <Text style={styles.text}>Cancel</Text>
+      </TouchableOpacity>
     </Animatable.View>
   );
 
@@ -56,11 +51,15 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: 40,
     marginVertical: 20,
+    paddingHorizontal: 15,
   },
   searchbody: {
-    width: '100%',
+    width: '80%',
     height: 47,
-    borderColor: 'silver',
-    borderWidth: 1,
+  },
+  text: {
+    color: '#BB9E79',
+    fontSize: 18,
+    fontWeight: '500',
   },
 });
