@@ -43,10 +43,9 @@ const MesageScreen = () => {
       try {
         const response = await fetch(url);
         const json = await response.json();
-        console.log(json, 'oooopopo');
         setData(json);
       } catch (error) {
-        console.log('errorllllllllll', error);
+        console.log('error', error);
       }
     };
     fetchData();
