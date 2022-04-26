@@ -14,7 +14,7 @@ const LikeButton = () => {
           StyleSheet.absoluteFillObject,
           {transform: [{scale: liked ? 0 : 1}]},
         ]}>
-        <Icon name={'heart-outline'} size={24} color={'black'} />
+        <Icon name={'heart-outline'} size={24} color={'#8A8A8A'} />
       </Animated.View>
 
       <Animated.View style={[{transform: [{scale: liked ? 1 : 0}]}]}>

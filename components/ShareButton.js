@@ -21,7 +21,7 @@ const ShareButton = () => {
           },
         )
       }>
-      <Icon name={'share-outline'} size={24} color={'black'} />
+      <Icon name={'share-outline'} size={24} color={'#8A8A8A'} />
     </TouchableOpacity>
   );
 };

@@ -3,6 +3,7 @@ import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import IconSearch from 'react-native-vector-icons/FontAwesome5';
 // const BadgedIcon = withBadge(2)(Icon);
 
 const HeaderChatSearch = () => {
@@ -19,7 +20,7 @@ const HeaderChatSearch = () => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MessageStack')}>
-          <Icon name="message-circle" size={24} color="black" />
+          <Icon name="message-circle" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </LinearGradient>
       <Image
@@ -32,7 +33,7 @@ const HeaderChatSearch = () => {
         end={{x: 1, y: 1}}
         locations={[0.0, 0.3]}
         colors={['#cccccc', '#c4c4c4']}>
-        <Icon name="search" size={24} color="black" />
+        <IconSearch name="search" size={24} color="black" />
       </LinearGradient>
     </View>
   );
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     // width: 146,
-    height: 35,
+    // height: 35,
     marginHorizontal: 45,
   },
   badgedIcon: {

@@ -4,6 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
+import IconSearch from 'react-native-vector-icons/FontAwesome5';
 // import TestSerachBar from './TestSerachBar';
 
 const HeaderBackSearchSecond = props => {
@@ -40,7 +41,7 @@ const HeaderBackSearchSecond = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate(`${pageTo}`)}>
-          <Icon name="search" size={24} color="black" />
+          <IconSearch name="search" size={24} color="black" />
         </TouchableOpacity>
       </LinearGradient>
     </Animatable.View>

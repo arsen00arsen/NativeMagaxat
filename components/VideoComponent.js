@@ -33,7 +33,7 @@ const VideoComponent = props => {
         <LikeButton />
         <ShareButton />
         <TouchableOpacity onPress={() => navigation.navigate('CommentScreen')}>
-          <Icon name={'comment-outline'} size={24} color={'black'} />
+          <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
         </TouchableOpacity>
       </View>
     </View>
