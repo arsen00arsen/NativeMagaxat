@@ -7,6 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 // import HeaderChatSearch from "../../components/HeaderChatSearch"
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
+import CommentScreen from '../navBarScreens/HomeScreens/CommentScreen';
 import MediaScreen from './MediaScreens/MediaScreen';
 import MediaSearch from './MediaScreens/MediaSearch';
 import RowVideosScreen from './MediaScreens/RowVideosScreen';
@@ -135,6 +136,7 @@ const HomeScreens = ({navigation}) => (
       component={AccounProfiletScreen}
     />
     <HomePage.Screen name="MessageStack" component={MessageStack} />
+    <HomePage.Screen name="CommentScreen" component={CommentScreen} />
   </HomePage.Navigator>
 );
 

@@ -15,11 +15,29 @@ import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderB
 import Icon from 'react-native-vector-icons/Entypo';
 // import {useSelector} from 'react-redux';
 import MediaContent from '../../../components/MediaContent';
-
+import ImagePicker from 'react-native-image-crop-picker';
 const MediaScreen = ({navigation}) => {
   const theme = useTheme();
   const [text, onChangeText] = useState('');
   const [image, setImage] = useState(null);
+
+  const pickPicture = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(image => {
+      console.log(image);
+    });
+  };
+
+  const pickVedio = () => {
+    ImagePicker.openPicker({
+      mediaType: 'video',
+    }).then(video => {
+      console.log(video);
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -48,11 +66,11 @@ const MediaScreen = ({navigation}) => {
               </SafeAreaView>
             </View>
             <View style={styles.addImgVedio}>
-              <TouchableOpacity style={styles.postImg}>
+              <TouchableOpacity style={styles.postImg} onPress={pickPicture}>
                 <Icon name="camera" size={24} color="#B9B9B9" />
                 <Text style={styles.textAdd}>Add Photo</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.postVedio}>
+              <TouchableOpacity style={styles.postVedio} onPress={pickVedio}>
                 <Icon name="video-camera" size={24} color="#B9B9B9" />
                 <Text style={styles.textAdd}>Add Vedio</Text>
               </TouchableOpacity>

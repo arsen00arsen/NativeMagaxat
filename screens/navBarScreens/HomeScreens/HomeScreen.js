@@ -21,6 +21,22 @@ const HomeScreen = ({navigation}) => {
   const [data, setData] = useState('');
   const theme = useTheme();
   const dispatch = useDispatch();
+  const [datav, setDatav] = useState('');
+
+  useEffect(() => {
+    const url = baseUrl2 + '/videos_api';
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setDatav(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const url = baseUrl2 + '/users/list';
@@ -115,8 +131,8 @@ const HomeScreen = ({navigation}) => {
             <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
           </View>
         </LinearGradient>
+        <PostsComponent />
       </ScrollView>
-      {/* <PostsComponent /> */}
     </SafeAreaView>
   );
 };

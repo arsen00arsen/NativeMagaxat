@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/Feather';
 const HeaderBackSearchSecond = props => {
   const navigation = useNavigation();
   const {pageTo} = props;
-  console.log(props, 'ppppp');
   let content = (
     <Animatable.View
       animation="slideInDown"

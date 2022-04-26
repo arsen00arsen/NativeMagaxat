@@ -63,7 +63,6 @@ const SignUpScreen = ({navigation}) => {
             </View>
             <View />
           </View>
-          {/* <Avatar width={180} height={180} /> */}
           <View>
             <CustomInput
               name="name"

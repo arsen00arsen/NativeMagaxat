@@ -12,7 +12,7 @@ import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
-import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
+import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
 
 const GeneralScreen = ({navigation}) => {
   const theme = useTheme();
@@ -97,7 +97,7 @@ const GeneralScreen = ({navigation}) => {
       />
       <HeaderBackSearch />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <MyaccountUsserInfor />
+        <MyaccountUsserInforAvatar />
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Name</Text>
           <TextInput

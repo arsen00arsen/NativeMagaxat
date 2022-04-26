@@ -1,14 +1,17 @@
 import React from 'react';
-import {View, Image, Text, StyleSheet} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useNavigation} from '@react-navigation/native';
 
 const VideoComponent = props => {
+  const navigation = useNavigation();
   let user = props.uri;
   let img;
   if (user.user_photo !== null) {
-    img = {uri: user.image};
+    img = {uri: user.user_photo};
   } else {
     img = require('../assets/defoult.png');
   }
@@ -23,12 +26,15 @@ const VideoComponent = props => {
         video={{uri: user?.video_path}}
         autoplay={false}
         defaultMuted={true}
-        // thumbnail={require('../assets/logoHeader.png')}
+        thumbnail={require('../assets/logoHeader.png')}
         style={styles.mediaVideo}
       />
       <View style={styles.postIcons}>
         <LikeButton />
         <ShareButton />
+        <TouchableOpacity onPress={() => navigation.navigate('CommentScreen')}>
+          <Icon name={'comment-outline'} size={24} color={'black'} />
+        </TouchableOpacity>
       </View>
     </View>
   );

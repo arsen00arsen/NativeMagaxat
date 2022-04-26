@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {StyleSheet, View, FlatList} from 'react-native';
 import {baseUrl2} from '../http/index';
 import VideoComponent from './VideoComponent';
 
 const PostsComponent = () => {
-  const [data, setData] = useState('');
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     const url = baseUrl2 + '/videos_api';
@@ -21,24 +21,18 @@ const PostsComponent = () => {
     fetchData();
   }, []);
 
-  return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <FlatList
-        data={data.data}
-        horizontal={false}
-        keyExtractor={(item, index) => `${data.data.id}`}
-        renderItem={({item, index}) => {
-          return <VideoComponent uri={item} />;
-        }}
-      />
-    </SafeAreaView>
-  );
+  let content = data?.data?.map(elem => {
+    return <VideoComponent uri={elem} key={elem.id} />;
+  });
+
+  return <View>{content}</View>;
 };
 
 export default PostsComponent;
 
 const styles = StyleSheet.create({
   toolbar: {
+    flex: 1,
     marginTop: 30,
     backgroundColor: 'white',
     padding: 10,
