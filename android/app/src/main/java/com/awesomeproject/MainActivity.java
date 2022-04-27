@@ -1,4 +1,4 @@
-package com.awesomeproject;
+package com.magaxat;
 
 import com.facebook.react.ReactActivity;
 
