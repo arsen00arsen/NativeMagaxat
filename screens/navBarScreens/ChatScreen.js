@@ -3,7 +3,9 @@ import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+import {LogBox} from 'react-native';
 
+LogBox.ignoreLogs(['EventEmitter.removeListener']);
 const ChatScreen = ({route, navigation}) => {
   const [messages, setMessages] = useState([]);
   const {usserId, message, usserImage, userName} = route.params;

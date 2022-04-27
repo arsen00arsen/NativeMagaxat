@@ -48,8 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    // minHeight: 40,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   logo: {
     // width: 146,

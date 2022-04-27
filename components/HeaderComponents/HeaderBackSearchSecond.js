@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     minHeight: 40,
-    marginVertical: 20,
+    marginVertical: 10,
   },
   logo: {
     width: 146,

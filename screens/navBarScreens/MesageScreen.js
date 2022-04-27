@@ -53,7 +53,6 @@ const MesageScreen = () => {
 
   return (
     <View style={styles.container}>
-      <HeaderBackSearch />
       <View style={styles.messageBody}>
         <FlatList
           data={Message}
@@ -125,6 +124,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    marginLeft: 10,
   },
   userName: {
     color: '#343333',

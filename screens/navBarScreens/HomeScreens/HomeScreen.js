@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   usersProfile: {
-    width: 82,
+    width: 72,
     height: 170,
     display: 'flex',
     justifyContent: 'flex-end',

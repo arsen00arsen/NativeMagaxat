@@ -1,10 +1,12 @@
 import React from 'react';
-
+import {TouchableOpacity, StyleSheet, Image} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import IconSearch from 'react-native-vector-icons/FontAwesome5';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-// import HeaderChatSearch from "../../components/HeaderChatSearch"
+import Icon from 'react-native-vector-icons/Feather';
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
 import CommentScreen from '../navBarScreens/HomeScreens/CommentScreen';
@@ -26,6 +28,7 @@ import MySubscribersScreen from './MyAccountScreens/MySubscribersScreen';
 import SettingsScreen from './MyAccountScreens/SettingsScreen';
 import MesageScreen from './MesageScreen';
 import ChatScreen from './ChatScreen';
+import {View} from 'react-native-animatable';
 const Tab = createMaterialBottomTabNavigator();
 const MediaStack = createStackNavigator();
 const HomePage = createStackNavigator();
@@ -167,7 +170,54 @@ const BensScreens = ({navigation}) => (
 );
 
 const MessageStack = ({navigation}) => (
-  <Mesage.Navigator>
+  <Mesage.Navigator
+    screenOptions={() => ({
+      title: (
+        <View style={styles.logoContainer}>
+          <Image
+            source={require('../../assets/logoHeader.png')}
+            style={styles.logo}
+          />
+        </View>
+      ),
+      headerStyle: {backgroundColor: '#F2F2F2'},
+      headerLeft: () => {
+        return (
+          <View style={styles.leftCont}>
+            <LinearGradient
+              style={styles.badgedIcon}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              locations={[0.0, 0.9]}
+              colors={['#D1C7B9', '#D2C8B9']}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.goBack()}>
+                <Icon name="chevron-left" size={24} color="black" />
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        );
+      },
+      headerRight: () => {
+        return (
+          <View style={styles.righttCont}>
+            <LinearGradient
+              style={styles.badgedIcon}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              locations={[0.0, 0.9]}
+              colors={['#D1C7B9', '#D2C8B9']}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.goBack()}>
+                <IconSearch name="search" size={24} color="black" />
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+        );
+      },
+    })}>
     <Mesage.Screen name="Mesagees" component={MesageScreen} />
     <Mesage.Screen
       name="Chat"
@@ -179,3 +229,36 @@ const MessageStack = ({navigation}) => (
     />
   </Mesage.Navigator>
 );
+
+const styles = StyleSheet.create({
+  badgedIcon: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 47,
+    height: 47,
+    borderRadius: 5,
+  },
+  button: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+  },
+  leftCont: {
+    paddingLeft: 15,
+    paddingTop: 10,
+  },
+  righttCont: {
+    paddingRight: 15,
+    paddingTop: 10,
+  },
+  logo: {
+    width: 146,
+  },
+  logoContainer: {
+    paddingLeft: 50,
+    paddingTop: 10,
+  },
+});
