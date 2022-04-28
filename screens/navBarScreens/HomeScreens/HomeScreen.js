@@ -9,6 +9,7 @@ import {
   FlatList,
   ScrollView,
   TouchableOpacity,
+  RefreshControl,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -22,7 +23,7 @@ const HomeScreen = ({navigation}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const [datav, setDatav] = useState('');
-
+  const [Refreshing, setRefreshing] = useState(false);
   useEffect(() => {
     const url = baseUrl2 + '/videos_api';
     const fetchData = async () => {
@@ -83,6 +84,7 @@ const HomeScreen = ({navigation}) => {
     dispatch({type: 'USSER_ID', payload: item.id});
     navigation.navigate('AccounProfiletScreen');
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <HeaderChatSearch />
@@ -90,7 +92,12 @@ const HomeScreen = ({navigation}) => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <ScrollView showsVerticalScrollIndicator={false} horizontal={false}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        horizontal={false}
+        refreshControl={
+          <RefreshControl refreshing={Refreshing} colors={['#E4E3E1']} />
+        }>
         <View style={styles.lastUsersContainerBody}>
           <LinearGradient
             style={styles.lastUsersContainer}
@@ -168,9 +175,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   lastUsersContainerText: {
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     fontSize: 16,
     color: '#838383',
+    fontFamily: 'Roboto-Bold',
   },
   lastUsersContainercontent: {
     display: 'flex',
