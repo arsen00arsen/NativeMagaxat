@@ -12,10 +12,13 @@ import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
+import DatePicker from 'react-native-date-picker';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
 
 const GeneralScreen = ({navigation}) => {
   const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = React.useState(new Date());
   const [data, setData] = React.useState({
     name: '',
     lastName: '',
@@ -31,57 +34,57 @@ const GeneralScreen = ({navigation}) => {
   });
 
   const inputChange = ({val, nameInput}) => {
-    if (nameInput == 'name') {
+    if (nameInput === 'name') {
       setData({
         ...data,
         name: val,
       });
-    } else if (nameInput == 'lastName') {
+    } else if (nameInput === 'lastName') {
       setData({
         ...data,
         lastName: val,
       });
-    } else if (nameInput == 'date') {
+    } else if (nameInput === 'date') {
       setData({
         ...data,
         date: val,
       });
-    } else if (nameInput == 'email') {
+    } else if (nameInput === 'email') {
       setData({
         ...data,
         email: val,
       });
-    } else if (nameInput == 'phone') {
+    } else if (nameInput === 'phone') {
       setData({
         ...data,
         phone: val,
       });
-    } else if (nameInput == 'ineterstingArea1') {
+    } else if (nameInput === 'ineterstingArea1') {
       setData({
         ...data,
         ineterstingArea1: val,
       });
-    } else if (nameInput == 'ineterstingAreas') {
+    } else if (nameInput === 'ineterstingAreas') {
       setData({
         ...data,
         ineterstingAreas: val,
       });
-    } else if (nameInput == 'ineterstingArea2') {
+    } else if (nameInput === 'ineterstingArea2') {
       setData({
         ...data,
         ineterstingArea2: val,
       });
-    } else if (nameInput == 'ineterstingArea3') {
+    } else if (nameInput === 'ineterstingArea3') {
       setData({
         ...data,
         ineterstingArea3: val,
       });
-    } else if (nameInput == 'ineterstingArea4') {
+    } else if (nameInput === 'ineterstingArea4') {
       setData({
         ...data,
         ineterstingArea4: val,
       });
-    } else if (nameInput == 'ineterstingArea5') {
+    } else if (nameInput === 'ineterstingArea5') {
       setData({
         ...data,
         ineterstingArea5: val,
@@ -118,14 +121,34 @@ const GeneralScreen = ({navigation}) => {
             placeholder="User Last Name"
           />
         </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Date</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => inputChange({val, nameInput: 'date'})}
-            placeholder="User Date"
+        <View>
+          <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
+            <View>
+              <Text style={styles.inputHeader}>Date</Text>
+              <TextInput
+                placeholderTextColor="#666666"
+                // style={styles.textInput}
+                autoCapitalize="none"
+              />
+              {/* <Text style={styles.dateText}>{datas}</Text> */}
+            </View>
+          </TouchableOpacity>
+          <DatePicker
+            mode="date"
+            modal
+            open={open}
+            date={date}
+            onConfirm={dates => {
+              setOpen(false);
+              setDate(dates);
+              // dispatch({
+              //   type: 'USSER_SIGN_UP_DATE',
+              //   payload: {birthDate: JSON.stringify(dates)},
+              // });
+            }}
+            onCancel={() => {
+              setOpen(false);
+            }}
           />
         </View>
         <View style={styles.action}>
@@ -376,7 +399,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
     width: '100%',
-    height: 60,
+    // height: 60,
     borderRadius: 8,
     alignItems: 'flex-start',
   },

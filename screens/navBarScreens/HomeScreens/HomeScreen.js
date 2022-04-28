@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   lastUsersContainerText: {
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     fontSize: 16,
     color: '#838383',
     fontFamily: 'Roboto-Bold',

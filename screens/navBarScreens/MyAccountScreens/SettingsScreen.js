@@ -29,7 +29,7 @@ const SettingsScreen = ({navigation}) => {
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Language</Text>
-          <RNPickerSelect
+          {/* <RNPickerSelect
             placeholder={{label: '', value: 'Interesting Area 5'}}
             useNativeAndroidPickerStyle={false}
             style={{
@@ -54,7 +54,8 @@ const SettingsScreen = ({navigation}) => {
                 />
               );
             }}
-          />
+          /> */}
+          <Text style={styles.textInput}> English</Text>
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Password</Text>
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
     width: '100%',
-    height: 60,
+    minHeight: 60,
     borderRadius: 8,
     alignItems: 'flex-start',
   },
