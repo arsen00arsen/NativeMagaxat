@@ -73,7 +73,9 @@ const MesageScreen = () => {
                 </View>
                 <View style={styles.userInfo}>
                   <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView}>{item.messageText}</Text>
+                  <Text style={styles.userMessageView} numberOfLines={2}>
+                    {item.messageText}
+                  </Text>
                 </View>
                 <View style={styles.messageInfo}>
                   <Text style={styles.messageTime}>{item.messageTime} </Text>
@@ -109,17 +111,18 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     display: 'flex',
     flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between',
     padding: 15,
     marginBottom: 10,
   },
   userImg: {
-    width: 72,
-    height: 72,
+    width: 52,
+    height: 52,
     borderRadius: 50,
   },
   userInfo: {
-    width: 190,
+    width: '55%',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -140,6 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-start',
+    width: '20%',
   },
   messageTime: {
     color: '#343333',

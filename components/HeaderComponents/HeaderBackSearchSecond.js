@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
-import IconSearch from 'react-native-vector-icons/FontAwesome5';
+import IconSearch from 'react-native-vector-icons/Feather';
 // import TestSerachBar from './TestSerachBar';
 
 const HeaderBackSearchSecond = props => {

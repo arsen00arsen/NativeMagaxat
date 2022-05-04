@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   RefreshControl,
+  ImageBackground,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -63,14 +64,16 @@ const HomeScreen = ({navigation}) => {
     }
     return (
       <View style={styles.usersProfile}>
-        <Image
+        <ImageBackground
           source={img}
-          resizeMode="cover"
+          resizeMode="stretch"
           style={styles.usersProfileBGimage}
         />
         <View style={styles.info}>
           <Image style={styles.img} source={img} />
-          <Text style={styles.itemText}>{item.name}</Text>
+          <Text style={styles.itemText} numberOfLines={1}>
+            {item.name}
+          </Text>
         </View>
       </View>
     );

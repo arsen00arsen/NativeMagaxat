@@ -3,7 +3,7 @@ import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import IconSearch from 'react-native-vector-icons/FontAwesome5';
+import IconSearch from 'react-native-vector-icons/Feather';
 // const BadgedIcon = withBadge(2)(Icon);
 
 const HeaderChatSearch = () => {

@@ -56,14 +56,14 @@ const MediaScreen = ({navigation}) => {
                   source={require('../../../assets/Nikol.png')}
                 />
               </View>
-              <SafeAreaView>
+              <View style={styles.textArea}>
                 <TextInput
                   style={styles.input}
                   onChangeText={onChangeText}
                   value={text}
                   placeholder={'Type your post message ...'}
                 />
-              </SafeAreaView>
+              </View>
             </View>
             <View style={styles.addImgVedio}>
               <TouchableOpacity style={styles.postImg} onPress={pickPicture}>
@@ -116,11 +116,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    height: '65%',
+    // height: '65%',
+    width: '100%',
   },
   imgBody: {
-    width: 71,
-    height: 71,
+    width: 51,
+    height: 51,
     borderColor: 'silver',
     borderWidth: 4,
     borderRadius: 50,
@@ -132,13 +133,14 @@ const styles = StyleSheet.create({
   },
   img: {
     position: 'absolute',
-    width: 65,
-    height: 65,
+    width: 45,
+    height: 45,
     borderRadius: 50,
   },
   input: {
     color: 'black',
     fontSize: 14,
+    width: '100%',
   },
   addImgVedio: {
     height: '35%',
@@ -184,5 +186,8 @@ const styles = StyleSheet.create({
   contentStyle: {
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  textArea: {
+    // width: '100%',
   },
 });

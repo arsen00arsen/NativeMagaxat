@@ -1,7 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import IconSearch from 'react-native-vector-icons/FontAwesome5';
+import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -180,7 +180,7 @@ const MessageStack = ({navigation}) => (
           />
         </View>
       ),
-      headerStyle: {backgroundColor: '#F2F2F2'},
+      headerStyle: {backgroundColor: '#F2F2F2', elevation: 0},
       headerLeft: () => {
         return (
           <View style={styles.leftCont}>
