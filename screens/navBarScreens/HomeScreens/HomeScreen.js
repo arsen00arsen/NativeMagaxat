@@ -18,6 +18,7 @@ import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSea
 import {baseUrl2} from '../../../http/index';
 import {useDispatch} from 'react-redux';
 import PostsComponent from '../../../components/PostsComponent';
+import PushNotification from 'react-native-push-notification';
 
 const HomeScreen = ({navigation}) => {
   const [data, setData] = useState('');
@@ -25,6 +26,10 @@ const HomeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [datav, setDatav] = useState('');
   const [Refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    createChanels();
+  }, []);
   useEffect(() => {
     const url = baseUrl2 + '/videos_api';
     const fetchData = async () => {
@@ -54,6 +59,13 @@ const HomeScreen = ({navigation}) => {
 
     fetchData();
   }, []);
+
+  const createChanels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel',
+    });
+  };
 
   const ItemRender = item => {
     let img;

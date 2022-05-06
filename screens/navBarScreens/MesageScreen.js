@@ -10,6 +10,8 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../components/HeaderComponents/HeaderBackSearch';
 import {baseUrl2} from './../../http/index';
+import PushNotification from 'react-native-push-notification';
+
 const Message = [
   {
     id: '1',
@@ -51,10 +53,17 @@ const MesageScreen = () => {
     fetchData();
   }, []);
 
+  const handleNotification = item => {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: item.usserName,
+      message: item.messageText,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
-        <FlatList
+        {/* <FlatList
           data={Message}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -67,6 +76,28 @@ const MesageScreen = () => {
                   usserImage: item.usserImag,
                 })
               }>
+              <View style={styles.messageContainer}>
+                <View>
+                  <Image style={styles.userImg} source={item.usserImag} />
+                </View>
+                <View style={styles.userInfo}>
+                  <Text style={styles.userName}>{item.usserName}</Text>
+                  <Text style={styles.userMessageView} numberOfLines={2}>
+                    {item.messageText}
+                  </Text>
+                </View>
+                <View style={styles.messageInfo}>
+                  <Text style={styles.messageTime}>{item.messageTime} </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        /> */}
+        <FlatList
+          data={Message}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => handleNotification(item)}>
               <View style={styles.messageContainer}>
                 <View>
                   <Image style={styles.userImg} source={item.usserImag} />
