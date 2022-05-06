@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "347228152197",
+    "project_id": "magaxat-18a66",
+    "storage_bucket": "magaxat-18a66.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:347228152197:android:3c3e5dc994a0c46d63a4ec",
+        "android_client_info": {
+          "package_name": "com.magaxat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "347228152197-0e3v9dooa851f4ivg2hun20g3hqs7o18.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9Hz7o43QS4tRzCRXGMI-TJ8v0f2gjGyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "347228152197-0e3v9dooa851f4ivg2hun20g3hqs7o18.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

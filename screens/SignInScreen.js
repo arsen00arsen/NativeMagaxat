@@ -1,103 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Feather from 'react-native-vector-icons/Feather';
+import CustomInput from '../components/loginComponents/CustomInput';
+import {useForm} from 'react-hook-form';
+import {useDispatch} from 'react-redux';
+import {baseUrl} from '../http/index';
+// import LoaderComponent from '../components/LoaderComponent';
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignInScreen = ({navigation}) => {
-  const [data, setData] = React.useState({
-    email: '',
-    password: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
-    isValidUser: true,
-    isValidPassword: true,
+  const {control, handleSubmit} = useForm();
+  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+
+  const submitFormHandler = handleSubmit(data => {
+    setLoading(true);
+    fetch(baseUrl + '/login', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data),
+    })
+      .then(response => response.json())
+      .then(response => {
+        setLoading(false);
+        console.log(response);
+        dispatch({
+          type: 'LOGIN',
+          payload: response,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
   });
-
-  const textInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: false,
-        isValidUser: false,
-      });
-    }
-  };
-
-  const handleValidUser = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-      });
-    }
-  };
-  // const loginHandle = (userName, password) => {
-
-  //     const foundUser = Users.filter( item => {
-  //         return userName == item.username && password == item.password;
-  //     } );
-
-  //     if ( data.username.length == 0 || data.password.length == 0 ) {
-  //         Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
-  //             {text: 'Okay'}
-  //         ]);
-  //         return;
-  //     }
-
-  //     if ( foundUser.length == 0 ) {
-  //         Alert.alert('Invalid User!', 'Username or password is incorrect.', [
-  //             {text: 'Okay'}
-  //         ]);
-  //         return;
-  //     }
-  //     signIn(foundUser);
-  // }
-  const loginHandle = () => {
-    console.log('Sign IN');
-  };
-
-  const handlePasswordChange = val => {
-    if (val.trim().length >= 8) {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: true,
-      });
-    } else {
-      setData({
-        ...data,
-        password: val,
-        isValidPassword: false,
-      });
-    }
-  };
-
-  const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
-    });
-  };
 
   return (
     <LinearGradient
@@ -116,65 +60,36 @@ const SignInScreen = ({navigation}) => {
           resizeMode="stretch"
         />
         <View>
-          <View style={styles.action}>
-            <View>
-              <Text style={styles.inputHeader}>Email</Text>
-              <TextInput
-                // placeholder="Your Email"
-                placeholderTextColor="#666666"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={val => textInputChange(val)}
-                onEndEditing={e => handleValidUser(e.nativeEvent.text)}
-              />
-            </View>
-          </View>
-          <View style={styles.action}>
-            <View style={styles.passHeader}>
-              <Text style={styles.inputHeader}>Password</Text>
-              <TouchableOpacity onPress={updateSecureTextEntry}>
-                {data.secureTextEntry ? (
-                  <Feather
-                    style={styles.eyeIcon}
-                    name="eye-off"
-                    color="grey"
-                    size={20}
-                  />
-                ) : (
-                  <Feather
-                    style={styles.eyeIcon}
-                    name="eye"
-                    color="grey"
-                    size={20}
-                  />
-                )}
-              </TouchableOpacity>
-            </View>
-            <TextInput
-              // placeholder="Your Password"
-              placeholderTextColor="#666666"
-              secureTextEntry={data.secureTextEntry ? true : false}
-              style={styles.textInput}
-              autoCapitalize="none"
-              onChangeText={val => handlePasswordChange(val)}
-            />
-            {/* {data.isValidPassword ? null :
-                        <Animatable.View animation="fadeInLeft" duration={500}>
-                            <Text style={styles.errorMsg}>Password must be 8 characters long.</Text>
-                        </Animatable.View>
-                    } */}
-          </View>
+          <CustomInput
+            name="email"
+            control={control}
+            title="Email"
+            rules={{
+              required: 'Email is required',
+              pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+            }}
+          />
+          <CustomInput
+            name="password"
+            control={control}
+            secureTextEntry
+            rules={{
+              required: 'Password is required',
+              minLength: {
+                value: 8,
+                message: 'Password should be at least 8 characters long',
+              },
+            }}
+            title="Password"
+          />
         </View>
         <View>
-          <TouchableOpacity
-            style={styles.signIn}
-            onPress={() => {
-              loginHandle();
-            }}>
+          <TouchableOpacity style={styles.signIn} onPress={submitFormHandler}>
             <LinearGradient
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Sign In</Text>
+              {/* {isLoading === true ? <LoaderComponent /> : null}  */}
             </LinearGradient>
           </TouchableOpacity>
 
@@ -288,5 +203,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     height: 28,
+  },
+  loadingStyle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    zIndex: 555,
   },
 });

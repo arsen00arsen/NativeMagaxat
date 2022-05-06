@@ -8,11 +8,13 @@ import {
   ScrollView,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
+import {useDispatch} from 'react-redux';
 
 const IneterestingAreaScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const [selectedInter1, setSselectedInter1] = React.useState('');
   const [selectedInter2, setSselectedInter2] = React.useState('');
   const [selectedInter3, setSselectedInter3] = React.useState('');
@@ -30,7 +32,7 @@ const IneterestingAreaScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
               <Text style={styles.text}>Your 3 most</Text>
@@ -38,7 +40,6 @@ const IneterestingAreaScreen = ({navigation}) => {
             </View>
             <View />
           </View>
-
           <Animatable.Image
             animation="fadeInUpBig"
             duraton="1500"
@@ -52,9 +53,13 @@ const IneterestingAreaScreen = ({navigation}) => {
               <Picker
                 selectedValue={selectedInter1}
                 style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSselectedInter1(itemValue)
-                }>
+                onValueChange={(itemValue, itemIndex) => {
+                  setSselectedInter1(itemValue),
+                    dispatch({
+                      type: 'USSER_SIGN_UP_INTERESTED1',
+                      payload: {interesting_type1: itemValue},
+                    });
+                }}>
                 <Picker.Item label="It" value="it" />
                 <Picker.Item label="Footbole" value="footbole" />
               </Picker>
@@ -64,9 +69,13 @@ const IneterestingAreaScreen = ({navigation}) => {
               <Picker
                 selectedValue={selectedInter2}
                 style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSselectedInter2(itemValue)
-                }>
+                onValueChange={(itemValue, itemIndex) => {
+                  setSselectedInter2(itemValue),
+                    dispatch({
+                      type: 'USSER_SIGN_UP_INTERESTED2',
+                      payload: {interesting_type2: itemValue},
+                    });
+                }}>
                 <Picker.Item label="Marketing" value="marketing" />
                 <Picker.Item label="Advertising" value="advertising" />
               </Picker>
@@ -76,9 +85,13 @@ const IneterestingAreaScreen = ({navigation}) => {
               <Picker
                 selectedValue={selectedInter3}
                 style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSselectedInter3(itemValue)
-                }>
+                onValueChange={(itemValue, itemIndex) => {
+                  setSselectedInter3(itemValue),
+                    dispatch({
+                      type: 'USSER_SIGN_UP_INTERESTED3',
+                      payload: {interesting_type3: itemValue},
+                    });
+                }}>
                 <Picker.Item label="Education" value="education" />
                 <Picker.Item label="Training" value="training" />
               </Picker>
@@ -90,7 +103,7 @@ const IneterestingAreaScreen = ({navigation}) => {
               onPress={() => navigation.navigate('PriorityPageScreen')}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>

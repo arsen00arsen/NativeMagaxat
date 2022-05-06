@@ -1,7 +1,7 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
 import {
   View,
   StyleSheet,
@@ -31,7 +31,7 @@ const SplashScreen = ({navigation}) => {
           style={styles.button}
           onPress={() => navigation.navigate('SignInScreen')}>
           <Text style={styles.textSign}>Next</Text>
-          <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+          <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
         </TouchableOpacity>
       </View>
     </LinearGradient>

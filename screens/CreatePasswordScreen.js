@@ -10,44 +10,54 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
+import {useDispatch} from 'react-redux';
 
 const CreatePasswordScreen = ({navigation}) => {
-  const [data, setData] = React.useState({
-    password: '',
-    confirm_password: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
-    confirm_secureTextEntry: true,
-  });
+  const [password, setpassword] = React.useState('');
+  const [passwordErrorMessage, setpasswordErrorMessage] = React.useState('');
+  const [confirmPassword, setconfirmPassword] = React.useState('');
+  const [confirmPasswordErrorMessage, setconfirmPasswordErrorMessage] =
+    React.useState('');
+  const [loading, setloading] = React.useState(false);
+  const dispatch = useDispatch();
+  let formValidation = async () => {
+    setloading(true);
+    let errorFlag = false;
+    if (password.length === 0) {
+      errorFlag = true;
+      setpasswordErrorMessage('Password is required feild');
+    } else if (password.length < 8 || password.length > 20) {
+      errorFlag = true;
+      setpasswordErrorMessage('Password should be min 8 char and max 20 char');
+    } else if (password !== confirmPassword) {
+      errorFlag = true;
+      setpasswordErrorMessage('Passwoad and confirm password should be same.');
+    }
 
-  const handlePasswordChange = val => {
-    setData({
-      ...data,
-      password: val,
-    });
+    if (confirmPassword.length === 0) {
+      errorFlag = true;
+      setconfirmPasswordErrorMessage('Confirm Password is required feild');
+    } else if (confirmPassword.length < 8 || confirmPassword.length > 20) {
+      errorFlag = true;
+      setconfirmPasswordErrorMessage(
+        'Password should be min 8 char and max 20 char',
+      );
+    }
+
+    if (errorFlag) {
+    } else {
+      setloading(false);
+    }
   };
-
-  const handleConfirmPasswordChange = val => {
-    setData({
-      ...data,
-      confirm_password: val,
+  function nextStep() {
+    formValidation();
+    dispatch({
+      type: 'USSER_SIGN_UP_PASSWORD',
+      payload: {password: password},
     });
-  };
-  const updateSecureTextEntry = () => {
-    setData({
-      ...data,
-      secureTextEntry: !data.secureTextEntry,
-    });
-  };
-
-  //   const updateConfirmSecureTextEntry = () => {
-  //     setData({
-  //       ...data,
-  //       confirm_secureTextEntry: !data.confirm_secureTextEntry,
-  //     });
-  //   };
-
+    navigation.navigate('LocationPageScreen');
+  }
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -61,7 +71,7 @@ const CreatePasswordScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <Text style={styles.text}>Password</Text>
             <View />
@@ -77,50 +87,44 @@ const CreatePasswordScreen = ({navigation}) => {
             <View style={styles.action}>
               <View style={styles.passHeader}>
                 <Text style={styles.inputHeader}>Password</Text>
-                <TouchableOpacity onPress={updateSecureTextEntry}>
-                  {data.secureTextEntry ? (
-                    <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-                  ) : (
-                    <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-                  )}
-                </TouchableOpacity>
               </View>
               <TextInput
-                // placeholder="Your Password"
                 placeholderTextColor="#666666"
-                secureTextEntry={data.secureTextEntry ? true : false}
+                value={password}
                 style={styles.textInput}
+                secureTextEntry={true}
                 autoCapitalize="none"
-                onChangeText={val => handlePasswordChange(val)}
+                onChangeText={password => setpassword(password)}
               />
             </View>
+            {passwordErrorMessage?.length > 0 && (
+              <Text style={styles.textDanger}>{passwordErrorMessage}</Text>
+            )}
             <View style={styles.action}>
               <View style={styles.passHeader}>
                 <Text style={styles.inputHeader}>Confirm Your Password</Text>
-                <TouchableOpacity onPress={updateSecureTextEntry}>
-                  {data.secureTextEntry ? (
-                    <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-                  ) : (
-                    <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-                  )}
-                </TouchableOpacity>
               </View>
               <TextInput
-                // placeholder=""
-                secureTextEntry={data.confirm_secureTextEntry ? true : false}
+                secureTextEntry={true}
+                value={confirmPassword}
                 style={styles.textInput}
                 autoCapitalize="none"
-                onChangeText={val => handleConfirmPasswordChange(val)}
+                onChangeText={confirmPassword =>
+                  setconfirmPassword(confirmPassword)
+                }
               />
             </View>
+            {confirmPasswordErrorMessage?.length > 0 && (
+              <Text style={styles.textDanger}>
+                {confirmPasswordErrorMessage}
+              </Text>
+            )}
           </View>
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('LocationPageScreen')}>
+            <TouchableOpacity style={styles.button} onPress={nextStep}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -153,6 +157,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 24,
     fontWeight: 'bold',
+    marginRight: 30,
   },
   button: {
     display: 'flex',
@@ -236,5 +241,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 30,
+  },
+  textDanger: {
+    color: 'red',
+    fontSize: 12,
   },
 });

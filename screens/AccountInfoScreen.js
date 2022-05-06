@@ -5,63 +5,32 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Feather';
+import {useForm} from 'react-hook-form';
+import CustomInput from '../components/loginComponents/CustomInput';
 import {Picker} from '@react-native-picker/picker';
+import {useDispatch} from 'react-redux';
+
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const AccountInfoScreen = ({navigation}) => {
-  const [data, setData] = React.useState({
-    email: '',
-    phone: '',
-    check_textInputChange: false,
-    secureTextEntry: true,
-    isValidUser: true,
-    // isValidPassword: true,
-  });
+  const {control, handleSubmit} = useForm();
   const [selectedValue, setSelectedValue] = React.useState('');
-  const emailInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: true,
-        isValidUser: true,
-      });
-    } else {
-      setData({
-        ...data,
-        email: val,
-        check_textInputChange: false,
-        isValidUser: false,
-      });
-    }
-  };
-
-  const phoneInputChange = val => {
-    if (val.trim().length >= 4) {
-      setData({
-        ...data,
-        phone: val,
-      });
-    } else {
-      setData({
-        ...data,
-        phone: val,
-      });
-    }
-  };
-
-  // const updateSecureTextEntry = () => {
-  //   setData({
-  //     ...data,
-  //     secureTextEntry: !data.secureTextEntry,
-  //   });
-  // };
-
+  const dispatch = useDispatch();
+  const submitFormHandler = handleSubmit(data => {
+    dispatch({type: 'USSER_SIGN_UP_MAILPHONE', payload: data});
+  });
+  function nextStep() {
+    submitFormHandler();
+    control?._formState.errors !== {}
+      ? navigation.navigate('IneterestingAreaScreen')
+      : navigation.navigate(null);
+  }
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -75,7 +44,7 @@ const AccountInfoScreen = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.headerWidthButton}>
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
               <Text style={styles.text}>Account</Text>
@@ -96,39 +65,45 @@ const AccountInfoScreen = ({navigation}) => {
               <Picker
                 selectedValue={selectedValue}
                 style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSelectedValue(itemValue)
-                }>
+                onValueChange={(itemValue, itemIndex) => {
+                  setSelectedValue(itemValue);
+                  dispatch({
+                    type: 'USSER_SIGN_UP_GENDER',
+                    payload: {gender: itemValue},
+                  });
+                }}>
                 <Picker.Item label="Male" value="male" />
                 <Picker.Item label="Female" value="female" />
               </Picker>
             </View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Email</Text>
-              <TextInput
-                placeholderTextColor="#666666"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={val => emailInputChange(val)}
-              />
-            </View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Phone number</Text>
-              <TextInput
-                placeholderTextColor="#666666"
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={val => phoneInputChange(val)}
-              />
-            </View>
+            <CustomInput
+              name="email"
+              control={control}
+              title="Email"
+              rules={{
+                required: 'Email is required',
+                pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+              }}
+            />
+            <CustomInput
+              name="phone_number"
+              control={control}
+              type="number"
+              title="Phone"
+              rules={{
+                required: 'Phone Number is required',
+                minLength: {
+                  value: 5,
+                  message: 'Phone Number should be at least 3 characters long',
+                },
+              }}
+            />
           </View>
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('IneterestingAreaScreen')}>
+            <TouchableOpacity style={styles.button} onPress={nextStep}>
               <View />
               <Text style={styles.textSign}>Next</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -165,6 +140,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginRight: 40,
   },
   logo: {
     width: 228,

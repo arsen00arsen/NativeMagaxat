@@ -5,17 +5,43 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 // import CountryCodeList from '../components/CountryCodeList';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {baseUrl} from '../http/index';
 const LocationPageScreen = ({navigation}) => {
   const [selectedInter, setSselectedInter] = React.useState('');
+  const [countrySelect, setCountrySelect] = React.useState('');
+  const name = useSelector(state => state.usser);
+  const dispatch = useDispatch();
 
+  let change = async () => {
+    let dataObjects = Object.assign(
+      name.usserDatNLnames,
+      name.userEmailPhone,
+      name.usserDateLocation,
+      name.usserDatePassword,
+      // name.userInterested1,
+      // name.userInterested2,
+      // name.userInterested3,
+      // name.userInterestedType,
+      // name.userInterestedTypeIndigent,
+      // name.userDateGender,
+      // name.usserDatDate,
+    );
+    const requestOptions = {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(dataObjects),
+    };
+    fetch(baseUrl + '/register', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data));
+  };
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -23,61 +49,73 @@ const LocationPageScreen = ({navigation}) => {
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
       <StatusBar backgroundColor="#009387" barStyle="light-content" />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.scrollView}>
-        <View style={styles.content}>
-          <View style={styles.headerWidthButton}>
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-            </TouchableOpacity>
-            <View style={styles.titlecontent}>
-              <Text style={styles.text}>Choose</Text>
-              <Text style={styles.text}>priority</Text>
-            </View>
-            <View />
+      <View style={styles.content}>
+        <View style={styles.headerWidthButton}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
+          </TouchableOpacity>
+          <View style={styles.titlecontent}>
+            <Text style={styles.text}>Choose</Text>
+            <Text style={styles.text}>priority</Text>
           </View>
-          <View style={styles.inputSIcon}>
-            <Animatable.Image
-              animation="fadeInUpBig"
-              duraton="1500"
-              source={require('../assets/Location.png')}
-              style={styles.logo}
-              resizeMode="stretch"
-            />
-            <View style={styles.action}>{/* <CountryCodeList /> */}</View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Language</Text>
-              <Picker
-                selectedValue={selectedInter}
-                style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) =>
-                  setSselectedInter(itemValue)
-                }>
-                <Picker.Item label="English" value="english" />
-                <Picker.Item label="Armenian" value="armenian" />
-                <Picker.Item label="Russian" value="russian" />
-              </Picker>
-            </View>
+          <View />
+        </View>
+        <View style={styles.inputSIcon}>
+          <Animatable.Image
+            animation="fadeInUpBig"
+            duraton="1500"
+            source={require('../assets/Location.png')}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+          <View style={styles.actionLocal}>
+            <Text style={styles.inputHeaderLocation}>Location</Text>
+            <Picker
+              selectedValue={countrySelect}
+              style={styles.pickerSelectStyles}
+              onValueChange={(itemValues, itemIndex) => {
+                setCountrySelect(itemValues);
+                dispatch({
+                  type: 'USSER_SIGN_UPLOCATION',
+                  payload: {country: itemValues},
+                });
+              }}>
+              <Picker.Item label="Armenia" value={1} />
+              <Picker.Item label="Russia" value={2} />
+              <Picker.Item label="US" value={3} />
+            </Picker>
           </View>
-          <View>
-            {/* <TouchableOpacity style={styles.signIn}>
-              <LinearGradient
-                colors={['#88673A', '#3C3835']}
-                style={styles.signIn}>
-                <Text style={styles.textSign}>Log In</Text>
-              </LinearGradient>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('SplashScreen')}>
-              <View />
-              <Text style={styles.textSign}>Start</Text>
-              <Icon name="home-outline" color={'#FFFFFF'} size={20} />
-            </TouchableOpacity> */}
+          <View style={styles.action}>
+            <Text style={styles.inputHeader}>Language</Text>
+            <Picker
+              selectedValue={selectedInter}
+              style={styles.pickerSelectStyles}
+              onValueChange={(itemValue, itemIndex) => {
+                setSselectedInter(itemValue);
+                dispatch({
+                  type: 'USSER_SIGN_UP_LANGUEGE',
+                  payload: {usserLanguage: itemValue},
+                });
+              }}>
+              <Picker.Item label="English" value="3" />
+              <Picker.Item label="Armenian" value="2" />
+              <Picker.Item label="Russian" value="1" />
+            </Picker>
           </View>
         </View>
-      </ScrollView>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.signIn}>
+            <LinearGradient
+              colors={['#88673A', '#3C3835']}
+              style={styles.signIn}>
+              <Text style={styles.textSign}>Log In</Text>
+            </LinearGradient>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.startButton} onPress={change}>
+            <Text style={styles.textStartButton}>Start</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </LinearGradient>
   );
 };
@@ -88,6 +126,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
     justifyContent: 'center',
+    height: '100%',
   },
   content: {
     display: 'flex',
@@ -112,6 +151,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    marginBottom: 30,
+    marginRight: 40,
   },
   logo: {
     width: 193,
@@ -152,9 +193,27 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'flex-start',
   },
+  actionLocal: {
+    flexDirection: 'column',
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#8A8A8A',
+    backgroundColor: '#8A8A8A',
+    width: 250,
+    height: 60,
+    borderRadius: 4,
+    alignItems: 'flex-start',
+    color: 'red',
+  },
   inputHeader: {
     fontSize: 12,
     color: '#828282',
+    paddingTop: 10,
+    paddingLeft: 12,
+  },
+  inputHeaderLocation: {
+    fontSize: 12,
+    color: 'white',
     paddingTop: 10,
     paddingLeft: 12,
   },
@@ -176,10 +235,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 30,
   },
+  startButton: {
+    width: 237,
+    height: 57,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    borderRadius: 30,
+    backgroundColor: 'white',
+    marginTop: 10,
+  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
     lineHeight: 21,
+  },
+  buttonContainer: {
+    paddingTop: 20,
+  },
+  textStartButton: {
+    color: 'black',
+    fontWeight: '400',
+    fontSize: 18,
   },
 });
