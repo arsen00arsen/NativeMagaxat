@@ -10,7 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../components/HeaderComponents/HeaderBackSearch';
 import {baseUrl2} from './../../http/index';
-import PushNotification from 'react-native-push-notification';
+// import PushNotification from 'react-native-push-notification';
 
 const Message = [
   {
@@ -53,17 +53,17 @@ const MesageScreen = () => {
     fetchData();
   }, []);
 
-  const handleNotification = item => {
-    PushNotification.localNotification({
-      channelId: 'test-channel',
-      title: item.usserName,
-      message: item.messageText,
-    });
-  };
+  // const handleNotification = item => {
+  //   PushNotification.localNotification({
+  //     channelId: 'test-channel',
+  //     title: item.usserName,
+  //     message: item.messageText,
+  //   });
+  // };
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
-        {/* <FlatList
+        <FlatList
           data={Message}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -92,8 +92,8 @@ const MesageScreen = () => {
               </View>
             </TouchableOpacity>
           )}
-        /> */}
-        <FlatList
+        />
+        {/* <FlatList
           data={Message}
           keyExtractor={item => item.id}
           renderItem={({item}) => (
@@ -114,7 +114,7 @@ const MesageScreen = () => {
               </View>
             </TouchableOpacity>
           )}
-        />
+        /> */}
       </View>
     </View>
   );
