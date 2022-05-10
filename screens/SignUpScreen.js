@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -18,8 +18,8 @@ import CustomInput from '../components/loginComponents/CustomInput';
 import {useSelector, useDispatch} from 'react-redux';
 
 const SignUpScreen = ({navigation}) => {
-  const [date, setDate] = React.useState(new Date());
-  const [open, setOpen] = React.useState(false);
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
   const {control, handleSubmit} = useForm();
   const birthDate = useSelector(state => state.usser);
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const SignUpScreen = ({navigation}) => {
     control?._formValues.lastName !== undefined &&
     control?._formValues.name !== undefined
       ? navigation.navigate('AccountInfoScreen')
-      : navigation.navigate(null);
+      : navigation.navigate('SignUpScreen');
   };
   let datas = birthDate?.usserDatDate?.birthDate?.substring(1, 11);
   return (
@@ -65,16 +65,29 @@ const SignUpScreen = ({navigation}) => {
           </View>
           <View>
             <CustomInput
+              style={styles.nameInput}
               name="name"
               control={control}
-              rules={true}
               title="First Name"
+              rules={{
+                required: 'Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Name cannot be empoty',
+                },
+              }}
             />
             <CustomInput
               name="lastName"
               control={control}
               title="Last Name"
-              rules={true}
+              rules={{
+                required: 'Last Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Last Name cannot be empoty',
+                },
+              }}
             />
             <View>
               <TouchableOpacity
@@ -82,11 +95,6 @@ const SignUpScreen = ({navigation}) => {
                 onPress={() => setOpen(true)}>
                 <View>
                   <Text style={styles.inputHeader}>Date</Text>
-                  <TextInput
-                    placeholderTextColor="#666666"
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                  />
                   <Text style={styles.dateText}>{datas}</Text>
                 </View>
               </TouchableOpacity>
@@ -194,6 +202,7 @@ const styles = StyleSheet.create({
     color: '#05375a',
     height: '100%',
     width: '100%',
+    paddingTop: 5,
   },
   action: {
     flexDirection: 'column',
@@ -238,5 +247,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+  },
+  nameInput: {
+    marginBottom: 15,
   },
 });

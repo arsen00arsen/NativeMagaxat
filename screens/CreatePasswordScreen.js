@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -14,12 +14,12 @@ import Icon from 'react-native-vector-icons/Feather';
 import {useDispatch} from 'react-redux';
 
 const CreatePasswordScreen = ({navigation}) => {
-  const [password, setpassword] = React.useState('');
-  const [passwordErrorMessage, setpasswordErrorMessage] = React.useState('');
-  const [confirmPassword, setconfirmPassword] = React.useState('');
+  const [password, setpassword] = useState('');
+  const [passwordErrorMessage, setpasswordErrorMessage] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
   const [confirmPasswordErrorMessage, setconfirmPasswordErrorMessage] =
-    React.useState('');
-  const [loading, setloading] = React.useState(false);
+    useState('');
+  const [loading, setloading] = useState(false);
   const dispatch = useDispatch();
   let formValidation = async () => {
     setloading(true);
@@ -50,14 +50,17 @@ const CreatePasswordScreen = ({navigation}) => {
       setloading(false);
     }
   };
-  function nextStep() {
-    formValidation();
+  let nextStep = async () => {
+    await formValidation();
+    passwordErrorMessage !== '' && confirmPasswordErrorMessage !== ''
+      ? navigation.navigate('LocationPageScreen')
+      : navigation.navigate('CreatePasswordScreen');
     dispatch({
       type: 'USSER_SIGN_UP_PASSWORD',
       payload: {password: password},
     });
-    navigation.navigate('LocationPageScreen');
-  }
+  };
+  console.log(formValidation);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}

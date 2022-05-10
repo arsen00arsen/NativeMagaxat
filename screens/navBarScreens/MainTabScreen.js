@@ -56,6 +56,7 @@ const MainTabScreen = () => {
       <Tab.Screen
         name="Media"
         component={MediaPageScreen}
+        tabBarOptions={{style: {borderTopColor: '#ffffff', height: 5}}}
         options={{
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
@@ -172,6 +173,7 @@ const BensScreens = ({navigation}) => (
 const MessageStack = ({navigation}) => (
   <Mesage.Navigator
     screenOptions={() => ({
+      headerTitleAlign: 'center',
       title: (
         <View style={styles.logoContainer}>
           <Image
@@ -258,7 +260,6 @@ const styles = StyleSheet.create({
     width: 146,
   },
   logoContainer: {
-    paddingLeft: 50,
     paddingTop: 10,
   },
 });

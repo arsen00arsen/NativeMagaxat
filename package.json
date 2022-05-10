@@ -1,5 +1,5 @@
 {
-  "name": "awesomeproject",
+  "name": "magaxat",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -63,6 +63,6 @@
   },
   "jest": {
     "preset": "react-native"
-  },
-  "proxy": "http://192.168.0.167:8081"
+  }
 }
+

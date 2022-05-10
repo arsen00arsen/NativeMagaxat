@@ -25,12 +25,15 @@ const AccountInfoScreen = ({navigation}) => {
   const submitFormHandler = handleSubmit(data => {
     dispatch({type: 'USSER_SIGN_UP_MAILPHONE', payload: data});
   });
-  function nextStep() {
-    submitFormHandler();
-    control?._formState.errors !== {}
+
+  let nextStep = async () => {
+    await submitFormHandler();
+    control?._formValues !== {} &&
+    control?._formValues.email !== undefined &&
+    control?._formValues.phone_number !== undefined
       ? navigation.navigate('IneterestingAreaScreen')
-      : navigation.navigate(null);
-  }
+      : navigation.navigate('AccountInfoScreen');
+  };
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -184,6 +187,7 @@ const styles = StyleSheet.create({
   action: {
     flexDirection: 'column',
     marginTop: 10,
+    marginBottom: 5,
     borderBottomWidth: 1,
     borderBottomColor: '#FFFFFF',
     backgroundColor: '#FFFFFF',

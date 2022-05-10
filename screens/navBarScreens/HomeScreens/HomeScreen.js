@@ -29,36 +29,33 @@ const HomeScreen = ({navigation}) => {
 
   useEffect(() => {
     createChanels();
-  }, []);
-  useEffect(() => {
-    const url = baseUrl2 + '/videos_api';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setDatav(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-
     fetchData();
   }, []);
+  // useEffect(() => {
+  //   const url = baseUrl2 + '/videos_api';
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await fetch(url);
+  //       const json = await response.json();
+  //       setDatav(json);
+  //     } catch (error) {
+  //       console.log('error', error);
+  //     }
+  //   };
 
-  useEffect(() => {
-    const url = baseUrl2 + '/users/list';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
+  //   fetchData();
+  // }, []);
 
-    fetchData();
-  }, []);
+  const url = baseUrl2 + '/users/list';
+  const fetchData = async () => {
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
 
   const createChanels = () => {
     PushNotification.createChannel({
@@ -168,7 +165,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',

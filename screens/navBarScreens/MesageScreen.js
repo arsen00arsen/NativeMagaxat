@@ -124,20 +124,20 @@ export default MesageScreen;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingTop: 15,
     position: 'relative',
   },
-  messageBody: {
-    height: '90%',
-    width: '100%',
-  },
+  // messageBody: {
+  //   height: '90%',
+  //   width: '100%',
+  // },
   messageContainer: {
+    flex: 1,
     width: '100%',
-    height: 100,
+    // height: 100,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
     display: 'flex',
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   userName: {
     color: '#343333',
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
   },
   userMessageView: {
