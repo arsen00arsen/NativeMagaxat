@@ -7,7 +7,7 @@ const PostsComponent = () => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    const url = baseUrl2 + '/videos_api';
+    const url = baseUrl2 + '/posts?page=1';
     const fetchData = async () => {
       try {
         const response = await fetch(url);
@@ -21,9 +21,11 @@ const PostsComponent = () => {
     fetchData();
   }, []);
 
-  let content = data?.data?.map(elem => {
-    return <VideoComponent uri={elem} key={elem.id} />;
-  });
+  // let content = data?.data?.map(elem => {
+  //   return <VideoComponent uri={elem} key={elem.id} />;
+  // });
+
+  let content = null;
 
   return <View>{content}</View>;
 };

@@ -6,7 +6,6 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 // import Avatar from '../components/Avatar';

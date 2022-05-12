@@ -28,13 +28,13 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator
+      <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Home" component={MainTabScreen} />
-      </Stack.Navigator> */}
-      {loginState?.success === true ? (
+      </Stack.Navigator>
+      {/* {loginState?.success === true ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -43,7 +43,7 @@ const App = () => {
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )}
+      )} */}
     </NavigationContainer>
   );
 };

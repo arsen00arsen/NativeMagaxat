@@ -39,8 +39,8 @@ const VideoComponent = props => {
     </View>
   );
 };
-
 export default VideoComponent;
+
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     backgroundColor: 'white',
+    aspectRatio: 1,
   },
   mediaVideo: {
     width: '100%',
