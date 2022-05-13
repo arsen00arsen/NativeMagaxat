@@ -13,6 +13,10 @@ import {USSER_SIGN_UP_LANGUEGE} from '../constants';
 import {LOGIN} from '../constants';
 import {LOGOUT} from '../constants';
 import {USSER_ID} from '../constants';
+// import {
+//   FETCH_POSTS_PENDING,
+//   FETCH_POSTS_SUCCESS,
+// } from '../actions/usserSignUpDate';
 
 const initialState = {
   usserDatNLnames: '',
@@ -30,6 +34,8 @@ const initialState = {
   login: {},
   logut: {},
   usserAccountId: '',
+  pending: false,
+  posts: [],
 };
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -108,6 +114,17 @@ const signUpReducer = (state = initialState, action) => {
         ...state,
         usserAccountId: action.payload,
       };
+    // case FETCH_POSTS_PENDING:
+    //   return {
+    //     ...state,
+    //     pending: true,
+    //   };
+    // case FETCH_POSTS_SUCCESS:
+    //   return {
+    //     ...state,
+    //     pending: false,
+    //     posts: action.payload,
+    //   };
     default:
       // case USSER_SIGN_UP_DATA:
       //   let newArr = state.usserDatas.concat(action.payload);
@@ -120,3 +137,6 @@ const signUpReducer = (state = initialState, action) => {
   }
 };
 export default signUpReducer;
+
+export const getPosts = state => state.posts;
+export const getPostsPending = state => state.pending;

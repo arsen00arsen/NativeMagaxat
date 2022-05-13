@@ -53,8 +53,8 @@ const CreatePasswordScreen = ({navigation}) => {
   let nextStep = async () => {
     await formValidation();
     passwordErrorMessage !== '' && confirmPasswordErrorMessage !== ''
-      ? navigation.navigate('LocationPageScreen')
-      : navigation.navigate('CreatePasswordScreen');
+      ? navigation.navigate('CreatePasswordScreen')
+      : navigation.navigate('LocationPageScreen');
     dispatch({
       type: 'USSER_SIGN_UP_PASSWORD',
       payload: {password: password},

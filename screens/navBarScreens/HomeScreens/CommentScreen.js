@@ -10,25 +10,32 @@ import {
   Keyboard,
   Image,
   ScrollView,
+  ImageBackground,
 } from 'react-native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import VideoPlayer from 'react-native-video-player';
 
 const CommentScreen = props => {
   const scrollViewRef = useRef();
+  let user = props.route.params.user;
+  let img;
+  if (user.image_name !== null) {
+    img = {uri: user.image_path};
+  } else {
+    img = require('../../../assets/defoult.png');
+  }
   const ANIMAL_NAMES = [
     {
-      id: 1,
-      name: 'Vazgen Sargsyan',
-      image: require('../../../assets/defoult.png'),
-      commentText:
-        'ayb bem gim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+      id: user.id,
+      name: user.description,
+      image: img,
+      commentText: user.title,
     },
     {
       id: 2,
-      name: 'Vazgen Sargsyan',
+      name: 'Nikol Pashinyan',
       image: require('../../../assets/Nikol.png'),
-      commentText: 'da yej za',
+      commentText: 'yev ayt mek marte dues',
     },
   ];
 
@@ -49,7 +56,26 @@ const CommentScreen = props => {
       </View>
     );
   });
-
+  let content;
+  if (user.image_path !== null) {
+    content = (
+      <ImageBackground
+        source={img}
+        resizeMode="stretch"
+        style={styles.usersProfileBGimage}
+      />
+    );
+  } else {
+    content = (
+      <VideoPlayer
+        video={{uri: user?.video_path}}
+        autoplay={false}
+        defaultMuted={true}
+        thumbnail={require('./../../../assets/logoHeader.png')}
+        style={styles.mediaVideo}
+      />
+    );
+  }
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
@@ -64,17 +90,14 @@ const CommentScreen = props => {
         <View style={styles.vedioContent}>
           <View style={styles.userProfile}>
             <View style={styles.imgFrame}>
-              <Image
-                source={require('../../../assets/Nikol.png')}
-                style={styles.userImage}
-              />
+              <Image source={img} style={styles.userImage} />
             </View>
             <View style={styles.userInfo}>
-              <Text style={styles.userName}>Nikol Pahinyan</Text>
+              <Text style={styles.userName}>{user.description} </Text>
             </View>
           </View>
           <View style={styles.vedioBodyContent}>
-            <VideoPlayer
+            {/* <VideoPlayer
               video={{
                 uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp',
               }}
@@ -82,8 +105,10 @@ const CommentScreen = props => {
               defaultMuted={true}
               thumbnail={require('../../../assets/logoHeader.png')}
               style={styles.vedio}
-            />
+            /> */}
+            {content}
           </View>
+          <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
         <KeyboardAvoidingView
@@ -203,7 +228,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 70,
-    background: '#FFFFFF',
+    // background: '#FFFFFF',
     borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
@@ -216,5 +241,13 @@ const styles = StyleSheet.create({
   containerKeyBoard: {
     flex: 1,
     marginBottom: 20,
+  },
+  textDescription: {
+    color: 'black',
+    marginTop: 20,
+  },
+  usersProfileBGimage: {
+    width: '100%',
+    height: 170,
   },
 });

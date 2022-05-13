@@ -1,12 +1,19 @@
 import React, {useState} from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+  ActivityIndicator,
+} from 'react-native';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 
-const VideoComponent = props => {
+const ImgComponentpost = props => {
   const navigation = useNavigation();
   const [longDis, setLongDis] = useState(false);
   let user = props.uri;
@@ -19,6 +26,13 @@ const VideoComponent = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
+  let imgBG = (
+    <ImageBackground
+      source={img}
+      resizeMode="stretch"
+      style={styles.usersProfileBGimage}
+    />
+  );
   let userTitle;
   if (longDis === false) {
     userTitle = (
@@ -33,7 +47,6 @@ const VideoComponent = props => {
       </Text>
     );
   }
-
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
@@ -42,13 +55,7 @@ const VideoComponent = props => {
         <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         <Text style={styles.usersname}>{user?.user_lastname} </Text>
       </View>
-      <VideoPlayer
-        video={{uri: user?.video_path}}
-        autoplay={false}
-        defaultMuted={true}
-        thumbnail={require('../assets/logoHeader.png')}
-        style={styles.mediaVideo}
-      />
+      {imgBG}
       <View style={styles.postIcons}>
         <LikeButton />
         <ShareButton />
@@ -64,7 +71,7 @@ const VideoComponent = props => {
     </View>
   );
 };
-export default VideoComponent;
+export default ImgComponentpost;
 
 const styles = StyleSheet.create({
   container: {
@@ -79,11 +86,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     aspectRatio: 1.2,
   },
-  mediaVideo: {
-    width: '100%',
-    height: 170,
-    borderRadius: 8,
-  },
+
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
@@ -114,5 +117,9 @@ const styles = StyleSheet.create({
   },
   longDis: {
     marginTop: 10,
+  },
+  usersProfileBGimage: {
+    width: '100%',
+    height: 170,
   },
 });

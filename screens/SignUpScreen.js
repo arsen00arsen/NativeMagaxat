@@ -29,7 +29,7 @@ const SignUpScreen = ({navigation}) => {
   let nextStep = async () => {
     await submitFormHandler();
     control?._formValues !== {} &&
-    control?._formValues.lastName !== undefined &&
+    control?._formValues.lastname !== undefined &&
     control?._formValues.name !== undefined
       ? navigation.navigate('AccountInfoScreen')
       : navigation.navigate('SignUpScreen');
@@ -77,7 +77,7 @@ const SignUpScreen = ({navigation}) => {
               }}
             />
             <CustomInput
-              name="lastName"
+              name="lastname"
               control={control}
               title="Last Name"
               rules={{

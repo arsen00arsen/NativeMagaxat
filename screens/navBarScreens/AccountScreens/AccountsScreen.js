@@ -52,7 +52,7 @@ const AccountsScreen = () => {
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('AccounProfiletScreen')}>
+          onPress={() => navigation.navigate('AccountScreen')}>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
               <Image

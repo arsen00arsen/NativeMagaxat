@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';

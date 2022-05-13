@@ -12,7 +12,8 @@ import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
-import {baseUrl} from '../http/index';
+import {baseUrl2} from '../http/index';
+import CountryCodeList from '../components/CountryCodeList';
 const LocationPageScreen = ({navigation}) => {
   const [selectedInter, setSselectedInter] = React.useState('');
   const [countrySelect, setCountrySelect] = React.useState('');
@@ -33,12 +34,13 @@ const LocationPageScreen = ({navigation}) => {
       // name.userDateGender,
       // name.usserDatDate,
     );
+    console.log(dataObjects, 'dataObjects');
     const requestOptions = {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(dataObjects),
     };
-    fetch(baseUrl + '/register', requestOptions)
+    fetch(baseUrl2 + '/register', requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   };
@@ -55,8 +57,7 @@ const LocationPageScreen = ({navigation}) => {
             <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
           </TouchableOpacity>
           <View style={styles.titlecontent}>
-            <Text style={styles.text}>Choose</Text>
-            <Text style={styles.text}>priority</Text>
+            <Text style={styles.text}>Choose priority</Text>
           </View>
           <View />
         </View>
@@ -68,7 +69,7 @@ const LocationPageScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          <View style={styles.actionLocal}>
+          {/* <View style={styles.actionLocal}>
             <Text style={styles.inputHeaderLocation}>Location</Text>
             <Picker
               selectedValue={countrySelect}
@@ -84,7 +85,10 @@ const LocationPageScreen = ({navigation}) => {
               <Picker.Item label="Russia" value={2} />
               <Picker.Item label="US" value={3} />
             </Picker>
-          </View>
+          </View> */}
+          <>
+            <CountryCodeList />
+          </>
           <View style={styles.action}>
             <Text style={styles.inputHeader}>Language</Text>
             <Picker

@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {baseUrl2} from '../../../http/index';
 import {useSelector} from 'react-redux';
-const AccounProfiletScreen = () => {
+const AccountScreen = () => {
   const [data, setData] = useState('');
   const id = useSelector(state => state.usser.usserAccountId);
   const theme = useTheme();
@@ -35,7 +35,6 @@ const AccounProfiletScreen = () => {
 
   let user = data.data !== undefined ? data.data[0] : null;
   let img;
-  console.log(user);
   if (user?.image !== null) {
     img = {uri: user?.image};
   } else {
@@ -90,7 +89,7 @@ const AccounProfiletScreen = () => {
   );
 };
 
-export default AccounProfiletScreen;
+export default AccountScreen;
 
 const styles = StyleSheet.create({
   container: {

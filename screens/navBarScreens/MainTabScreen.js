@@ -8,6 +8,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Feather';
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
+import AccountScreen from './AccountScreens/AccountScreen';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
 import CommentScreen from '../navBarScreens/HomeScreens/CommentScreen';
 import MediaScreen from './MediaScreens/MediaScreen';
@@ -35,7 +36,7 @@ const HomePage = createStackNavigator();
 const Ben = createStackNavigator();
 const AccountStack = createStackNavigator();
 const Mesage = createStackNavigator();
-
+const Acts = createStackNavigator();
 const MainTabScreen = () => {
   return (
     <Tab.Navigator
@@ -76,7 +77,7 @@ const MainTabScreen = () => {
       />
       <Tab.Screen
         name="Accounts"
-        component={AccountsScreen}
+        component={Accounts}
         options={{
           tabBarLabel: 'Accounts',
           tabBarColor: '#C6B7A2',
@@ -168,6 +169,16 @@ const BensScreens = ({navigation}) => (
     />
     <Ben.Screen name="BenefactorSearchPage" component={BenefactorSearchPage} />
   </Ben.Navigator>
+);
+
+const Accounts = ({navigation}) => (
+  <Acts.Navigator
+    screenOptions={{
+      headerShown: false,
+    }}>
+    <Acts.Screen name="AccountsScreen" component={AccountsScreen} />
+    <Acts.Screen name="AccountScreen" component={AccountScreen} />
+  </Acts.Navigator>
 );
 
 const MessageStack = ({navigation}) => (
