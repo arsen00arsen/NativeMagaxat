@@ -23,6 +23,7 @@ const HorizontalInfinitiScroll = () => {
     try {
       const response = await fetch(urlPosts);
       const json = await response.json();
+      console.log(json.data.data);
       setDataPosts([...dataPosts, ...json.data.data]);
     } catch (error) {
       console.log('error', error);
