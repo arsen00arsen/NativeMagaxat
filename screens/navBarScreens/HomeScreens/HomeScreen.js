@@ -14,11 +14,9 @@ import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScro
 
 const HomeScreen = () => {
   const theme = useTheme();
-
   useEffect(() => {
     createChanels();
   }, []);
-
   const createChanels = () => {
     PushNotification.createChannel({
       channelId: 'test-channel',

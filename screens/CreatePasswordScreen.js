@@ -60,7 +60,7 @@ const CreatePasswordScreen = ({navigation}) => {
       payload: {password: password},
     });
   };
-  console.log(formValidation);
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}

@@ -11,36 +11,38 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
-import {useDispatch} from 'react-redux';
-import {baseUrl} from '../http/index';
+// import {useDispatch} from 'react-redux';
+// import {baseUrl} from '../http/index';
+import auth from '@react-native-firebase/auth';
+
 // import LoaderComponent from '../components/LoaderComponent';
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignInScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
-  const [isLoading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-  const submitFormHandler = handleSubmit(data => {
-    setLoading(true);
-    fetch(baseUrl + '/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(response => {
-        setLoading(false);
-        console.log(response);
-        dispatch({
-          type: 'LOGIN',
-          payload: response,
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  if (loading) {
+    return <ActivityIndicator size="large" color="#00ff00" />;
+  }
+  const submitFormHandler = handleSubmit(async data => {
+    console.log(data);
+    if (!data.email || !data.password) {
+      alert('please add all the field');
+      return;
+    }
+    try {
+      setLoading(true);
+      const result = await auth().signInWithEmailAndPassword(
+        data.email,
+        data.password,
+      );
+    } catch (err) {
+      alert('something went wrong');
+    } finally {
+      setLoading(false);
+    }
   });
 
   return (

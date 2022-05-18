@@ -8,51 +8,29 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import HeaderBackSearch from '../../components/HeaderComponents/HeaderBackSearch';
 import {baseUrl2} from './../../http/index';
+import firestore from '@react-native-firebase/firestore';
+import {useSelector} from 'react-redux';
+
 // import PushNotification from 'react-native-push-notification';
-
-const Message = [
-  {
-    id: '1',
-    usserName: 'Nikol Pashinyan',
-    usserImag: require('../../assets/Nikol.png'),
-    messageTime: 'One Day ago',
-    messageText: 'Yev ayt mek marte dues',
-  },
-  {
-    id: '2',
-    usserName: 'Serj Sargsyan',
-    usserImag: require('../../assets/Serj.png'),
-    messageTime: '6 Yers ago',
-    messageText: 'Razmakan arumov et taracqnere voshmi nshanakutyun chunen',
-  },
-  {
-    id: '3',
-    usserName: 'Robert Qocharyan',
-    usserImag: require('../../assets/Robert.png'),
-    messageTime: '20 Yers ago',
-    messageText: 'Hayr mer vor erkinqnes surb yexece anun qo',
-  },
-];
-
 const MesageScreen = () => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  useEffect(() => {
-    const url = baseUrl2 + '/messages';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const [users, setUsers] = useState(null);
+  const user = useSelector(state => state.usser.firBaseUser);
 
+  const getUsers = async () => {
+    const querySanp = await firestore()
+      .collection('users')
+      .where('uid', '!=', user.uid)
+      .get();
+    const allusers = querySanp.docs.map(docSnap => docSnap.data());
+    setUsers(allusers);
+  };
+
+  useEffect(() => {
+    getUsers();
+  }, []);
   // const handleNotification = item => {
   //   PushNotification.localNotification({
   //     channelId: 'test-channel',
@@ -60,61 +38,39 @@ const MesageScreen = () => {
   //     message: item.messageText,
   //   });
   // };
+  const RenderCard = ({item}) => {
+    return (
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate('Chat', {
+            name: item.name,
+            uid: item.uid,
+            status:
+              typeof item.status === 'string'
+                ? item.status
+                : item.status.toDate().toString(),
+          })
+        }>
+        <View style={styles.messageContainer}>
+          <Image style={styles.userImg} source={item.usserImag} />
+          <View>
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item.email}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
         <FlatList
-          data={Message}
+          data={users}
           keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Chat', {
-                  userName: item.usserName,
-                  usserId: item.id,
-                  message: item.messageText,
-                  usserImage: item.usserImag,
-                })
-              }>
-              <View style={styles.messageContainer}>
-                <View>
-                  <Image style={styles.userImg} source={item.usserImag} />
-                </View>
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView} numberOfLines={2}>
-                    {item.messageText}
-                  </Text>
-                </View>
-                <View style={styles.messageInfo}>
-                  <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
+          renderItem={({item}) => {
+            return <RenderCard item={item} />;
+          }}
         />
-        {/* <FlatList
-          data={Message}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleNotification(item)}>
-              <View style={styles.messageContainer}>
-                <View>
-                  <Image style={styles.userImg} source={item.usserImag} />
-                </View>
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView} numberOfLines={2}>
-                    {item.messageText}
-                  </Text>
-                </View>
-                <View style={styles.messageInfo}>
-                  <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        /> */}
       </View>
     </View>
   );
@@ -197,3 +153,28 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
   },
 });
+
+{
+  /* <FlatList
+          data={Message}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <TouchableOpacity onPress={() => handleNotification(item)}>
+              <View style={styles.messageContainer}>
+                <View>
+                  <Image style={styles.userImg} source={item.usserImag} />
+                </View>
+                <View style={styles.userInfo}>
+                  <Text style={styles.userName}>{item.usserName}</Text>
+                  <Text style={styles.userMessageView} numberOfLines={2}>
+                    {item.messageText}
+                  </Text>
+                </View>
+                <View style={styles.messageInfo}>
+                  <Text style={styles.messageTime}>{item.messageTime} </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        /> */
+}

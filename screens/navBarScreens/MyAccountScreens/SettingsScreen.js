@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,46 @@ import {
   StatusBar,
   ScrollView,
   TextInput,
+  TouchableOpacity,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
 
 const SettingsScreen = ({navigation}) => {
   const theme = useTheme();
+  const [user, setuser] = useState('');
+  useEffect(() => {
+    const unregister = auth().onAuthStateChanged(userExist => {
+      if (userExist) {
+        firestore().collection('users').doc(userExist.uid).update({
+          status: 'online',
+        });
+        setuser(userExist);
+      } else {
+        setuser('');
+      }
+    });
 
+    return () => {
+      unregister();
+    };
+  }, []);
+  const logOut = () => {
+    firestore()
+      .collection('users')
+      .doc(user.uid)
+      .update({
+        status: firestore.FieldValue.serverTimestamp(),
+      })
+      .then(() => {
+        auth().signOut();
+      });
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -77,6 +107,9 @@ const SettingsScreen = ({navigation}) => {
             placeholder="About Us"
           />
         </View>
+        <TouchableOpacity onPress={() => logOut()} style={styles.action}>
+          <Text>Log Out</Text>
+        </TouchableOpacity>
       </ScrollView>
     </View>
   );

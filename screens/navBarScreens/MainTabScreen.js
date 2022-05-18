@@ -1,5 +1,5 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -28,7 +28,8 @@ import MySubscribtionsScreen from './MyAccountScreens/MySubscribtionsScreen';
 import MySubscribersScreen from './MyAccountScreens/MySubscribersScreen';
 import SettingsScreen from './MyAccountScreens/SettingsScreen';
 import MesageScreen from './MesageScreen';
-import ChatScreen from './ChatScreen';
+import Chat from './Chat';
+import moment from 'moment';
 import {View} from 'react-native-animatable';
 const Tab = createMaterialBottomTabNavigator();
 const MediaStack = createStackNavigator();
@@ -234,12 +235,19 @@ const MessageStack = ({navigation}) => (
     <Mesage.Screen name="Mesagees" component={MesageScreen} />
     <Mesage.Screen
       name="Chat"
-      component={ChatScreen}
       options={({route}) => ({
-        title: route.params.userName,
+        title: (
+          <View style={styles.chatTitle}>
+            <Text style={styles.paramsName}>{route.params.name}</Text>
+            <Text style={styles.status}>
+              {moment(route.params.status).fromNow()}
+            </Text>
+          </View>
+        ),
         headerBackTitleVisible: false,
-      })}
-    />
+      })}>
+      {props => <Chat {...props} />}
+    </Mesage.Screen>
   </Mesage.Navigator>
 );
 
@@ -272,5 +280,14 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     paddingTop: 10,
+  },
+  paramsName: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  chatTitle: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 });

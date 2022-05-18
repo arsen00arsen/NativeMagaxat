@@ -13,6 +13,8 @@ import {USSER_SIGN_UP_LANGUEGE} from '../constants';
 import {LOGIN} from '../constants';
 import {LOGOUT} from '../constants';
 import {USSER_ID} from '../constants';
+import {FIRE_BASE_USSER} from '../constants';
+
 // import {
 //   FETCH_POSTS_PENDING,
 //   FETCH_POSTS_SUCCESS,
@@ -31,11 +33,12 @@ const initialState = {
   usserDatePassword: '',
   usserDateLocation: '',
   usserDateLanguage: '',
-  login: {},
-  logut: {},
+  // login: {},
+  // logut: {},
   usserAccountId: '',
   pending: false,
   posts: [],
+  firBaseUser: {},
 };
 const signUpReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -99,20 +102,25 @@ const signUpReducer = (state = initialState, action) => {
         ...state,
         usserDateLanguage: action.payload,
       };
-    case LOGIN:
-      return {
-        ...state,
-        login: action.payload,
-      };
-    case LOGOUT:
-      return {
-        ...state,
-        logout: null,
-      };
+    // case LOGIN:
+    //   return {
+    //     ...state,
+    //     login: action.payload,
+    //   };
+    // case LOGOUT:
+    //   return {
+    //     ...state,
+    //     logout: null,
+    //   };
     case USSER_ID:
       return {
         ...state,
         usserAccountId: action.payload,
+      };
+    case FIRE_BASE_USSER:
+      return {
+        ...state,
+        firBaseUser: action.payload,
       };
     // case FETCH_POSTS_PENDING:
     //   return {

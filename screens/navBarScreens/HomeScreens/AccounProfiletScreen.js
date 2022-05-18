@@ -35,7 +35,6 @@ const AccounProfiletScreen = () => {
 
   let user = data.data !== undefined ? data.data[0] : null;
   let img;
-  console.log(user);
   if (user?.image !== null) {
     img = {uri: user?.image};
   } else {

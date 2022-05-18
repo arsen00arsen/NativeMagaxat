@@ -2,6 +2,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const USSER_ID = 'USSER_ID';
 export const USSER_SIGN_UP_DATE = 'USSER_SIGN_UP_DATE';
+export const FIRE_BASE_USSER = 'FIRE_BASE_USSER';
 export const USSER_SIGN_UP_GENDER = 'USSER_SIGN_UP_GENDER';
 export const USSER_SIGN_UP_FLNAMES = 'USSER_SIGN_UP_FLNAMES';
 export const USSER_SIGN_UPLOCATION = 'USSER_SIGN_UPLOCATION';

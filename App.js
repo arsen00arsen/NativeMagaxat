@@ -5,22 +5,46 @@
  * @format
  * @flow
  */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackScreen from './screens/RootStackScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainTabScreen from './screens/navBarScreens/MainTabScreen';
-import {useSelector} from 'react-redux';
 import {
   requestUserPermission,
   NotificationListner,
 } from './utils/pushNotification';
-
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
 const Stack = createNativeStackNavigator();
+
 const App = () => {
-  const loginState = useSelector(state => state.usser.login);
-  // console.log(name.success);
+  const [user, setuser] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const unregister = auth().onAuthStateChanged(userExist => {
+      if (userExist) {
+        firestore().collection('users').doc(userExist.uid).update({
+          status: 'online',
+        });
+        setuser(userExist);
+        console.log(userExist, 'llll');
+        dispatch({
+          type: 'FIRE_BASE_USSER',
+          payload: userExist,
+        });
+      } else {
+        setuser(null);
+      }
+    });
+    return () => {
+      unregister();
+    };
+  }, []);
+
   useEffect(() => {
     requestUserPermission();
     NotificationListner();
@@ -28,13 +52,13 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
+      {/* <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Home" component={MainTabScreen} />
-      </Stack.Navigator>
-      {/* {loginState?.success === true ? (
+      </Stack.Navigator> */}
+      {user ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -43,7 +67,7 @@ const App = () => {
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )} */}
+      )}
     </NavigationContainer>
   );
 };

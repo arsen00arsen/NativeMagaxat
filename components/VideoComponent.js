@@ -5,7 +5,7 @@ import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
-import moment from 'moment';
+// import moment from 'moment';
 
 const VideoComponent = props => {
   const navigation = useNavigation();
@@ -35,14 +35,14 @@ const VideoComponent = props => {
     );
   }
 
-  const time = moment().startOf(user?.created_at).format('LL');
+  // const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <Image source={img} style={styles.userspic} />
         <Text style={styles.usersname}>{user?.user_name} </Text>
         <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
-        <Text style={styles.timeData}>{time} </Text>
+        {/* <Text style={styles.timeData}>{time} </Text> */}
       </View>
       <VideoPlayer
         video={{uri: user?.video_path}}

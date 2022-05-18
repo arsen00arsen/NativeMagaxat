@@ -2,7 +2,7 @@ import React, {useState, useCallback, useEffect} from 'react';
 import {StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import {Bubble, GiftedChat, Send} from 'react-native-gifted-chat';
+import {Bubble, GiftedChat, Send, InputToolbar} from 'react-native-gifted-chat';
 import {LogBox} from 'react-native';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
@@ -65,6 +65,9 @@ const ChatScreen = ({route, navigation}) => {
       />
     );
   };
+  const renderToolbar = props => {
+    return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
+  };
   return (
     <GiftedChat
       messages={messages}
@@ -78,6 +81,7 @@ const ChatScreen = ({route, navigation}) => {
       renderSend={renderSend}
       scrollToBottom
       scrollToBottomComponent={scrollToBottomComponent}
+      renderInputToolbar={renderToolbar}
     />
   );
 };
@@ -87,5 +91,12 @@ export default ChatScreen;
 const styles = StyleSheet.create({
   canteiner: {
     backgroundColor: '#ECECEC',
+  },
+  inputToolbar: {
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 2,
+    borderRadius: 20,
+    paddingTop: 5,
   },
 });

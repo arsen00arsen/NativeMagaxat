@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 // import CountryCodeList from '../components/CountryCodeList';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,36 +15,71 @@ import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
 import {baseUrl2} from '../http/index';
 import CountryCodeList from '../components/CountryCodeList';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
+
 const LocationPageScreen = ({navigation}) => {
   const [selectedInter, setSselectedInter] = React.useState('');
   const [countrySelect, setCountrySelect] = React.useState('');
-  const name = useSelector(state => state.usser);
+  const singnUpDatas = useSelector(state => state.usser);
   const dispatch = useDispatch();
 
-  let change = async () => {
-    let dataObjects = Object.assign(
-      name.usserDatNLnames,
-      name.userEmailPhone,
-      name.usserDateLocation,
-      name.usserDatePassword,
-      // name.userInterested1,
-      // name.userInterested2,
-      // name.userInterested3,
-      // name.userInterestedType,
-      // name.userInterestedTypeIndigent,
-      // name.userDateGender,
-      // name.usserDatDate,
-    );
-    console.log(dataObjects, 'dataObjects');
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dataObjects),
-    };
-    fetch(baseUrl2 + '/register', requestOptions)
-      .then(response => response.json())
-      .then(data => console.log(data));
+  // let change = async () => {
+  //   let dataObjects = Object.assign(
+  //     name.usserDatNLnames,
+  //     name.userEmailPhone,
+  //     name.usserDateLocation,
+  //     name.usserDatePassword,
+  //     // name.userInterested1,
+  //     // name.userInterested2,
+  //     // name.userInterested3,
+  //     // name.userInterestedType,
+  //     // name.userInterestedTypeIndigent,
+  //     // name.userDateGender,
+  //     // name.usserDatDate,
+  //   );
+  //   console.log(dataObjects, 'dataObjects');
+  //   const requestOptions = {
+  //     method: 'POST',
+  //     headers: {'Content-Type': 'application/json'},
+  //     body: JSON.stringify(dataObjects),
+  //   };
+  //   fetch(baseUrl2 + '/register', requestOptions)
+  //     .then(response => response.json())
+  //     .then(data => console.log(data));
+  // };
+  const [loading, setLoading] = useState(false);
+  let name = singnUpDatas.usserDatNLnames.name;
+  let email = singnUpDatas.userEmailPhone.email;
+  let password = singnUpDatas.usserDatePassword.password;
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#00ff00" />;
+  }
+  const userSignup = async () => {
+    setLoading(true);
+    if (!email || !password || !name) {
+      alert('please add all the field');
+      return;
+    }
+    try {
+      const result = await auth().createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+      firestore().collection('users').doc(result.user.uid).set({
+        name: name,
+        email: result.user.email,
+        uid: result.user.uid,
+        // pic: image,
+        status: 'online',
+      });
+      setLoading(false);
+    } catch (err) {
+      alert('something went wrong');
+    }
   };
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -69,26 +105,7 @@ const LocationPageScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          {/* <View style={styles.actionLocal}>
-            <Text style={styles.inputHeaderLocation}>Location</Text>
-            <Picker
-              selectedValue={countrySelect}
-              style={styles.pickerSelectStyles}
-              onValueChange={(itemValues, itemIndex) => {
-                setCountrySelect(itemValues);
-                dispatch({
-                  type: 'USSER_SIGN_UPLOCATION',
-                  payload: {country: itemValues},
-                });
-              }}>
-              <Picker.Item label="Armenia" value={1} />
-              <Picker.Item label="Russia" value={2} />
-              <Picker.Item label="US" value={3} />
-            </Picker>
-          </View> */}
-          <>
-            <CountryCodeList />
-          </>
+          <CountryCodeList />
           <View style={styles.action}>
             <Text style={styles.inputHeader}>Language</Text>
             <Picker
@@ -115,7 +132,9 @@ const LocationPageScreen = ({navigation}) => {
               <Text style={styles.textSign}>Log In</Text>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.startButton} onPress={change}>
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={() => userSignup()}>
             <Text style={styles.textStartButton}>Start</Text>
           </TouchableOpacity>
         </View>
