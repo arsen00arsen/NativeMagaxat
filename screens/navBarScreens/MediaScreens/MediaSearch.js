@@ -38,7 +38,6 @@ const MediaSearch = () => {
   }, [data]);
 
   const ItemRender = item => {
-    console.log(item, 'lllll');
     let img;
     if (item.userImage !== undefined) {
       img = {uri: item.userImage};

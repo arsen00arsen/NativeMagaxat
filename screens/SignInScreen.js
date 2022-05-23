@@ -11,9 +11,9 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
-// import {useDispatch} from 'react-redux';
-// import {baseUrl} from '../http/index';
-import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
+import {baseUrl2} from '../http/index';
+// import auth from '@react-native-firebase/auth';
 
 // import LoaderComponent from '../components/LoaderComponent';
 const EMAIL_REGEX =
@@ -22,24 +22,47 @@ const EMAIL_REGEX =
 const SignInScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
   const [loading, setLoading] = useState(false);
-
+  const dispatch = useDispatch();
   if (loading) {
     return <ActivityIndicator size="large" color="#00ff00" />;
   }
+  // const submitFormHandler = handleSubmit(async data => {
+  //   console.log(data);
+  //   if (!data.email || !data.password) {
+  //     alert('please add all the field');
+  //     return;
+  //   }
+  //   try {
+  //     setLoading(true);
+  //     const result = await auth().signInWithEmailAndPassword(
+  //       data.email,
+  //       data.password,
+  //     );
+  //   } catch (err) {
+  //     alert('something went wrong');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // });
   const submitFormHandler = handleSubmit(async data => {
-    console.log(data);
-    if (!data.email || !data.password) {
-      alert('please add all the field');
-      return;
-    }
     try {
       setLoading(true);
-      const result = await auth().signInWithEmailAndPassword(
-        data.email,
-        data.password,
-      );
-    } catch (err) {
-      alert('something went wrong');
+      const response = await fetch(baseUrl2 + '/login', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      const json = await response.json();
+      console.log(json);
+      dispatch({
+        type: 'LOGIN',
+        payload: json,
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error('Ошибка:', error);
     } finally {
       setLoading(false);
     }

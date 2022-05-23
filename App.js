@@ -17,33 +17,34 @@ import {
 } from './utils/pushNotification';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+// import {useSelector} from 'react-redux';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  const [user, setuser] = useState(null);
-  const dispatch = useDispatch();
+  // const [user, setuser] = useState(null);
+  // const dispatch = useDispatch();
+  const loginState = useSelector(state => state.usser.login);
 
-  useEffect(() => {
-    const unregister = auth().onAuthStateChanged(userExist => {
-      if (userExist) {
-        firestore().collection('users').doc(userExist.uid).update({
-          status: 'online',
-        });
-        setuser(userExist);
-        console.log(userExist, 'llll');
-        dispatch({
-          type: 'FIRE_BASE_USSER',
-          payload: userExist,
-        });
-      } else {
-        setuser(null);
-      }
-    });
-    return () => {
-      unregister();
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unregister = auth().onAuthStateChanged(userExist => {
+  //     if (userExist) {
+  //       firestore().collection('users').doc(userExist.uid).update({
+  //         status: 'online',
+  //       });
+  //       setuser(userExist);
+  //       dispatch({
+  //         type: 'FIRE_BASE_USSER',
+  //         payload: userExist,
+  //       });
+  //     } else {
+  //       setuser(null);
+  //     }
+  //   });
+  //   return () => {
+  //     unregister();
+  //   };
+  // }, []);
 
   useEffect(() => {
     requestUserPermission();
@@ -52,22 +53,22 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {/* <Stack.Navigator
+      <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
-        <Stack.Screen name="Home" component={MainTabScreen} />
-      </Stack.Navigator> */}
-      {user ? (
+        <Stack.Screen name="Homes" component={MainTabScreen} />
+      </Stack.Navigator>
+      {/* {loginState?.success === true ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}>
-          <Stack.Screen name="Home" component={MainTabScreen} />
+          <Stack.Screen name="Homes" component={MainTabScreen} />
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )}
+      )} */}
     </NavigationContainer>
   );
 };

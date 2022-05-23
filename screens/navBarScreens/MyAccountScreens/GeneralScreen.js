@@ -155,7 +155,6 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>E-mail</Text>
           <TextInput
             placeholderTextColor="#666666"
-            style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => inputChange({val, nameInput: 'email'})}
             placeholder="User E-mail"

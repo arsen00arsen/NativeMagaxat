@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,56 +11,53 @@ import {
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useNavigation} from '@react-navigation/native';
+import {baseUrl2} from '../../../http/index';
+import {useDispatch} from 'react-redux';
 
 const AccountsScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      name: 'Nikol Pashinyan',
-      // userImage: "../../assets/FakeImages/Nikol.png"
-    },
-    {
-      id: 2,
-      name: 'Robert Qocharyan',
-    },
-    {
-      id: 3,
-      name: 'Anjela Sargsyan',
-    },
-    {
-      id: 4,
-      name: 'Serj Sargsyan',
-    },
-    {
-      id: 5,
-      name: 'Hayk Marutyan',
-    },
-    {
-      id: 6,
-      name: 'Levon Ter-Petrosyan',
-    },
-    {
-      id: 7,
-      name: 'Vazgen Sargsyan',
-    },
-    ,
-  ];
-  let content = ANIMAL_NAMES.map((elem, index) => {
+  const dispatch = useDispatch();
+  const [data, setData] = useState('');
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const url = baseUrl2 + '/users/list';
+  const fetchData = async () => {
+    try {
+      const response = await fetch(url);
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  let userProfilePage = i => {
+    dispatch({type: 'USSER_ID', payload: i});
+    navigation.navigate('AccounProfiletScreen');
+  };
+
+  let content = data?.data?.map((elem, index) => {
+    let img;
+    if (elem.image !== undefined) {
+      img = {uri: elem.image};
+    } else {
+      img = require('../../../assets/defoult.png');
+    }
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('AccountScreen')}>
+          onPress={() => userProfilePage(elem.id)}>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
-              <Image
-                source={require('../../../assets/Nikol.png')}
-                style={styles.userImage}
-              />
+              <Image source={img} style={styles.userImage} />
             </View>
-            <Text style={styles.userName}>{elem.name}</Text>
+            <Text style={styles.userName}>
+              {elem.last_name} {elem.name}
+            </Text>
           </View>
         </TouchableOpacity>
       </View>

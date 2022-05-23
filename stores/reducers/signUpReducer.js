@@ -33,7 +33,7 @@ const initialState = {
   usserDatePassword: '',
   usserDateLocation: '',
   usserDateLanguage: '',
-  // login: {},
+  login: {},
   // logut: {},
   usserAccountId: '',
   pending: false,
@@ -102,11 +102,11 @@ const signUpReducer = (state = initialState, action) => {
         ...state,
         usserDateLanguage: action.payload,
       };
-    // case LOGIN:
-    //   return {
-    //     ...state,
-    //     login: action.payload,
-    //   };
+    case LOGIN:
+      return {
+        ...state,
+        login: action.payload,
+      };
     // case LOGOUT:
     //   return {
     //     ...state,

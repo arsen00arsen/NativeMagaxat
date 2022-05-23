@@ -38,9 +38,10 @@ const MesageScreen = () => {
   //     message: item.messageText,
   //   });
   // };
-  const RenderCard = ({item}) => {
+  const RenderCard = ({item, index}) => {
     return (
       <TouchableOpacity
+        key={index}
         onPress={() =>
           navigation.navigate('Chat', {
             name: item.name,

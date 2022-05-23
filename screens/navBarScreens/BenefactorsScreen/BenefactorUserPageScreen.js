@@ -42,10 +42,11 @@ const BenefactorUserPageScreen = ({navigation}) => {
     };
     fetchData();
   }, []);
+
   let videoContent;
-  if (data.data !== undefined ? data.data[0].latest_two_videos : null) {
-    videoContent = data.data[0].latest_two_videos.map((elem, index) => {
-      console.log(elem, 'llllllllllllllllll');
+
+  if (data.data) {
+    videoContent = data.data.map((elem, index) => {
       return (
         <View key={elem.id} style={styles.column}>
           <VideoPlayer
@@ -59,7 +60,6 @@ const BenefactorUserPageScreen = ({navigation}) => {
       );
     });
   }
-
   let user = data.data !== undefined ? data.data[0] : null;
   let img;
   if (user?.image !== null) {
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    height: 150,
+    maxHeight: 150,
     marginVertical: 30,
   },
   text: {

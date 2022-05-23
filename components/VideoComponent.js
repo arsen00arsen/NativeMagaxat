@@ -5,7 +5,7 @@ import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
-// import moment from 'moment';
+import moment from 'moment';
 
 const VideoComponent = props => {
   const navigation = useNavigation();
@@ -28,21 +28,22 @@ const VideoComponent = props => {
       </Text>
     );
   } else {
-    userTitle = (
-      <Text style={styles.longDis}>
-        <Text style={styles.usersTitle}>{user?.title} </Text>;
-      </Text>
-    );
+    userTitle = <Text style={styles.longDis}>{user?.title}</Text>;
   }
 
-  // const time = moment().startOf(user?.created_at).format('LL');
+  const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <Image source={img} style={styles.userspic} />
-        <Text style={styles.usersname}>{user?.user_name} </Text>
-        <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
-        {/* <Text style={styles.timeData}>{time} </Text> */}
+        <View style={styles.inf}>
+          <View style={styles.usersnames}>
+            <Text style={styles.usersname}>{user.user?.name} </Text>
+            <Text style={styles.usersname}>{user.user?.lastname} </Text>
+            <Text style={styles.timeData}>{time} </Text>
+          </View>
+          <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
+        </View>
       </View>
       <VideoPlayer
         video={{uri: user?.video_path}}
@@ -74,12 +75,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     width: '100%',
-    height: 292,
+    padding: 15,
     marginTop: 20,
     borderRadius: 8,
-    padding: 8,
     backgroundColor: 'white',
-    aspectRatio: 1.2,
   },
   mediaVideo: {
     width: '100%',
@@ -91,18 +90,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingRight: 17,
-    paddingBottom: 17,
   },
   userspic: {
     height: 32,
     width: 32,
     borderRadius: 50,
   },
+  inf: {
+    width: '80%',
+  },
   usersname: {
     color: '#666666',
-    paddingLeft: 10,
     fontSize: 14,
+  },
+  usersnames: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 5,
   },
   postIcons: {
     display: 'flex',
@@ -110,14 +116,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     marginTop: 10,
+    paddingBottom: 30,
   },
   usersTitle: {
-    maxWidth: '75%',
+    maxWidth: '100%',
+    paddingBottom: 15,
+    paddingTop: 10,
   },
   timeData: {
-    maxWidth: '20%',
+    maxWidth: '40%',
   },
   longDis: {
-    marginTop: 10,
+    maxWidth: '100%',
+    paddingBottom: 15,
+    paddingTop: 10,
   },
 });

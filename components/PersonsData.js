@@ -12,17 +12,18 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {baseUrl2} from './../http/index';
 import {useDispatch} from 'react-redux';
-import PushNotification from 'react-native-push-notification';
 import {useNavigation} from '@react-navigation/native';
+import ImageView from 'react-native-image-viewing';
 
 const PersonsData = () => {
   const [data, setData] = useState('');
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  const [visible, setIsVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   // -------------- last Users Part --------------
   useEffect(() => {
-    createChanels();
     fetchData();
   }, []);
 
@@ -30,7 +31,12 @@ const PersonsData = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        headers: {
+          Authorization:
+            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
+        },
+      });
       const json = await response.json();
       setData(json);
       setIsLoading(false);
@@ -39,12 +45,6 @@ const PersonsData = () => {
     }
   };
 
-  const createChanels = () => {
-    PushNotification.createChannel({
-      channelId: 'test-channel',
-      channelName: 'Test Channel',
-    });
-  };
   const ItemRender = item => {
     let img;
     if (item.userImage !== undefined) {
@@ -63,8 +63,12 @@ const PersonsData = () => {
       imgBG = (
         <ImageBackground
           source={img}
-          resizeMode="stretch"
+          resizeMode="cover"
           style={styles.usersProfileBGimage}
+          imageStyle={{
+            borderTopRightRadius: 8,
+            borderTopLeftRadius: 8,
+          }}
         />
       );
     }

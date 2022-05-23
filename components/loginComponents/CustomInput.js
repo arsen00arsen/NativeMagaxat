@@ -70,9 +70,11 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
     width: 250,
-    height: 36,
+    height: 50,
     borderRadius: 4,
     alignItems: 'flex-start',
+    color: 'red',
+    paddingHorizontal: 10,
   },
   inputHeader: {
     fontSize: 12,

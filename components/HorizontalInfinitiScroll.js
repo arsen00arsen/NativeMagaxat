@@ -18,10 +18,14 @@ const HorizontalInfinitiScroll = () => {
 
   const getpost = async () => {
     setIsLoading(true);
-    const urlPosts = baseUrl2 + `/posts?page=${currentPage}`;
-    console.log(urlPosts);
+    const urlPosts = baseUrl2 + `/posts_api?page=${currentPage}`;
     try {
-      const response = await fetch(urlPosts);
+      const response = await fetch(urlPosts, {
+        headers: {
+          Authorization:
+            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
+        },
+      });
       const json = await response.json();
       setDataPosts([...dataPosts, ...json.data.data]);
     } catch (error) {
@@ -29,6 +33,7 @@ const HorizontalInfinitiScroll = () => {
       setIsLoading(false);
     }
   };
+
   const renderItem = ({item}) => {
     let content;
     if (item.image_path) {

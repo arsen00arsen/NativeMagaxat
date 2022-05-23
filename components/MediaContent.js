@@ -14,7 +14,12 @@ export default function MediaContent() {
     const url = baseUrl2 + '/videos_api';
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, {
+          headers: {
+            Authorization:
+              'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
+          },
+        });
         const json = await response.json();
         setData(json.data);
       } catch (error) {
@@ -32,7 +37,6 @@ export default function MediaContent() {
       setcolumnOrGrid('grid');
     }
   };
-
   let content = data.map(elem => {
     let img;
     if (elem.user_photo !== undefined) {
@@ -57,7 +61,8 @@ export default function MediaContent() {
                 <View style={styles.imgFrame}>
                   <Image source={img} style={styles.userImage} />
                 </View>
-                <Text style={styles.userName}>Nikol Pashinyan</Text>
+                <Text style={styles.userName}>{elem?.user_name} </Text>
+                <Text style={styles.userName}>{elem?.user_lastname} </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -81,7 +86,8 @@ export default function MediaContent() {
               <View style={styles.imgFrame}>
                 <Image source={img} style={styles.userImage} />
               </View>
-              <Text style={styles.userName}>Nikol Pashinyan</Text>
+              <Text style={styles.userName}>{elem?.user_name} </Text>
+              <Text style={styles.userName}>{elem?.user_lastname} </Text>
             </View>
           </View>
         </TouchableOpacity>
