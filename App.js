@@ -18,13 +18,17 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from 'react-redux';
-// import {useSelector} from 'react-redux';
+import {getMe} from './stores/user/userActions';
+import {Text, View} from 'react-native';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
-  // const [user, setuser] = useState(null);
-  // const dispatch = useDispatch();
-  const loginState = useSelector(state => state.usser.login);
+  const dispatch = useDispatch();
+  const {loading, isAuth} = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch(getMe());
+  }, []);
 
   // useEffect(() => {
   //   const unregister = auth().onAuthStateChanged(userExist => {
@@ -51,15 +55,18 @@ const App = () => {
     NotificationListner();
   }, []);
 
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading</Text>
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Homes" component={MainTabScreen} />
-      </Stack.Navigator>
-      {/* {loginState?.success === true ? (
+      <RootStackScreen />
+      {/* {isAuth ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,

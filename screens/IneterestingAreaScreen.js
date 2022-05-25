@@ -12,13 +12,23 @@ import Icon from 'react-native-vector-icons/Feather';
 import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
+import {Controller, useForm} from 'react-hook-form';
 
 const IneterestingAreaScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [selectedInter1, setSselectedInter1] = React.useState('');
-  const [selectedInter2, setSselectedInter2] = React.useState('');
-  const [selectedInter3, setSselectedInter3] = React.useState('');
-
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      type1: '1',
+      type2: '5',
+      type3: '8',
+    },
+  });
+  const submitFormHandler = handleSubmit(data => {
+    let objKeys = Object.values(data);
+    console.log(objKeys);
+    dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
+    navigation.navigate('PriorityPageScreen');
+  });
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -50,57 +60,83 @@ const IneterestingAreaScreen = ({navigation}) => {
           <View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Interest #1</Text>
-              <Picker
-                selectedValue={selectedInter1}
-                style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) => {
-                  setSselectedInter1(itemValue),
-                    dispatch({
-                      type: 'USSER_SIGN_UP_INTERESTED1',
-                      payload: {interesting_type1: itemValue},
-                    });
-                }}>
-                <Picker.Item label="It" value="it" />
-                <Picker.Item label="Footbole" value="footbole" />
-              </Picker>
+              <Controller
+                control={control}
+                name="type1"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      onBlur={onBlur}>
+                      <Picker.Item label="Education / training" value="1" />
+                      <Picker.Item
+                        label="Sales / service management"
+                        value="2"
+                      />
+                      <Picker.Item
+                        label="Administrative / office-work"
+                        value="3"
+                      />
+                      <Picker.Item
+                        label="Tourism / Hospitality / HoReCa"
+                        value="4"
+                      />
+                    </Picker>
+                  );
+                }}
+              />
             </View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Interest #2</Text>
-              <Picker
-                selectedValue={selectedInter2}
-                style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) => {
-                  setSselectedInter2(itemValue),
-                    dispatch({
-                      type: 'USSER_SIGN_UP_INTERESTED2',
-                      payload: {interesting_type2: itemValue},
-                    });
-                }}>
-                <Picker.Item label="Marketing" value="marketing" />
-                <Picker.Item label="Advertising" value="advertising" />
-              </Picker>
+              <Controller
+                control={control}
+                name="type2"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      onBlur={onBlur}>
+                      <Picker.Item label="Marketing / Advertising" value="5" />
+                      <Picker.Item
+                        label="Communications / Journalism / PR"
+                        value="6"
+                      />
+                      <Picker.Item
+                        label="Accounting / Bookkeeping / Cash register"
+                        value="7"
+                      />
+                    </Picker>
+                  );
+                }}
+              />
             </View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Interest #3</Text>
-              <Picker
-                selectedValue={selectedInter3}
-                style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) => {
-                  setSselectedInter3(itemValue),
-                    dispatch({
-                      type: 'USSER_SIGN_UP_INTERESTED3',
-                      payload: {interesting_type3: itemValue},
-                    });
-                }}>
-                <Picker.Item label="Education" value="education" />
-                <Picker.Item label="Training" value="training" />
-              </Picker>
+              <Controller
+                control={control}
+                name="type3"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      onBlur={onBlur}>
+                      <Picker.Item label="Finance Management" value="8" />
+                      <Picker.Item label="Banking / credit" value="9" />
+                      <Picker.Item label="Audit / Compliance" value="10" />
+                    </Picker>
+                  );
+                }}
+              />
             </View>
           </View>
           <View>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => navigation.navigate('PriorityPageScreen')}>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />

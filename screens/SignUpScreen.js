@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {useForm} from 'react-hook-form';
+import moment from 'moment';
 import {
   View,
   StyleSheet,
@@ -8,33 +11,28 @@ import {
   ScrollView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-// import Avatar from '../components/Avatar';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
-import {useForm} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/Feather';
+
+// import Avatar from '../components/Avatar';
 import CustomInput from '../components/loginComponents/CustomInput';
-import {useSelector, useDispatch} from 'react-redux';
 
 const SignUpScreen = ({navigation}) => {
-  const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
-  const {control, handleSubmit} = useForm();
-  const birthDate = useSelector(state => state.usser);
+  const {control, handleSubmit, setValue, getValues} = useForm({
+    defaultValues: {
+      date: new Date(),
+    },
+  });
+  const id = useSelector(state => state.user.data);
+  console.log(id, 'llllll');
   const dispatch = useDispatch();
   const submitFormHandler = handleSubmit(data => {
-    dispatch({type: 'USSER_SIGN_UP_FLNAMES', payload: data});
+    console.log(data, 'ffffff');
+    dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
+    navigation.navigate('AccountInfoScreen');
   });
-
-  let nextStep = async () => {
-    await submitFormHandler();
-    control?._formValues !== {} &&
-    control?._formValues.lastname !== undefined &&
-    control?._formValues.name !== undefined
-      ? navigation.navigate('AccountInfoScreen')
-      : navigation.navigate('SignUpScreen');
-  };
-  let datas = birthDate?.usserDatDate?.birthDate?.substring(1, 11);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -94,30 +92,28 @@ const SignUpScreen = ({navigation}) => {
                 onPress={() => setOpen(true)}>
                 <View>
                   <Text style={styles.inputHeader}>Date</Text>
-                  <Text style={styles.dateText}>{datas}</Text>
+                  <Text style={styles.dateText}>
+                    {moment(getValues('date_of_birth')).format('DD.MM.YYYY')}
+                  </Text>
                 </View>
               </TouchableOpacity>
               <DatePicker
+                title="Select date"
                 mode="date"
                 modal
                 open={open}
-                date={date}
+                date={getValues('date_of_birth') || new Date()}
                 onConfirm={dates => {
+                  console.log(dates.splice(1, 3), 'llll');
                   setOpen(false);
-                  setDate(dates);
-                  dispatch({
-                    type: 'USSER_SIGN_UP_DATE',
-                    payload: {birthDate: JSON.stringify(dates)},
-                  });
+                  setValue('date_of_birth', dates);
                 }}
-                onCancel={() => {
-                  setOpen(false);
-                }}
+                onCancel={() => setOpen(!open)}
               />
             </View>
           </View>
           <View>
-            <TouchableOpacity style={styles.button} onPress={nextStep}>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
@@ -211,6 +207,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: 250,
     height: 60,
+    paddingVer: 30,
     borderRadius: 4,
     alignItems: 'flex-start',
   },

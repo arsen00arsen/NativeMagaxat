@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {
   View,
   Image,
@@ -47,6 +47,7 @@ const ImgComponentpost = props => {
       </Text>
     );
   }
+
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
@@ -69,6 +70,7 @@ const ImgComponentpost = props => {
           onPress={() =>
             navigation.navigate('CommentScreen', {
               user: user,
+              comments: user.comments,
             })
           }>
           <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
@@ -77,7 +79,7 @@ const ImgComponentpost = props => {
     </View>
   );
 };
-export default ImgComponentpost;
+export default memo(ImgComponentpost);
 
 const styles = StyleSheet.create({
   container: {

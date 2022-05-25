@@ -13,6 +13,7 @@ import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import {baseUrl2} from '../http/index';
+import {loginUser} from '../stores/user/userActions';
 // import auth from '@react-native-firebase/auth';
 
 // import LoaderComponent from '../components/LoaderComponent';
@@ -44,28 +45,9 @@ const SignInScreen = ({navigation}) => {
   //     setLoading(false);
   //   }
   // });
-  const submitFormHandler = handleSubmit(async data => {
-    try {
-      setLoading(true);
-      const response = await fetch(baseUrl2 + '/login', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      const json = await response.json();
-      console.log(json);
-      dispatch({
-        type: 'LOGIN',
-        payload: json,
-      });
-      setLoading(false);
-    } catch (error) {
-      console.error('Ошибка:', error);
-    } finally {
-      setLoading(false);
-    }
+  const submitFormHandler = handleSubmit(data => {
+    const {email, password} = data;
+    dispatch(loginUser(email, password));
   });
 
   return (

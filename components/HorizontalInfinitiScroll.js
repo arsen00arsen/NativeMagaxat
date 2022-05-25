@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useMemo} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -43,7 +43,6 @@ const HorizontalInfinitiScroll = () => {
     }
     return content;
   };
-  const memoizedValue = useMemo(() => renderItem, [dataPosts.data]);
 
   const renderLoader = () => {
     return isLoading ? (
@@ -82,7 +81,7 @@ const HorizontalInfinitiScroll = () => {
         keyExtractor={(items, index) => index.toString()}
         ListFooterComponent={renderLoader}
         onEndReachedThreshold={0.5}
-        renderItem={memoizedValue}
+        renderItem={renderItem}
       />
     </>
   );

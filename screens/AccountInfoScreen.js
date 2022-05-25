@@ -1,4 +1,6 @@
 import React from 'react';
+import {Picker} from '@react-native-picker/picker';
+import {useDispatch} from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -10,30 +12,28 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
-import {useForm} from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import CustomInput from '../components/loginComponents/CustomInput';
-import {Picker} from '@react-native-picker/picker';
-import {useDispatch} from 'react-redux';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const AccountInfoScreen = ({navigation}) => {
-  const {control, handleSubmit} = useForm();
-  const [selectedValue, setSelectedValue] = React.useState('');
   const dispatch = useDispatch();
-  const submitFormHandler = handleSubmit(data => {
-    dispatch({type: 'USSER_SIGN_UP_MAILPHONE', payload: data});
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      gender: {
+        label: 'Male',
+        value: 'male',
+      },
+    },
   });
 
-  let nextStep = async () => {
-    await submitFormHandler();
-    control?._formValues !== {} &&
-    control?._formValues.email !== undefined &&
-    control?._formValues.phone_number !== undefined
-      ? navigation.navigate('IneterestingAreaScreen')
-      : navigation.navigate('AccountInfoScreen');
-  };
+  const submitFormHandler = handleSubmit(data => {
+    dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
+    navigation.navigate('IneterestingAreaScreen');
+  });
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -65,19 +65,22 @@ const AccountInfoScreen = ({navigation}) => {
           <View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Gender</Text>
-              <Picker
-                selectedValue={selectedValue}
-                style={styles.pickerSelectStyles}
-                onValueChange={(itemValue, itemIndex) => {
-                  setSelectedValue(itemValue);
-                  dispatch({
-                    type: 'USSER_SIGN_UP_GENDER',
-                    payload: {gender: itemValue},
-                  });
-                }}>
-                <Picker.Item label="Male" value="male" />
-                <Picker.Item label="Female" value="female" />
-              </Picker>
+              <Controller
+                control={control}
+                name="gender"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      onBlur={onBlur}>
+                      <Picker.Item label="Male" value="male" />
+                      <Picker.Item label="Female" value="female" />
+                    </Picker>
+                  );
+                }}
+              />
             </View>
             <CustomInput
               name="email"
@@ -103,7 +106,7 @@ const AccountInfoScreen = ({navigation}) => {
             />
           </View>
           <View>
-            <TouchableOpacity style={styles.button} onPress={nextStep}>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />

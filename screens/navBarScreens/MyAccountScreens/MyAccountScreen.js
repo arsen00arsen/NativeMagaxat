@@ -23,9 +23,7 @@ const MyAccountScreen = ({navigation}) => {
       <HeaderBackSearch />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <View style={styles.user}>
-          <View>
-            <MyaccountUsserInfor />
-          </View>
+          <View>{/* <MyaccountUsserInfor /> */}</View>
         </View>
         <TouchableOpacity
           style={styles.button}

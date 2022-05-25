@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, memo} from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import LikeButton from '../components/LikeButton';
@@ -67,7 +67,7 @@ const VideoComponent = props => {
     </View>
   );
 };
-export default VideoComponent;
+export default memo(VideoComponent);
 
 const styles = StyleSheet.create({
   container: {

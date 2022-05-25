@@ -14,11 +14,20 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
+import {useSelector, useDispatch} from 'react-redux';
+import MultiSelectComponent from '../../../components/MultiSelectComponent';
 
 const GeneralScreen = ({navigation}) => {
+  const user = useSelector(state => state.usser.login.data);
+  const dataBirt = useSelector(state => state.usser.usserDatDate);
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [date, setDate] = React.useState(new Date());
+  let datas = dataBirt.birthDate
+    ? dataBirt.birthDate.substring(1, 11)
+    : user.date_of_birth?.substring(0, 11);
+
   const [data, setData] = React.useState({
     name: '',
     lastName: '',
@@ -108,7 +117,7 @@ const GeneralScreen = ({navigation}) => {
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => inputChange({val, nameInput: 'name'})}
-            placeholder="User Name"
+            placeholder={user.name}
           />
         </View>
         <View style={styles.action}>
@@ -118,19 +127,14 @@ const GeneralScreen = ({navigation}) => {
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => inputChange({val, nameInput: 'lastName'})}
-            placeholder="User Last Name"
+            placeholder={user.lastname}
           />
         </View>
         <View>
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
               <Text style={styles.inputHeader}>Date</Text>
-              <TextInput
-                placeholderTextColor="#666666"
-                // style={styles.textInput}
-                autoCapitalize="none"
-              />
-              {/* <Text style={styles.dateText}>{datas}</Text> */}
+              <Text style={styles.dateText}>{datas}</Text>
             </View>
           </TouchableOpacity>
           <DatePicker
@@ -141,10 +145,10 @@ const GeneralScreen = ({navigation}) => {
             onConfirm={dates => {
               setOpen(false);
               setDate(dates);
-              // dispatch({
-              //   type: 'USSER_SIGN_UP_DATE',
-              //   payload: {birthDate: JSON.stringify(dates)},
-              // });
+              dispatch({
+                type: 'USSER_SIGN_UP_DATE',
+                payload: {birthDate: JSON.stringify(dates)},
+              });
             }}
             onCancel={() => {
               setOpen(false);
@@ -155,9 +159,10 @@ const GeneralScreen = ({navigation}) => {
           <Text style={styles.inputHeader}>E-mail</Text>
           <TextInput
             placeholderTextColor="#666666"
+            style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => inputChange({val, nameInput: 'email'})}
-            placeholder="User E-mail"
+            placeholder={user.email}
           />
         </View>
         <View style={styles.action}>
@@ -167,10 +172,10 @@ const GeneralScreen = ({navigation}) => {
             style={styles.textInput}
             autoCapitalize="none"
             onChangeText={val => inputChange({val, nameInput: 'phone'})}
-            placeholder="User Phone Number"
+            placeholder={user.phone_number}
           />
         </View>
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
           <Text style={styles.inputHeader}>Interested areas</Text>
           <RNPickerSelect
             placeholder={{label: '', value: 'Interested areas'}}
@@ -355,6 +360,9 @@ const GeneralScreen = ({navigation}) => {
               );
             }}
           />
+        </View> */}
+        <View style={styles.selectAction}>
+          <MultiSelectComponent />
         </View>
         <TouchableOpacity
           style={styles.button}
@@ -385,7 +393,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingLeft: 10,
     color: 'black',
-    height: '100%',
+    // height: '100%',
     width: '100%',
     borderRadius: 8,
     fontSize: 14,
@@ -426,6 +434,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '800',
     color: '#FFFFFF',
+  },
+  dateText: {
+    paddingHorizontal: 13,
+    paddingVertical: 25,
+  },
+  selectAction: {
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    borderRadius: 8,
   },
 });
 

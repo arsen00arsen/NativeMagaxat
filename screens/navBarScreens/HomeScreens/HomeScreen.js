@@ -11,7 +11,6 @@ import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSea
 import PushNotification from 'react-native-push-notification';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
-
 const HomeScreen = () => {
   const theme = useTheme();
   useEffect(() => {

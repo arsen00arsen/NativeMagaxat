@@ -1,5 +1,6 @@
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const GET_USERS = 'GET_USERS';
 export const USSER_ID = 'USSER_ID';
 export const USSER_SIGN_UP_DATE = 'USSER_SIGN_UP_DATE';
 export const FIRE_BASE_USSER = 'FIRE_BASE_USSER';

@@ -13,7 +13,6 @@ export const AvatarAdd = props => {
       cropping: true,
     }).then(image => {
       setUri(image.path);
-      console.log(image.path, 'image.pathimage.pathimage.path');
       props.onChange?.(image);
     });
   };

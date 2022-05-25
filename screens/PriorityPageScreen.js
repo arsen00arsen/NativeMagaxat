@@ -11,11 +11,21 @@ import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
+import {Controller, useForm} from 'react-hook-form';
 
 const PriorityPageScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const [selectedInter1, setSselectedInter1] = React.useState('');
-  const [selectedInter2, setSselectedInter2] = React.useState('');
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      type1: '11',
+      type2: '17',
+    },
+  });
+  const submitFormHandler = handleSubmit(data => {
+    let objKeys = Object.values(data);
+    dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
+    navigation.navigate('CreatePasswordScreen');
+  });
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -44,41 +54,68 @@ const PriorityPageScreen = ({navigation}) => {
           />
           <View style={styles.action}>
             <Text style={styles.inputHeader}>Type</Text>
-            <Picker
-              selectedValue={selectedInter1}
-              style={styles.pickerSelectStyles}
-              onValueChange={itemValue => {
-                setSselectedInter1(itemValue),
-                  dispatch({
-                    type: 'USSER_SIGN_UP_INTERESTEDTYPE',
-                    payload: {interesting_type: itemValue},
-                  });
-              }}>
-              <Picker.Item label="It" value="it" />
-              <Picker.Item label="Footbole" value="footbole" />
-            </Picker>
+            <Controller
+              control={control}
+              name="type1"
+              render={({field: {onChange, value, onBlur}}) => {
+                return (
+                  <Picker
+                    selectedValue={value}
+                    style={styles.pickerSelectStyles}
+                    onValueChange={onChange}
+                    onBlur={onBlur}>
+                    <Picker.Item label="Education / training" value="11" />
+                    <Picker.Item
+                      label="Healthcare / Pharmaceutical"
+                      value="12"
+                    />
+                    <Picker.Item label="Construction" value="13" />
+                    <Picker.Item label="Human Resources" value="14" />
+                    <Picker.Item label="Sports" value="15" />
+                    <Picker.Item
+                      label="Procurement/Logistics/Courier"
+                      value="16"
+                    />
+                  </Picker>
+                );
+              }}
+            />
           </View>
           <View style={styles.action}>
             <Text style={styles.inputHeader}>Type Indigent</Text>
-            <Picker
-              selectedValue={selectedInter2}
-              style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) => {
-                setSselectedInter2(itemValue),
-                  dispatch({
-                    type: 'USSER_SIGN_UP_INTERESTEDTYPE_INDIGENT',
-                    payload: {interesting_typeIndigent: itemValue},
-                  });
-              }}>
-              <Picker.Item label="Talent" value="talent" />
-              <Picker.Item label="Advertising" value="advertising" />
-            </Picker>
+            <Controller
+              control={control}
+              name="type2"
+              render={({field: {onChange, value, onBlur}}) => {
+                return (
+                  <Picker
+                    selectedValue={value}
+                    style={styles.pickerSelectStyles}
+                    onValueChange={onChange}
+                    onBlur={onBlur}>
+                    <Picker.Item label="Beauty" value="17" />
+                    <Picker.Item
+                      label="Healthcare / Pharmaceutical"
+                      value="12"
+                    />
+                    <Picker.Item label="Production" value="18" />
+                    <Picker.Item label="Business / Management" value="19" />
+                    <Picker.Item
+                      label="Art / Design / Architecture"
+                      value="20"
+                    />
+                    <Picker.Item
+                      label="General / professional / Other services"
+                      value="21"
+                    />
+                  </Picker>
+                );
+              }}
+            />
           </View>
         </View>
         <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('CreatePasswordScreen')}>
+          <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
             <View />
             <Text style={styles.textSign}>Next</Text>
             <Icon name="arrow-right" color={'#FFFFFF'} size={25} />

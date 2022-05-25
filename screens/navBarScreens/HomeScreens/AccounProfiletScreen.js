@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -11,36 +11,44 @@ import {
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {baseUrl2} from '../../../http/index';
-import {useSelector} from 'react-redux';
-
+// import {useSelector} from 'react-redux';
 const AccounProfiletScreen = () => {
-  const [data, setData] = useState('');
-  const id = useSelector(state => state.usser.usserAccountId);
   const theme = useTheme();
-  let i = id.toString();
-
-  useEffect(() => {
-    const url = baseUrl2 + '/users/list/' + i;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  let user = data.data !== undefined ? data.data[0] : null;
+  const {options} = useAccountProfHome();
+  // const id = useSelector(state => state.usser.login);
+  // console.log(id);
+  let user = options.data !== undefined ? options.data : null;
   let img;
   if (user?.image !== null) {
     img = {uri: user?.image};
   } else {
     img = require('../../../assets/defoult.png');
   }
+  // console.log(user, 'lllllllllllll');
+
+  const isSubscribe = async () => {
+    try {
+      const response = await fetch(baseUrl2 + '/profile/subscribe', {
+        method: 'post',
+        headers: {
+          Authorization:
+            'Bearer ' + '30|XBJWe70sHse8xVVVB3Nz4ivoV2wwKROUwlhNMjL8',
+          Accept: 'aplication/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          body: '8',
+        }),
+      });
+      const json = await response.json();
+      console.log(json);
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -53,7 +61,7 @@ const AccounProfiletScreen = () => {
           <Image source={img} style={styles.userImage} />
           <View style={styles.usernameIcon}>
             <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.last_name}</Text>
+            <Text style={styles.nameSurname}>{user?.lastname}</Text>
             <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
           </View>
         </View>
@@ -75,7 +83,9 @@ const AccounProfiletScreen = () => {
               </View>
             </View>
             <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity style={styles.postSubscribeButton}>
+              <TouchableOpacity
+                style={styles.postSubscribeButton}
+                onPress={isSubscribe}>
                 <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.postSubscribeButton}>
@@ -120,6 +130,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   nameSurname: {
     color: '#727272',

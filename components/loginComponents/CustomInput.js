@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: 250,
     height: 50,
+    paddingVertical: 10,
     borderRadius: 4,
     alignItems: 'flex-start',
     color: 'red',

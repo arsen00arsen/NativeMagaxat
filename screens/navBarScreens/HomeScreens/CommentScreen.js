@@ -14,44 +14,38 @@ import {
 } from 'react-native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import VideoPlayer from 'react-native-video-player';
+import moment from 'moment';
 
 const CommentScreen = props => {
   const scrollViewRef = useRef();
   let user = props.route.params.user;
+
   let img;
   if (user.image_name !== null) {
     img = {uri: user.image_path};
   } else {
     img = require('../../../assets/defoult.png');
   }
-  const ANIMAL_NAMES = [
-    {
-      id: user.id,
-      name: user.description,
-      image: img,
-      commentText: user.title,
-    },
-    {
-      id: 2,
-      name: 'Nikol Pashinyan',
-      image: require('../../../assets/Nikol.png'),
-      commentText: 'yev ayt mek marte dues',
-    },
-  ];
 
-  let commentContent = ANIMAL_NAMES.map(elem => {
+  let commentContent = user.comments.map(elem => {
+    let time = moment(elem.created_at).fromNow();
     return (
-      <View>
+      <View key={elem.id}>
         <View style={styles.userProfile}>
           <View style={styles.imgFrame}>
             <Image source={elem.image} style={styles.userImage} />
+          </View>
+          <View>
+            <Text>{elem.name} </Text>
+            <Text />
           </View>
           <View style={styles.userInfo}>
             <Text style={styles.userName}>{elem.name} </Text>
           </View>
         </View>
         <View style={styles.commentBody}>
-          <Text style={styles.commentText}>{elem.commentText}</Text>
+          <Text style={styles.timeText}>{time} </Text>
+          <Text style={styles.commentText}>{elem.title}</Text>
         </View>
       </View>
     );
@@ -92,22 +86,12 @@ const CommentScreen = props => {
             <View style={styles.imgFrame}>
               <Image source={img} style={styles.userImage} />
             </View>
+            <Text>{user.name} </Text>
             <View style={styles.userInfo}>
               <Text style={styles.userName}>{user.description} </Text>
             </View>
           </View>
-          <View style={styles.vedioBodyContent}>
-            {/* <VideoPlayer
-              video={{
-                uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp',
-              }}
-              autoplay={false}
-              defaultMuted={true}
-              thumbnail={require('../../../assets/logoHeader.png')}
-              style={styles.vedio}
-            /> */}
-            {content}
-          </View>
+          <View style={styles.vedioBodyContent}>{content}</View>
           <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
@@ -166,6 +150,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
+    paddingLeft: 5,
   },
   imgFrame: {
     display: 'flex',
@@ -228,11 +213,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: 70,
-    // background: '#FFFFFF',
     borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
-    // paddingLeft: 15,
   },
   btnContainer: {
     backgroundColor: 'white',
@@ -249,5 +232,9 @@ const styles = StyleSheet.create({
   usersProfileBGimage: {
     width: '100%',
     height: 170,
+  },
+  timeText: {
+    fontSize: 10,
+    textAlign: 'right',
   },
 });

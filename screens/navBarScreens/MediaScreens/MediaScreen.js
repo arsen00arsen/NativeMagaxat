@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   ScrollView,
@@ -13,23 +12,25 @@ import {
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import Icon from 'react-native-vector-icons/Entypo';
-// import {useSelector} from 'react-redux';
+import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import MediaContent from '../../../components/MediaContent';
 import {baseUrl2} from '../../../http';
-import ImagePicker from 'react-native-image-crop-picker';
 import DocumentPicker from 'react-native-document-picker';
+import {useSelector} from 'react-redux';
 
-const MediaScreen = ({navigation}) => {
+const MediaScreen = () => {
   const theme = useTheme();
+  const user = useSelector(state => state.usser?.login?.data);
   const [text, onChangeText] = useState('');
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
+
   const uploadImage = async () => {
     const fileToUpload = singleFile;
     const data = new FormData();
     data.append('image_path', fileToUpload);
-    data.append('title', 'title');
+    data.append('title', text);
     try {
       const response = await fetch(baseUrl2 + '/posts_api', {
         method: 'post',
@@ -42,8 +43,8 @@ const MediaScreen = ({navigation}) => {
         body: data,
       });
       const json = await response.json();
+      setSelected(!selected);
       alert('Your Post is Done');
-      console.log(json);
     } catch (error) {
       console.log('error', error);
     }
@@ -55,7 +56,6 @@ const MediaScreen = ({navigation}) => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      console.log('res : ' + JSON.stringify(res));
       setSingleFile(res[0]);
       setImage(res[0].uri);
     } catch (err) {
@@ -68,8 +68,12 @@ const MediaScreen = ({navigation}) => {
       }
     }
   };
-  console.log(image, 'lllllllllllll');
-  // let img = require(image);
+  let img;
+  if (user.image !== undefined) {
+    img = {uri: user.image};
+  } else {
+    img = require('./../../../assets/defoult.png');
+  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -83,10 +87,7 @@ const MediaScreen = ({navigation}) => {
             style={[selected !== true ? styles.postBody : styles.postUnheight]}>
             <View style={styles.addPost}>
               <View style={styles.imgBody}>
-                <Image
-                  style={styles.img}
-                  source={require('../../../assets/Nikol.png')}
-                />
+                <Image style={styles.img} source={img} />
               </View>
               <View style={styles.textArea}>
                 <TextInput
@@ -100,21 +101,20 @@ const MediaScreen = ({navigation}) => {
             {selected !== false ? (
               <>
                 <View>
-                  <Image
-                    source={require('../../../assets/Nikol.png')}
-                    style={styles.io}
-                  />
+                  <Image source={{uri: image}} style={styles.io} />
                 </View>
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}
                     onPress={() => uploadImage()}>
+                    <PostIcons name="post-add" size={24} color="#B9B9B9" />
                     <Text style={styles.textAdd}>Add your Post</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.postVedio}
                     onPress={() => setSelected(!selected)}>
-                    <Text style={styles.textAdd}>x</Text>
+                    <PostIcons name="cancel" size={24} color="#B9B9B9" />
+                    <Text style={styles.textAdd}>Cancel</Text>
                   </TouchableOpacity>
                 </View>
               </>
@@ -122,7 +122,7 @@ const MediaScreen = ({navigation}) => {
               <View style={styles.addImgVedio}>
                 <TouchableOpacity
                   style={styles.postImg}
-                  onPress={() => uploadImage()}>
+                  onPress={() => selectFile()}>
                   <Icon name="camera" size={24} color="#B9B9B9" />
                   <Text style={styles.textAdd}>Add Photo</Text>
                 </TouchableOpacity>

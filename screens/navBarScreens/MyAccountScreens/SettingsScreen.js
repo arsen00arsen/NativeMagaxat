@@ -15,36 +15,42 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../../stores/user/userActions';
 
 const SettingsScreen = ({navigation}) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [user, setuser] = useState('');
-  useEffect(() => {
-    const unregister = auth().onAuthStateChanged(userExist => {
-      if (userExist) {
-        firestore().collection('users').doc(userExist.uid).update({
-          status: 'online',
-        });
-        setuser(userExist);
-      } else {
-        setuser('');
-      }
-    });
+  // useEffect(() => {
+  //   const unregister = auth().onAuthStateChanged(userExist => {
+  //     if (userExist) {
+  //       firestore().collection('users').doc(userExist.uid).update({
+  //         status: 'online',
+  //       });
+  //       setuser(userExist);
+  //     } else {
+  //       setuser('');
+  //     }
+  //   });
 
-    return () => {
-      unregister();
-    };
-  }, []);
+  //   return () => {
+  //     unregister();
+  //   };
+  // }, []);
+  // const logOut = () => {
+  //   firestore()
+  //     .collection('users')
+  //     .doc(user.uid)
+  //     .update({
+  //       status: firestore.FieldValue.serverTimestamp(),
+  //     })
+  //     .then(() => {
+  //       auth().signOut();
+  //     });
+  // };
   const logOut = () => {
-    firestore()
-      .collection('users')
-      .doc(user.uid)
-      .update({
-        status: firestore.FieldValue.serverTimestamp(),
-      })
-      .then(() => {
-        auth().signOut();
-      });
+    dispatch(logoutUser());
   };
   return (
     <View style={styles.container}>
@@ -54,9 +60,7 @@ const SettingsScreen = ({navigation}) => {
       />
       <HeaderBackSearch />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={{marginBottom: 20}}>
-          <MyaccountUsserInfor />
-        </View>
+        <View style={{marginBottom: 20}}>{/* <MyaccountUsserInfor /> */}</View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Language</Text>
           {/* <RNPickerSelect
@@ -107,7 +111,7 @@ const SettingsScreen = ({navigation}) => {
             placeholder="About Us"
           />
         </View>
-        <TouchableOpacity onPress={() => logOut()} style={styles.action}>
+        <TouchableOpacity onPress={logOut} style={styles.action}>
           <Text>Log Out</Text>
         </TouchableOpacity>
       </ScrollView>
