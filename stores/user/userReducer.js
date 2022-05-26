@@ -30,6 +30,9 @@ export const userReducer = (state = initialUserState, action) => {
         user: {},
         isAuth: false,
         error: payload,
+        data: {
+          interesting_type: [],
+        },
       };
 
     case 'FIRST_STEP_SUBMIT':
@@ -41,7 +44,6 @@ export const userReducer = (state = initialUserState, action) => {
         },
       };
     case 'INTERESTEDS_STEP_SUBMIT':
-      console.log(payload);
       return {
         ...state,
         data: {

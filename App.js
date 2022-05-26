@@ -65,8 +65,8 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      <RootStackScreen />
-      {/* {isAuth ? (
+      {/* <RootStackScreen /> */}
+      {isAuth ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -75,7 +75,7 @@ const App = () => {
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )} */}
+      )}
     </NavigationContainer>
   );
 };

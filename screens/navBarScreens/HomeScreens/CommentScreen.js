@@ -14,59 +14,74 @@ import {
 } from 'react-native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import VideoPlayer from 'react-native-video-player';
-import moment from 'moment';
 
 const CommentScreen = props => {
   const scrollViewRef = useRef();
   let user = props.route.params.user;
-
+  let video = props.route.params.video;
+  let image = props.route.params.image;
+  let description = props.route.params.description;
   let img;
-  if (user.image_name !== null) {
-    img = {uri: user.image_path};
+  if (user.image !== null) {
+    img = {uri: user.image};
   } else {
     img = require('../../../assets/defoult.png');
   }
 
-  let commentContent = user.comments.map(elem => {
-    let time = moment(elem.created_at).fromNow();
+  let imgPost;
+  if (image !== null) {
+    imgPost = {uri: image};
+  } else {
+    imgPost = require('../../../assets/defoult.png');
+  }
+
+  console.log(user, 'll88888888888lll');
+  let commentContent = props.route.params.post?.map(elem => {
+    let imgComment;
+    if (elem.user.image !== null) {
+      imgComment = {uri: elem.user.image};
+    } else {
+      imgComment = require('../../../assets/defoult.png');
+    }
     return (
       <View key={elem.id}>
         <View style={styles.userProfile}>
           <View style={styles.imgFrame}>
-            <Image source={elem.image} style={styles.userImage} />
+            <Image source={imgComment} style={styles.userImage} />
           </View>
           <View>
             <Text>{elem.name} </Text>
             <Text />
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>{elem.name} </Text>
+            <Text style={styles.userName}>{elem.user.name} </Text>
+            <Text style={styles.userName}>{elem.user.lastname} </Text>
           </View>
         </View>
         <View style={styles.commentBody}>
-          <Text style={styles.timeText}>{time} </Text>
+          <Text style={styles.timeText}>{elem.created_at} </Text>
           <Text style={styles.commentText}>{elem.title}</Text>
         </View>
       </View>
     );
   });
   let content;
-  if (user.image_path !== null) {
-    content = (
-      <ImageBackground
-        source={img}
-        resizeMode="stretch"
-        style={styles.usersProfileBGimage}
-      />
-    );
-  } else {
+  if (props.route.params.video) {
     content = (
       <VideoPlayer
-        video={{uri: user?.video_path}}
+        video={{uri: video}}
         autoplay={false}
         defaultMuted={true}
-        thumbnail={require('./../../../assets/logoHeader.png')}
+        thumbnail={require('./../../../assets/logo.png')}
         style={styles.mediaVideo}
+      />
+    );
+  } else if (props.route.params.image) {
+    content = (
+      <ImageBackground
+        source={imgPost}
+        resizeMode="stretch"
+        style={styles.usersProfileBGimage}
       />
     );
   }
@@ -86,12 +101,16 @@ const CommentScreen = props => {
             <View style={styles.imgFrame}>
               <Image source={img} style={styles.userImage} />
             </View>
-            <Text>{user.name} </Text>
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>{user.description} </Text>
+            <View style={styles.userInfoNames}>
+              <Text style={styles.userNames}>{user.name} </Text>
+              <Text style={styles.userNames}>{user.lastname} </Text>
             </View>
+            {/* <View style={styles.userInfo}>
+              <Text style={styles.userName}>{user.description} </Text>
+            </View> */}
           </View>
           <View style={styles.vedioBodyContent}>{content}</View>
+          <Text>{description} </Text>
           <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
@@ -141,7 +160,6 @@ const styles = StyleSheet.create({
   },
   mediaVideo: {
     borderRadius: 8,
-    minWidth: 500,
   },
   userProfile: {
     width: '100%',
@@ -216,6 +234,11 @@ const styles = StyleSheet.create({
     borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 2,
+
+    paddingTop: 5,
   },
   btnContainer: {
     backgroundColor: 'white',
@@ -236,5 +259,11 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 10,
     textAlign: 'right',
+  },
+  userInfoNames: {
+    paddingLeft: 20,
+  },
+  userNames: {
+    fontSize: 18,
   },
 });

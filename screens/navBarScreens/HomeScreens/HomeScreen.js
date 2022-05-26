@@ -7,10 +7,11 @@ import {
   StatusBar,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PushNotification from 'react-native-push-notification';
+import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
+import {useSelector} from 'react-redux';
 const HomeScreen = () => {
   const theme = useTheme();
   useEffect(() => {
@@ -22,6 +23,8 @@ const HomeScreen = () => {
       channelName: 'Test Channel',
     });
   };
+  const user = useSelector(state => state.user);
+
   return (
     <View style={styles.container}>
       <HeaderChatSearch />

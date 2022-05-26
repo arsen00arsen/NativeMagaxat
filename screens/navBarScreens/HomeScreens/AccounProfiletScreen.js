@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,10 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {baseUrl2} from '../../../http/index';
 // import {useSelector} from 'react-redux';
-const AccounProfiletScreen = () => {
+const AccounProfiletScreen = ({route}) => {
   const theme = useTheme();
   const {options} = useAccountProfHome();
+  console.log();
   // const id = useSelector(state => state.usser.login);
   // console.log(id);
   let user = options.data !== undefined ? options.data : null;
@@ -27,6 +28,12 @@ const AccounProfiletScreen = () => {
     img = require('../../../assets/defoult.png');
   }
   // console.log(user, 'lllllllllllll');
+
+  // useEffect(() => {
+  //   if (route.params.id) {
+
+  //   }
+  // },[])
 
   const isSubscribe = async () => {
     try {

@@ -32,8 +32,8 @@ const CountryCodeList = ({navigation}) => {
         onValueChange={(itemValues, itemIndex) => {
           setCountrySelect(itemValues);
           dispatch({
-            type: 'USSER_SIGN_UPLOCATION',
-            payload: {country: itemValues},
+            type: 'FIRST_STEP_SUBMIT',
+            payload: {country_id: itemValues},
           });
         }}>
         {country?.map((countries, id) => {

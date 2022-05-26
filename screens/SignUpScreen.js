@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-import {useForm} from 'react-hook-form';
+import {useDispatch} from 'react-redux';
+import {Controller, useForm} from 'react-hook-form';
 import moment from 'moment';
 import {
   View,
@@ -20,19 +20,25 @@ import CustomInput from '../components/loginComponents/CustomInput';
 
 const SignUpScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
-  const {control, handleSubmit, setValue, getValues} = useForm({
+  const [date, setDate] = useState(new Date());
+  const {control, handleSubmit, getValues} = useForm({
     defaultValues: {
-      date: new Date(),
+      date_of_birth: new Date(),
     },
   });
-  const id = useSelector(state => state.user.data);
-  console.log(id, 'llllll');
+
   const dispatch = useDispatch();
   const submitFormHandler = handleSubmit(data => {
-    console.log(data, 'ffffff');
-    dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
+    dispatch({
+      type: 'FIRST_STEP_SUBMIT',
+      payload: {
+        ...data,
+        date_of_birth: moment(data).format('YYYY-MM-DD'),
+      },
+    });
     navigation.navigate('AccountInfoScreen');
   });
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -93,22 +99,29 @@ const SignUpScreen = ({navigation}) => {
                 <View>
                   <Text style={styles.inputHeader}>Date</Text>
                   <Text style={styles.dateText}>
-                    {moment(getValues('date_of_birth')).format('DD.MM.YYYY')}
+                    {moment(date).format('DD.MM.YYYY')}
                   </Text>
                 </View>
               </TouchableOpacity>
-              <DatePicker
-                title="Select date"
-                mode="date"
-                modal
-                open={open}
-                date={getValues('date_of_birth') || new Date()}
-                onConfirm={dates => {
-                  console.log(dates.splice(1, 3), 'llll');
-                  setOpen(false);
-                  setValue('date_of_birth', dates);
+              <Controller
+                control={control}
+                name="date_of_birth"
+                render={({field: {value, onChange}}) => {
+                  return (
+                    <DatePicker
+                      title="Select date"
+                      mode="date"
+                      modal
+                      open={open}
+                      date={value}
+                      onConfirm={date => {
+                        setDate(date);
+                        setOpen(false);
+                      }}
+                      onCancel={() => setOpen(false)}
+                    />
+                  );
                 }}
-                onCancel={() => setOpen(!open)}
               />
             </View>
           </View>

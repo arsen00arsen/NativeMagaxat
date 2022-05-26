@@ -22,10 +22,7 @@ const AccountInfoScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const {control, handleSubmit} = useForm({
     defaultValues: {
-      gender: {
-        label: 'Male',
-        value: 'male',
-      },
+      gender: 'male',
     },
   });
 

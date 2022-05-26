@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   StyleSheet,
   Text,
@@ -10,40 +10,18 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {baseUrl2} from './../http/index';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import ImageView from 'react-native-image-viewing';
+// import ImageView from 'react-native-image-viewing';
+import {loadUsers} from '../stores/lastUsers/userAction';
 
 const PersonsData = () => {
-  const [data, setData] = useState('');
   const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(false);
+  const {isLoading, lastUsers} = useSelector(state => state.users);
   const navigation = useNavigation();
-  const [visible, setIsVisible] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
-  // -------------- last Users Part --------------
   useEffect(() => {
-    fetchData();
+    dispatch(loadUsers());
   }, []);
-
-  const url = baseUrl2 + '/users/list';
-  const fetchData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization:
-            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-        },
-      });
-      const json = await response.json();
-      setData(json);
-      setIsLoading(false);
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
 
   const ItemRender = item => {
     let img;
@@ -65,10 +43,7 @@ const PersonsData = () => {
           source={img}
           resizeMode="cover"
           style={styles.usersProfileBGimage}
-          imageStyle={{
-            borderTopRightRadius: 8,
-            borderTopLeftRadius: 8,
-          }}
+          imageStyle={styles.imageStyle}
         />
       );
     }
@@ -89,7 +64,9 @@ const PersonsData = () => {
   };
   let userProfilePage = item => {
     dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('AccounProfiletScreen');
+    navigation.navigate('AccounProfiletScreen', {
+      id: item.id,
+    });
   };
   const renderLoader = () => {
     return isLoading ? (
@@ -113,7 +90,7 @@ const PersonsData = () => {
         </View>
       </LinearGradient>
       <FlatList
-        data={data.data}
+        data={lastUsers}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender name={item.name} userImage={item.image} />
@@ -203,5 +180,9 @@ const styles = StyleSheet.create({
   loaderStyle: {
     marginVertical: 16,
     alignItems: 'center',
+  },
+  imageStyle: {
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 8,
   },
 });

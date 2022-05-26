@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React from 'react';
+import {useDispatch} from 'react-redux';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
   ScrollView,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
@@ -16,56 +15,10 @@ import Icon from 'react-native-vector-icons/Feather';
 import CustomInput from '../components/loginComponents/CustomInput';
 
 const CreatePasswordScreen = ({navigation}) => {
-  // const [password, setpassword] = useState('');
-  // const [passwordErrorMessage, setpasswordErrorMessage] = useState('');
-  // const [confirmPassword, setconfirmPassword] = useState('');
-  // const [confirmPasswordErrorMessage, setconfirmPasswordErrorMessage] =
-  //   useState('');
-  // const [loading, setloading] = useState(false);
-  // let formValidation = async () => {
-  //   setloading(true);
-  //   let errorFlag = false;
-  //   if (password.length === 0) {
-  //     errorFlag = true;
-  //     setpasswordErrorMessage('Password is required feild');
-  //   } else if (password.length < 8 || password.length > 20) {
-  //     errorFlag = true;
-  //     setpasswordErrorMessage('Password should be min 8 char and max 20 char');
-  //   } else if (password !== confirmPassword) {
-  //     errorFlag = true;
-  //     setpasswordErrorMessage('Passwoad and confirm password should be same.');
-  //   }
-
-  //   if (confirmPassword.length === 0) {
-  //     errorFlag = true;
-  //     setconfirmPasswordErrorMessage('Confirm Password is required feild');
-  //   } else if (confirmPassword.length < 8 || confirmPassword.length > 20) {
-  //     errorFlag = true;
-  //     setconfirmPasswordErrorMessage(
-  //       'Password should be min 8 char and max 20 char',
-  //     );
-  //   }
-
-  //   if (errorFlag) {
-  //   } else {
-  //     setloading(false);
-  //   }
-  // };
-  // let nextStep = async () => {
-  //   await formValidation();
-  //   passwordErrorMessage !== '' && confirmPasswordErrorMessage !== ''
-  //     ? navigation.navigate('CreatePasswordScreen')
-  //     : navigation.navigate('LocationPageScreen');
-  //   dispatch({
-  //     type: 'FIRST_STEP_SUBMIT',
-  //     payload: {password: password},
-  //   });
-  // };
   const dispatch = useDispatch();
   const {control, handleSubmit, watch} = useForm();
   let pwd = watch('password');
   const submitFormHandler = handleSubmit(data => {
-    console.log(data, 'ddddd');
     dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
     navigation.navigate('LocationPageScreen');
   });
@@ -96,10 +49,6 @@ const CreatePasswordScreen = ({navigation}) => {
             resizeMode="stretch"
           />
           <View>
-            {/* <View style={styles.action}> */}
-            {/* <View style={styles.passHeader}>
-                <Text style={styles.inputHeader}>Password</Text>
-              </View> */}
             <CustomInput
               name="password"
               control={control}
@@ -114,22 +63,6 @@ const CreatePasswordScreen = ({navigation}) => {
               }}
               title="Password"
             />
-            {/* <TextInput
-                placeholderTextColor="#666666"
-                value={password}
-                style={styles.textInput}
-                secureTextEntry={true}
-                autoCapitalize="none"
-                onChangeText={password => setpassword(password)}
-              /> */}
-            {/* </View> */}
-            {/* {passwordErrorMessage?.length > 0 && (
-              <Text style={styles.textDanger}>{passwordErrorMessage}</Text>
-            )} */}
-            {/* <View style={styles.action}> */}
-            {/* <View style={styles.passHeader}>
-                <Text style={styles.inputHeader}>Confirm Your Password</Text>
-              </View> */}
             <CustomInput
               name="confirmPassword"
               control={control}
@@ -141,12 +74,6 @@ const CreatePasswordScreen = ({navigation}) => {
               }}
               title="Confirm Your Password"
             />
-            {/* </View> */}
-            {/* {confirmPasswordErrorMessage?.length > 0 && (
-              <Text style={styles.textDanger}>
-                {confirmPasswordErrorMessage}
-              </Text>
-            )} */}
           </View>
           <View>
             <TouchableOpacity style={styles.button} onPress={submitFormHandler}>

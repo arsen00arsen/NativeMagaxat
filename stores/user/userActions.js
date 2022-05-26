@@ -28,6 +28,17 @@ export const loginUser = (email, password) => async dispatch => {
   }
 };
 
+export const registerUser = dataToSend => async dispatch => {
+  try {
+    dispatch(startLogin());
+    const {data} = await UserService.register(dataToSend);
+    dispatch(loginSuccess(data.data));
+    await AsyncStorage.setItem('token', data.token);
+  } catch (error) {
+    dispatch(loginError(error.message));
+  }
+};
+
 export const getMe = () => async dispatch => {
   try {
     dispatch(startLogin());

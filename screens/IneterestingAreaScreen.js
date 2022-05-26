@@ -25,7 +25,6 @@ const IneterestingAreaScreen = ({navigation}) => {
   });
   const submitFormHandler = handleSubmit(data => {
     let objKeys = Object.values(data);
-    console.log(objKeys);
     dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
     navigation.navigate('PriorityPageScreen');
   });

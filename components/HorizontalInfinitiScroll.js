@@ -6,37 +6,28 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
-import {baseUrl2} from './../http/index';
 import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
+import {loadPosts} from '../stores/post/postActions';
 
 const HorizontalInfinitiScroll = () => {
-  const [dataPosts, setDataPosts] = useState([]);
+  const dispatch = useDispatch();
+  const {isLoading, posts} = useSelector(state => state.post);
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const getpost = async () => {
-    setIsLoading(true);
-    const urlPosts = baseUrl2 + `/posts_api?page=${currentPage}`;
-    try {
-      const response = await fetch(urlPosts, {
-        headers: {
-          Authorization:
-            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-        },
-      });
-      const json = await response.json();
-      setDataPosts([...dataPosts, ...json.data.data]);
-    } catch (error) {
-      console.log('error', error);
-      setIsLoading(false);
-    }
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
   };
+
+  useEffect(() => {
+    dispatch(loadPosts(currentPage));
+  }, [currentPage]);
 
   const renderItem = ({item}) => {
     let content;
-    if (item.image_path) {
+    if (item.image) {
       content = <ImgComponentpost uri={item} key={item.id} />;
     } else {
       content = <VideoComponent uri={item} key={item.id} />;
@@ -51,14 +42,6 @@ const HorizontalInfinitiScroll = () => {
       </View>
     ) : null;
   };
-
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  useEffect(() => {
-    getpost();
-  }, [currentPage]);
 
   return (
     <>
@@ -76,8 +59,8 @@ const HorizontalInfinitiScroll = () => {
       <FlatList
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}
-        data={dataPosts}
-        onEndReached={info => loadMoreItem(info)}
+        data={posts}
+        onEndReached={loadMoreItem}
         keyExtractor={(items, index) => index.toString()}
         ListFooterComponent={renderLoader}
         onEndReachedThreshold={0.5}

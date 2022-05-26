@@ -17,18 +17,26 @@ const ImgComponentpost = props => {
   const navigation = useNavigation();
   const [longDis, setLongDis] = useState(false);
   let user = props.uri;
+  let post = props.uri;
+  let postCounts = post.comments?.length;
   let img;
-  if (user.image_name !== null) {
-    img = {uri: user.image_path};
+  if (user.user.image !== null) {
+    img = {uri: user.user.image};
   } else {
     img = require('../assets/defoult.png');
   }
   let isLongDs = () => {
     setLongDis(!longDis);
   };
+  let imgPost;
+  if (user.image !== null) {
+    imgPost = {uri: user.image};
+  } else {
+    imgPost = require('../assets/defoult.png');
+  }
   let imgBG = (
     <ImageBackground
-      source={img}
+      source={imgPost}
       resizeMode="stretch"
       style={styles.usersProfileBGimage}
     />
@@ -47,7 +55,8 @@ const ImgComponentpost = props => {
       </Text>
     );
   }
-
+  console.log(user.title, 'user');
+  let likeCounts = post?.likes?.length + 1;
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
@@ -64,16 +73,26 @@ const ImgComponentpost = props => {
       </View>
       {imgBG}
       <View style={styles.postIcons}>
-        <LikeButton />
-        <ShareButton />
+        <LikeButton
+          likeCounts={likeCounts}
+          id={post.id}
+          authLiked={post.authLiked}
+        />
+        <View style={styles.shareButton}>
+          <ShareButton />
+        </View>
         <TouchableOpacity
+          style={styles.imgCount}
           onPress={() =>
             navigation.navigate('CommentScreen', {
-              user: user,
-              comments: user.comments,
+              description: user.title,
+              post: post.comments,
+              user: user?.user,
+              image: user.image,
             })
           }>
           <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
+          <Text>{postCounts} </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -123,8 +142,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 10,
-    paddingBottom: 30,
+    marginTop: 20,
+    paddingBottom: 10,
   },
   usersTitle: {
     maxWidth: '100%',
@@ -142,5 +161,14 @@ const styles = StyleSheet.create({
   usersProfileBGimage: {
     width: '100%',
     height: 170,
+  },
+  shareButton: {
+    marginBottom: 20,
+  },
+  imgCount: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

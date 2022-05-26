@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -8,16 +8,15 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
-// import CountryCodeList from '../components/CountryCodeList';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
-import {baseUrl2} from '../http/index';
 import CountryCodeList from '../components/CountryCodeList';
-import auth from '@react-native-firebase/auth';
-import firestore from '@react-native-firebase/firestore';
+import {registerUser} from '../stores/user/userActions';
+// import auth from '@react-native-firebase/auth';
+// import firestore from '@react-native-firebase/firestore';
 
 const LocationPageScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -26,68 +25,17 @@ const LocationPageScreen = ({navigation}) => {
       language: '1',
     },
   });
-  const id = useSelector(state => state.user.data);
-  console.log(id, 'llllll');
-  const submitFormHandler = handleSubmit(data => {
-    let objKeys = Object.values(data);
-    dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
-    navigation.navigate('CreatePasswordScreen');
-  });
-  // let change = async () => {
-  //   let dataObjects = Object.assign(
-  //     name.usserDatNLnames,
-  //     name.userEmailPhone,
-  //     name.usserDateLocation,
-  //     name.usserDatePassword,
-  //     // name.userInterested1,
-  //     // name.userInterested2,
-  //     // name.userInterested3,
-  //     // name.userInterestedType,
-  //     // name.userInterestedTypeIndigent,
-  //     // name.userDateGender,
-  //     // name.usserDatDate,
-  //   );
-  //   console.log(dataObjects, 'dataObjects');
-  //   const requestOptions = {
-  //     method: 'POST',
-  //     headers: {'Content-Type': 'application/json'},
-  //     body: JSON.stringify(dataObjects),
-  //   };
-  //   fetch(baseUrl2 + '/register', requestOptions)
-  //     .then(response => response.json())
-  //     .then(data => console.log(data));
-  // };
-  // const [loading, setLoading] = useState(false);
-  // let name = singnUpDatas.usserDatNLnames.name;
-  // let email = singnUpDatas.userEmailPhone.email;
-  // let password = singnUpDatas.usserDatePassword.password;
+  const user = useSelector(state => state.user.data);
+  // const submitFormHandler = handleSubmit(data => {
+  //   let objKeys = Object.values(data);
+  //   dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
+  //   // navigation.navigate('CreatePasswordScreen');
+  //   signIn();
+  // });
 
-  // if (loading) {
-  //   return <ActivityIndicator size="large" color="#00ff00" />;
-  // }
-  // const userSignup = async () => {
-  //   setLoading(true);
-  //   if (!email || !password || !name) {
-  //     alert('please add all the field');
-  //     return;
-  //   }
-  //   try {
-  //     const result = await auth().createUserWithEmailAndPassword(
-  //       email,
-  //       password,
-  //     );
-  //     firestore().collection('users').doc(result.user.uid).set({
-  //       name: name,
-  //       email: result.user.email,
-  //       uid: result.user.uid,
-  //       // pic: image,
-  //       status: 'online',
-  //     });
-  //     setLoading(false);
-  //   } catch (err) {
-  //     alert('something went wrong');
-  //   }
-  // };
+  const signIn = async () => {
+    dispatch(registerUser(user));
+  };
 
   return (
     <LinearGradient
@@ -132,24 +80,10 @@ const LocationPageScreen = ({navigation}) => {
                 );
               }}
             />
-            {/* <Picker
-              selectedValue={selectedInter}
-              style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) => {
-                setSselectedInter(itemValue);
-                dispatch({
-                  type: 'USSER_SIGN_UP_LANGUEGE',
-                  payload: {usserLanguage: itemValue},
-                });
-              }}>
-              <Picker.Item label="English" value="3" />
-              <Picker.Item label="Armenian" value="2" />
-              <Picker.Item label="Russian" value="1" />
-            </Picker> */}
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.signIn} onPress={submitFormHandler}>
+          <TouchableOpacity style={styles.signIn} onPress={signIn}>
             <LinearGradient
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
@@ -158,7 +92,7 @@ const LocationPageScreen = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.startButton}
-            onPress={navigation.navigate('SignInScreen')}>
+            onPress={() => navigation.navigate('SignInScreen')}>
             <Text style={styles.textStartButton}>Start</Text>
           </TouchableOpacity>
         </View>
@@ -308,3 +242,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+// const [loading, setLoading] = useState(false);
+// let name = singnUpDatas.usserDatNLnames.name;
+// let email = singnUpDatas.userEmailPhone.email;
+// let password = singnUpDatas.usserDatePassword.password;
+
+// if (loading) {
+//   return <ActivityIndicator size="large" color="#00ff00" />;
+// }
+// const userSignup = async () => {
+//   setLoading(true);
+//   if (!email || !password || !name) {
+//     alert('please add all the field');
+//     return;
+//   }
+//   try {
+//     const result = await auth().createUserWithEmailAndPassword(
+//       email,
+//       password,
+//     );
+//     firestore().collection('users').doc(result.user.uid).set({
+//       name: name,
+//       email: result.user.email,
+//       uid: result.user.uid,
+//       // pic: image,
+//       status: 'online',
+//     });
+//     setLoading(false);
+//   } catch (err) {
+//     alert('something went wrong');
+//   }
+// };

@@ -1,19 +1,22 @@
 import React, {useState, memo} from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import VideoPlayer from 'react-native-video-player';
-import LikeButton from '../components/LikeButton';
-import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import VideoPlayer from 'react-native-video-player';
+import LikeButton from '../components/LikeButton';
+import ShareButton from './ShareButton';
 
 const VideoComponent = props => {
   const navigation = useNavigation();
   const [longDis, setLongDis] = useState(false);
-  let user = props.uri;
+  let user = props.uri.user;
+  let post = props.uri;
+  let likeCounts = post?.likes?.length + 1;
+  let postCounts = post.comments?.length;
   let img;
-  if (user.image_name !== null) {
-    img = {uri: user.image_path};
+  if (user.image !== null) {
+    img = {uri: user.image};
   } else {
     img = require('../assets/defoult.png');
   }
@@ -24,13 +27,13 @@ const VideoComponent = props => {
   if (longDis === false) {
     userTitle = (
       <Text style={styles.usersTitle} numberOfLines={2}>
-        {user?.title}
+        {post?.title}
       </Text>
     );
   } else {
-    userTitle = <Text style={styles.longDis}>{user?.title}</Text>;
+    userTitle = <Text style={styles.longDis}>{post?.title}</Text>;
   }
-
+  console.log(post.title, 'oooooooooooooo');
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
@@ -38,30 +41,43 @@ const VideoComponent = props => {
         <Image source={img} style={styles.userspic} />
         <View style={styles.inf}>
           <View style={styles.usersnames}>
-            <Text style={styles.usersname}>{user.user?.name} </Text>
-            <Text style={styles.usersname}>{user.user?.lastname} </Text>
+            <Text style={styles.usersname}>{user?.name} </Text>
+            <Text style={styles.usersname}>{user?.lastname} </Text>
             <Text style={styles.timeData}>{time} </Text>
           </View>
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
       <VideoPlayer
-        video={{uri: user?.video_path}}
+        video={{uri: props.uri.video}}
         autoplay={false}
         defaultMuted={true}
-        thumbnail={require('../assets/logoHeader.png')}
+        thumbnail={require('../assets/logo.png')}
         style={styles.mediaVideo}
+        fullscreen={true}
+        resizeMode="contain"
       />
       <View style={styles.postIcons}>
-        <LikeButton />
-        <ShareButton />
+        <LikeButton
+          likeCounts={likeCounts}
+          id={post.id}
+          authLiked={post.authLiked}
+        />
+        <View style={styles.shareButton}>
+          <ShareButton />
+        </View>
         <TouchableOpacity
+          style={styles.videoCount}
           onPress={() =>
             navigation.navigate('CommentScreen', {
+              description: post.title,
+              post: post.comments,
               user: user,
+              video: post.video,
             })
           }>
           <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
+          <Text>{postCounts} </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -115,8 +131,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 10,
-    paddingBottom: 30,
+    marginTop: 20,
+    paddingBottom: 10,
   },
   usersTitle: {
     maxWidth: '100%',
@@ -130,5 +146,14 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+  },
+  videoCount: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  shareButton: {
+    marginBottom: 20,
   },
 });
