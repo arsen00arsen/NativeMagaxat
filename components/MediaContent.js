@@ -3,31 +3,17 @@ import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import {useNavigation} from '@react-navigation/native';
 import VideoPlayer from 'react-native-video-player';
-import {baseUrl2} from '../http/index';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadAllMedias} from '../stores/medias/mediaAction';
 
 export default function MediaContent() {
-  const [data, setData] = useState([]);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
   const [columnOrGrid, setcolumnOrGrid] = useState('column');
+  const {medias} = useSelector(state => state.medias);
 
   useEffect(() => {
-    const url = baseUrl2 + '/videos_api';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url, {
-          headers: {
-            Authorization:
-              'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-          },
-        });
-        const json = await response.json();
-        setData(json.data);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-
-    fetchData();
+    dispatch(loadAllMedias());
   }, []);
 
   const changeContainer = e => {
@@ -37,32 +23,33 @@ export default function MediaContent() {
       setcolumnOrGrid('grid');
     }
   };
-  let content = data.map(elem => {
-    let img;
-    if (elem.user_photo !== undefined) {
-      img = {uri: elem.user_photo};
-    } else {
-      img = require('../assets/defoult.png');
-    }
+  let content = medias.map(elem => {
     if (columnOrGrid === 'column') {
       return (content = (
-        <View key={elem.id} style={styles.column}>
+        <View style={styles.column} key={elem.id}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('RowVideosScreen')}>
+            onPress={() =>
+              navigation.navigate('RowVideosScreen', {
+                user: elem,
+              })
+            }>
             <VideoPlayer
-              uri={elem.video_path}
+              uri={elem.user.video_path}
               autoplay={false}
               defaultMuted={true}
-              thumbnail={require('../assets/logoHeader.png')}
+              thumbnail={require('../assets/logo.png')}
               style={styles.columnVideo}
             />
             <View style={styles.opacity}>
               <View style={styles.rowEffect}>
                 <View style={styles.imgFrame}>
-                  <Image source={img} style={styles.userImage} />
+                  <Image
+                    source={{uri: elem.user.image}}
+                    style={styles.userImage}
+                  />
                 </View>
-                <Text style={styles.userName}>{elem?.user_name} </Text>
-                <Text style={styles.userName}>{elem?.user_lastname} </Text>
+                <Text style={styles.userName}>{elem?.user.name} </Text>
+                <Text style={styles.userName}>{elem?.user.lastname} </Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -70,27 +57,35 @@ export default function MediaContent() {
       ));
     } else {
       return (content = (
-        <TouchableOpacity
-          onPress={() => navigation.navigate('GridVediosScreen')}
-          style={styles.row}
-          key={elem.id}>
-          <VideoPlayer
-            uri={elem.video_path}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../assets/logoHeader.png')}
-            style={styles.rowVideo}
-          />
-          <View style={styles.opacityGrid}>
-            <View style={styles.rowEffect}>
-              <View style={styles.imgFrame}>
-                <Image source={img} style={styles.userImage} />
+        <View key={elem.id}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('GridVediosScreen', {
+                user: elem,
+              })
+            }
+            style={styles.row}>
+            <VideoPlayer
+              uri={elem.user.video_path}
+              autoplay={false}
+              defaultMuted={true}
+              thumbnail={require('../assets/logo.png')}
+              style={styles.rowVideo}
+            />
+            <View style={styles.opacityGrid}>
+              <View style={styles.rowEffect}>
+                <View style={styles.imgFrame}>
+                  <Image
+                    source={{uri: elem.user.image}}
+                    style={styles.userImage}
+                  />
+                </View>
+                <Text style={styles.userName}>{elem?.user.name} </Text>
+                <Text style={styles.userName}>{elem?.user.lastname} </Text>
               </View>
-              <Text style={styles.userName}>{elem?.user_name} </Text>
-              <Text style={styles.userName}>{elem?.user_lastname} </Text>
             </View>
-          </View>
-        </TouchableOpacity>
+          </TouchableOpacity>
+        </View>
       ));
     }
   });

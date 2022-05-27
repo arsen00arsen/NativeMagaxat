@@ -10,43 +10,45 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
-import Icon from 'react-native-vector-icons/Entypo';
-import PostIcons from 'react-native-vector-icons/MaterialIcons';
-import MediaContent from '../../../components/MediaContent';
-import {baseUrl2} from '../../../http';
+import {Controller, useForm} from 'react-hook-form';
 import DocumentPicker from 'react-native-document-picker';
 import {useSelector} from 'react-redux';
+import Icon from 'react-native-vector-icons/Entypo';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import PostIcons from 'react-native-vector-icons/MaterialIcons';
+import MediaContent from '../../../components/MediaContent';
+import ImageUploadService from '../../../http/uploadImageSevice/uplouadImageService';
 
 const MediaScreen = () => {
   const theme = useTheme();
-  const user = useSelector(state => state.usser?.login?.data);
-  const [text, onChangeText] = useState('');
+  const user = useSelector(state => state.user.user);
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
+  const {control, handleSubmit, reset} = useForm();
 
+  const submitFormHandler = handleSubmit(async submitData => {
+    try {
+      reset({}, {keepValues: false});
+      console.log(submitData);
+    } catch (error) {
+      console.log(error);
+    }
+  });
   const uploadImage = async () => {
+    submitFormHandler();
     const fileToUpload = singleFile;
     const data = new FormData();
     data.append('image_path', fileToUpload);
-    data.append('title', text);
+    data.append('title', 'lo');
     try {
-      const response = await fetch(baseUrl2 + '/posts_api', {
-        method: 'post',
-        headers: {
-          Authorization:
-            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-          'Content-Type': 'multipart/form-data',
-          Accept: 'aplication/json',
-        },
-        body: data,
-      });
-      const json = await response.json();
+      await ImageUploadService.uploadImage({data});
       setSelected(!selected);
       alert('Your Post is Done');
     } catch (error) {
-      console.log('error', error);
+      alert(error);
+    } finally {
+      // dispatch(startLoadPosts(false));
     }
   };
 
@@ -89,14 +91,21 @@ const MediaScreen = () => {
               <View style={styles.imgBody}>
                 <Image style={styles.img} source={img} />
               </View>
-              <View style={styles.textArea}>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangeText}
-                  value={text}
-                  placeholder={'Type your post message ...'}
-                />
-              </View>
+              <Controller
+                control={control}
+                name="title"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <TextInput
+                      placeholder="Add Your post"
+                      value={value}
+                      style={styles.textInput}
+                      multiline
+                      onChangeText={onChange}
+                    />
+                  );
+                }}
+              />
             </View>
             {selected !== false ? (
               <>
@@ -136,9 +145,6 @@ const MediaScreen = () => {
             )}
           </View>
           <MediaContent />
-          {/* <View style={styles.contentStyle}>
-            {image && <Image source={{uri: image}} style={styles.vedioImg} />}
-          </View> */}
         </View>
       </ScrollView>
     </View>
@@ -165,7 +171,8 @@ const styles = StyleSheet.create({
   },
   postBody: {
     width: '100%',
-    height: 125,
+    height: 200,
+    minHeight: 175,
     backgroundColor: '#E8E5E1',
     borderRadius: 8,
   },
@@ -181,8 +188,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    // height: '65%',
     width: '100%',
+    maxHeight: 115,
   },
   imgBody: {
     width: 51,
@@ -215,6 +222,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 'auto',
   },
   uploadImgVedio: {
     height: '15%',
@@ -262,30 +270,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // postImg_width: {
-  //   backgroundColor: '#DEDCDC',
-  //   border: 2,
-  //   borderColor: 'silver',
-  //   borderBottomLeftRadius: 8,
-  //   display: 'flex',
-  //   flexDirection: 'row',
-  //   alignItems: 'center',
-  //   justifyContent: 'center',
-  //   padding: 25,
-  //   marginTop: 'auto',
-  //   borderBottomRightRadius: 8,
-  //   width: '80%',
-  // },
-  // postImg_cansel: {
-  //   width: '20%',
-  // },
-  // textAdd_post: {
-  //   color: '#B9B9B9',
-  //   fontSize: 18,
-  // },
   io: {
     width: '100%',
     height: 230,
     marginBottom: 'auto',
+  },
+  textInput: {
+    height: '100%',
+    borderWidth: 2.5,
+    borderColor: '#E5E5E5',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    marginRight: 10,
+    maxHeight: 180,
+    width: '70%',
+    maxWidth: 230,
+    color: 'red',
+    fontSize: 16,
+    paddingHorizontal: 15,
   },
 });

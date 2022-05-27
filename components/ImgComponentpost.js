@@ -55,7 +55,6 @@ const ImgComponentpost = props => {
       </Text>
     );
   }
-  console.log(user.title, 'user');
   let likeCounts = post?.likes?.length + 1;
   const time = moment().startOf(user?.created_at).format('LL');
   return (
@@ -64,8 +63,10 @@ const ImgComponentpost = props => {
         <Image source={img} style={styles.userspic} />
         <View style={styles.inf}>
           <View style={styles.usersnames}>
-            <Text style={styles.usersname}>{user.user?.name} </Text>
-            <Text style={styles.usersname}>{user.user?.lastname} </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text style={styles.usersname}>{user.user?.name} </Text>
+              <Text style={styles.usersname}>{user.user?.lastname} </Text>
+            </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
@@ -89,6 +90,7 @@ const ImgComponentpost = props => {
               post: post.comments,
               user: user?.user,
               image: user.image,
+              id: user.id,
             })
           }>
           <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
@@ -128,7 +130,7 @@ const styles = StyleSheet.create({
   },
   usersname: {
     color: '#666666',
-    fontSize: 14,
+    fontSize: 16,
   },
   usersnames: {
     display: 'flex',
@@ -152,6 +154,7 @@ const styles = StyleSheet.create({
   },
   timeData: {
     maxWidth: '40%',
+    fontSize: 12,
   },
   longDis: {
     maxWidth: '100%',

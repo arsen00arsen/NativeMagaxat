@@ -33,7 +33,7 @@ const VideoComponent = props => {
   } else {
     userTitle = <Text style={styles.longDis}>{post?.title}</Text>;
   }
-  console.log(post.title, 'oooooooooooooo');
+
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
@@ -41,8 +41,10 @@ const VideoComponent = props => {
         <Image source={img} style={styles.userspic} />
         <View style={styles.inf}>
           <View style={styles.usersnames}>
-            <Text style={styles.usersname}>{user?.name} </Text>
-            <Text style={styles.usersname}>{user?.lastname} </Text>
+            <View style={{display: 'flex', flexDirection: 'row'}}>
+              <Text style={styles.usersname}>{user?.name} </Text>
+              <Text style={styles.usersname}>{user?.lastname} </Text>
+            </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
@@ -117,7 +119,7 @@ const styles = StyleSheet.create({
   },
   usersname: {
     color: '#666666',
-    fontSize: 14,
+    fontSize: 16,
   },
   usersnames: {
     display: 'flex',
@@ -141,6 +143,7 @@ const styles = StyleSheet.create({
   },
   timeData: {
     maxWidth: '40%',
+    fontSize: 12,
   },
   longDis: {
     maxWidth: '100%',

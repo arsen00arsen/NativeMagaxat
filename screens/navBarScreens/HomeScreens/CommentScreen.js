@@ -11,16 +11,24 @@ import {
   Image,
   ScrollView,
   ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import {Controller, useForm} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import VideoPlayer from 'react-native-video-player';
+import {useDispatch, useSelector} from 'react-redux';
+import {sendComment} from '../../../stores/post/postActions';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 
 const CommentScreen = props => {
   const scrollViewRef = useRef();
+  const dispatch = useDispatch();
+  const {control, handleSubmit, reset} = useForm();
   let user = props.route.params.user;
   let video = props.route.params.video;
   let image = props.route.params.image;
   let description = props.route.params.description;
+  let id = props.route.params.id;
   let img;
   if (user.image !== null) {
     img = {uri: user.image};
@@ -34,9 +42,19 @@ const CommentScreen = props => {
   } else {
     imgPost = require('../../../assets/defoult.png');
   }
+  const {posts} = useSelector(state => state.post);
+  const foundPost = posts?.find(el => el?.id === id);
 
-  console.log(user, 'll88888888888lll');
-  let commentContent = props.route.params.post?.map(elem => {
+  const submitFormHandler = handleSubmit(async submitData => {
+    try {
+      reset({}, {keepValues: false});
+      dispatch(sendComment(id, submitData));
+    } catch (error) {
+      console.log(error);
+    }
+  });
+
+  let commentContent = foundPost?.comments?.map(elem => {
     let imgComment;
     if (elem.user.image !== null) {
       imgComment = {uri: elem.user.image};
@@ -105,9 +123,6 @@ const CommentScreen = props => {
               <Text style={styles.userNames}>{user.name} </Text>
               <Text style={styles.userNames}>{user.lastname} </Text>
             </View>
-            {/* <View style={styles.userInfo}>
-              <Text style={styles.userName}>{user.description} </Text>
-            </View> */}
           </View>
           <View style={styles.vedioBodyContent}>{content}</View>
           <Text>{description} </Text>
@@ -119,7 +134,29 @@ const CommentScreen = props => {
           style={styles.containerKeyBoard}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
-              <TextInput placeholder="Add Comment" style={styles.textInput} />
+              <Controller
+                control={control}
+                name="title"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <TextInput
+                      placeholder="Add Your Comment"
+                      value={value}
+                      style={styles.textInput}
+                      multiline
+                      onChangeText={onChange}
+                    />
+                  );
+                }}
+              />
+              <TouchableOpacity onPress={submitFormHandler}>
+                <Icon
+                  name="send-circle"
+                  size={54}
+                  color="#BB9E79"
+                  style={{marginBottom: 5, marginRight: 5}}
+                />
+              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -224,21 +261,26 @@ const styles = StyleSheet.create({
   },
   inner: {
     width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   header: {
     fontSize: 36,
     marginBottom: 48,
   },
   textInput: {
-    height: 70,
     borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
-    marginLeft: 10,
     marginRight: 10,
     marginBottom: 2,
-
-    paddingTop: 5,
+    maxHeight: 110,
+    width: '80%',
+    color: 'red',
+    fontSize: 16,
+    paddingHorizontal: 15,
   },
   btnContainer: {
     backgroundColor: 'white',

@@ -21,52 +21,42 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import FontAwesome5Brands from 'react-native-vector-icons/Fontisto';
 import {baseUrl2} from '../../../http/index';
 import {useSelector} from 'react-redux';
+import {useBenAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 
-const BenefactorUserPageScreen = ({navigation}) => {
+const BenefactorUserPageScreen = props => {
   const theme = useTheme();
   const [text, onChangeText] = useState('');
-  const [data, setData] = useState('');
-  const id = useSelector(state => state.usser.usserAccountId);
-  let i = id.toString();
+  let id = props.route.params.id;
+  const {options} = useBenAccountProfHome(id);
+  let user = options.data;
+  console.log(user, 'lllllllllllll');
+  // const id = useSelector(state => state.usser.usserAccountId);
+  // let i = id.toString();
 
-  useEffect(() => {
-    const url = baseUrl2 + '/benefactors_api/' + i;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // let videoContent;
 
-  let videoContent;
-
-  if (data.data) {
-    videoContent = data.data.map((elem, index) => {
-      return (
-        <View key={elem.id} style={styles.column}>
-          <VideoPlayer
-            uri={elem.userVedio}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../../../assets/logoHeader.png')}
-            style={styles.video}
-          />
-        </View>
-      );
-    });
-  }
-  let user = data.data !== undefined ? data.data[0] : null;
-  let img;
-  if (user?.image !== null) {
-    img = {uri: user?.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
+  // if (data.data) {
+  //   videoContent = data.data.map((elem, index) => {
+  //     return (
+  //       <View key={elem.id} style={styles.column}>
+  //         <VideoPlayer
+  //           uri={elem.userVedio}
+  //           autoplay={false}
+  //           defaultMuted={true}
+  //           thumbnail={require('../../../assets/logoHeader.png')}
+  //           style={styles.video}
+  //         />
+  //       </View>
+  //     );
+  //   });
+  // }
+  // let user = data.data !== undefined ? data.data[0] : null;
+  // let img;
+  // if (user?.image !== null) {
+  //   img = {uri: user?.image};
+  // } else {
+  //   img = require('../../../assets/defoult.png');
+  // }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -75,12 +65,11 @@ const BenefactorUserPageScreen = ({navigation}) => {
       />
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.userInfo}>
+        {/* <View style={styles.userInfo}>
           <Image source={img} style={styles.userImage} />
           <View>
             <Text style={styles.nameSurname}>{user?.name}</Text>
             <Text style={styles.nameSurname}>{user?.last_name}</Text>
-            {/* <Text style={styles.idNumber}>ID 620e4b6a4908b</Text> */}
           </View>
         </View>
         <View style={styles.textBody}>
@@ -146,7 +135,7 @@ const BenefactorUserPageScreen = ({navigation}) => {
             <FontAwesome name="instagram" size={40} color="black" />
             <FontAwesome5Brands name="viber" size={40} color="black" />
           </View>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

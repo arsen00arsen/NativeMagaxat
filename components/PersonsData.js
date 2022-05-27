@@ -63,7 +63,6 @@ const PersonsData = () => {
     return <View style={styles.seperator} />;
   };
   let userProfilePage = item => {
-    dispatch({type: 'USSER_ID', payload: item.id});
     navigation.navigate('AccounProfiletScreen', {
       id: item.id,
     });

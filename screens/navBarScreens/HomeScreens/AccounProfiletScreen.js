@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -12,50 +12,13 @@ import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
-import {baseUrl2} from '../../../http/index';
+
 // import {useSelector} from 'react-redux';
-const AccounProfiletScreen = ({route}) => {
+const AccounProfiletScreen = props => {
   const theme = useTheme();
-  const {options} = useAccountProfHome();
-  console.log();
-  // const id = useSelector(state => state.usser.login);
-  // console.log(id);
-  let user = options.data !== undefined ? options.data : null;
-  let img;
-  if (user?.image !== null) {
-    img = {uri: user?.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
-  // console.log(user, 'lllllllllllll');
-
-  // useEffect(() => {
-  //   if (route.params.id) {
-
-  //   }
-  // },[])
-
-  const isSubscribe = async () => {
-    try {
-      const response = await fetch(baseUrl2 + '/profile/subscribe', {
-        method: 'post',
-        headers: {
-          Authorization:
-            'Bearer ' + '30|XBJWe70sHse8xVVVB3Nz4ivoV2wwKROUwlhNMjL8',
-          Accept: 'aplication/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          body: '8',
-        }),
-      });
-      const json = await response.json();
-      console.log(json);
-    } catch (error) {
-      console.log('error', error);
-    }
-  };
-
+  let id = props.route.params.id;
+  const {options} = useAccountProfHome(id);
+  let user = options.data;
   return (
     <View style={styles.container}>
       <StatusBar
@@ -65,10 +28,12 @@ const AccounProfiletScreen = ({route}) => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image source={img} style={styles.userImage} />
+          <Image source={{uri: user?.image}} style={styles.userImage} />
           <View style={styles.usernameIcon}>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.lastname}</Text>
+            <View style={styles.names}>
+              <Text style={styles.nameSurname}>{user?.name}</Text>
+              <Text style={styles.nameSurname}>{user?.lastname}</Text>
+            </View>
             <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
           </View>
         </View>
@@ -90,9 +55,7 @@ const AccounProfiletScreen = ({route}) => {
               </View>
             </View>
             <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity
-                style={styles.postSubscribeButton}
-                onPress={isSubscribe}>
+              <TouchableOpacity style={styles.postSubscribeButton}>
                 <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.postSubscribeButton}>
@@ -128,10 +91,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userImage: {
-    width: 107,
-    height: 107,
+    width: 170,
+    height: 170,
     borderRadius: 80,
-    marginBottom: 15,
+    marginVertical: 30,
   },
   usernameIcon: {
     display: 'flex',
@@ -143,7 +106,7 @@ const styles = StyleSheet.create({
     color: '#727272',
     fontSize: 24,
     textAlign: 'left',
-    marginHorizontal: 30,
+    marginRight: 10,
   },
   idNumber: {
     color: '#000000',
@@ -222,5 +185,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
     fontWeight: '400',
+  },
+  names: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginRight: 30,
   },
 });

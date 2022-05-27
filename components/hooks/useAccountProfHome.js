@@ -1,26 +1,37 @@
 import {useEffect, useState} from 'react';
-import {baseUrl2} from '../../http';
-import {useSelector} from 'react-redux';
-const url = baseUrl2 + '/users/list/';
+import {
+  GetBenUserService,
+  GetUserService,
+} from '../../http/getUserBYIdService/getUserBYIdService';
 
-export const useAccountProfHome = () => {
+export const useAccountProfHome = props => {
   const [options, setOptions] = useState([]);
-  const id = useSelector(state => state.user);
-  let i = id.toString();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url + i, {
-          headers: {
-            Authorization:
-              'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-          },
-        });
-        const json = await response.json();
-        setOptions(json);
+        const {data} = await GetUserService.getUserId(props);
+        setOptions(data);
       } catch (error) {
-        console.log('error', error);
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return {options};
+};
+
+export const useBenAccountProfHome = props => {
+  const [options, setOptions] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const {data} = await GetBenUserService.getBenUserId(props);
+        setOptions(data);
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchData();

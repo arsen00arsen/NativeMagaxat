@@ -10,43 +10,21 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
-import {baseUrl2} from '../../../http/index';
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import {useDispatch} from 'react-redux';
-
+import {useGetUsers} from '../../../components/hooks/useGetUsers';
 const BenefactorsScreen = () => {
-  const [data, setData] = useState('');
   const theme = useTheme();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const url = baseUrl2 + '/benefactors_api';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-
-    fetchData();
-  }, []);
+  const {options} = useGetUsers();
 
   let userProfilePage = item => {
-    dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('BenefactorUserPageScreen');
+    navigation.navigate('BenefactorUserPageScreen', {
+      id: item.id,
+    });
   };
-  let content = data.data?.map((elem, index) => {
-    let img;
-    if (elem?.image !== null) {
-      img = {uri: elem.image};
-    } else {
-      img = require('../../../assets/defoult.png');
-    }
+  let content = options.data?.map((elem, index) => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
@@ -59,9 +37,17 @@ const BenefactorsScreen = () => {
             locations={[0.0, 0.9]}
             colors={['#AFAFAF', '#E8E8E8']}>
             <View style={styles.imgFrame}>
-              <Image source={img} style={styles.userImage} />
+              <Image source={{uri: elem.image}} style={styles.userImage} />
             </View>
-            <Text style={styles.userName}>{elem.name}</Text>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.userName}>{elem.name}</Text>
+              <Text style={styles.userName}>{elem.last_name}</Text>
+            </View>
           </LinearGradient>
         </TouchableOpacity>
       </View>
