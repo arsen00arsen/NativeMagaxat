@@ -2,27 +2,45 @@ import React, {useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Entypo';
-
+import DocumentPicker from 'react-native-document-picker';
 export const AvatarAdd = props => {
-  const [uri, setUri] = useState(props.source?.uri || undefined);
+  const [image, setImage] = useState(null);
+  const [selected, setSelected] = useState(false);
+  const [singleFile, setSingleFile] = useState(null);
 
-  const pickPicture = () => {
-    ImagePicker.openPicker({
-      width: 110,
-      height: 110,
-      cropping: true,
-    }).then(image => {
-      setUri(image.path);
-      props.onChange?.(image);
-    });
+  console.log(props);
+  const selectFile = async () => {
+    setSelected(true);
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      });
+      setSingleFile(res[0]);
+      setImage(res[0].uri);
+    } catch (err) {
+      setSingleFile(null);
+      if (DocumentPicker.isCancel(err)) {
+        alert('Canceled');
+      } else {
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
   };
+  let img;
+  if (props?.image !== undefined) {
+    img = {uri: props?.image};
+  } else {
+  }
+
   return (
-    <TouchableOpacity onPress={pickPicture} style={styles.container}>
-      <Image
-        style={styles.avatar}
-        {...props}
-        source={uri ? {uri} : props.source}
-      />
+    <TouchableOpacity onPress={selectFile} style={styles.container}>
+      {selected === false ? (
+        <Image style={styles.avatar} {...props} source={img} />
+      ) : (
+        <Image style={styles.avatar} {...props} source={{uri: image}} />
+      )}
+
       <View style={styles.icon}>
         <Icon name="camera" size={24} color="#B9B9B9" />
       </View>
@@ -37,6 +55,7 @@ const styles = StyleSheet.create({
     width: 100,
     borderRadius: 100,
     padding: 20,
+    resizeMode: 'cover',
   },
   icon: {
     position: 'absolute',

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,57 +6,27 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   ScrollView,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import Icon from 'react-native-vector-icons/Ionicons';
 import VideoPlayer from 'react-native-video-player';
-import Icon from 'react-native-vector-icons/Feather';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Brands from 'react-native-vector-icons/Fontisto';
-import {baseUrl2} from '../../../http/index';
-import {useSelector} from 'react-redux';
 import {useBenAccountProfHome} from '../../../components/hooks/useAccountProfHome';
+import {UserSubscribe} from '../../../http/isLiked/isLiked';
 
 const BenefactorUserPageScreen = props => {
   const theme = useTheme();
-  const [text, onChangeText] = useState('');
-  let id = props.route.params.id;
-  const {options} = useBenAccountProfHome(id);
-  let user = options.data;
-  console.log(user, 'lllllllllllll');
-  // const id = useSelector(state => state.usser.usserAccountId);
-  // let i = id.toString();
+  const [isSub, setIssub] = useState('');
+  let user = props.route.params.id;
 
-  // let videoContent;
-
-  // if (data.data) {
-  //   videoContent = data.data.map((elem, index) => {
-  //     return (
-  //       <View key={elem.id} style={styles.column}>
-  //         <VideoPlayer
-  //           uri={elem.userVedio}
-  //           autoplay={false}
-  //           defaultMuted={true}
-  //           thumbnail={require('../../../assets/logoHeader.png')}
-  //           style={styles.video}
-  //         />
-  //       </View>
-  //     );
-  //   });
-  // }
-  // let user = data.data !== undefined ? data.data[0] : null;
-  // let img;
-  // if (user?.image !== null) {
-  //   img = {uri: user?.image};
-  // } else {
-  //   img = require('../../../assets/defoult.png');
-  // }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -65,37 +35,37 @@ const BenefactorUserPageScreen = props => {
       />
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        {/* <View style={styles.userInfo}>
-          <Image source={img} style={styles.userImage} />
+        <View style={styles.userInfo}>
+          <Image source={{uri: user.user.image}} style={styles.userImage} />
           <View>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.last_name}</Text>
+            <Text style={styles.nameSurname}>{user.user.name}</Text>
+            <Text style={styles.nameSurname}>{user?.user.lastname}</Text>
           </View>
         </View>
         <View style={styles.textBody}>
-          <Text style={styles.text}>{user?.description}</Text>
+          <Text style={styles.text}>{user.description}</Text>
         </View>
-        <View style={styles.contentVideo}>{videoContent}</View>
+        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
         <View style={styles.helpTextContainer}>
-          <Text style={styles.helpTitle}>How can I help?</Text>
+          <Text style={styles.helpTitle}>{user.title} </Text>
           <Text style={styles.helpText}>
-            To help William, you can send your desired amount to the Magaxat
-            account, marking the recipient ID
+            To help {user?.user.name}, you can send your desired amount to the
+            Magaxat account, marking the recipient ID
           </Text>
         </View>
         <View style={styles.inputContainer}>
           <SafeAreaView>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
+              // onChangeText={onChangeText}
+              // value={text}
               placeholder={'620e4b6a4908b'}
             />
           </SafeAreaView>
           <TouchableOpacity
             onPress={() => alert('Button Clicked!')}
             style={styles.button}>
-            <Icon name="chevron-right" size={20} color="white" />
+            {/* <Icon name="chevron-right" size={20} color="white" /> */}
           </TouchableOpacity>
         </View>
         <View style={styles.makeContainer}>
@@ -135,7 +105,8 @@ const BenefactorUserPageScreen = props => {
             <FontAwesome name="instagram" size={40} color="black" />
             <FontAwesome5Brands name="viber" size={40} color="black" />
           </View>
-        </View> */}
+        </View>
+        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
       </ScrollView>
     </View>
   );
@@ -179,7 +150,6 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    maxHeight: 150,
     marginVertical: 30,
   },
   text: {

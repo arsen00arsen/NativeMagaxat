@@ -5,54 +5,68 @@ import {
   Image,
   StyleSheet,
   StatusBar,
+  FlatList,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
-import {useDispatch} from 'react-redux';
-import {useGetUsers} from '../../../components/hooks/useGetUsers';
+import {useGetAppearsUsers} from '../../../components/hooks/useGetUsers';
+import {loadAppears} from '../../../stores/appears/appearAction';
 const BenefactorsScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
-  const {options} = useGetUsers();
+  // const {options} = useGetAppearsUsers();
+  const dispatch = useDispatch();
+  const {isLoading, appears} = useSelector(state => state.appears);
+  const [currentPages, setCurrentPages] = useState(1);
+  const loadMoreItem = () => {
+    setCurrentPages(currentPages);
+  };
+
+  useEffect(() => {
+    dispatch(loadAppears(currentPages));
+  }, [currentPages]);
 
   let userProfilePage = item => {
     navigation.navigate('BenefactorUserPageScreen', {
-      id: item.id,
+      id: item,
     });
   };
-  let content = options.data?.map((elem, index) => {
+
+  const renderLoader = () => {
+    return isLoading ? (
+      <View style={styles.loaderStyle}>
+        <ActivityIndicator size="large" color="#aaa" />
+      </View>
+    ) : null;
+  };
+
+  const renderItem = ({item}) => {
     return (
-      <View key={elem.id} style={styles.users}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => userProfilePage(elem)}>
-          <LinearGradient
-            style={styles.userProfile}
-            start={{x: 0, y: 0}}
-            end={{x: 1, y: 1}}
-            locations={[0.0, 0.9]}
-            colors={['#AFAFAF', '#E8E8E8']}>
-            <View style={styles.imgFrame}>
-              <Image source={{uri: elem.image}} style={styles.userImage} />
-            </View>
-            <View
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}>
-              <Text style={styles.userName}>{elem.name}</Text>
-              <Text style={styles.userName}>{elem.last_name}</Text>
-            </View>
-          </LinearGradient>
-        </TouchableOpacity>
+      <View>
+        <View style={[styles.button, styles.shadowProp]}>
+          <View style={styles.imgFrame}>
+            <Image source={{uri: item.image}} style={styles.userImage} />
+          </View>
+          <View style={styles.descriptionContent}>
+            <Text style={styles.title} numberOfLines={2}>
+              {item.description}
+            </Text>
+            <TouchableOpacity
+              onPress={() => userProfilePage(item)}
+              style={styles.view}>
+              <Text style={styles.viewText}>View</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     );
-  });
+  };
 
   return (
     <View style={styles.container}>
@@ -61,9 +75,16 @@ const BenefactorsScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'BenefactorSearchPage'} />
-      <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.flexWraps}>{content}</View>
-      </ScrollView>
+      <FlatList
+        style={{width: '100%'}}
+        showsVerticalScrollIndicator={false}
+        data={appears}
+        onEndReached={loadMoreItem}
+        keyExtractor={(item, index) => index.toString()}
+        ListFooterComponent={renderLoader}
+        onEndReachedThreshold={2.5}
+        renderItem={renderItem}
+      />
     </View>
   );
 };
@@ -79,24 +100,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#FFF',
     height: '100%',
   },
-  scroll: {
-    width: '100%',
-  },
   users: {
-    width: '46%',
-  },
-  userProfile: {
-    width: 164,
-    height: 200,
-    display: 'flex',
-    borderRadius: 8,
-    flexDirection: 'column',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginBottom: 20,
+    width: '100%',
   },
   imgFrame: {
     display: 'flex',
@@ -119,10 +127,36 @@ const styles = StyleSheet.create({
     color: '#727272',
     textAlign: 'center',
   },
-  flexWraps: {
+  title: {
+    width: '90%',
+  },
+  button: {
     display: 'flex',
     flexDirection: 'row',
-    flexWrap: 'wrap',
     justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#F2F2F2',
+    borderRadius: 30,
+    backgroundColor: '#F2F2F2',
+  },
+  descriptionContent: {
+    width: '60%',
+  },
+  view: {
+    width: '90%',
+    height: 40,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#AF9065',
+    borderRadius: 30,
+    marginVertical: 5,
+  },
+  viewText: {
+    color: '#FFF',
+    fontSize: 20,
   },
 });

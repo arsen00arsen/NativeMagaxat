@@ -11,35 +11,23 @@ import {
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl2} from '../../../http/index';
-import {useSelector} from 'react-redux';
-const AccountScreen = () => {
-  const [data, setData] = useState('');
-  const id = useSelector(state => state.usser.usserAccountId);
+import {UserSubscribe} from '../../../http/isLiked/isLiked';
+
+const AccountScreen = props => {
   const theme = useTheme();
-  let i = id.toString();
+  const [isSub, setIssub] = useState('');
+  let user = props.route.params.user;
 
-  useEffect(() => {
-    const url = baseUrl2 + '/users/list/' + i;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const subButton = async () => {
+    try {
+      const {data} = await UserSubscribe.isSubscribe(user.id);
+      console.log(data);
+      setIssub(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  let user = data.data !== undefined ? data.data[0] : null;
-  let img;
-  if (user?.image !== null) {
-    img = {uri: user?.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -49,11 +37,15 @@ const AccountScreen = () => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image source={img} style={styles.userImage} />
+          <Image source={{uri: user?.image}} style={styles.userImage} />
           <View style={styles.usernameIcon}>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.last_name}</Text>
-            <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+            <View style={styles.names}>
+              <Text style={styles.nameSurname}>{user?.name}</Text>
+              <Text style={styles.nameSurname}>{user?.lastname}</Text>
+            </View>
+            {isSub.subscribed == true ? (
+              <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+            ) : null}
           </View>
         </View>
         <View style={styles.textBody}>
@@ -74,8 +66,16 @@ const AccountScreen = () => {
               </View>
             </View>
             <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity style={styles.postSubscribeButton}>
-                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+              <TouchableOpacity
+                style={styles.postSubscribeButton}
+                onPress={subButton}>
+                {isSub.subscribed === true ? (
+                  <Text style={styles.postSubscribeButtonText}>
+                    Unsubscribe
+                  </Text>
+                ) : (
+                  <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+                )}
               </TouchableOpacity>
               <TouchableOpacity style={styles.postSubscribeButton}>
                 <Text style={styles.postSubscribeButtonText}>Message</Text>
@@ -119,6 +119,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   nameSurname: {
     color: '#727272',
@@ -183,13 +184,7 @@ const styles = StyleSheet.create({
     color: '#535353',
     fontSize: 15,
   },
-  postSubscribeButtons: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 30,
-  },
+
   postSubscribeButton: {
     display: 'flex',
     alignItems: 'center',
@@ -203,5 +198,18 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
     fontWeight: '400',
+  },
+  postSubscribeButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  names: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginRight: 30,
   },
 });

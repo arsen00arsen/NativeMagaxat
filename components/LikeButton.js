@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import * as Animated from 'react-native-animatable';
-import PostLike from '../http/isLiked/isLiked';
+import {PostLike} from '../http/isLiked/isLiked';
 
 const LikeButton = ({id, likeCounts, authLiked}) => {
   const [liked, setLiked] = useState(authLiked || false);

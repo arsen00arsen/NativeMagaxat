@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   StatusBar,
   TouchableOpacity,
@@ -10,59 +9,16 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {useNavigation} from '@react-navigation/native';
-import {baseUrl2} from '../../../http/index';
-import {useDispatch} from 'react-redux';
+import AccountUsers from './AccountUsers';
+import AccountBenefactors from './AccountBenefactors';
 
 const AccountsScreen = () => {
   const theme = useTheme();
-  const navigation = useNavigation();
-  const dispatch = useDispatch();
-  const [data, setData] = useState('');
+  const [select, isSelect] = useState('Users');
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const url = baseUrl2 + '/users/list';
-  const fetchData = async () => {
-    try {
-      const response = await fetch(url);
-      const json = await response.json();
-      setData(json);
-    } catch (error) {
-      console.log('error', error);
-    }
+  const selectedType = type => {
+    isSelect(type);
   };
-  let userProfilePage = i => {
-    dispatch({type: 'USSER_ID', payload: i});
-    navigation.navigate('AccounProfiletScreen');
-  };
-
-  let content = data?.data?.map((elem, index) => {
-    let img;
-    if (elem.image !== undefined) {
-      img = {uri: elem.image};
-    } else {
-      img = require('../../../assets/defoult.png');
-    }
-    return (
-      <View key={elem.id} style={styles.users}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => userProfilePage(elem.id)}>
-          <View style={[styles.userProfile, styles.shadowProp]}>
-            <View style={styles.imgFrame}>
-              <Image source={img} style={styles.userImage} />
-            </View>
-            <Text style={styles.userName}>
-              {elem.last_name} {elem.name}
-            </Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  });
 
   return (
     <View style={styles.container}>
@@ -72,7 +28,25 @@ const AccountsScreen = () => {
       />
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.wrapStyle}>{content}</View>
+        <View style={styles.titleButtons}>
+          <TouchableOpacity
+            style={[
+              select === 'Users' ? styles.buttons : styles.isSelectedButton,
+            ]}
+            onPress={() => selectedType('Users')}>
+            <Text style={styles.buttonText}>Users</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              select === 'Benefactors'
+                ? styles.buttons
+                : styles.isSelectedButton,
+            ]}
+            onPress={() => selectedType('Benefactors')}>
+            <Text style={styles.buttonText}>Benefactors</Text>
+          </TouchableOpacity>
+        </View>
+        {select === 'Users' ? <AccountUsers /> : <AccountBenefactors />}
       </ScrollView>
     </View>
   );
@@ -92,53 +66,37 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     height: '100%',
   },
-  users: {
-    width: '100%',
-    marginBottom: 10,
-  },
-  userProfile: {
-    width: '100%',
-    height: 75,
+
+  titleButtons: {
     display: 'flex',
-    borderRadius: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
     alignItems: 'center',
-    // borderColor: 'silver',
-    // borderWidth: 1,
-    backgroundColor: 'white',
+    justifyContent: 'space-between',
+    marginVertical: 20,
   },
-  imgFrame: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 50,
-    borderWidth: 4,
-    borderColor: '#E6E6E6',
-    width: 50,
+  buttons: {
+    width: '48%',
     height: 50,
-    marginHorizontal: 20,
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignItems: 'center',
+    backgroundColor: '#D2C8B9',
+    borderRadius: 5,
+    justifyContent: 'center',
   },
-  shadowProp: {
-    elevation: 7,
-    shadowColor: '#785425',
-    borderRadius: 8,
-  },
-  userImage: {
-    width: 43,
-    height: 43,
-    borderRadius: 50,
-  },
-  userName: {
-    fontSize: 16,
-    color: '#727272',
-    textAlign: 'left',
+  buttonText: {
+    fontSize: 18,
+    color: '#FFFFFF',
     fontWeight: '400',
   },
-  wrapStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+  isSelectedButton: {
+    width: '48%',
+    height: 50,
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignItems: 'center',
+    backgroundColor: 'silver',
+    borderRadius: 5,
+    justifyContent: 'center',
   },
 });
