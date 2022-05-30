@@ -4,6 +4,7 @@ import {postReducer} from '../stores/post/postReducer';
 import {lastUserReducer} from '../stores/lastUsers/lastUsersReduser';
 import {mediaReducer} from '../stores/medias/mediaReducer';
 import {appearsReducer} from '../stores/appears/appearsReducer';
+import {myPostReducer} from '../stores/profileMe/profileMeReducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -11,4 +12,5 @@ export const rootReducer = combineReducers({
   users: lastUserReducer,
   medias: mediaReducer,
   appears: appearsReducer,
+  myPosts: myPostReducer,
 });

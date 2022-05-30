@@ -5,7 +5,6 @@ import {useSelector} from 'react-redux';
 
 const MyaccountUsserInforAvatar = () => {
   const user = useSelector(state => state?.user);
-  console.log(user.user.image);
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>

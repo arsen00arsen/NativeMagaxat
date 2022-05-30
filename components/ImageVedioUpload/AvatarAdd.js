@@ -5,10 +5,10 @@ import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 export const AvatarAdd = props => {
   const [image, setImage] = useState(null);
+  const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
 
-  console.log(props);
   const selectFile = async () => {
     setSelected(true);
     try {
@@ -27,24 +27,45 @@ export const AvatarAdd = props => {
       }
     }
   };
+  const uploadImage = async () => {
+    const fileToUpload = singleFile;
+    const data = new FormData();
+    data.append('image', fileToUpload);
+    try {
+      console.log(data, 'dddddd');
+      // await ImageUploadService.uploadImage({data});
+      // setSelected(!selected);
+    } catch (error) {
+      alert(error);
+    } finally {
+      // dispatch(startLoadPosts(false));
+    }
+  };
+
   let img;
   if (props?.image !== undefined) {
     img = {uri: props?.image};
   } else {
   }
-
+  console.log(image, 'imageimageimageimageimage');
   return (
-    <TouchableOpacity onPress={selectFile} style={styles.container}>
+    <>
       {selected === false ? (
-        <Image style={styles.avatar} {...props} source={img} />
+        <TouchableOpacity onPress={selectFile} style={styles.container}>
+          <Image style={styles.avatar} {...props} source={img} />
+          <View style={styles.icon}>
+            <Icon name="camera" size={24} color="#B9B9B9" />
+          </View>
+        </TouchableOpacity>
       ) : (
-        <Image style={styles.avatar} {...props} source={{uri: image}} />
+        <TouchableOpacity onPress={uploadImage} style={styles.container}>
+          <Image style={styles.avatar} {...props} source={{uri: image}} />
+          <View style={styles.icon}>
+            <Icon name="circle-with-plus" size={24} color="#B9B9B9" />
+          </View>
+        </TouchableOpacity>
       )}
-
-      <View style={styles.icon}>
-        <Icon name="camera" size={24} color="#B9B9B9" />
-      </View>
-    </TouchableOpacity>
+    </>
   );
 };
 

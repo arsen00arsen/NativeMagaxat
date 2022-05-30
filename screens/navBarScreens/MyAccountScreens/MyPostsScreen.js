@@ -14,56 +14,36 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
-const MyPostsScreen = ({navigation}) => {
+const MyPostsScreen = props => {
   const theme = useTheme();
-  const [dataPosts, setDataPosts] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const getpost = async () => {
-    setIsLoading(true);
-    const urlPosts = baseUrl2 + `/posts_api?page=${currentPage}`;
-    try {
-      const response = await fetch(urlPosts, {
-        headers: {
-          Authorization:
-            'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
-        },
-      });
-      const json = await response.json();
-      setDataPosts([...dataPosts, ...json.data.data]);
-    } catch (error) {
-      console.log('error', error);
-      setIsLoading(false);
-    }
-  };
-
+  let posts = props?.route.params;
   const renderItem = ({item}) => {
     let content;
     if (item.image_path) {
-      content = <ImgComponentpost uri={item} key={item.id} />;
+      content = (
+        <>
+          <ImgComponentpost
+            uri={item}
+            key={item.id}
+            img={posts.posts.image}
+            post="post"
+          />
+        </>
+      );
     } else {
-      content = <VideoComponent uri={item} key={item.id} />;
+      content = (
+        <VideoComponent
+          uri={item}
+          key={item.id}
+          img={posts.posts.image}
+          post="post"
+        />
+      );
     }
     return content;
   };
-
-  const renderLoader = () => {
-    return isLoading ? (
-      <View style={styles.loaderStyle}>
-        <ActivityIndicator size="large" color="#aaa" />
-      </View>
-    ) : null;
-  };
-
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
-  useEffect(() => {
-    getpost();
-  }, [currentPage]);
 
   return (
     <View style={styles.container}>
@@ -72,21 +52,15 @@ const MyPostsScreen = ({navigation}) => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch />
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <MyaccountUsserInfor />
-        <>
-          <FlatList
-            style={{width: '100%'}}
-            showsVerticalScrollIndicator={false}
-            data={dataPosts}
-            onEndReached={info => loadMoreItem(info)}
-            keyExtractor={(items, index) => index.toString()}
-            ListFooterComponent={renderLoader}
-            onEndReachedThreshold={0.5}
-            renderItem={renderItem}
-          />
-        </>
-      </ScrollView>
+      <MyaccountUsserInfor />
+
+      <FlatList
+        style={{width: '100%'}}
+        showsVerticalScrollIndicator={false}
+        data={posts.posts.posts}
+        keyExtractor={(items, index) => index.toString()}
+        renderItem={renderItem}
+      />
     </View>
   );
 };
@@ -104,5 +78,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
+  },
+  delete: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
   },
 });

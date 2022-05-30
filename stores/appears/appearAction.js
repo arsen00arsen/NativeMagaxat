@@ -1,5 +1,4 @@
 import {AppearsService} from '../../http/getUsersService/getUsersService';
-import PostService from '../../http/postService/postService';
 import {LOAD_APPEARS, LOAD_APPEARS_ERROR, LOAD_APPEARS_SUCCESS} from './type';
 
 export const startLoadAppears = payload => ({

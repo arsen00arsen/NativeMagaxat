@@ -17,7 +17,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../../../stores/user/userActions';
-
+import LinearGradient from 'react-native-linear-gradient';
 const SettingsScreen = ({navigation}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -91,7 +91,7 @@ const SettingsScreen = ({navigation}) => {
           /> */}
           <Text style={styles.textInput}> English</Text>
         </View>
-        <View style={styles.action}>
+        {/* <View style={styles.action}>
           <Text style={styles.inputHeader}>Password</Text>
           <TextInput
             placeholderTextColor="#666666"
@@ -100,8 +100,8 @@ const SettingsScreen = ({navigation}) => {
             onChangeText={val => console.log(val)}
             placeholder="Change Password"
           />
-        </View>
-        <View style={styles.action}>
+        </View> */}
+        {/* <View style={styles.action}>
           <Text style={styles.inputHeader}>About</Text>
           <TextInput
             placeholderTextColor="#666666"
@@ -110,9 +110,12 @@ const SettingsScreen = ({navigation}) => {
             onChangeText={val => console.log(val)}
             placeholder="About Us"
           />
-        </View>
+        </View> */}
         <TouchableOpacity onPress={logOut} style={styles.action}>
-          <Text>Log Out</Text>
+          <LinearGradient colors={['#88673A', '#3C3835']} style={styles.signIn}>
+            <Text style={styles.textSign}>Log Out</Text>
+            {/* {isLoading === true ? <LoaderComponent /> : null}  */}
+          </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -164,6 +167,21 @@ const styles = StyleSheet.create({
   icon: {
     paddingLeft: 10,
     bottom: 15,
+  },
+  signIn: {
+    width: '100%',
+    borderRadius: 8,
+    minHeight: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textSign: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+    lineHeight: 21,
+    textAlign: 'center',
   },
 });
 

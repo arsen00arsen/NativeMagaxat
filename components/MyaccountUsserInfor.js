@@ -3,26 +3,19 @@ import {View, StyleSheet, Text, Image} from 'react-native';
 import {useSelector} from 'react-redux';
 
 const MyaccountUsserInfor = () => {
-  const user = useSelector(state => state.usser?.login?.data);
-  let img;
-  if (user.image !== undefined) {
-    img = {uri: user.image};
-  } else {
-    img = require('../assets/defoult.png');
-  }
-  let datas = user?.date_of_birth?.substring(0, 11);
+  const user = useSelector(state => state?.user);
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>
         <View style={styles.imgFrame}>
-          <Image source={img} style={styles.userImage} />
+          <Image source={{uri: user.user.image}} style={styles.userImage} />
         </View>
         <View style={styles.userInfo}>
           <View style={styles.names}>
-            <Text style={styles.userName}>{user.name}</Text>
-            <Text style={styles.lastname}>{user.lastname}</Text>
+            <Text style={styles.userName}>{user.user.name} </Text>
+            <Text style={styles.userName}>{user.user.lastname} </Text>
           </View>
-          <Text style={styles.userDate}>{datas}</Text>
+          <Text style={styles.userDate}>{user.user.date_of_birth}</Text>
         </View>
       </View>
     </View>

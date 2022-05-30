@@ -20,6 +20,7 @@ import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {Text, View} from 'react-native';
+import PushNotification from 'react-native-push-notification';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -51,10 +52,17 @@ const App = () => {
   // }, []);
 
   useEffect(() => {
+    createChanels();
     requestUserPermission();
     NotificationListner();
   }, []);
 
+  const createChanels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel',
+    });
+  };
   if (loading) {
     return (
       <View>
@@ -65,7 +73,6 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {/* <RootStackScreen /> */}
       {isAuth ? (
         <Stack.Navigator
           screenOptions={{

@@ -14,12 +14,6 @@ const VideoComponent = props => {
   let post = props.uri;
   let likeCounts = post?.likes?.length + 1;
   let postCounts = post.comments?.length;
-  let img;
-  if (user.image !== null) {
-    img = {uri: user.image};
-  } else {
-    img = require('../assets/defoult.png');
-  }
   let isLongDs = () => {
     setLongDis(!longDis);
   };
@@ -33,14 +27,25 @@ const VideoComponent = props => {
   } else {
     userTitle = <Text style={styles.longDis}>{post?.title}</Text>;
   }
-
+  let img;
+  if (user?.image) {
+    img = user?.image;
+  } else {
+    img = props.img;
+  }
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image source={img} style={styles.userspic} />
+        <Image source={{uri: img}} style={styles.userspic} />
         <View style={styles.inf}>
           <View style={styles.usersnames}>
+            {props.post === 'post' ? (
+              <TouchableOpacity style={styles.delete}>
+                <Icon name="delete-circle-outline" color="red" size={32} />
+              </TouchableOpacity>
+            ) : null}
+
             <View style={{display: 'flex', flexDirection: 'row'}}>
               <Text style={styles.usersname}>{user?.name} </Text>
               <Text style={styles.usersname}>{user?.lastname} </Text>
@@ -59,29 +64,31 @@ const VideoComponent = props => {
         fullscreen={true}
         resizeMode="contain"
       />
-      <View style={styles.postIcons}>
-        <LikeButton
-          likeCounts={likeCounts}
-          id={post.id}
-          authLiked={post.authLiked}
-        />
-        <View style={styles.shareButton}>
-          <ShareButton />
+      {props.post === 'post' ? null : (
+        <View style={styles.postIcons}>
+          <LikeButton
+            likeCounts={likeCounts}
+            id={post.id}
+            authLiked={post.authLiked}
+          />
+          <View style={styles.shareButton}>
+            <ShareButton />
+          </View>
+          <TouchableOpacity
+            style={styles.videoCount}
+            onPress={() =>
+              navigation.navigate('CommentScreen', {
+                description: post.title,
+                post: post.comments,
+                user: user,
+                video: post.video,
+              })
+            }>
+            <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
+            <Text>{postCounts} </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.videoCount}
-          onPress={() =>
-            navigation.navigate('CommentScreen', {
-              description: post.title,
-              post: post.comments,
-              user: user,
-              video: post.video,
-            })
-          }>
-          <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
-          <Text>{postCounts} </Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </View>
   );
 };
@@ -110,8 +117,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userspic: {
-    height: 32,
-    width: 32,
+    height: 52,
+    width: 52,
     borderRadius: 50,
   },
   inf: {
@@ -158,5 +165,9 @@ const styles = StyleSheet.create({
   },
   shareButton: {
     marginBottom: 20,
+  },
+  delete: {
+    marginLeft: 'auto',
+    paddingHorizontal: 10,
   },
 });

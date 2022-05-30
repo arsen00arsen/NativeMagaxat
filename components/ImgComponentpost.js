@@ -19,12 +19,6 @@ const ImgComponentpost = props => {
   let user = props.uri;
   let post = props.uri;
   let postCounts = post.comments?.length;
-  let img;
-  if (user.user.image !== null) {
-    img = {uri: user.user.image};
-  } else {
-    img = require('../assets/defoult.png');
-  }
   let isLongDs = () => {
     setLongDis(!longDis);
   };
@@ -56,13 +50,24 @@ const ImgComponentpost = props => {
     );
   }
   let likeCounts = post?.likes?.length + 1;
+  let img;
+  if (user?.image) {
+    img = user?.image;
+  } else {
+    img = props.img;
+  }
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image source={img} style={styles.userspic} />
+        <Image source={{uri: img}} style={styles.userspic} />
         <View style={styles.inf}>
           <View style={styles.usersnames}>
+            {props.post === 'post' ? (
+              <TouchableOpacity style={styles.delete}>
+                <Icon name="delete-circle-outline" color="red" size={32} />
+              </TouchableOpacity>
+            ) : null}
             <View style={{display: 'flex', flexDirection: 'row'}}>
               <Text style={styles.usersname}>{user.user?.name} </Text>
               <Text style={styles.usersname}>{user.user?.lastname} </Text>
@@ -73,30 +78,32 @@ const ImgComponentpost = props => {
         </View>
       </View>
       {imgBG}
-      <View style={styles.postIcons}>
-        <LikeButton
-          likeCounts={likeCounts}
-          id={post.id}
-          authLiked={post.authLiked}
-        />
-        <View style={styles.shareButton}>
-          <ShareButton />
+      {props.post === 'post' ? null : (
+        <View style={styles.postIcons}>
+          <LikeButton
+            likeCounts={likeCounts}
+            id={post.id}
+            authLiked={post.authLiked}
+          />
+          <View style={styles.shareButton}>
+            <ShareButton />
+          </View>
+          <TouchableOpacity
+            style={styles.imgCount}
+            onPress={() =>
+              navigation.navigate('CommentScreen', {
+                description: user.title,
+                post: post.comments,
+                user: user?.user,
+                image: user.image,
+                id: user.id,
+              })
+            }>
+            <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
+            <Text>{postCounts} </Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          style={styles.imgCount}
-          onPress={() =>
-            navigation.navigate('CommentScreen', {
-              description: user.title,
-              post: post.comments,
-              user: user?.user,
-              image: user.image,
-              id: user.id,
-            })
-          }>
-          <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
-          <Text>{postCounts} </Text>
-        </TouchableOpacity>
-      </View>
+      )}
     </View>
   );
 };
@@ -121,8 +128,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userspic: {
-    height: 32,
-    width: 32,
+    height: 52,
+    width: 52,
     borderRadius: 50,
   },
   inf: {

@@ -27,10 +27,9 @@ const GeneralScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const {control, handleSubmit, getValues} = useForm({
     defaultValues: {
-      date_of_birth: user?.user.date_of_birth,
+      date_of_birth: new Date(),
     },
   });
-  console.log(user);
 
   const submitFormHandler = handleSubmit(data => {
     dispatch({

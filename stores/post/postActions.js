@@ -1,5 +1,5 @@
 import CommentAddService from '../../http/addComment/addComment';
-import PostService from '../../http/postService/postService';
+import {PostService} from '../../http/postService/postService';
 import {
   LOAD_POSTS,
   SET_COMMENTS,
