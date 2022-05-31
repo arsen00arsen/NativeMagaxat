@@ -31,26 +31,6 @@ const App = () => {
     dispatch(getMe());
   }, []);
 
-  // useEffect(() => {
-  //   const unregister = auth().onAuthStateChanged(userExist => {
-  //     if (userExist) {
-  //       firestore().collection('users').doc(userExist.uid).update({
-  //         status: 'online',
-  //       });
-  //       setuser(userExist);
-  //       dispatch({
-  //         type: 'FIRE_BASE_USSER',
-  //         payload: userExist,
-  //       });
-  //     } else {
-  //       setuser(null);
-  //     }
-  //   });
-  //   return () => {
-  //     unregister();
-  //   };
-  // }, []);
-
   useEffect(() => {
     createChanels();
     requestUserPermission();

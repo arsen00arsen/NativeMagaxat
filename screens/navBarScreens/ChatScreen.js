@@ -9,80 +9,82 @@ LogBox.ignoreLogs(['EventEmitter.removeListener']);
 const ChatScreen = ({route, navigation}) => {
   const [messages, setMessages] = useState([]);
   const {usserId, message, usserImage, userName} = route.params;
-  useEffect(() => {
-    setMessages([
-      {
-        _id: usserId,
-        text: message,
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: userName,
-          avatar: usserImage,
-        },
-      },
-    ]);
-  }, []);
-  const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
+  // useEffect(() => {
+  //   setMessages([
+  //     {
+  //       _id: usserId,
+  //       text: message,
+  //       createdAt: new Date(),
+  //       user: {
+  //         _id: 2,
+  //         name: userName,
+  //         avatar: usserImage,
+  //       },
+  //     },
+  //   ]);
+  // }, []);
+  // const onSend = useCallback((messages = []) => {
+  //   setMessages(previousMessages =>
+  //     GiftedChat.append(previousMessages, messages),
+  //   );
+  // }, []);
+  console.log(route.params);
 
-  const renderSend = props => {
-    return (
-      <Send {...props}>
-        <Icon
-          name="send-circle"
-          size={34}
-          color="#A5A5A5"
-          style={{marginBottom: 5, marginRight: 5}}
-        />
-      </Send>
-    );
-  };
+  // const renderSend = props => {
+  //   return (
+  //     <Send {...props}>
+  //       <Icon
+  //         name="send-circle"
+  //         size={34}
+  //         color="#A5A5A5"
+  //         style={{marginBottom: 5, marginRight: 5}}
+  //       />
+  //     </Send>
+  //   );
+  // };
 
-  const scrollToBottomComponent = () => {
-    return <FontAwesome name="angle-double-down" size={22} color="#333" />;
-  };
+  // const scrollToBottomComponent = () => {
+  //   return <FontAwesome name="angle-double-down" size={22} color="#333" />;
+  // };
 
-  const renderBubble = props => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            backgroundColor: '#B9AA93',
-            borderWidth: 1,
-            borderColor: 'silver',
-          },
-        }}
-        textStyle={{
-          right: {
-            color: 'black',
-          },
-        }}
-      />
-    );
-  };
-  const renderToolbar = props => {
-    return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
-  };
+  // const renderBubble = props => {
+  //   return (
+  //     <Bubble
+  //       {...props}
+  //       wrapperStyle={{
+  //         right: {
+  //           backgroundColor: '#B9AA93',
+  //           borderWidth: 1,
+  //           borderColor: 'silver',
+  //         },
+  //       }}
+  //       textStyle={{
+  //         right: {
+  //           color: 'black',
+  //         },
+  //       }}
+  //     />
+  //   );
+  // };
+  // const renderToolbar = props => {
+  //   return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
+  // };
   return (
-    <GiftedChat
-      messages={messages}
-      style={styles.canteiner}
-      onSend={messages => onSend(messages)}
-      user={{
-        _id: 1,
-      }}
-      renderBubble={renderBubble}
-      alwaysShowSend
-      renderSend={renderSend}
-      scrollToBottom
-      scrollToBottomComponent={scrollToBottomComponent}
-      renderInputToolbar={renderToolbar}
-    />
+    <></>
+    // <GiftedChat
+    //   messages={messages}
+    //   style={styles.canteiner}
+    //   onSend={messages => onSend(messages)}
+    //   user={{
+    //     _id: 1,
+    //   }}
+    //   renderBubble={renderBubble}
+    //   alwaysShowSend
+    //   renderSend={renderSend}
+    //   scrollToBottom
+    //   scrollToBottomComponent={scrollToBottomComponent}
+    //   renderInputToolbar={renderToolbar}
+    // />
   );
 };
 

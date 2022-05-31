@@ -18,6 +18,7 @@ import {Controller, useForm} from 'react-hook-form';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
 import {useSelector, useDispatch} from 'react-redux';
 import MultiSelectComponent from '../../../components/MultiSelectComponent';
+import {UploadUserService} from '../../../http/uploadService/uploadService';
 
 const GeneralScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,15 +33,23 @@ const GeneralScreen = ({navigation}) => {
   });
 
   const submitFormHandler = handleSubmit(data => {
-    dispatch({
-      type: 'FIRST_STEP_SUBMIT',
-      payload: {
-        ...data,
-        date_of_birth: moment(data).format('YYYY-MM-DD'),
-      },
-    });
-    navigation.navigate('AccountInfoScreen');
+    try {
+      dispatch({
+        type: 'FIRST_STEP_SUBMIT',
+        payload: {
+          ...data,
+          date_of_birth: moment(data).format('YYYY-MM-DD'),
+        },
+      });
+    } catch {
+      console.log('error');
+    } finally {
+      console.log(user.data, 'jajajaja');
+      UploadUserService.uploadUser(user.data);
+    }
   });
+  // console.log(user.data);
+
   return (
     <View style={styles.container}>
       <StatusBar

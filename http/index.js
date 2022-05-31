@@ -3,17 +3,20 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const headers = {
   Accept: 'application/json',
-  'Content-Type': 'application/json',
+  'Content-Type': 'application/json; multipart/form-data',
+  // enctype: 'multipart/form-data',
 };
 
 export const $host = axios.create({
   baseURL: 'https://magaxat.com/api',
+  // baseURL: 'http://192.168.0.112:8000/api',
   headers,
   withCredentials: true,
 });
 
 export const $authHost = axios.create({
   baseURL: 'https://magaxat.com/api',
+  // baseURL: 'http://192.168.0.112:8000/api',
   headers,
   withCredentials: true,
 });

@@ -14,6 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
+import {SearchBenefactors} from '../../../http/searchService/searchService';
 
 const BenefactorSearchPage = () => {
   const [data, setData] = useState('');
@@ -23,18 +24,8 @@ const BenefactorSearchPage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const url = baseUrl2 + '/benefactors_api?name=' + data;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setList(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-
-    fetchData();
+    const l = SearchBenefactors.searchBenefactors(data);
+    console.log(l, 'llllllllllll');
   }, [data]);
 
   const ItemRender = item => {

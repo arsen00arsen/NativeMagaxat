@@ -278,7 +278,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     maxHeight: 110,
     width: '80%',
-    color: 'red',
+    color: 'black',
     fontSize: 16,
     paddingHorizontal: 15,
   },

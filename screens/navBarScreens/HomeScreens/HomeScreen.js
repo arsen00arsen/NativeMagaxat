@@ -23,7 +23,6 @@ const HomeScreen = () => {
       channelName: 'Test Channel',
     });
   };
-
   return (
     <View style={styles.container}>
       <HeaderChatSearch />

@@ -1,13 +1,14 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 export const AvatarAdd = props => {
+  const dispatch = useDispatch();
   const [image, setImage] = useState(null);
-  const [show, setShow] = useState(false);
   const [selected, setSelected] = useState(false);
-  const [singleFile, setSingleFile] = useState(null);
+  const [singleFile, setSingleFile] = useState('');
 
   const selectFile = async () => {
     setSelected(true);
@@ -15,26 +16,30 @@ export const AvatarAdd = props => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      setSingleFile(res[0]);
+      setSingleFile(res);
       setImage(res[0].uri);
+      uploadImage();
     } catch (err) {
-      setSingleFile(null);
+      // setSingleFile(null);
       if (DocumentPicker.isCancel(err)) {
         alert('Canceled');
       } else {
         alert('Unknown Error: ' + JSON.stringify(err));
         throw err;
       }
+    } finally {
     }
   };
+
   const uploadImage = async () => {
     const fileToUpload = singleFile;
     const data = new FormData();
     data.append('image', fileToUpload);
     try {
-      console.log(data, 'dddddd');
-      // await ImageUploadService.uploadImage({data});
-      // setSelected(!selected);
+      dispatch({
+        type: 'FIRST_STEP_SUBMIT',
+        payload: data,
+      });
     } catch (error) {
       alert(error);
     } finally {
@@ -47,7 +52,7 @@ export const AvatarAdd = props => {
     img = {uri: props?.image};
   } else {
   }
-  console.log(image, 'imageimageimageimageimage');
+
   return (
     <>
       {selected === false ? (
@@ -60,11 +65,14 @@ export const AvatarAdd = props => {
       ) : (
         <TouchableOpacity onPress={uploadImage} style={styles.container}>
           <Image style={styles.avatar} {...props} source={{uri: image}} />
-          <View style={styles.icon}>
-            <Icon name="circle-with-plus" size={24} color="#B9B9B9" />
-          </View>
         </TouchableOpacity>
       )}
+      {/* <TouchableOpacity onPress={selectFile} style={styles.container}>
+        <Image style={styles.avatar} {...props} source={img} />
+        <View style={styles.icon}>
+          <Icon name="camera" size={24} color="#B9B9B9" />
+        </View>
+      </TouchableOpacity> */}
     </>
   );
 };

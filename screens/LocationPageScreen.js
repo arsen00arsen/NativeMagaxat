@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
-    color: 'red',
+    color: '',
   },
   inputHeader: {
     fontSize: 12,

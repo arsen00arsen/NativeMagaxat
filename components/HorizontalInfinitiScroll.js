@@ -34,7 +34,6 @@ const HorizontalInfinitiScroll = () => {
     }
     return content;
   };
-
   const renderLoader = () => {
     return isLoading ? (
       <View style={styles.loaderStyle}>

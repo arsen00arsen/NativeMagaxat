@@ -22,68 +22,68 @@ const MediaSearch = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const url = baseUrl2 + '/videos_api?title=' + data;
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch(url);
-  //       const json = await response.json();
-  //       setList(json);
-  //     } catch (error) {
-  //       console.log('error', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const url = baseUrl2 + '/videos_api?title=' + data;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const json = await response.json();
+        setList(json);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
 
-  //   fetchData();
-  // }, [data]);
+    fetchData();
+  }, [data]);
 
-  // const ItemRender = item => {
-  //   let img;
-  //   if (item.userImage !== undefined) {
-  //     img = {uri: item.userImage};
-  //   } else {
-  //     img = require('../../../assets/defoult.png');
-  //   }
-  //   return (
-  //     <View style={styles.usersProfile}>
-  //       <View style={styles.info}>
-  //         <VideoPlayer
-  //           uri={item.userVedio}
-  //           autoplay={false}
-  //           defaultMuted={true}
-  //           thumbnail={require('../../../assets/logoHeader.png')}
-  //           style={styles.searchVideo}
-  //         />
-  //         <View style={styles.usserdata}>
-  //           <Text style={styles.itemText}>{item.vedioTitle}</Text>
-  //           <View style={styles.usserdatarow}>
-  //             <Text style={[styles.itemText, styles.paddingName]}>
-  //               {item.name}
-  //             </Text>
-  //             <Text style={styles.itemText}>{item.lastName}</Text>
-  //           </View>
-  //         </View>
-  //         <MaterialCommunityIcons
-  //           name="account-arrow-right"
-  //           size={30}
-  //           color="#BB9E79"
-  //           style={styles.itemIcon}
-  //         />
-  //       </View>
-  //     </View>
-  //   );
-  // };
+  const ItemRender = item => {
+    let img;
+    if (item.userImage !== undefined) {
+      img = {uri: item.userImage};
+    } else {
+      img = require('../../../assets/defoult.png');
+    }
+    return (
+      <View style={styles.usersProfile}>
+        <View style={styles.info}>
+          <VideoPlayer
+            uri={item.userVedio}
+            autoplay={false}
+            defaultMuted={true}
+            thumbnail={require('../../../assets/logoHeader.png')}
+            style={styles.searchVideo}
+          />
+          <View style={styles.usserdata}>
+            <Text style={styles.itemText}>{item.vedioTitle}</Text>
+            <View style={styles.usserdatarow}>
+              <Text style={[styles.itemText, styles.paddingName]}>
+                {item.name}
+              </Text>
+              <Text style={styles.itemText}>{item.lastName}</Text>
+            </View>
+          </View>
+          <MaterialCommunityIcons
+            name="account-arrow-right"
+            size={30}
+            color="#BB9E79"
+            style={styles.itemIcon}
+          />
+        </View>
+      </View>
+    );
+  };
 
-  // const Separator = () => {
-  //   return <View style={styles.seperator} />;
-  // };
-  // let userProfilePage = item => {
-  //   dispatch({type: 'USSER_ID', payload: item.id});
-  //   navigation.navigate('GridVediosScreen');
-  // };
+  const Separator = () => {
+    return <View style={styles.seperator} />;
+  };
+  let userProfilePage = item => {
+    dispatch({type: 'USSER_ID', payload: item.id});
+    navigation.navigate('GridVediosScreen');
+  };
   return (
     <View style={styles.container}>
-      {/* <StatusBar
+      <StatusBar
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
@@ -110,7 +110,7 @@ const MediaSearch = () => {
         ItemSeparatorComponent={Separator}
         vertical={true}
         showsVerticalScrollIndicator={false}
-      /> */}
+      />
     </View>
   );
 };

@@ -27,22 +27,35 @@ const MediaScreen = () => {
   const [singleFile, setSingleFile] = useState(null);
   const {control, handleSubmit, reset} = useForm();
 
-  const submitFormHandler = handleSubmit(async submitData => {
-    try {
-      reset({}, {keepValues: false});
-      console.log(submitData);
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  // const submitFormHandler = handleSubmit(async submitData => {
+  //   try {
+  //     console.log(singleFile, 'singleFilesingleFilesingleFile');
+  //     const fileToUpload = singleFile;
+  //     const data = new FormData();
+  //     console.log(fileToUpload, 'fileToUploadfileToUploadfileToUpload');
+  //     data.append('image_path', {
+  //       name: fileToUpload.name,
+  //       type: fileToUpload.type,
+  //       uri: fileToUpload.uri,
+  //     });
+  //     data.append('title', 'title');
+  //     await ImageUploadService.uploadImage(data);
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // });
   const uploadImage = async () => {
-    submitFormHandler();
+    // submitFormHandler();
     const fileToUpload = singleFile;
     const data = new FormData();
-    data.append('image_path', fileToUpload);
-    data.append('title', 'lo');
+    data.append('image_path', {
+      uri: fileToUpload.uri, // your file path string
+      name: 'image_path.jpg',
+      type: 'image/jpg',
+    });
+    // data.append('title', 'lo');
     try {
-      await ImageUploadService.uploadImage({data});
+      await ImageUploadService.uploadImage(data);
       setSelected(!selected);
       alert('Your Post is Done');
     } catch (error) {
@@ -57,6 +70,25 @@ const MediaScreen = () => {
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
+      });
+      console.log(res);
+      setSingleFile(res);
+      setImage(res[0].uri);
+    } catch (err) {
+      setSingleFile(null);
+      if (DocumentPicker.isCancel(err)) {
+        alert('Canceled');
+      } else {
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
+  };
+  const selectFileVideo = async () => {
+    setSelected(true);
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.video],
       });
       setSingleFile(res[0]);
       setImage(res[0].uri);
@@ -115,7 +147,7 @@ const MediaScreen = () => {
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}
-                    onPress={() => uploadImage()}>
+                    onPress={uploadImage}>
                     <PostIcons name="post-add" size={24} color="#B9B9B9" />
                     <Text style={styles.textAdd}>Add your Post</Text>
                   </TouchableOpacity>
@@ -137,7 +169,7 @@ const MediaScreen = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.postVedio}
-                  onPress={() => selectFile()}>
+                  onPress={() => selectFileVideo()}>
                   <Icon name="video-camera" size={24} color="#B9B9B9" />
                   <Text style={styles.textAdd}>Add Vedio</Text>
                 </TouchableOpacity>
@@ -285,7 +317,7 @@ const styles = StyleSheet.create({
     maxHeight: 180,
     width: '70%',
     maxWidth: 230,
-    color: 'red',
+    color: 'black',
     fontSize: 16,
     paddingHorizontal: 15,
   },

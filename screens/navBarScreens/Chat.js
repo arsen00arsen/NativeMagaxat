@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   GiftedChat,
@@ -13,112 +13,32 @@ import firestore from '@react-native-firebase/firestore';
 import {useSelector} from 'react-redux';
 import {LogBox} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
-LogBox.ignoreLogs(['EventEmitter.removeListener']);
 import ImageView from 'react-native-image-viewing';
+LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route, props}) {
   const [messages, setMessages] = useState([]);
-  const {uid} = route.params;
-  const user = useSelector(state => state.usser.firBaseUser);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedImageView, setSeletedImageView] = useState('');
+  const {usserId, message, usserImage, userName} = route.params;
 
-  const getAllMessages = async () => {
-    const docid = uid > user.uid ? user.uid + '-' + uid : uid + '-' + user.uid;
-    const querySanp = await firestore()
-      .collection('chatrooms')
-      .doc(docid)
-      .collection('messages')
-      .orderBy('createdAt', 'desc')
-      .get();
-    const allmsg = querySanp.docs.map(docSanp => {
-      return {
-        ...docSanp.data(),
-        createdAt: docSanp.data().createdAt.toDate(),
-      };
-    });
-    setMessages(allmsg);
-  };
   useEffect(() => {
-    getAllMessages();
-
-    const docid = uid > user.uid ? user.uid + '-' + uid : uid + '-' + user.uid;
-    const messageRef = firestore()
-      .collection('chatrooms')
-      .doc(docid)
-      .collection('messages')
-      .orderBy('createdAt', 'desc');
-
-    const unSubscribe = messageRef.onSnapshot(querySnap => {
-      const allmsg = querySnap.docs.map(docSanp => {
-        const data = docSanp.data();
-        if (data.createdAt) {
-          return {
-            ...docSanp.data(),
-            createdAt: docSanp.data().createdAt.toDate(),
-          };
-        } else {
-          return {
-            ...docSanp.data(),
-            createdAt: new Date(),
-          };
-        }
-      });
-      setMessages(allmsg);
-    });
-    return () => {
-      unSubscribe();
-    };
+    setMessages([
+      {
+        _id: usserId,
+        text: message,
+        createdAt: new Date(),
+        user: {
+          _id: 2,
+          name: userName,
+          avatar: usserImage,
+        },
+      },
+    ]);
   }, []);
-
-  const handlePhotoPicker = (uri, path, fName) => {
-    // ImagePicker.openPicker({
-    //   width: 110,
-    //   height: 110,
-    //   cropping: true,
-    // }).then(image => {
-    //   setUri(image.path);
-    //   props.onChange?.(image);
-    // });
-  };
-
-  const onSend = messageArray => {
-    const msg = messageArray[0];
-    const mymsg = {
-      ...msg,
-      sentBy: user.uid,
-      sentTo: uid,
-      createdAt: new Date(),
-    };
-    setMessages(previousMessages => GiftedChat.append(previousMessages, mymsg));
-    const docid = uid > user.uid ? user.uid + '-' + uid : uid + '-' + user.uid;
-
-    firestore()
-      .collection('chatrooms')
-      .doc(docid)
-      .collection('messages')
-      .add({...mymsg, createdAt: firestore.FieldValue.serverTimestamp()});
-  };
-  const renderBubble = props => {
-    return (
-      <Bubble
-        {...props}
-        wrapperStyle={{
-          right: {
-            backgroundColor: '#B9AA93',
-            borderWidth: 1,
-            borderColor: 'silver',
-          },
-        }}
-        textStyle={{
-          right: {
-            backgroundColor: '#B9AA93',
-            color: 'black',
-          },
-        }}
-      />
+  const onSend = useCallback((messages = []) => {
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
     );
-  };
+  }, []);
   const renderSend = props => {
     return (
       <Send {...props}>
@@ -135,62 +55,44 @@ export default function ChatScreen({route, props}) {
   const scrollToBottomComponent = () => {
     return <FontAwesome name="angle-double-down" size={22} color="#333" />;
   };
-  const renderToolbar = props => {
-    return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
-  };
-  const renderActions = props => {
+
+  const renderBubble = props => {
     return (
-      <Actions
+      <Bubble
         {...props}
-        containerStyle={styles.photosend}
-        onPressActionButton={handlePhotoPicker}
-        icon={() => <FontAwesome name="camera" size={20} color="#A5A5A5" />}
+        wrapperStyle={{
+          right: {
+            backgroundColor: '#B9AA93',
+            borderWidth: 1,
+            borderColor: 'silver',
+          },
+        }}
+        textStyle={{
+          right: {
+            color: 'black',
+          },
+        }}
       />
     );
   };
-  const renderMessageImage = props => {
-    return (
-      <View style={{borderRadius: 15, padding: 2}}>
-        <TouchableOpacity
-          onPress={() => {
-            setModalVisible(true);
-            setSeletedImageView(props.currentMessage.image);
-          }}>
-          <Image
-            resizeMode="contain"
-            style={styles.imgMsg}
-            source={{uri: props.currentMessage.image}}
-          />
-          {selectedImageView ? (
-            <ImageView
-              imageIndex={0}
-              visible={modalVisible}
-              onRequestClose={() => setModalVisible(false)}
-              images={[{uri: selectedImageView}]}
-            />
-          ) : null}
-        </TouchableOpacity>
-      </View>
-    );
+  const renderToolbar = props => {
+    return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
   };
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
       <GiftedChat
         messages={messages}
         style={styles.canteiner}
-        onSend={text => onSend(text)}
+        onSend={messages => onSend(messages)}
         user={{
-          _id: user.uid,
+          _id: 1,
         }}
-        renderAvatar={null}
         renderBubble={renderBubble}
         alwaysShowSend
         renderSend={renderSend}
         scrollToBottom
         scrollToBottomComponent={scrollToBottomComponent}
         renderInputToolbar={renderToolbar}
-        renderActions={renderActions}
-        renderMessageImage={renderMessageImage}
       />
     </View>
   );

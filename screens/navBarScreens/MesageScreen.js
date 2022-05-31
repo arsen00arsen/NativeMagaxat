@@ -8,29 +8,39 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {baseUrl2} from './../../http/index';
-import firestore from '@react-native-firebase/firestore';
-import {useSelector} from 'react-redux';
-
+import {useSelector, useDispatch} from 'react-redux';
+import {loadUsers} from '../../stores/lastUsers/userAction';
+import socketio from 'socket.io-client';
+import Echo from 'laravel-echo';
+import {createSocketConnection} from '../../http/socketService/socketService';
 // import PushNotification from 'react-native-push-notification';
+
 const MesageScreen = () => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
-  const [users, setUsers] = useState(null);
-  const user = useSelector(state => state.usser.firBaseUser);
-
-  const getUsers = async () => {
-    const querySanp = await firestore()
-      .collection('users')
-      .where('uid', '!=', user.uid)
-      .get();
-    const allusers = querySanp.docs.map(docSnap => docSnap.data());
-    setUsers(allusers);
-  };
-
+  const dispatch = useDispatch();
+  const lastusers = useSelector(state => state);
   useEffect(() => {
-    getUsers();
+    dispatch(loadUsers());
   }, []);
+  const ENDPOINT = 'ws://192.168.0.112:6001';
+  const [response, setResponse] = useState('');
+  useEffect(() => {
+    createSocketConnection();
+  });
+  // console.log(window.echo);
+  // const getUsers = async () => {
+  //   const querySanp = await firestore()
+  //     .collection('users')
+  //     .where('uid', '!=', user.uid)
+  //     .get();
+  //   const allusers = querySanp.docs.map(docSnap => docSnap.data());
+  //   setUsers(allusers);
+  // };
+
+  // useEffect(() => {
+  //   getUsers();
+  // }, []);
   // const handleNotification = item => {
   //   PushNotification.localNotification({
   //     channelId: 'test-channel',
@@ -38,41 +48,43 @@ const MesageScreen = () => {
   //     message: item.messageText,
   //   });
   // };
-  const RenderCard = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        key={index}
-        onPress={() =>
-          navigation.navigate('Chat', {
-            name: item.name,
-            uid: item.uid,
-            status:
-              typeof item.status === 'string'
-                ? item.status
-                : item.status.toDate().toString(),
-          })
-        }>
-        <View style={styles.messageContainer}>
-          <Image style={styles.userImg} source={item.usserImag} />
-          <View>
-            <Text style={styles.text}>{item.name}</Text>
-            <Text style={styles.text}>{item.email}</Text>
-          </View>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  // const RenderCard = ({item, index}) => {
+  //   return (
+  //     <TouchableOpacity
+  //       key={index}
+  //       onPress={() =>
+  //         navigation.navigate('Chat', {
+  //           name: item.name,
+  //           uid: item.uid,
+  //           // status:
+  //           //   typeof item.status === 'string'
+  //           //     ? item.status
+  //           //     : item.status.toDate().toString(),
+  //         })
+  //       }>
+  //       <View style={styles.messageContainer}>
+  //         <Image style={styles.userImg} source={{uri: item.image}} />
+  //         <View>
+  //           <Text style={styles.text}>{item.name}</Text>
+  //           <Text style={styles.text}>{item.lastname}</Text>
+  //         </View>
+  //       </View>
+  //     </TouchableOpacity>
+  //   );
+  // };
+
   return (
     <View style={styles.container}>
-      <View style={styles.messageBody}>
-        <FlatList
-          data={users}
+      {/* <View style={styles.messageBody}> */}
+      {/* <FlatList
+          data={lastusers.users.lastUsers}
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return <RenderCard item={item} />;
           }}
-        />
-      </View>
+        /> */}
+      <Text style={styles.test}>{response} </Text>
+      {/* </View> */}
     </View>
   );
 };

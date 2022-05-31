@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 4,
     alignItems: 'flex-start',
-    color: 'red',
+    color: 'black',
     paddingHorizontal: 10,
   },
   inputHeader: {

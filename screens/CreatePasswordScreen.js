@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textDanger: {
-    color: 'red',
+    color: 'black',
     fontSize: 12,
   },
   nameInput: {
