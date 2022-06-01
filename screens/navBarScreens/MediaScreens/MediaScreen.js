@@ -18,62 +18,59 @@ import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderB
 import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import MediaContent from '../../../components/MediaContent';
 import ImageUploadService from '../../../http/uploadImageSevice/uplouadImageService';
+import VideoPlayer from 'react-native-video-player';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loadPosts} from '../../../stores/post/postActions';
+import {useDispatch} from 'react-redux';
 
 const MediaScreen = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
-  const {control, handleSubmit, reset} = useForm();
+  const {control, handleSubmit, reset, getValues} = useForm();
 
-  // const submitFormHandler = handleSubmit(async submitData => {
-  //   try {
-  //     console.log(singleFile, 'singleFilesingleFilesingleFile');
-  //     const fileToUpload = singleFile;
-  //     const data = new FormData();
-  //     console.log(fileToUpload, 'fileToUploadfileToUploadfileToUpload');
-  //     data.append('image_path', {
-  //       name: fileToUpload.name,
-  //       type: fileToUpload.type,
-  //       uri: fileToUpload.uri,
-  //     });
-  //     data.append('title', 'title');
-  //     await ImageUploadService.uploadImage(data);
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // });
-  const uploadImage = async () => {
-    // submitFormHandler();
+  const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
     const data = new FormData();
-    data.append('image_path', {
-      uri: fileToUpload.uri, // your file path string
-      name: 'image_path.jpg',
-      type: 'image/jpg',
-    });
-    // data.append('title', 'lo');
+    data.append(
+      image.type === 'image' ? 'image_path' : 'video_path',
+      fileToUpload,
+    );
+    data.append('title', title.title);
     try {
-      await ImageUploadService.uploadImage(data);
+      const token = await AsyncStorage.getItem('token');
+      fetch('https://magaxat.com/api/posts_api', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + token,
+        },
+        body: data,
+      }).catch(err => {
+        console.log(err);
+      });
       setSelected(!selected);
       alert('Your Post is Done');
     } catch (error) {
-      alert(error);
+      alert(error.message);
     } finally {
-      // dispatch(startLoadPosts(false));
+      dispatch(loadPosts());
     }
-  };
+  });
 
   const selectFile = async () => {
+    setImage({type: 'image'});
     setSelected(true);
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      console.log(res);
-      setSingleFile(res);
-      setImage(res[0].uri);
+      setSingleFile(res[0]);
+      setImage({uri: res[0].uri, type: 'image'});
+      // setType('image');
     } catch (err) {
       setSingleFile(null);
       if (DocumentPicker.isCancel(err)) {
@@ -84,6 +81,7 @@ const MediaScreen = () => {
       }
     }
   };
+
   const selectFileVideo = async () => {
     setSelected(true);
     try {
@@ -102,12 +100,7 @@ const MediaScreen = () => {
       }
     }
   };
-  let img;
-  if (user.image !== undefined) {
-    img = {uri: user.image};
-  } else {
-    img = require('./../../../assets/defoult.png');
-  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -121,7 +114,7 @@ const MediaScreen = () => {
             style={[selected !== true ? styles.postBody : styles.postUnheight]}>
             <View style={styles.addPost}>
               <View style={styles.imgBody}>
-                <Image style={styles.img} source={img} />
+                <Image style={styles.img} source={{uri: user.image}} />
               </View>
               <Controller
                 control={control}
@@ -129,25 +122,37 @@ const MediaScreen = () => {
                 render={({field: {onChange, value, onBlur}}) => {
                   return (
                     <TextInput
-                      placeholder="Add Your post"
+                      placeholder="Add Your post ..."
                       value={value}
                       style={styles.textInput}
                       multiline
                       onChangeText={onChange}
+                      underlineColorAndroid="white"
                     />
                   );
                 }}
               />
             </View>
-            {selected !== false ? (
+            {selected !== false && image !== null ? (
               <>
-                <View>
-                  <Image source={{uri: image}} style={styles.io} />
-                </View>
+                {image.type == 'image' ? (
+                  <Image source={{uri: image?.uri}} style={styles.io} />
+                ) : (
+                  <VideoPlayer
+                    video={{uri: image?.uri}}
+                    autoplay={false}
+                    defaultMuted={true}
+                    // thumbnail={require('../assets/logo.png')}
+                    style={styles.io}
+                    fullscreen={true}
+                    resizeMode="contain"
+                  />
+                )}
+
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}
-                    onPress={uploadImage}>
+                    onPress={submitFormHandler}>
                     <PostIcons name="post-add" size={24} color="#B9B9B9" />
                     <Text style={styles.textAdd}>Add your Post</Text>
                   </TouchableOpacity>
@@ -224,8 +229,8 @@ const styles = StyleSheet.create({
     maxHeight: 115,
   },
   imgBody: {
-    width: 51,
-    height: 51,
+    width: 71,
+    height: 71,
     borderColor: 'silver',
     borderWidth: 4,
     borderRadius: 50,
@@ -237,8 +242,8 @@ const styles = StyleSheet.create({
   },
   img: {
     position: 'absolute',
-    width: 45,
-    height: 45,
+    width: 65,
+    height: 65,
     borderRadius: 50,
   },
   input: {
@@ -309,7 +314,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: '100%',
-    borderWidth: 2.5,
+    // borderWidth: 2.5,
     borderColor: '#E5E5E5',
     backgroundColor: '#fff',
     borderRadius: 20,

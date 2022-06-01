@@ -20,6 +20,7 @@ const MyPostsScreen = props => {
   const theme = useTheme();
   let posts = props?.route.params;
   const renderItem = ({item}) => {
+    console.log(item, 'lll');
     let content;
     if (item.image_path) {
       content = (

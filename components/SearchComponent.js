@@ -30,6 +30,7 @@ const SearchComponent = props => {
         }}
         onPress={() => setopenSearch(!openSearch)}
         style={styles.searchbody}
+        underlineColorAndroid="white"
       />
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Text style={styles.text}>Cancel</Text>
@@ -56,6 +57,7 @@ const styles = StyleSheet.create({
   searchbody: {
     width: '80%',
     height: 47,
+    backgroundColor: 'white',
   },
   text: {
     color: '#BB9E79',

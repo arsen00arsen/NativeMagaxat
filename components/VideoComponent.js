@@ -14,6 +14,7 @@ const VideoComponent = props => {
   let post = props.uri;
   let likeCounts = post?.likes?.length + 1;
   let postCounts = post.comments?.length;
+
   let isLongDs = () => {
     setLongDis(!longDis);
   };
@@ -27,17 +28,19 @@ const VideoComponent = props => {
   } else {
     userTitle = <Text style={styles.longDis}>{post?.title}</Text>;
   }
-  let img;
-  if (user?.image) {
-    img = user?.image;
-  } else {
-    img = props.img;
-  }
+  const userProfilePage = () => {
+    navigation.navigate('AccounProfiletScreen', {
+      id: user?.id,
+    });
+  };
+
   const time = moment().startOf(user?.created_at).format('LL');
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image source={{uri: img}} style={styles.userspic} />
+        <TouchableOpacity onPress={userProfilePage}>
+          <Image source={{uri: user?.image}} style={styles.userspic} />
+        </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
             {props.post === 'post' ? (

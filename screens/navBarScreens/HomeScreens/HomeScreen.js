@@ -11,18 +11,24 @@ import PushNotification from 'react-native-push-notification';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
-
+import {useDispatch} from 'react-redux';
+import {loadPosts} from '../../../stores/post/postActions';
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
+  // useEffect(() => {
+  //   createChanels();
+  // }, []);
+  // const createChanels = () => {
+  //   PushNotification.createChannel({
+  //     channelId: 'test-channel',
+  //     channelName: 'Test Channel',
+  //   });
+  // };
   useEffect(() => {
-    createChanels();
+    dispatch(loadPosts());
   }, []);
-  const createChanels = () => {
-    PushNotification.createChannel({
-      channelId: 'test-channel',
-      channelName: 'Test Channel',
-    });
-  };
+
   return (
     <View style={styles.container}>
       <HeaderChatSearch />

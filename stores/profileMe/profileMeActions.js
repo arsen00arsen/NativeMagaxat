@@ -1,4 +1,4 @@
-import {MyPostService} from '../../http/postService/postService';
+import {MyPostService, PostService} from '../../http/postService/postService';
 import {LOAD_MYPOSTS, LOAD_MYPOSTS_ERROR, LOAD_MYPOSTS_SUCCESS} from './type';
 
 export const startLoadMyPosts = payload => ({
@@ -19,7 +19,7 @@ export const setMyPostsError = msg => ({
 export const loadMyPosts = () => async dispatch => {
   try {
     dispatch(startLoadMyPosts(true));
-    const {data} = await MyPostService.loadMyPosts();
+    const {data} = await PostService.loadMyPosts();
     dispatch(setMyPosts(data.data));
   } catch (error) {
     dispatch(setMyPostsError(error));

@@ -22,15 +22,9 @@ const ImgComponentpost = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
-  let imgPost;
-  if (user.image !== null) {
-    imgPost = {uri: user.image};
-  } else {
-    imgPost = require('../assets/defoult.png');
-  }
   let imgBG = (
     <ImageBackground
-      source={imgPost}
+      source={{uri: user.image}}
       resizeMode="stretch"
       style={styles.usersProfileBGimage}
     />
@@ -50,17 +44,18 @@ const ImgComponentpost = props => {
     );
   }
   let likeCounts = post?.likes?.length + 1;
-  let img;
-  if (user?.image) {
-    img = user?.image;
-  } else {
-    img = props.img;
-  }
   const time = moment().startOf(user?.created_at).format('LL');
+  const userProfilePage = () => {
+    navigation.navigate('AccounProfiletScreen', {
+      id: user?.user.id,
+    });
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
-        <Image source={{uri: img}} style={styles.userspic} />
+        <TouchableOpacity onPress={userProfilePage}>
+          <Image source={{uri: user?.user.image}} style={styles.userspic} />
+        </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
             {props.post === 'post' ? (

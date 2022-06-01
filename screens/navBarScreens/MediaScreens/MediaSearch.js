@@ -91,6 +91,7 @@ const MediaSearch = () => {
         <SearchComponent
           setText={setData}
           searchText="Search Media by title ..."
+          underlineColorAndroid="white"
         />
       </View>
       <FlatList

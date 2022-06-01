@@ -21,7 +21,7 @@ const AccounProfiletScreen = props => {
   let id = props.route.params.id;
   const {options} = useAccountProfHome(id);
   let user = options.data;
-
+  console.log(id, 'llllllllllll');
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(id);

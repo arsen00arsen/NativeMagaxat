@@ -19,7 +19,7 @@ import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
-import {Text, View} from 'react-native';
+import {ActivityIndicator, View} from 'react-native';
 import PushNotification from 'react-native-push-notification';
 const Stack = createNativeStackNavigator();
 
@@ -45,8 +45,8 @@ const App = () => {
   };
   if (loading) {
     return (
-      <View>
-        <Text>Loading</Text>
+      <View style={{display: 'flex', flex: 1, justifyContent: 'center'}}>
+        <ActivityIndicator size="large" color="#aaa" />
       </View>
     );
   }

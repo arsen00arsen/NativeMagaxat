@@ -26,6 +26,7 @@ const HorizontalInfinitiScroll = () => {
   }, [currentPage]);
 
   const renderItem = ({item}) => {
+    // console.log(item);
     let content;
     if (item.image) {
       content = <ImgComponentpost uri={item} key={item.id} />;

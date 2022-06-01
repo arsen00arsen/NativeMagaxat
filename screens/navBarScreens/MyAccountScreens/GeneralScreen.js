@@ -73,6 +73,7 @@ const GeneralScreen = ({navigation}) => {
                   style={styles.textInput}
                   multiline
                   onChangeText={onChange}
+                  underlineColorAndroid="white"
                 />
               );
             }}
@@ -92,6 +93,7 @@ const GeneralScreen = ({navigation}) => {
                   style={styles.textInput}
                   multiline
                   onChangeText={onChange}
+                  underlineColorAndroid="white"
                 />
               );
             }}
@@ -142,6 +144,7 @@ const GeneralScreen = ({navigation}) => {
                   style={styles.textInput}
                   multiline
                   onChangeText={onChange}
+                  underlineColorAndroid="white"
                 />
               );
             }}
@@ -161,6 +164,7 @@ const GeneralScreen = ({navigation}) => {
                   style={styles.textInput}
                   multiline
                   onChangeText={onChange}
+                  underlineColorAndroid="white"
                 />
               );
             }}
