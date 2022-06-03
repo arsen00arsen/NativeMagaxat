@@ -1,21 +1,26 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
   SectionList,
   SafeAreaView,
   StatusBar,
+  Text,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import PushNotification from 'react-native-push-notification';
+import LinearGradient from 'react-native-linear-gradient';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import {useDispatch} from 'react-redux';
 import {renderPosts} from '../../../stores/post/postActions';
-const HomeScreen = () => {
+import Stories from '../../../components/Storises';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const [station, setSection] = useState('Users');
   // useEffect(() => {
   //   createChanels();
   // }, []);
@@ -25,25 +30,48 @@ const HomeScreen = () => {
   //     channelName: 'Test Channel',
   //   });
   // };
-  useEffect(() => {
-    dispatch(renderPosts());
-  }, []);
+
+  let content = (
+    <View>
+      <LinearGradient
+        style={styles.lastUsersContainer}
+        start={{x: 1, y: 0}}
+        end={{x: 1, y: 1}}
+        locations={[0.3, 0.8]}
+        colors={['#E0D0BA', '#E4E3E1']}>
+        <View style={styles.lastUsersContainercontent}>
+          <View style={styles.lastUsersContainerSmall} />
+          <TouchableOpacity
+            onPress={() => setSection('Users')}
+            style={[station == 'Users' ? styles.storPassive : styles.storAct]}>
+            <Text style={styles.lastUsersContainerText}>Last Signed Users</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => setSection('Stories')}
+            style={[
+              station == 'Stories' ? styles.storPassive : styles.storAct,
+            ]}>
+            <Text style={styles.lastUsersContainerTexta}>Stories</Text>
+          </TouchableOpacity>
+        </View>
+      </LinearGradient>
+      {station == 'Users' ? <PersonsData /> : <Stories />}
+    </View>
+  );
 
   return (
     <View style={styles.container}>
-      <HeaderChatSearch />
       <StatusBar
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
+      <HeaderChatSearch />
       <SafeAreaView style={{flex: 1}}>
         <SectionList
           contentContainerStyle={{paddingHorizontal: 10}}
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}
-          renderSectionHeader={({section}) => (
-            <PersonsData title={section.title} />
-          )}
+          renderSectionHeader={({section}) => content}
           renderItem={() => <HorizontalInfinitiScroll />}
         />
       </SafeAreaView>
@@ -109,6 +137,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    width: '100%',
   },
   usersProfile: {
     width: 72,
@@ -129,8 +158,37 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 5,
     borderBottomLeftRadius: 5,
   },
+  lastUsersContainerTexta: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: '#838383',
+    textAlign: 'right',
+    paddingRight: 10,
+  },
   seperator: {
     width: 10,
     height: 50,
+  },
+  storPassive: {
+    height: 30,
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 5,
+    minWidth: 150,
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: 'silver',
+    backgroundColor: '#E0D0BA',
+    shadowRadius: 3,
+  },
+  storAct: {
+    height: 57,
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100%',
+    paddingHorizontal: 5,
+    minWidth: 150,
+    borderRadius: 4,
   },
 });

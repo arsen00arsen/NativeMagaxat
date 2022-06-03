@@ -6,11 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/Ionicons';
 import SearchComponent from '../../../components/SearchComponent';
 import VideoPlayer from 'react-native-video-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {renderPosts} from '../../../stores/post/postActions';
 
 const MediaSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const url = baseUrl2 + '/videos_api?title=' + data;
@@ -24,6 +27,7 @@ const MediaSearch = () => {
         });
         const json = await response.json();
         setList(json);
+        dispatch(renderPosts());
       } catch (error) {
         console.log('error', error);
       }

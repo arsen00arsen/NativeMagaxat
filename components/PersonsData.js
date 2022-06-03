@@ -77,7 +77,7 @@ const PersonsData = () => {
 
   return (
     <>
-      <LinearGradient
+      {/* <LinearGradient
         style={styles.lastUsersContainer}
         start={{x: 1, y: 0}}
         end={{x: 1, y: 1}}
@@ -87,7 +87,7 @@ const PersonsData = () => {
           <View style={styles.lastUsersContainerSmall} />
           <Text style={styles.lastUsersContainerText}>Last Signed Users</Text>
         </View>
-      </LinearGradient>
+      </LinearGradient> */}
       <FlatList
         data={lastUsers}
         renderItem={({item}) => (

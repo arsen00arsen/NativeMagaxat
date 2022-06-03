@@ -29,8 +29,8 @@ export const postReducer = (state = initialState, action) => {
     case RENDER_POSTS:
       return {
         ...state,
-        posts: [payload],
-        isLoading: false,
+        posts: payload,
+        // isLoading: false,
       };
     case SET_COMMENTS:
       const {id, data} = payload;

@@ -19,6 +19,7 @@ import MesageScreen from './MesageScreen';
 import Chat from './Chat';
 import moment from 'moment';
 import {View} from 'react-native-animatable';
+import Status from './HomeScreens/Status';
 const Tab = createMaterialBottomTabNavigator();
 const HomePage = createStackNavigator();
 const Mesage = createStackNavigator();
@@ -103,6 +104,7 @@ const HomeScreens = ({navigation}) => (
       headerShown: false,
     }}>
     <HomePage.Screen name="HomeScreen" component={HomeScreen} />
+    <HomePage.Screen name="Status" component={Status} />
     <HomePage.Screen
       name="AccounProfiletScreen"
       component={AccounProfiletScreen}

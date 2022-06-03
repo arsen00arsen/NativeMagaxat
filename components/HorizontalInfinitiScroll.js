@@ -12,11 +12,10 @@ import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
 import {loadPosts} from '../stores/post/postActions';
 
-const HorizontalInfinitiScroll = () => {
+const HorizontalInfinitiScroll = props => {
   const dispatch = useDispatch();
   const {isLoading, posts} = useSelector(state => state.post);
   const [currentPage, setCurrentPage] = useState(1);
-
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
   };

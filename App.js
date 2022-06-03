@@ -74,7 +74,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {isAuth ? (
+      {/* {isAuth ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -83,7 +83,13 @@ const App = () => {
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )}
+      )} */}
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Homes" component={MainTabScreen} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

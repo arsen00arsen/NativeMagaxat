@@ -2,6 +2,7 @@ import {CommentAddService} from '../../http/addComment/addComment';
 import {PostService} from '../../http/postService/postService';
 import {
   LOAD_POSTS,
+  RENDER_POSTS,
   SET_COMMENTS,
   LOAD_POSTS_ERROR,
   LOAD_POSTS_SUCCESS,
@@ -25,7 +26,10 @@ export const setComments = data => ({
   type: SET_COMMENTS,
   payload: data,
 });
-
+export const postRendering = posts => ({
+  type: RENDER_POSTS,
+  payload: posts,
+});
 export const loadPosts =
   (currentpage = 1) =>
   async dispatch => {
@@ -44,7 +48,7 @@ export const renderPosts = () => async dispatch => {
   try {
     dispatch(startLoadPosts(true));
     const {data} = await PostService.loadPosts();
-    dispatch(setPosts(data.data.data));
+    dispatch(postRendering(data.data.data));
   } catch (error) {
     dispatch(setPostsError(error));
   } finally {
