@@ -1,4 +1,4 @@
-import CommentAddService from '../../http/addComment/addComment';
+import {CommentAddService} from '../../http/addComment/addComment';
 import {PostService} from '../../http/postService/postService';
 import {
   LOAD_POSTS,
@@ -40,6 +40,17 @@ export const loadPosts =
     }
   };
 
+export const renderPosts = () => async dispatch => {
+  try {
+    dispatch(startLoadPosts(true));
+    const {data} = await PostService.loadPosts();
+    dispatch(setPosts(data.data.data));
+  } catch (error) {
+    dispatch(setPostsError(error));
+  } finally {
+    dispatch(startLoadPosts(false));
+  }
+};
 export const sendComment = (id, submitData) => async dispatch => {
   try {
     dispatch(startLoadPosts(true));

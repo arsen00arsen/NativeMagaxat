@@ -12,19 +12,23 @@ import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import {removeMyPosts} from '../stores/profileMe/profileMeActions';
+import {useDispatch} from 'react-redux';
 
 const ImgComponentpost = props => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [longDis, setLongDis] = useState(false);
-  let user = props.uri;
-  let post = props.uri;
+  let user = props.uri?.user;
+  let post = props?.uri;
   let postCounts = post.comments?.length;
   let isLongDs = () => {
     setLongDis(!longDis);
   };
+
   let imgBG = (
     <ImageBackground
-      source={{uri: user.image}}
+      source={{uri: props?.uri.image_path || props?.uri.image}}
       resizeMode="stretch"
       style={styles.usersProfileBGimage}
     />
@@ -33,13 +37,13 @@ const ImgComponentpost = props => {
   if (longDis === false) {
     userTitle = (
       <Text style={styles.usersTitle} numberOfLines={2}>
-        {user?.title}
+        {post?.title}
       </Text>
     );
   } else {
     userTitle = (
       <Text style={styles.longDis}>
-        <Text>{user?.title} </Text>;
+        <Text> {post?.title} </Text>;
       </Text>
     );
   }
@@ -50,22 +54,35 @@ const ImgComponentpost = props => {
       id: user?.user.id,
     });
   };
+  let img;
+  if (!user?.image) {
+    img = props.user.image;
+  } else {
+    img = user?.image;
+  }
+  const deletePost = () => {
+    dispatch(removeMyPosts(post?.id));
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <TouchableOpacity onPress={userProfilePage}>
-          <Image source={{uri: user?.user.image}} style={styles.userspic} />
+          <Image source={{uri: img}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
             {props.post === 'post' ? (
-              <TouchableOpacity style={styles.delete}>
+              <TouchableOpacity style={styles.delete} onPress={deletePost}>
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
             <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={styles.usersname}>{user.user?.name} </Text>
-              <Text style={styles.usersname}>{user.user?.lastname} </Text>
+              <Text style={styles.usersname}>
+                {user?.name || props?.user.name}{' '}
+              </Text>
+              <Text style={styles.usersname}>
+                {user?.lastname || props?.user.lastname}{' '}
+              </Text>
             </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
@@ -89,9 +106,10 @@ const ImgComponentpost = props => {
               navigation.navigate('CommentScreen', {
                 description: user.title,
                 post: post.comments,
-                user: user?.user,
+                user: user,
                 image: user.image,
-                id: user.id,
+                id: post.id,
+                img: props?.uri.image_path || props?.uri.image,
               })
             }>
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
@@ -175,5 +193,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  delete: {
+    marginLeft: 'auto',
+    paddingHorizontal: 10,
   },
 });

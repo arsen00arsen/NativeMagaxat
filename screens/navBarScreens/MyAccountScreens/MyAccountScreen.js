@@ -51,12 +51,12 @@ const MyAccountScreen = ({navigation}) => {
           <Text style={styles.buttonText}>My Posts</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MyMediaScreen')}>
           <Text style={styles.buttonText}>My Media</Text>
           <Icon name="chevron-right" size={20} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={styles.button}
           onPress={() =>

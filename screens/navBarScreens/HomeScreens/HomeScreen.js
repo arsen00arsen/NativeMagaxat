@@ -12,7 +12,7 @@ import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSea
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import {useDispatch} from 'react-redux';
-import {loadPosts} from '../../../stores/post/postActions';
+import {renderPosts} from '../../../stores/post/postActions';
 const HomeScreen = () => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -26,7 +26,7 @@ const HomeScreen = () => {
   //   });
   // };
   useEffect(() => {
-    dispatch(loadPosts());
+    dispatch(renderPosts());
   }, []);
 
   return (

@@ -57,7 +57,6 @@ const MediaScreen = () => {
     } catch (error) {
       alert(error.message);
     } finally {
-      dispatch(loadPosts());
     }
   });
 

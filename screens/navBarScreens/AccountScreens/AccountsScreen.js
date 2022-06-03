@@ -8,7 +8,8 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+
 import AccountUsers from './AccountUsers';
 import AccountBenefactors from './AccountBenefactors';
 
@@ -26,7 +27,7 @@ const AccountsScreen = () => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearchSecond pageTo={'AccountSearch'} />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.titleButtons}>
           <TouchableOpacity

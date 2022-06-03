@@ -146,8 +146,8 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   logo: {
-    width: 228,
-    height: 160,
+    // width: 228,
+    // height: 160,
     marginVertical: 20,
   },
   icon: {
@@ -191,8 +191,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#FFFFFF',
     backgroundColor: '#FFFFFF',
-    width: 250,
-    height: 60,
+    // width: 250,
+    // height: 60,
+    paddingBottom: 30,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -227,7 +228,7 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    height: 0,
+    // height: 0,
     position: 'absolute',
     bottom: -10,
     fontSize: 8,

@@ -16,7 +16,7 @@ export const AvatarAdd = props => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      setSingleFile(res);
+      setSingleFile(res[0]);
       setImage(res[0].uri);
       uploadImage();
     } catch (err) {

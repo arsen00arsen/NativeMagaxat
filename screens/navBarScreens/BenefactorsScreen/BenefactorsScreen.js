@@ -129,6 +129,8 @@ const styles = StyleSheet.create({
   },
   title: {
     width: '90%',
+    fontWeight: 'bold',
+    color: '#AF9065',
   },
   button: {
     display: 'flex',

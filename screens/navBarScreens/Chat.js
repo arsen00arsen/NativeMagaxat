@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useRef} from 'react';
 import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   GiftedChat,
@@ -14,31 +14,134 @@ import {useSelector} from 'react-redux';
 import {LogBox} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageView from 'react-native-image-viewing';
+import io from 'socket.io-client';
+import {useNavigation} from '@react-navigation/native';
+import {state} from 'react-native-push-notification/component';
+import SocketIOClient from 'socket.io-client';
+import {createSocketConnection} from '../../http/socketService/socketService';
+// import Pusher from 'pusher-js/react-native';
+import Echo from 'laravel-echo';
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route, props}) {
   const [messages, setMessages] = useState([]);
-  const {usserId, message, usserImage, userName} = route.params;
+  const receiverId = route.params;
+  // const {usserId, message, usserImage, uid, userName} = route.params;
+  const userMain = useSelector(state => state?.user);
+  // const navigation = useNavigation();
+  // console.log(route.params, 'route.paramsroute.params');
+  // const ws = useRef(null);
+  // useEffect(() => {
+  //   console.log('initiateSocketConnection');
+  //   // enter your websocket url
+  //   ws.current = new WebSocket('ws://192.168.0.112:6001');
+  //   ws.current.onopen = () => {
+  //     console.log('connection establish open');
+  //   };
+  //   ws.current.onclose = () => {
+  //     console.log('connection establish closed');
+  //   };
+  //   return () => {
+  //     ws.current.close();
+  //   };
+  // }, []);
 
   useEffect(() => {
+    connectWebSocketWatch();
     setMessages([
       {
-        _id: usserId,
-        text: message,
+        _id: userMain.id,
+        text: 'Hello developer',
         createdAt: new Date(),
         user: {
-          _id: 2,
-          name: userName,
-          avatar: usserImage,
+          _id: receiverId.uid,
+          name: receiverId.name,
         },
       },
     ]);
   }, []);
+  // useEffect(() => {
+  //   ws.current.onmessage = e => {
+  //     const response = JSON.parse(e.data);
+  //     console.log('onmessage=>', JSON.stringify(response));
+  //     var sentMessages = {
+  //       _id: userMain.id,
+  //       text: response.message,
+  //       createdAt: new Date(response.createdAt * 1000),
+  //       user: {
+  //         _id: receiverId.uid,
+  //         name: receiverId.name,
+  //       },
+  //     };
+  //     setMessages(previousMessages =>
+  //       GiftedChat.append(previousMessages, sentMessages),
+  //     );
+  //   };
+  // }, []);
   const onSend = useCallback((messages = []) => {
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
+    // let obj = {
+    //   senderId: userMain.id,
+    //   receiverId: receiverId.uid,
+    //   message: messages[0].text,
+    //   action: 'message',
+    // };
+    // ws.current.send(JSON.stringify(obj));
+    // setMessages(previousMessages =>
+    //   GiftedChat.append(previousMessages, messages),
+    // );
   }, []);
+
+  const connectWebSocketWatch = () => {
+    //put your backend serve url here
+    // createSocketConnection();
+    let echo = new Echo({
+      // broadcaster: 'socket.io',
+      // key: '123456', // hard code
+      // // host: '192.168.0.124',
+      // //http://192.168.0.124
+      // // wssHost: 'ws://192.168.0.112:6001',
+      // // enabledTransports: ['ws', 'wss'],
+      // // wssPort: 6001,
+      // client: io,
+      // // forceTLS: true,
+      // // disableStats: true,
+      // broadcaster: 'pusher',
+      cluster: 'mt1',
+      disableStats: true,
+      enabledTransports: Array.ws,
+      encrypted: true,
+      forceTLS: false,
+      key: '123456',
+      wsHost: '192.168.0.124',
+      wsPort: '6001',
+    });
+    echo.private('notifications.10').listen('.notification', e => {
+      console.log(e);
+    });
+    // const socket = io('192.168.0.124', {transports: ['websocket']});
+    // console.log(socket, 'sssss');
+    // console.log(SocketIOClient);
+    //get_message_ = this is a provide by backend.
+    // socket.on('notifications.10', data => {
+    // console.log(data, 'ssssss');
+    //   console.log(data, 'sssss');
+    //   //   console.log(data);
+    //   //   // var userMessageData = JSON.parse(data);
+    //   //   // var chatDataArray = [...this.state.userChatList];
+    //   //   // let message = [userMessageData];
+    //   //   // let newChatArray = message.concat(chatDataArray);
+    //   //   // this.setState({
+    //   //   //   userChatList: newChatArray,
+    //   //   //   chatMessage: '',
+    //   //   // });
+    // });
+  };
+
+  // const onSend = useCallback((messages = []) => {
+  //   setMessages(previousMessages =>
+  //     GiftedChat.append(previousMessages, messages),
+  //   );
+  // }, []);
   const renderSend = props => {
     return (
       <Send {...props}>
@@ -85,14 +188,19 @@ export default function ChatScreen({route, props}) {
         style={styles.canteiner}
         onSend={messages => onSend(messages)}
         user={{
-          _id: 1,
+          _id: userMain.id,
         }}
+        renderAvatar={null}
         renderBubble={renderBubble}
         alwaysShowSend
         renderSend={renderSend}
         scrollToBottom
         scrollToBottomComponent={scrollToBottomComponent}
         renderInputToolbar={renderToolbar}
+        underlineColorAndroid="white"
+        textInputProps={{
+          underlineColorAndroid: 'white',
+        }}
       />
     </View>
   );
@@ -108,8 +216,8 @@ const styles = StyleSheet.create({
     marginBottom: 2,
     borderRadius: 20,
     paddingTop: 3,
-    backgroundColor: 'red',
-    marginTop: -10,
+    backgroundColor: 'white',
+    marginTop: -20,
   },
   photosend: {
     position: 'absolute',

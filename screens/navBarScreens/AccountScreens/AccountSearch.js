@@ -1,19 +1,30 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  StatusBar,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {baseUrl2} from '../../../http/index';
-import MaterialCommunityIcons from 'react-native-vector-icons/Ionicons';
+import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
-import VideoPlayer from 'react-native-video-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const MediaSearch = () => {
+const AccountSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const url = baseUrl2 + '/videos_api?title=' + data;
+    const url = baseUrl2 + '/appears_api?name=' + data;
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -30,6 +41,7 @@ const MediaSearch = () => {
     };
     fetchData();
   }, [data]);
+
   const ItemRender = item => {
     let img;
     if (item.userImage !== undefined) {
@@ -40,25 +52,14 @@ const MediaSearch = () => {
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
-          <VideoPlayer
-            uri={item.userVedio}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../../../assets/logoHeader.png')}
-            style={styles.searchVideo}
-          />
+          <Image source={img} style={styles.usersProfilemage} />
           <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.vedioTitle}</Text>
-            <View style={styles.usserdatarow}>
-              <Text style={[styles.itemText, styles.paddingName]}>
-                {item.name}
-              </Text>
-              <Text style={styles.itemText}>{item.lastName}</Text>
-            </View>
+            <Text style={styles.itemText}>{item.name}</Text>
+            <Text style={styles.itemText}>{item.lastName}</Text>
           </View>
           <MaterialCommunityIcons
-            name="checkmark-done-circle"
-            size={30}
+            name="account-arrow-right"
+            size={35}
             color="#BB9E79"
             style={styles.itemIcon}
           />
@@ -70,6 +71,10 @@ const MediaSearch = () => {
   const Separator = () => {
     return <View style={styles.seperator} />;
   };
+  let userProfilePage = item => {
+    dispatch({type: 'USSER_ID', payload: item.id});
+    navigation.navigate('BenefactorUserPageScreen');
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -79,20 +84,20 @@ const MediaSearch = () => {
       <View style={styles.serachContainer}>
         <SearchComponent
           setText={setData}
-          searchText="Search Media by title ..."
-          underlineColorAndroid="white"
+          searchText="Search Your Benefactors ..."
         />
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list?.data?.data}
+        data={list.data}
         renderItem={({item}) => (
-          <ItemRender
-            name={item.user_name}
-            lastName={item.user_lastname}
-            userVedio={item.video_path}
-            vedioTitle={item.video_title}
-          />
+          <TouchableOpacity onPress={() => userProfilePage(item)}>
+            <ItemRender
+              name={item.name}
+              lastName={item.last_name}
+              userImage={item.image}
+            />
+          </TouchableOpacity>
         )}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={Separator}
@@ -103,7 +108,7 @@ const MediaSearch = () => {
   );
 };
 
-export default MediaSearch;
+export default AccountSearch;
 
 const styles = StyleSheet.create({
   container: {
@@ -136,7 +141,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   flatlist: {
-    // paddingHorizontal: 15,
+    paddingHorizontal: 15,
     width: '100%',
   },
   usersProfile: {
@@ -150,30 +155,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 20,
   },
   itemIcon: {
     marginLeft: 'auto',
-    marginBottom: 'auto',
   },
   serachContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  searchVideo: {
-    maxWidth: 150,
-    maxHeight: 90,
-    borderRadius: 8,
-  },
-  usserdatarow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  paddingName: {
-    paddingRight: 5,
   },
 });

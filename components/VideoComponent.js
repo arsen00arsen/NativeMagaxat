@@ -6,12 +6,15 @@ import moment from 'moment';
 import VideoPlayer from 'react-native-video-player';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
+import {removeMyPosts} from '../stores/profileMe/profileMeActions';
+import {useDispatch} from 'react-redux';
 
 const VideoComponent = props => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [longDis, setLongDis] = useState(false);
-  let user = props.uri.user;
-  let post = props.uri;
+  let user = props?.uri.user;
+  let post = props?.uri;
   let likeCounts = post?.likes?.length + 1;
   let postCounts = post.comments?.length;
 
@@ -34,24 +37,37 @@ const VideoComponent = props => {
     });
   };
 
+  const deletePost = () => {
+    dispatch(removeMyPosts(post?.id));
+  };
   const time = moment().startOf(user?.created_at).format('LL');
+  let img;
+  if (!user?.image) {
+    img = props.user.image;
+  } else {
+    img = user?.image;
+  }
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <TouchableOpacity onPress={userProfilePage}>
-          <Image source={{uri: user?.image}} style={styles.userspic} />
+          <Image source={{uri: img}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
             {props.post === 'post' ? (
-              <TouchableOpacity style={styles.delete}>
+              <TouchableOpacity style={styles.delete} onPress={deletePost}>
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
 
             <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={styles.usersname}>{user?.name} </Text>
-              <Text style={styles.usersname}>{user?.lastname} </Text>
+              <Text style={styles.usersname}>
+                {user?.name || props?.user.name}{' '}
+              </Text>
+              <Text style={styles.usersname}>
+                {user?.lastname || props?.user.lastname}{' '}
+              </Text>
             </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
@@ -85,6 +101,7 @@ const VideoComponent = props => {
                 post: post.comments,
                 user: user,
                 video: post.video,
+                id: post.id,
               })
             }>
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />

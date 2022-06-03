@@ -1,10 +1,7 @@
 import {$authHost} from '..';
 
-export default class CommentAddService {
+export class CommentAddService {
   static addComment(data) {
-    console.log(data, 'llllll');
-    return $authHost.post('/posts_api/comment', {
-      data: data,
-    });
+    return $authHost.post('/posts_api/comment', data);
   }
 }

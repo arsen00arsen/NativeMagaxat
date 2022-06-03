@@ -7,4 +7,8 @@ export class PostService {
   static loadMyPosts() {
     return $authHost.get('profile/me');
   }
+
+  static deletedPost(id) {
+    return $authHost.delete(`/posts_api/${id}`);
+  }
 }

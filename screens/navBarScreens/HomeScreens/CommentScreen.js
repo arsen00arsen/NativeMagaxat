@@ -24,24 +24,11 @@ const CommentScreen = props => {
   const scrollViewRef = useRef();
   const dispatch = useDispatch();
   const {control, handleSubmit, reset} = useForm();
-  let user = props.route.params.user;
-  let video = props.route.params.video;
-  let image = props.route.params.image;
-  let description = props.route.params.description;
-  let id = props.route.params.id;
-  let img;
-  if (user.image !== null) {
-    img = {uri: user.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
-
-  let imgPost;
-  if (image !== null) {
-    imgPost = {uri: image};
-  } else {
-    imgPost = require('../../../assets/defoult.png');
-  }
+  let user = props?.route.params.user;
+  let video = props?.route.params.video;
+  let image = props?.route.params.image;
+  let description = props?.route.params.description;
+  let id = props?.route.params.id;
   const {posts} = useSelector(state => state.post);
   const foundPost = posts?.find(el => el?.id === id);
 
@@ -53,7 +40,6 @@ const CommentScreen = props => {
       console.log(error);
     }
   });
-
   let commentContent = foundPost?.comments?.map(elem => {
     let imgComment;
     if (elem.user.image !== null) {
@@ -94,10 +80,10 @@ const CommentScreen = props => {
         style={styles.mediaVideo}
       />
     );
-  } else if (props.route.params.image) {
+  } else {
     content = (
       <ImageBackground
-        source={imgPost}
+        source={{uri: props?.route.params.img}}
         resizeMode="stretch"
         style={styles.usersProfileBGimage}
       />
@@ -117,11 +103,11 @@ const CommentScreen = props => {
         <View style={styles.vedioContent}>
           <View style={styles.userProfile}>
             <View style={styles.imgFrame}>
-              <Image source={img} style={styles.userImage} />
+              <Image source={{uri: user?.image}} style={styles.userImage} />
             </View>
             <View style={styles.userInfoNames}>
-              <Text style={styles.userNames}>{user.name} </Text>
-              <Text style={styles.userNames}>{user.lastname} </Text>
+              <Text style={styles.userNames}>{user?.name} </Text>
+              <Text style={styles.userNames}>{user?.lastname} </Text>
             </View>
           </View>
           <View style={styles.vedioBodyContent}>{content}</View>
@@ -140,11 +126,12 @@ const CommentScreen = props => {
                 render={({field: {onChange, value, onBlur}}) => {
                   return (
                     <TextInput
-                      placeholder="Add Your Comment"
+                      placeholder="Add Your Comment ..."
                       value={value}
                       style={styles.textInput}
                       multiline
                       onChangeText={onChange}
+                      underlineColorAndroid="white"
                     />
                   );
                 }}
@@ -271,7 +258,7 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   textInput: {
-    borderWidth: 2.5,
+    // borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
     marginRight: 10,
@@ -281,6 +268,7 @@ const styles = StyleSheet.create({
     color: 'black',
     fontSize: 16,
     paddingHorizontal: 15,
+    backgroundColor: 'white',
   },
   btnContainer: {
     backgroundColor: 'white',

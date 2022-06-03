@@ -8,14 +8,14 @@ const headers = {
 
 export const $host = axios.create({
   baseURL: 'https://magaxat.com/api',
-  // baseURL: 'http://192.168.0.112:8000/api',
+  // baseURL: 'http://192.168.0.124/api',
   headers,
   withCredentials: true,
 });
 
 export const $authHost = axios.create({
   baseURL: 'https://magaxat.com/api',
-  // baseURL: 'http://192.168.0.112:8000/api',
+  // baseURL: 'http://192.168.0.124/api',
   headers,
   withCredentials: true,
 });
@@ -56,4 +56,5 @@ $authHost.interceptors.response.use(
 );
 
 const baseUrl2 = 'https://magaxat.com/api';
+// const baseUrl2 = 'http://192.168.0.124/api';
 export {baseUrl2};

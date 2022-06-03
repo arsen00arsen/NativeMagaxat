@@ -10,8 +10,8 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 
 const AccountScreen = props => {
   const theme = useTheme();
@@ -34,7 +34,7 @@ const AccountScreen = props => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearchSecond pageTo={'AccountSearch'} />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
           <Image source={{uri: user?.image}} style={styles.userImage} />

@@ -16,11 +16,14 @@ import {
   NotificationListner,
 } from './utils/pushNotification';
 import firestore from '@react-native-firebase/firestore';
+import LinearGradient from 'react-native-linear-gradient';
 import auth from '@react-native-firebase/auth';
+import * as Animatable from 'react-native-animatable';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {ActivityIndicator, View} from 'react-native';
 import PushNotification from 'react-native-push-notification';
+// import {createSocketConnection} from './http/socketService/socketService';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -29,6 +32,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getMe());
+    // createSocketConnection();
   }, []);
 
   useEffect(() => {
@@ -45,9 +49,26 @@ const App = () => {
   };
   if (loading) {
     return (
-      <View style={{display: 'flex', flex: 1, justifyContent: 'center'}}>
-        <ActivityIndicator size="large" color="#aaa" />
-      </View>
+      <LinearGradient
+        start={{x: 1, y: 1}}
+        end={{x: 1, y: 0}}
+        colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+        style={{
+          display: 'flex',
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Animatable.Image
+          animation="fadeInUpBig"
+          duraton="1500"
+          source={require('./assets/logo.png')}
+          style={{width: 237, marginBottom: 100}}
+          resizeMode="stretch"
+        />
+        <ActivityIndicator size="large" color="white" />
+      </LinearGradient>
     );
   }
 

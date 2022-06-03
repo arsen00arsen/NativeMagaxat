@@ -50,7 +50,7 @@ const LocationPageScreen = ({navigation}) => {
             <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
           </TouchableOpacity>
           <View style={styles.titlecontent}>
-            <Text style={styles.text}>Choose priority</Text>
+            <Text style={styles.text}>Choose Location</Text>
           </View>
           <View />
         </View>
@@ -125,8 +125,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputSIcon: {
-    display: 'flex',
-    alignItems: 'center',
+    // display: 'flex',
+    // alignItems: 'center',
   },
   titlecontent: {
     display: 'flex',
@@ -138,6 +138,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 193,
     height: 160,
+    marginLeft: 30,
   },
   icon: {
     paddingLeft: 10,
@@ -169,8 +170,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    width: 250,
-    height: 60,
+    // width: 250,
+    // height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -180,8 +181,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#8A8A8A',
     backgroundColor: '#8A8A8A',
-    width: 250,
-    height: 60,
+
     borderRadius: 4,
     alignItems: 'flex-start',
     color: '',
@@ -200,11 +200,11 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    height: 0,
-    position: 'absolute',
-    bottom: -10,
-    fontSize: 8,
-    left: -5,
+    // height: 0,
+    // position: 'absolute',
+    // bottom: -10,
+    // fontSize: 8,
+    // left: -5,
   },
   scrollView: {
     width: '100%',

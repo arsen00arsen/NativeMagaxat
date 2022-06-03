@@ -15,35 +15,34 @@ import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 
 const MyPostsScreen = props => {
   const theme = useTheme();
-  let posts = props?.route.params;
+  const dispatch = useDispatch();
+  const {user} = useSelector(state => state?.user);
+  const {myPosts} = useSelector(state => state?.myPosts);
+  useEffect(() => {
+    dispatch(loadMyPosts());
+  }, []);
+
+  // let posts = props?.route.params;
   const renderItem = ({item}) => {
-    console.log(item, 'lll');
-    let content;
     if (item.image_path) {
-      content = (
-        <>
-          <ImgComponentpost
-            uri={item}
-            key={item.id}
-            img={posts.posts.image}
-            post="post"
-          />
-        </>
-      );
-    } else {
-      content = (
-        <VideoComponent
-          uri={item}
-          key={item.id}
-          img={posts.posts.image}
-          post="post"
-        />
+      return (
+        <ImgComponentpost uri={item} key={item?.id} user={user} post="post" />
       );
     }
-    return content;
+    return (
+      <VideoComponent
+        uri={item}
+        key={item?.id}
+        img={myPosts?.posts.image}
+        user={user}
+        post="post"
+      />
+    );
   };
 
   return (
@@ -58,7 +57,7 @@ const MyPostsScreen = props => {
       <FlatList
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}
-        data={posts.posts.posts}
+        data={myPosts.posts}
         keyExtractor={(items, index) => index.toString()}
         renderItem={renderItem}
       />

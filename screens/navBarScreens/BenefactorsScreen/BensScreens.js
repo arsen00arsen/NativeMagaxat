@@ -17,7 +17,7 @@ const BensScreens = ({navigation}) => (
       name="BenefactorUserPageScreen"
       component={BenefactorUserPageScreen}
     />
-    <Ben.Screen name="BenefactorSearchPage" component={BenefactorSearchPage} />
+    {/* <Ben.Screen name="BenefactorSearchPage" component={BenefactorSearchPage} /> */}
   </Ben.Navigator>
 );
 

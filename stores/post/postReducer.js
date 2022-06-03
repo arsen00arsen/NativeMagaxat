@@ -1,6 +1,7 @@
 import {
   LOAD_POSTS,
   SET_COMMENTS,
+  RENDER_POSTS,
   LOAD_POSTS_ERROR,
   LOAD_POSTS_SUCCESS,
 } from './types';
@@ -23,6 +24,12 @@ export const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: [...state.posts, ...payload],
+        isLoading: false,
+      };
+    case RENDER_POSTS:
+      return {
+        ...state,
+        posts: [payload],
         isLoading: false,
       };
     case SET_COMMENTS:

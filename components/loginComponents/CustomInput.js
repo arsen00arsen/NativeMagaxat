@@ -40,11 +40,12 @@ const CustomInput = ({
                 placeholder={placeholder}
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
+                underlineColorAndroid="white"
               />
             </KeyboardAvoidingView>
           </View>
           {error && (
-            <Text style={{color: 'red', alignSelf: 'stretch'}}>
+            <Text style={{color: 'red', alignSelf: 'stretch', width: 250}}>
               {error.message || 'Error'}
             </Text>
           )}

@@ -56,7 +56,7 @@ const IneterestingAreaScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          <View>
+          <View style={styles.actionbody}>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Interest #1</Text>
               <Controller
@@ -218,8 +218,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    width: 250,
-    height: 60,
+    // width: '100%',
+    // height: 60,
+    // paddingBottom: 30,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -231,10 +232,14 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    height: 0,
-    position: 'absolute',
-    bottom: -10,
-    fontSize: 8,
-    left: -5,
+    // height: '100%',
+    // position: 'absolute',
+    // bottom: -10,
+    // fontSize: 8,
+    // left: -5,
+    flex: 1,
+  },
+  actionbody: {
+    width: 250,
   },
 });

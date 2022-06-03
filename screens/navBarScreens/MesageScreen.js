@@ -9,26 +9,21 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-import {loadUsers} from '../../stores/lastUsers/userAction';
+
 import socketio from 'socket.io-client';
 import Echo from 'laravel-echo';
-import {createSocketConnection} from '../../http/socketService/socketService';
-// import PushNotification from 'react-native-push-notification';
+import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 
 const MesageScreen = () => {
   const [data, setData] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const lastusers = useSelector(state => state);
+  const chatUsers = useSelector(state => state.chatUsers);
   useEffect(() => {
-    dispatch(loadUsers());
+    dispatch(loadChatUser());
   }, []);
-  const ENDPOINT = 'ws://192.168.0.112:6001';
-  const [response, setResponse] = useState('');
-  useEffect(() => {
-    createSocketConnection();
-  });
-  // console.log(window.echo);
+  // console.log(chatUsers);
+  // console.log(lastusers?.users?.lastUsers, 'lastuserslastusers');
   // const getUsers = async () => {
   //   const querySanp = await firestore()
   //     .collection('users')
@@ -48,43 +43,43 @@ const MesageScreen = () => {
   //     message: item.messageText,
   //   });
   // };
-  // const RenderCard = ({item, index}) => {
-  //   return (
-  //     <TouchableOpacity
-  //       key={index}
-  //       onPress={() =>
-  //         navigation.navigate('Chat', {
-  //           name: item.name,
-  //           uid: item.uid,
-  //           // status:
-  //           //   typeof item.status === 'string'
-  //           //     ? item.status
-  //           //     : item.status.toDate().toString(),
-  //         })
-  //       }>
-  //       <View style={styles.messageContainer}>
-  //         <Image style={styles.userImg} source={{uri: item.image}} />
-  //         <View>
-  //           <Text style={styles.text}>{item.name}</Text>
-  //           <Text style={styles.text}>{item.lastname}</Text>
-  //         </View>
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
+  const RenderCard = ({item, index}) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        onPress={() =>
+          navigation.navigate('Chat', {
+            name: item.name,
+            uid: item.id,
+            // status:
+            //   typeof item.status === 'string'
+            //     ? item.status
+            //     : item.status.toDate().toString(),
+          })
+        }>
+        <View style={styles.messageContainer}>
+          <Image style={styles.userImg} source={{uri: item.image}} />
+          <View>
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item.lastname}</Text>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.messageBody}> */}
-      {/* <FlatList
-          data={lastusers.users.lastUsers}
+      <View style={styles.messageBody}>
+        <FlatList
+          data={chatUsers?.chatUsers}
           keyExtractor={item => item.id}
           renderItem={({item}) => {
             return <RenderCard item={item} />;
           }}
-        /> */}
-      <Text style={styles.test}>{response} </Text>
-      {/* </View> */}
+        />
+        {/* <Text style={styles.test}>{response} </Text> */}
+      </View>
     </View>
   );
 };
