@@ -2,10 +2,11 @@ import {CommentAddService} from '../../http/addComment/addComment';
 import {PostService} from '../../http/postService/postService';
 import {
   LOAD_POSTS,
-  RENDER_POSTS,
   SET_COMMENTS,
   LOAD_POSTS_ERROR,
   LOAD_POSTS_SUCCESS,
+  LOAD_POSTS_INITIAL_SUCCESS,
+  SET_SINGLE_POSTS,
 } from './types';
 
 export const startLoadPosts = payload => ({
@@ -18,25 +19,37 @@ export const setPosts = posts => ({
   payload: posts,
 });
 
+export const setPostsInitial = posts => ({
+  type: LOAD_POSTS_INITIAL_SUCCESS,
+  payload: posts,
+});
+
+export const setSinglePost = payload => ({
+  type: SET_SINGLE_POSTS,
+  payload,
+});
+
 export const setPostsError = msg => ({
   type: LOAD_POSTS_ERROR,
   payload: msg,
 });
+
 export const setComments = data => ({
   type: SET_COMMENTS,
   payload: data,
 });
-export const postRendering = posts => ({
-  type: RENDER_POSTS,
-  payload: posts,
-});
+
 export const loadPosts =
   (currentpage = 1) =>
   async dispatch => {
     try {
       dispatch(startLoadPosts(true));
       const {data} = await PostService.loadPosts(currentpage);
-      dispatch(setPosts(data.data.data));
+      if (currentpage === 1) {
+        dispatch(setPostsInitial(data.data.data));
+      } else {
+        dispatch(setPosts(data.data.data));
+      }
     } catch (error) {
       dispatch(setPostsError(error));
     } finally {
@@ -44,17 +57,6 @@ export const loadPosts =
     }
   };
 
-export const renderPosts = () => async dispatch => {
-  try {
-    dispatch(startLoadPosts(true));
-    const {data} = await PostService.loadPosts();
-    dispatch(postRendering(data.data.data));
-  } catch (error) {
-    dispatch(setPostsError(error));
-  } finally {
-    dispatch(startLoadPosts(false));
-  }
-};
 export const sendComment = (id, submitData) => async dispatch => {
   try {
     dispatch(startLoadPosts(true));

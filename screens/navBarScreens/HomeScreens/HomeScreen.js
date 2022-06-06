@@ -13,23 +13,70 @@ import LinearGradient from 'react-native-linear-gradient';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
-import {useDispatch} from 'react-redux';
-import {renderPosts} from '../../../stores/post/postActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {loadPosts, renderPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import Echo from 'laravel-echo';
+import Pusher from 'pusher-js/react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [station, setSection] = useState('Users');
-  // useEffect(() => {
-  //   createChanels();
-  // }, []);
-  // const createChanels = () => {
-  //   PushNotification.createChannel({
-  //     channelId: 'test-channel',
-  //     channelName: 'Test Channel',
-  //   });
-  // };
+  const {isLoading, posts} = useSelector(state => state.post);
+  const userMain = useSelector(state => state?.user);
+  const [currentPage, setCurrentPage] = useState(1);
+  let PusherClient;
+  let echo;
+  useEffect(() => {
+    getToken();
+  }, []);
+
+  Pusher.logToConsole = false;
+  const getToken = async () => {
+    const token = await AsyncStorage.getItem('token');
+    if (token) {
+      PusherClient = new Pusher('f3410ab18dff50208018', {
+        appId: 'FS852Lt2GV',
+        key: 'f3410ab18dff50208018',
+        secret: '823ca29599dcd73c1b28',
+        cluster: 'mt1',
+        disableStats: true,
+        encrypted: true,
+        wsHost: 'magaxat.com',
+        authEndpoint: 'https://magaxat.com/broadcasting/auth',
+        enabledTransports: ['ws', 'wss'],
+        wsPort: '443',
+        forceTLS: true,
+        auth: {
+          headers: {
+            Authorization: 'Bearer ' + token,
+            Accept: 'application/json',
+          },
+        },
+      });
+      echo = new Echo({
+        broadcaster: 'pusher',
+        client: PusherClient ?? undefined,
+      });
+      echo
+        ?.private(`notifications.${userMain?.user?.id}`)
+        .listen('.notification', e => {
+          console.log(e, 'ssss1111');
+        });
+    }
+  };
+
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadPosts(currentPage + 1));
+  };
+
+  useEffect(() => {
+    dispatch(loadPosts(1));
+  }, []);
 
   let content = (
     <View>
@@ -43,19 +90,19 @@ const HomeScreen = props => {
           <View style={styles.lastUsersContainerSmall} />
           <TouchableOpacity
             onPress={() => setSection('Users')}
-            style={[station == 'Users' ? styles.storPassive : styles.storAct]}>
+            style={[station === 'Users' ? styles.storPassive : styles.storAct]}>
             <Text style={styles.lastUsersContainerText}>Last Signed Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSection('Stories')}
             style={[
-              station == 'Stories' ? styles.storPassive : styles.storAct,
+              station === 'Stories' ? styles.storPassive : styles.storAct,
             ]}>
             <Text style={styles.lastUsersContainerTexta}>Stories</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
-      {station == 'Users' ? <PersonsData /> : <Stories />}
+      {station === 'Users' ? <PersonsData /> : <Stories />}
     </View>
   );
 
@@ -72,7 +119,13 @@ const HomeScreen = props => {
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}
           renderSectionHeader={({section}) => content}
-          renderItem={() => <HorizontalInfinitiScroll />}
+          renderItem={() => (
+            <HorizontalInfinitiScroll
+              isLoading={isLoading}
+              posts={posts}
+              loadMoreItem={loadMoreItem}
+            />
+          )}
         />
       </SafeAreaView>
     </View>

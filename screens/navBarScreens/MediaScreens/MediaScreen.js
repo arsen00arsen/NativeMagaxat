@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import DocumentPicker from 'react-native-document-picker';
 import {useSelector} from 'react-redux';
@@ -20,40 +20,42 @@ import MediaContent from '../../../components/MediaContent';
 import ImageUploadService from '../../../http/uploadImageSevice/uplouadImageService';
 import VideoPlayer from 'react-native-video-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {loadPosts} from '../../../stores/post/postActions';
+import {loadPosts, setSinglePost} from '../../../stores/post/postActions';
 import {useDispatch} from 'react-redux';
 
 const MediaScreen = () => {
+  const navigation = useNavigation();
   const theme = useTheme();
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.user);
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
-  const {control, handleSubmit, reset, getValues} = useForm();
+  const {control, handleSubmit, reset} = useForm();
 
   const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
-    const data = new FormData();
-    data.append(
+    const fdata = new FormData();
+    fdata.append(
       image.type === 'image' ? 'image_path' : 'video_path',
       fileToUpload,
     );
-    data.append('title', title.title);
+    fdata.append('title', title.title);
     try {
       const token = await AsyncStorage.getItem('token');
-      fetch('https://magaxat.com/api/posts_api', {
+      const res = await fetch('https://magaxat.com/api/posts_api', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: 'Bearer ' + token,
         },
-        body: data,
-      }).catch(err => {
-        console.log(err);
+        body: fdata,
       });
+      const {data} = await res.json();
+      dispatch(setSinglePost(data));
       setSelected(!selected);
-      alert('Your Post is Done');
+      reset({}, {keepValues: false});
+      navigation.navigate('HomeScreen');
     } catch (error) {
       alert(error.message);
     } finally {

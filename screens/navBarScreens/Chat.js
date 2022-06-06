@@ -19,8 +19,6 @@ import {useNavigation} from '@react-navigation/native';
 import {state} from 'react-native-push-notification/component';
 import SocketIOClient from 'socket.io-client';
 import {createSocketConnection} from '../../http/socketService/socketService';
-// import Pusher from 'pusher-js/react-native';
-import Echo from 'laravel-echo';
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route, props}) {
@@ -28,26 +26,25 @@ export default function ChatScreen({route, props}) {
   const receiverId = route.params;
   // const {usserId, message, usserImage, uid, userName} = route.params;
   const userMain = useSelector(state => state?.user);
-  // const navigation = useNavigation();
-  // console.log(route.params, 'route.paramsroute.params');
-  // const ws = useRef(null);
-  // useEffect(() => {
-  //   console.log('initiateSocketConnection');
-  //   // enter your websocket url
-  //   ws.current = new WebSocket('ws://192.168.0.112:6001');
-  //   ws.current.onopen = () => {
-  //     console.log('connection establish open');
-  //   };
-  //   ws.current.onclose = () => {
-  //     console.log('connection establish closed');
-  //   };
-  //   return () => {
-  //     ws.current.close();
-  //   };
-  // }, []);
+
+  console.log(userMain, 'route.paramsroute.params');
+  const ws = useRef(null);
+  useEffect(() => {
+    console.log('initiateSocketConnection');
+    // enter your websocket url
+    ws.current = new WebSocket('ws://192.168.0.112:6001');
+    ws.current.onopen = () => {
+      console.log('connection establish open');
+    };
+    ws.current.onclose = () => {
+      console.log('connection establish closed');
+    };
+    return () => {
+      ws.current.close();
+    };
+  }, []);
 
   useEffect(() => {
-    connectWebSocketWatch();
     setMessages([
       {
         _id: userMain.id,
@@ -78,6 +75,21 @@ export default function ChatScreen({route, props}) {
   //     );
   //   };
   // }, []);
+  // useEffect(
+  //   () => {
+  //     async function getMessages() {
+  //       try {
+
+  //       } catch (e) {
+  //         Alert.alert('', 'Erro no carregamento das mensagens');
+  //       }
+  //     }
+  //     getMessages();
+  //   },
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   [],
+  // );
+
   const onSend = useCallback((messages = []) => {
     // let obj = {
     //   senderId: userMain.id,
@@ -90,52 +102,6 @@ export default function ChatScreen({route, props}) {
     //   GiftedChat.append(previousMessages, messages),
     // );
   }, []);
-
-  const connectWebSocketWatch = () => {
-    //put your backend serve url here
-    // createSocketConnection();
-    let echo = new Echo({
-      // broadcaster: 'socket.io',
-      // key: '123456', // hard code
-      // // host: '192.168.0.124',
-      // //http://192.168.0.124
-      // // wssHost: 'ws://192.168.0.112:6001',
-      // // enabledTransports: ['ws', 'wss'],
-      // // wssPort: 6001,
-      // client: io,
-      // // forceTLS: true,
-      // // disableStats: true,
-      // broadcaster: 'pusher',
-      cluster: 'mt1',
-      disableStats: true,
-      enabledTransports: Array.ws,
-      encrypted: true,
-      forceTLS: false,
-      key: '123456',
-      wsHost: '192.168.0.124',
-      wsPort: '6001',
-    });
-    echo.private('notifications.10').listen('.notification', e => {
-      console.log(e);
-    });
-    // const socket = io('192.168.0.124', {transports: ['websocket']});
-    // console.log(socket, 'sssss');
-    // console.log(SocketIOClient);
-    //get_message_ = this is a provide by backend.
-    // socket.on('notifications.10', data => {
-    // console.log(data, 'ssssss');
-    //   console.log(data, 'sssss');
-    //   //   console.log(data);
-    //   //   // var userMessageData = JSON.parse(data);
-    //   //   // var chatDataArray = [...this.state.userChatList];
-    //   //   // let message = [userMessageData];
-    //   //   // let newChatArray = message.concat(chatDataArray);
-    //   //   // this.setState({
-    //   //   //   userChatList: newChatArray,
-    //   //   //   chatMessage: '',
-    //   //   // });
-    // });
-  };
 
   // const onSend = useCallback((messages = []) => {
   //   setMessages(previousMessages =>

@@ -14,15 +14,15 @@ import {loadPosts} from '../stores/post/postActions';
 
 const HorizontalInfinitiScroll = props => {
   const dispatch = useDispatch();
-  const {isLoading, posts} = useSelector(state => state.post);
-  const [currentPage, setCurrentPage] = useState(1);
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
+  const {isLoading, posts, loadMoreItem} = props;
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const loadMoreItem = () => {
+  //   setCurrentPage(currentPage + 1);
+  // };
 
-  useEffect(() => {
-    dispatch(loadPosts(currentPage));
-  }, [currentPage]);
+  // useEffect(() => {
+  //   dispatch(loadPosts(currentPage));
+  // }, [currentPage]);
 
   const renderItem = ({item}) => {
     let content;
@@ -58,7 +58,7 @@ const HorizontalInfinitiScroll = props => {
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}
         data={posts}
-        onEndReached={loadMoreItem}
+        onEndReached={() => loadMoreItem()}
         keyExtractor={(items, index) => index.toString()}
         ListFooterComponent={renderLoader}
         onEndReachedThreshold={0.5}

@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackScreen from './screens/RootStackScreen';
@@ -15,38 +15,29 @@ import {
   requestUserPermission,
   NotificationListner,
 } from './utils/pushNotification';
-import firestore from '@react-native-firebase/firestore';
 import LinearGradient from 'react-native-linear-gradient';
-import auth from '@react-native-firebase/auth';
 import * as Animatable from 'react-native-animatable';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {ActivityIndicator, View} from 'react-native';
-import PushNotification from 'react-native-push-notification';
-// import {createSocketConnection} from './http/socketService/socketService';
+// import Pusher from 'react-native-push-notification';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const dispatch = useDispatch();
+
   const {loading, isAuth} = useSelector(state => state.user);
 
   useEffect(() => {
     dispatch(getMe());
-    // createSocketConnection();
   }, []);
 
-  useEffect(() => {
-    createChanels();
-    requestUserPermission();
-    NotificationListner();
-  }, []);
-
-  const createChanels = () => {
-    PushNotification.createChannel({
-      channelId: 'test-channel',
-      channelName: 'Test Channel',
-    });
-  };
+  // const createChanels = () => {
+  //   PushNotification.createChannel({
+  //     channelId: 'test-channel',
+  //     channelName: 'Test Channel',
+  //   });
+  // };
   if (loading) {
     return (
       <LinearGradient
@@ -74,7 +65,7 @@ const App = () => {
 
   return (
     <NavigationContainer>
-      {/* {isAuth ? (
+      {isAuth ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -83,13 +74,7 @@ const App = () => {
         </Stack.Navigator>
       ) : (
         <RootStackScreen />
-      )} */}
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}>
-        <Stack.Screen name="Homes" component={MainTabScreen} />
-      </Stack.Navigator>
+      )}
     </NavigationContainer>
   );
 };
