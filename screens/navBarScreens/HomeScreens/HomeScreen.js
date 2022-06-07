@@ -20,6 +20,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loadLastMessages} from '../../../stores/messages/messageActions';
 
 const HomeScreen = props => {
   const dispatch = useDispatch();
@@ -64,7 +65,7 @@ const HomeScreen = props => {
       echo
         ?.private(`notifications.${userMain?.user?.id}`)
         .listen('.notification', e => {
-          console.log(e, 'ssss1111');
+          dispatch(loadLastMessages(e));
         });
     }
   };

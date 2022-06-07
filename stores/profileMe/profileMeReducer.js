@@ -26,9 +26,6 @@ export const myPostReducer = (state = initialState, action) => {
         isLoading: false,
       };
     case REMOVE_SINGLE_POST:
-      console.log(123);
-      // const filteredPosts = state.myPosts.filter(el => el.id !== payload);
-      console.log(payload);
       return {
         ...state,
         myPosts: state.myPosts.filter(el => el.id !== payload),

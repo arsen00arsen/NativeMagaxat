@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,24 +6,13 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
 import {loadPosts} from '../stores/post/postActions';
 
 const HorizontalInfinitiScroll = props => {
-  const dispatch = useDispatch();
   const {isLoading, posts, loadMoreItem} = props;
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const loadMoreItem = () => {
-  //   setCurrentPage(currentPage + 1);
-  // };
-
-  // useEffect(() => {
-  //   dispatch(loadPosts(currentPage));
-  // }, [currentPage]);
-
   const renderItem = ({item}) => {
     let content;
     if (item.image) {

@@ -1,113 +1,55 @@
-import React, {useState, useEffect, useCallback, useRef} from 'react';
-import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-import {
-  GiftedChat,
-  Bubble,
-  Send,
-  InputToolbar,
-  Actions,
-} from 'react-native-gifted-chat';
+import React, {useState, useEffect, useCallback} from 'react';
+import {View, StyleSheet, Image, TouchableOpacity, Text} from 'react-native';
+import {GiftedChat, Bubble, Send, InputToolbar} from 'react-native-gifted-chat';
+import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import firestore from '@react-native-firebase/firestore';
-import {useSelector} from 'react-redux';
 import {LogBox} from 'react-native';
 import ImagePicker from 'react-native-image-crop-picker';
 import ImageView from 'react-native-image-viewing';
-import io from 'socket.io-client';
 import {useNavigation} from '@react-navigation/native';
-import {state} from 'react-native-push-notification/component';
-import SocketIOClient from 'socket.io-client';
-import {createSocketConnection} from '../../http/socketService/socketService';
+import {loadMessages} from '../../stores/messages/messageActions';
+import {MessageService} from '../../http/messageService/messageService';
+
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route, props}) {
-  const [messages, setMessages] = useState([]);
+  const [recvMessages, setRecvMessages] = useState([]);
   const receiverId = route.params;
+  const dispatch = useDispatch();
   // const {usserId, message, usserImage, uid, userName} = route.params;
   const userMain = useSelector(state => state?.user);
+  const messag = useSelector(state => state?.messages);
 
-  console.log(userMain, 'route.paramsroute.params');
-  const ws = useRef(null);
   useEffect(() => {
-    console.log('initiateSocketConnection');
-    // enter your websocket url
-    ws.current = new WebSocket('ws://192.168.0.112:6001');
-    ws.current.onopen = () => {
-      console.log('connection establish open');
-    };
-    ws.current.onclose = () => {
-      console.log('connection establish closed');
-    };
-    return () => {
-      ws.current.close();
-    };
+    dispatch(loadMessages(receiverId.uid));
   }, []);
 
   useEffect(() => {
-    setMessages([
-      {
-        _id: userMain.id,
-        text: 'Hello developer',
-        createdAt: new Date(),
+    const msgs = messag?.messages?.reverse().map(msg => {
+      return {
+        _id: msg._id,
+        text: msg.text,
+        createdAt: msg.created_at,
         user: {
-          _id: receiverId.uid,
-          name: receiverId.name,
+          _id: msg.from,
+          name: receiverId?.name,
         },
-      },
-    ]);
-  }, []);
-  // useEffect(() => {
-  //   ws.current.onmessage = e => {
-  //     const response = JSON.parse(e.data);
-  //     console.log('onmessage=>', JSON.stringify(response));
-  //     var sentMessages = {
-  //       _id: userMain.id,
-  //       text: response.message,
-  //       createdAt: new Date(response.createdAt * 1000),
-  //       user: {
-  //         _id: receiverId.uid,
-  //         name: receiverId.name,
-  //       },
-  //     };
-  //     setMessages(previousMessages =>
-  //       GiftedChat.append(previousMessages, sentMessages),
-  //     );
-  //   };
-  // }, []);
-  // useEffect(
-  //   () => {
-  //     async function getMessages() {
-  //       try {
+      };
+    });
+    setRecvMessages(msgs);
+  }, [messag.messages]);
 
-  //       } catch (e) {
-  //         Alert.alert('', 'Erro no carregamento das mensagens');
-  //       }
-  //     }
-  //     getMessages();
-  //   },
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  //   [],
-  // );
-
-  const onSend = useCallback((messages = []) => {
-    // let obj = {
-    //   senderId: userMain.id,
-    //   receiverId: receiverId.uid,
-    //   message: messages[0].text,
-    //   action: 'message',
-    // };
-    // ws.current.send(JSON.stringify(obj));
-    // setMessages(previousMessages =>
-    //   GiftedChat.append(previousMessages, messages),
-    // );
+  const onSend = useCallback((recvMessages = []) => {
+    setRecvMessages(previousMessages =>
+      GiftedChat.append(previousMessages, recvMessages),
+    );
+    MessageService.sendMessages({
+      contact_id: receiverId.uid,
+      text: recvMessages[0].text,
+    });
   }, []);
 
-  // const onSend = useCallback((messages = []) => {
-  //   setMessages(previousMessages =>
-  //     GiftedChat.append(previousMessages, messages),
-  //   );
-  // }, []);
   const renderSend = props => {
     return (
       <Send {...props}>
@@ -147,14 +89,15 @@ export default function ChatScreen({route, props}) {
   const renderToolbar = props => {
     return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
   };
+
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
       <GiftedChat
-        messages={messages}
+        messages={recvMessages}
         style={styles.canteiner}
         onSend={messages => onSend(messages)}
         user={{
-          _id: userMain.id,
+          _id: userMain.user.id,
         }}
         renderAvatar={null}
         renderBubble={renderBubble}
