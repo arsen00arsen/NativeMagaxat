@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const headers = {
   Accept: 'application/json',
-  'Content-Type': 'application/json',
+  'Content-Type': 'multipart/form-data',
 };
 
 export const $host = axios.create({

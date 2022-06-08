@@ -24,7 +24,6 @@ const MesageScreen = () => {
   }, []);
 
   const RenderCard = ({item, index}) => {
-    console.log(item, 'llll');
     return (
       <TouchableOpacity
         key={index}

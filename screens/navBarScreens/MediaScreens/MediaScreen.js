@@ -12,16 +12,14 @@ import {
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import DocumentPicker from 'react-native-document-picker';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
-import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
-import PostIcons from 'react-native-vector-icons/MaterialIcons';
-import MediaContent from '../../../components/MediaContent';
-import ImageUploadService from '../../../http/uploadImageSevice/uplouadImageService';
 import VideoPlayer from 'react-native-video-player';
+import PostIcons from 'react-native-vector-icons/MaterialIcons';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import MediaContent from '../../../components/MediaContent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {loadPosts, setSinglePost} from '../../../stores/post/postActions';
-import {useDispatch} from 'react-redux';
+import {setSinglePost} from '../../../stores/post/postActions';
 
 const MediaScreen = () => {
   const navigation = useNavigation();

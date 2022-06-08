@@ -1,10 +1,15 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
+import ImageUploadService from '../../http/uploadImageSevice/uplouadImageService';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export const AvatarAdd = props => {
+  // const navigation = useNavigationn();
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
@@ -18,9 +23,7 @@ export const AvatarAdd = props => {
       });
       setSingleFile(res[0]);
       setImage(res[0].uri);
-      uploadImage();
     } catch (err) {
-      // setSingleFile(null);
       if (DocumentPicker.isCancel(err)) {
         alert('Canceled');
       } else {
@@ -28,22 +31,30 @@ export const AvatarAdd = props => {
         throw err;
       }
     } finally {
+      // navigation.navigate('HomeScreen');
     }
   };
 
   const uploadImage = async () => {
     const fileToUpload = singleFile;
-    const data = new FormData();
-    data.append('image', fileToUpload);
+    const fdata = new FormData();
+    fdata.append('image', fileToUpload);
     try {
-      dispatch({
-        type: 'FIRST_STEP_SUBMIT',
-        payload: data,
+      // ImageUploadService.changeUserProfileImage(fdata);
+      const token = await AsyncStorage.getItem('token');
+      const res = await fetch('https://magaxat.com/api/profile/change', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + token,
+        },
+        body: fdata,
       });
+      const {data} = await res.json();
+      console.log(data);
     } catch (error) {
       alert(error);
     } finally {
-      // dispatch(startLoadPosts(false));
     }
   };
 
@@ -63,16 +74,10 @@ export const AvatarAdd = props => {
           </View>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={uploadImage} style={styles.container}>
+        <TouchableOpacity onPress={uploadImage()} style={styles.container}>
           <Image style={styles.avatar} {...props} source={{uri: image}} />
         </TouchableOpacity>
       )}
-      {/* <TouchableOpacity onPress={selectFile} style={styles.container}>
-        <Image style={styles.avatar} {...props} source={img} />
-        <View style={styles.icon}>
-          <Icon name="camera" size={24} color="#B9B9B9" />
-        </View>
-      </TouchableOpacity> */}
     </>
   );
 };

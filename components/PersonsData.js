@@ -9,10 +9,8 @@ import {
   ImageBackground,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-// import ImageView from 'react-native-image-viewing';
 import {loadUsers} from '../stores/lastUsers/userAction';
 
 const PersonsData = () => {
@@ -77,17 +75,6 @@ const PersonsData = () => {
 
   return (
     <>
-      {/* <LinearGradient
-        style={styles.lastUsersContainer}
-        start={{x: 1, y: 0}}
-        end={{x: 1, y: 1}}
-        locations={[0.3, 0.8]}
-        colors={['#E0D0BA', '#E4E3E1']}>
-        <View style={styles.lastUsersContainercontent}>
-          <View style={styles.lastUsersContainerSmall} />
-          <Text style={styles.lastUsersContainerText}>Last Signed Users</Text>
-        </View>
-      </LinearGradient> */}
       <FlatList
         data={lastUsers}
         renderItem={({item}) => (
@@ -116,25 +103,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     justifyContent: 'center',
     marginTop: 20,
-  },
-  lastUsersContainerSmall: {
-    height: 30,
-    width: 8,
-    borderBottomRightRadius: 5,
-    borderTopRightRadius: 5,
-    backgroundColor: '#ACA093',
-    marginRight: 10,
-  },
-  lastUsersContainerText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#838383',
-    fontFamily: 'Roboto-Bold',
-  },
-  lastUsersContainercontent: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
   },
   usersProfile: {
     width: 72,

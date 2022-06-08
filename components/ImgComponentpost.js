@@ -29,7 +29,7 @@ const ImgComponentpost = props => {
   let imgBG = (
     <ImageBackground
       source={{uri: props?.uri.image_path || props?.uri.image}}
-      resizeMode="stretch"
+      resizeMode="center"
       style={styles.usersProfileBGimage}
     />
   );
