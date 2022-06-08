@@ -1,17 +1,20 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {AvatarAdd} from './ImageVedioUpload/AvatarAdd';
+import {useSelector} from 'react-redux';
 
 const MyaccountUsserInforAvatar = () => {
+  const user = useSelector(state => state?.user);
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>
         <View style={styles.imgFrame}>
-          <AvatarAdd />
+          <AvatarAdd image={user.user.image} />
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>Nikol Pahinyan</Text>
-          <Text style={styles.userDate}>17.04.1968</Text>
+          <Text style={styles.userName}>{user.user.name} </Text>
+          <Text style={styles.userName}>{user.user.lastname} </Text>
+          <Text style={styles.userDate}>{user.user.date_of_birth}</Text>
         </View>
       </View>
     </View>

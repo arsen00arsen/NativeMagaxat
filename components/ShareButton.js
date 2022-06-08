@@ -15,7 +15,7 @@ const ShareButton = () => {
           },
           {
             // Android only:
-            dialogTitle: 'Share BAM goodness',
+            dialogTitle: 'Share your',
             // iOS only:
             excludedActivityTypes: ['com.apple.UIKit.activity.PostToTwitter'],
           },

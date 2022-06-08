@@ -1,7 +1,6 @@
-import {createStore, combineReducers} from 'redux';
-import signUpReducer from '../stores/reducers/signUpReducer';
-const rootReducer = combineReducers({usser: signUpReducer});
-const configureStore = () => {
-  return createStore(rootReducer);
-};
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import {rootReducer} from './rootReducer';
+
+const configureStore = () => createStore(rootReducer, applyMiddleware(thunk));
 export default configureStore;

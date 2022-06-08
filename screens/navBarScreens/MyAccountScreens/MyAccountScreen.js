@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,11 +8,19 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import Icon from 'react-native-vector-icons/Feather';
+import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+
 const MyAccountScreen = ({navigation}) => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+  const {myPosts} = useSelector(state => state?.myPosts);
+  useEffect(() => {
+    dispatch(loadMyPosts());
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -35,26 +43,38 @@ const MyAccountScreen = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MyPostsScreen')}>
+          onPress={() =>
+            navigation.navigate('MyPostsScreen', {
+              posts: myPosts,
+            })
+          }>
           <Text style={styles.buttonText}>My Posts</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MyMediaScreen')}>
           <Text style={styles.buttonText}>My Media</Text>
           <Icon name="chevron-right" size={20} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MySubscribtionsScreen')}>
+          onPress={() =>
+            navigation.navigate('MySubscribtionsScreen', {
+              subscription: myPosts.subscription,
+            })
+          }>
           <Text style={styles.buttonText}>My Subscribtions</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('MySubscribersScreen')}>
-          <Text style={styles.buttonText}>My Subscribtions</Text>
+          onPress={() =>
+            navigation.navigate('MySubscribersScreen', {
+              subscribers: myPosts.subscribers,
+            })
+          }>
+          <Text style={styles.buttonText}>My Subscribers</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
         <TouchableOpacity

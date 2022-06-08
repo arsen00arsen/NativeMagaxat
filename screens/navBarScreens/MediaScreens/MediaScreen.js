@@ -5,38 +5,101 @@ import {
   Image,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   TextInput,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
-import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import {useNavigation, useTheme} from '@react-navigation/native';
+import {Controller, useForm} from 'react-hook-form';
+import DocumentPicker from 'react-native-document-picker';
+import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
-// import {useSelector} from 'react-redux';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import MediaContent from '../../../components/MediaContent';
-import ImagePicker from 'react-native-image-crop-picker';
-const MediaScreen = ({navigation}) => {
-  const theme = useTheme();
-  const [text, onChangeText] = useState('');
-  const [image, setImage] = useState(null);
+import ImageUploadService from '../../../http/uploadImageSevice/uplouadImageService';
+import VideoPlayer from 'react-native-video-player';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {loadPosts, setSinglePost} from '../../../stores/post/postActions';
+import {useDispatch} from 'react-redux';
 
-  const pickPicture = () => {
-    ImagePicker.openPicker({
-      width: 300,
-      height: 400,
-      cropping: true,
-    }).then(image => {
-      console.log(image);
-    });
+const MediaScreen = () => {
+  const navigation = useNavigation();
+  const theme = useTheme();
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.user);
+  const [image, setImage] = useState(null);
+  const [selected, setSelected] = useState(false);
+  const [singleFile, setSingleFile] = useState(null);
+  const {control, handleSubmit, reset} = useForm();
+
+  const submitFormHandler = handleSubmit(async title => {
+    const fileToUpload = singleFile;
+    const fdata = new FormData();
+    fdata.append(
+      image.type === 'image' ? 'image_path' : 'video_path',
+      fileToUpload,
+    );
+    fdata.append('title', title.title);
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const res = await fetch('https://magaxat.com/api/posts_api', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: 'Bearer ' + token,
+        },
+        body: fdata,
+      });
+      const {data} = await res.json();
+      dispatch(setSinglePost(data));
+      setSelected(!selected);
+      reset({}, {keepValues: false});
+      navigation.navigate('HomeScreen');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+    }
+  });
+
+  const selectFile = async () => {
+    setImage({type: 'image'});
+    setSelected(true);
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      });
+      setSingleFile(res[0]);
+      setImage({uri: res[0].uri, type: 'image'});
+      // setType('image');
+    } catch (err) {
+      setSingleFile(null);
+      if (DocumentPicker.isCancel(err)) {
+        alert('Canceled');
+      } else {
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
   };
 
-  const pickVedio = () => {
-    ImagePicker.openPicker({
-      mediaType: 'video',
-    }).then(video => {
-      console.log(video);
-    });
+  const selectFileVideo = async () => {
+    setSelected(true);
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.video],
+      });
+      setSingleFile(res[0]);
+      setImage(res[0].uri);
+    } catch (err) {
+      setSingleFile(null);
+      if (DocumentPicker.isCancel(err)) {
+        alert('Canceled');
+      } else {
+        alert('Unknown Error: ' + JSON.stringify(err));
+        throw err;
+      }
+    }
   };
 
   return (
@@ -48,38 +111,78 @@ const MediaScreen = ({navigation}) => {
       <HeaderBackSearchSecond pageTo={'MediaSearch'} />
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.postContainer}>
-          <View style={styles.postBody}>
+          <View
+            style={[selected !== true ? styles.postBody : styles.postUnheight]}>
             <View style={styles.addPost}>
               <View style={styles.imgBody}>
-                <Image
-                  style={styles.img}
-                  source={require('../../../assets/Nikol.png')}
-                />
+                <Image style={styles.img} source={{uri: user.image}} />
               </View>
-              <View style={styles.textArea}>
-                <TextInput
-                  style={styles.input}
-                  onChangeText={onChangeText}
-                  value={text}
-                  placeholder={'Type your post message ...'}
-                />
+              <Controller
+                control={control}
+                name="title"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <TextInput
+                      placeholder="Add Your post ..."
+                      value={value}
+                      style={styles.textInput}
+                      multiline
+                      onChangeText={onChange}
+                      underlineColorAndroid="white"
+                    />
+                  );
+                }}
+              />
+            </View>
+            {selected !== false && image !== null ? (
+              <>
+                {image.type == 'image' ? (
+                  <Image source={{uri: image?.uri}} style={styles.io} />
+                ) : (
+                  <VideoPlayer
+                    video={{uri: image?.uri}}
+                    autoplay={false}
+                    defaultMuted={true}
+                    // thumbnail={require('../assets/logo.png')}
+                    style={styles.io}
+                    fullscreen={true}
+                    resizeMode="contain"
+                  />
+                )}
+
+                <View style={styles.uploadImgVedio}>
+                  <TouchableOpacity
+                    style={styles.postImg}
+                    onPress={submitFormHandler}>
+                    <PostIcons name="post-add" size={24} color="#B9B9B9" />
+                    <Text style={styles.textAdd}>Add your Post</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.postVedio}
+                    onPress={() => setSelected(!selected)}>
+                    <PostIcons name="cancel" size={24} color="#B9B9B9" />
+                    <Text style={styles.textAdd}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              </>
+            ) : (
+              <View style={styles.addImgVedio}>
+                <TouchableOpacity
+                  style={styles.postImg}
+                  onPress={() => selectFile()}>
+                  <Icon name="camera" size={24} color="#B9B9B9" />
+                  <Text style={styles.textAdd}>Add Photo</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.postVedio}
+                  onPress={() => selectFileVideo()}>
+                  <Icon name="video-camera" size={24} color="#B9B9B9" />
+                  <Text style={styles.textAdd}>Add Vedio</Text>
+                </TouchableOpacity>
               </View>
-            </View>
-            <View style={styles.addImgVedio}>
-              <TouchableOpacity style={styles.postImg} onPress={pickPicture}>
-                <Icon name="camera" size={24} color="#B9B9B9" />
-                <Text style={styles.textAdd}>Add Photo</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.postVedio} onPress={pickVedio}>
-                <Icon name="video-camera" size={24} color="#B9B9B9" />
-                <Text style={styles.textAdd}>Add Vedio</Text>
-              </TouchableOpacity>
-            </View>
+            )}
           </View>
           <MediaContent />
-          <View style={styles.contentStyle}>
-            {image && <Image source={{uri: image}} style={styles.vedioImg} />}
-          </View>
         </View>
       </ScrollView>
     </View>
@@ -106,7 +209,14 @@ const styles = StyleSheet.create({
   },
   postBody: {
     width: '100%',
-    height: 125,
+    height: 200,
+    minHeight: 175,
+    backgroundColor: '#E8E5E1',
+    borderRadius: 8,
+  },
+  postUnheight: {
+    width: '100%',
+    height: 370,
     backgroundColor: '#E8E5E1',
     borderRadius: 8,
   },
@@ -116,12 +226,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    // height: '65%',
     width: '100%',
+    maxHeight: 115,
   },
   imgBody: {
-    width: 51,
-    height: 51,
+    width: 71,
+    height: 71,
     borderColor: 'silver',
     borderWidth: 4,
     borderRadius: 50,
@@ -133,14 +243,16 @@ const styles = StyleSheet.create({
   },
   img: {
     position: 'absolute',
-    width: 45,
-    height: 45,
+    width: 65,
+    height: 65,
     borderRadius: 50,
   },
   input: {
     color: 'black',
     fontSize: 14,
     width: '100%',
+    flex: 1,
+    alignItems: 'stretch',
   },
   addImgVedio: {
     height: '35%',
@@ -148,6 +260,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 'auto',
+  },
+  uploadImgVedio: {
+    height: '15%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 'auto',
   },
   postImg: {
     width: '50%',
@@ -187,7 +308,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  textArea: {
-    // width: '100%',
+  io: {
+    width: '100%',
+    height: 230,
+    marginBottom: 'auto',
+  },
+  textInput: {
+    height: '100%',
+    // borderWidth: 2.5,
+    borderColor: '#E5E5E5',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    marginRight: 10,
+    maxHeight: 180,
+    width: '70%',
+    maxWidth: 230,
+    color: 'black',
+    fontSize: 16,
+    paddingHorizontal: 15,
   },
 });

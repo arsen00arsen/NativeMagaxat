@@ -1,5 +1,6 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import PushNotification from 'react-native-push-notification';
 
 export async function requestUserPermission() {
   const authStatus = await messaging().requestPermission();
@@ -31,6 +32,11 @@ async function GetFcmToken() {
 
 export const NotificationListner = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: remoteMessage.notification.title,
+      message: remoteMessage.notification.body,
+    });
     console.log(
       'Notification caused app to open from background state:',
       remoteMessage.notification,
@@ -40,6 +46,11 @@ export const NotificationListner = () => {
     .getInitialNotification()
     .then(remoteMessage => {
       if (remoteMessage) {
+        PushNotification.localNotification({
+          channelId: 'test-channel',
+          title: remoteMessage.notification.title,
+          message: remoteMessage.notification.body,
+        });
         console.log(
           'Notification caused app to open from quit state:',
           remoteMessage.notification,
@@ -48,6 +59,11 @@ export const NotificationListner = () => {
     });
 
   messaging().onMessage(async remoteMessage => {
+    PushNotification.localNotification({
+      channelId: 'test-channel',
+      title: remoteMessage.notification.title,
+      message: remoteMessage.notification.body,
+    });
     console.log('notification on frograund state ......', remoteMessage);
   });
 };

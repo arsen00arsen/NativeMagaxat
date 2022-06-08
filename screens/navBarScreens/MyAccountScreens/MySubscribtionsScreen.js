@@ -9,44 +9,15 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 
-const MySubscribtionsScreen = ({navigation}) => {
+const MySubscribtionsScreen = props => {
   const theme = useTheme();
-
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      name: 'Nikol Pashinyan',
-      // userImage: "../../assets/FakeImages/Nikol.png"
-    },
-    {
-      id: 2,
-      name: 'Robert Qocharyan',
-    },
-    {
-      id: 3,
-      name: 'Anjela Sargsyan',
-    },
-    {
-      id: 4,
-      name: 'Serj Sargsyan',
-    },
-    {
-      id: 5,
-      name: 'Hayk Marutyan',
-    },
-    {
-      id: 6,
-      name: 'Levon Ter-Petrosyan',
-    },
-    {
-      id: 7,
-      name: 'Vazgen Sargsyan',
-    },
-  ];
-  let content = ANIMAL_NAMES.map((elem, index) => {
+  const navigation = useNavigation();
+  let users = props?.route.params.subscription;
+  let content = users.map((elem, index) => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
@@ -54,10 +25,7 @@ const MySubscribtionsScreen = ({navigation}) => {
           onPress={() => navigation.navigate('AccounProfiletScreen')}>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
-              <Image
-                source={require('../../../assets/Nikol.png')}
-                style={styles.userImage}
-              />
+              <Image source={{uri: users.image}} style={styles.userImage} />
             </View>
             <Text style={styles.userName}>{elem.name}</Text>
           </View>

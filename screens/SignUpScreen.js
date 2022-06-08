@@ -1,4 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {Controller, useForm} from 'react-hook-form';
+import moment from 'moment';
 import {
   View,
   StyleSheet,
@@ -6,36 +9,36 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
-  TextInput,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-// import Avatar from '../components/Avatar';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
-import {useForm} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/Feather';
+
+// import Avatar from '../components/Avatar';
 import CustomInput from '../components/loginComponents/CustomInput';
-import {useSelector, useDispatch} from 'react-redux';
 
 const SignUpScreen = ({navigation}) => {
-  const [date, setDate] = React.useState(new Date());
-  const [open, setOpen] = React.useState(false);
-  const {control, handleSubmit} = useForm();
-  const birthDate = useSelector(state => state.usser);
-  const dispatch = useDispatch();
-  const submitFormHandler = handleSubmit(data => {
-    dispatch({type: 'USSER_SIGN_UP_FLNAMES', payload: data});
+  const [open, setOpen] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const {control, handleSubmit, getValues} = useForm({
+    defaultValues: {
+      date_of_birth: new Date(),
+    },
   });
 
-  let nextStep = async () => {
-    await submitFormHandler();
-    control?._formValues !== {} &&
-    control?._formValues.lastName !== undefined &&
-    control?._formValues.name !== undefined
-      ? navigation.navigate('AccountInfoScreen')
-      : navigation.navigate(null);
-  };
-  let datas = birthDate?.usserDatDate?.birthDate?.substring(1, 11);
+  const dispatch = useDispatch();
+  const submitFormHandler = handleSubmit(data => {
+    dispatch({
+      type: 'FIRST_STEP_SUBMIT',
+      payload: {
+        ...data,
+        date_of_birth: moment(data).format('YYYY-MM-DD'),
+      },
+    });
+    navigation.navigate('AccountInfoScreen');
+  });
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -65,16 +68,29 @@ const SignUpScreen = ({navigation}) => {
           </View>
           <View>
             <CustomInput
+              style={styles.nameInput}
               name="name"
               control={control}
-              rules={true}
               title="First Name"
+              rules={{
+                required: 'Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Name cannot be empoty',
+                },
+              }}
             />
             <CustomInput
-              name="lastName"
+              name="lastname"
               control={control}
               title="Last Name"
-              rules={true}
+              rules={{
+                required: 'Last Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Last Name cannot be empoty',
+                },
+              }}
             />
             <View>
               <TouchableOpacity
@@ -82,35 +98,35 @@ const SignUpScreen = ({navigation}) => {
                 onPress={() => setOpen(true)}>
                 <View>
                   <Text style={styles.inputHeader}>Date</Text>
-                  <TextInput
-                    placeholderTextColor="#666666"
-                    style={styles.textInput}
-                    autoCapitalize="none"
-                  />
-                  <Text style={styles.dateText}>{datas}</Text>
+                  <Text style={styles.dateText}>
+                    {moment(date).format('DD.MM.YYYY')}
+                  </Text>
                 </View>
               </TouchableOpacity>
-              <DatePicker
-                mode="date"
-                modal
-                open={open}
-                date={date}
-                onConfirm={dates => {
-                  setOpen(false);
-                  setDate(dates);
-                  dispatch({
-                    type: 'USSER_SIGN_UP_DATE',
-                    payload: {birthDate: JSON.stringify(dates)},
-                  });
-                }}
-                onCancel={() => {
-                  setOpen(false);
+              <Controller
+                control={control}
+                name="date_of_birth"
+                render={({field: {value, onChange}}) => {
+                  return (
+                    <DatePicker
+                      title="Select date"
+                      mode="date"
+                      modal
+                      open={open}
+                      date={value}
+                      onConfirm={date => {
+                        setDate(date);
+                        setOpen(false);
+                      }}
+                      onCancel={() => setOpen(false)}
+                    />
+                  );
                 }}
               />
             </View>
           </View>
           <View>
-            <TouchableOpacity style={styles.button} onPress={nextStep}>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
@@ -194,6 +210,7 @@ const styles = StyleSheet.create({
     color: '#05375a',
     height: '100%',
     width: '100%',
+    paddingTop: 5,
   },
   action: {
     flexDirection: 'column',
@@ -203,6 +220,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: 250,
     height: 60,
+    paddingVer: 30,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -238,5 +256,8 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+  },
+  nameInput: {
+    marginBottom: 15,
   },
 });

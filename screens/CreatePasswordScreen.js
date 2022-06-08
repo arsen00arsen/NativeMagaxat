@@ -1,63 +1,28 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
-  TextInput,
   ScrollView,
 } from 'react-native';
+import {useForm} from 'react-hook-form';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
-import {useDispatch} from 'react-redux';
+import CustomInput from '../components/loginComponents/CustomInput';
 
 const CreatePasswordScreen = ({navigation}) => {
-  const [password, setpassword] = React.useState('');
-  const [passwordErrorMessage, setpasswordErrorMessage] = React.useState('');
-  const [confirmPassword, setconfirmPassword] = React.useState('');
-  const [confirmPasswordErrorMessage, setconfirmPasswordErrorMessage] =
-    React.useState('');
-  const [loading, setloading] = React.useState(false);
   const dispatch = useDispatch();
-  let formValidation = async () => {
-    setloading(true);
-    let errorFlag = false;
-    if (password.length === 0) {
-      errorFlag = true;
-      setpasswordErrorMessage('Password is required feild');
-    } else if (password.length < 8 || password.length > 20) {
-      errorFlag = true;
-      setpasswordErrorMessage('Password should be min 8 char and max 20 char');
-    } else if (password !== confirmPassword) {
-      errorFlag = true;
-      setpasswordErrorMessage('Passwoad and confirm password should be same.');
-    }
-
-    if (confirmPassword.length === 0) {
-      errorFlag = true;
-      setconfirmPasswordErrorMessage('Confirm Password is required feild');
-    } else if (confirmPassword.length < 8 || confirmPassword.length > 20) {
-      errorFlag = true;
-      setconfirmPasswordErrorMessage(
-        'Password should be min 8 char and max 20 char',
-      );
-    }
-
-    if (errorFlag) {
-    } else {
-      setloading(false);
-    }
-  };
-  function nextStep() {
-    formValidation();
-    dispatch({
-      type: 'USSER_SIGN_UP_PASSWORD',
-      payload: {password: password},
-    });
+  const {control, handleSubmit, watch} = useForm();
+  let pwd = watch('password');
+  const submitFormHandler = handleSubmit(data => {
+    dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
     navigation.navigate('LocationPageScreen');
-  }
+  });
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -84,44 +49,34 @@ const CreatePasswordScreen = ({navigation}) => {
             resizeMode="stretch"
           />
           <View>
-            <View style={styles.action}>
-              <View style={styles.passHeader}>
-                <Text style={styles.inputHeader}>Password</Text>
-              </View>
-              <TextInput
-                placeholderTextColor="#666666"
-                value={password}
-                style={styles.textInput}
-                secureTextEntry={true}
-                autoCapitalize="none"
-                onChangeText={password => setpassword(password)}
-              />
-            </View>
-            {passwordErrorMessage?.length > 0 && (
-              <Text style={styles.textDanger}>{passwordErrorMessage}</Text>
-            )}
-            <View style={styles.action}>
-              <View style={styles.passHeader}>
-                <Text style={styles.inputHeader}>Confirm Your Password</Text>
-              </View>
-              <TextInput
-                secureTextEntry={true}
-                value={confirmPassword}
-                style={styles.textInput}
-                autoCapitalize="none"
-                onChangeText={confirmPassword =>
-                  setconfirmPassword(confirmPassword)
-                }
-              />
-            </View>
-            {confirmPasswordErrorMessage?.length > 0 && (
-              <Text style={styles.textDanger}>
-                {confirmPasswordErrorMessage}
-              </Text>
-            )}
+            <CustomInput
+              name="password"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password should be at least 8 characters',
+                },
+              }}
+              title="Password"
+            />
+            <CustomInput
+              name="confirmPassword"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                validate: value =>
+                  value === pwd || 'The passwords do not match',
+              }}
+              title="Confirm Your Password"
+            />
           </View>
           <View>
-            <TouchableOpacity style={styles.button} onPress={nextStep}>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
               <Text style={styles.textSign}>Next</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
@@ -197,6 +152,7 @@ const styles = StyleSheet.create({
     height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
+    marginBottom: 40,
   },
   textInput: {
     flex: 1,
@@ -243,7 +199,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   textDanger: {
-    color: 'red',
+    color: 'black',
     fontSize: 12,
+  },
+  nameInput: {
+    marginBottom: 20,
   },
 });

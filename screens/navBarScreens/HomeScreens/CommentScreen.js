@@ -7,50 +7,88 @@ import {
   Text,
   Platform,
   TouchableWithoutFeedback,
-  Button,
   Keyboard,
   Image,
   ScrollView,
+  ImageBackground,
+  TouchableOpacity,
 } from 'react-native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import {Controller, useForm} from 'react-hook-form';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import VideoPlayer from 'react-native-video-player';
+import {useDispatch, useSelector} from 'react-redux';
+import {sendComment} from '../../../stores/post/postActions';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 
 const CommentScreen = props => {
   const scrollViewRef = useRef();
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      name: 'Vazgen Sargsyan',
-      image: require('../../../assets/defoult.png'),
-      commentText:
-        'ayb bem gim aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-    },
-    {
-      id: 2,
-      name: 'Vazgen Sargsyan',
-      image: require('../../../assets/Nikol.png'),
-      commentText: 'da yej za',
-    },
-  ];
+  const dispatch = useDispatch();
+  const {control, handleSubmit, reset} = useForm();
+  let user = props?.route.params.user;
+  let video = props?.route.params.video;
+  let image = props?.route.params.image;
+  let description = props?.route.params.description;
+  let id = props?.route.params.id;
+  const {posts} = useSelector(state => state.post);
+  const foundPost = posts?.find(el => el?.id === id);
 
-  let commentContent = ANIMAL_NAMES.map(elem => {
+  const submitFormHandler = handleSubmit(async submitData => {
+    try {
+      reset({}, {keepValues: false});
+      dispatch(sendComment(id, submitData));
+    } catch (error) {
+      console.log(error);
+    }
+  });
+  let commentContent = foundPost?.comments?.map(elem => {
+    let imgComment;
+    if (elem.user.image !== null) {
+      imgComment = {uri: elem.user.image};
+    } else {
+      imgComment = require('../../../assets/defoult.png');
+    }
     return (
-      <View>
+      <View key={elem.id}>
         <View style={styles.userProfile}>
           <View style={styles.imgFrame}>
-            <Image source={elem.image} style={styles.userImage} />
+            <Image source={imgComment} style={styles.userImage} />
+          </View>
+          <View>
+            <Text>{elem.name} </Text>
+            <Text />
           </View>
           <View style={styles.userInfo}>
-            <Text style={styles.userName}>{elem.name} </Text>
+            <Text style={styles.userName}>{elem.user.name} </Text>
+            <Text style={styles.userName}>{elem.user.lastname} </Text>
           </View>
         </View>
         <View style={styles.commentBody}>
-          <Text style={styles.commentText}>{elem.commentText}</Text>
+          <Text style={styles.timeText}>{elem.created_at} </Text>
+          <Text style={styles.commentText}>{elem.title}</Text>
         </View>
       </View>
     );
   });
-
+  let content;
+  if (props.route.params.video) {
+    content = (
+      <VideoPlayer
+        video={{uri: video}}
+        autoplay={false}
+        defaultMuted={true}
+        thumbnail={require('./../../../assets/logo.png')}
+        style={styles.mediaVideo}
+      />
+    );
+  } else {
+    content = (
+      <ImageBackground
+        source={{uri: props?.route.params.img}}
+        resizeMode="stretch"
+        style={styles.usersProfileBGimage}
+      />
+    );
+  }
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
@@ -65,26 +103,16 @@ const CommentScreen = props => {
         <View style={styles.vedioContent}>
           <View style={styles.userProfile}>
             <View style={styles.imgFrame}>
-              <Image
-                source={require('../../../assets/Nikol.png')}
-                style={styles.userImage}
-              />
+              <Image source={{uri: user?.image}} style={styles.userImage} />
             </View>
-            <View style={styles.userInfo}>
-              <Text style={styles.userName}>Nikol Pahinyan</Text>
+            <View style={styles.userInfoNames}>
+              <Text style={styles.userNames}>{user?.name} </Text>
+              <Text style={styles.userNames}>{user?.lastname} </Text>
             </View>
           </View>
-          <View style={styles.vedioBodyContent}>
-            <VideoPlayer
-              video={{
-                uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp',
-              }}
-              autoplay={false}
-              defaultMuted={true}
-              thumbnail={require('../../../assets/logoHeader.png')}
-              style={styles.vedio}
-            />
-          </View>
+          <View style={styles.vedioBodyContent}>{content}</View>
+          <Text>{description} </Text>
+          <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
         <KeyboardAvoidingView
@@ -92,7 +120,30 @@ const CommentScreen = props => {
           style={styles.containerKeyBoard}>
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.inner}>
-              <TextInput placeholder="Add Comment" style={styles.textInput} />
+              <Controller
+                control={control}
+                name="title"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <TextInput
+                      placeholder="Add Your Comment ..."
+                      value={value}
+                      style={styles.textInput}
+                      multiline
+                      onChangeText={onChange}
+                      underlineColorAndroid="white"
+                    />
+                  );
+                }}
+              />
+              <TouchableOpacity onPress={submitFormHandler}>
+                <Icon
+                  name="send-circle"
+                  size={54}
+                  color="#BB9E79"
+                  style={{marginBottom: 5, marginRight: 5}}
+                />
+              </TouchableOpacity>
             </View>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
@@ -133,7 +184,6 @@ const styles = StyleSheet.create({
   },
   mediaVideo: {
     borderRadius: 8,
-    minWidth: 500,
   },
   userProfile: {
     width: '100%',
@@ -142,6 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     marginBottom: 15,
+    paddingLeft: 5,
   },
   imgFrame: {
     display: 'flex',
@@ -197,18 +248,27 @@ const styles = StyleSheet.create({
   },
   inner: {
     width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   header: {
     fontSize: 36,
     marginBottom: 48,
   },
   textInput: {
-    height: 70,
-    background: '#FFFFFF',
-    borderWidth: 2.5,
+    // borderWidth: 2.5,
     borderColor: '#E5E5E5',
     borderRadius: 20,
-    // paddingLeft: 15,
+    marginRight: 10,
+    marginBottom: 2,
+    maxHeight: 110,
+    width: '80%',
+    color: 'black',
+    fontSize: 16,
+    paddingHorizontal: 15,
+    backgroundColor: 'white',
   },
   btnContainer: {
     backgroundColor: 'white',
@@ -217,5 +277,23 @@ const styles = StyleSheet.create({
   containerKeyBoard: {
     flex: 1,
     marginBottom: 20,
+  },
+  textDescription: {
+    color: 'black',
+    marginTop: 20,
+  },
+  usersProfileBGimage: {
+    width: '100%',
+    height: 170,
+  },
+  timeText: {
+    fontSize: 10,
+    textAlign: 'right',
+  },
+  userInfoNames: {
+    paddingLeft: 20,
+  },
+  userNames: {
+    fontSize: 18,
   },
 });

@@ -1,50 +1,39 @@
 import React from 'react';
-import {TouchableOpacity, StyleSheet, Image} from 'react-native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {createStackNavigator} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Feather';
 import HomeScreen from '../navBarScreens/HomeScreens/HomeScreen';
+import Accounts from './AccountScreens/Accounts';
+import BensScreens from './BenefactorsScreen/BensScreens';
 import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
 import CommentScreen from '../navBarScreens/HomeScreens/CommentScreen';
-import MediaScreen from './MediaScreens/MediaScreen';
-import MediaSearch from './MediaScreens/MediaSearch';
-import RowVideosScreen from './MediaScreens/RowVideosScreen';
-import GridVediosScreen from './MediaScreens/GridVediosScreen';
+import MediaPageScreen from './MediaScreens/MediaPageScreen';
+import MyAccountStackScreen from './MyAccountScreens/MyAccountStackScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
-import BenefactorsScreen from './BenefactorsScreen/BenefactorsScreen';
-import BenefactorUserPageScreen from './BenefactorsScreen/BenefactorUserPageScreen';
-import BenefactorSearchPage from './BenefactorsScreen/BenefactorSearchPage';
-import AccountsScreen from './AccountScreens/AccountsScreen';
-import MyAccountScreen from './MyAccountScreens/MyAccountScreen';
-import GeneralScreen from './MyAccountScreens/GeneralScreen';
-import MyPostsScreen from './MyAccountScreens/MyPostsScreen';
-import MyMediaScreen from './MyAccountScreens/MyMediaScreen';
-import MySubscribtionsScreen from './MyAccountScreens/MySubscribtionsScreen';
-import MySubscribersScreen from './MyAccountScreens/MySubscribersScreen';
-import SettingsScreen from './MyAccountScreens/SettingsScreen';
 import MesageScreen from './MesageScreen';
-import ChatScreen from './ChatScreen';
+import Chat from './Chat';
+import moment from 'moment';
 import {View} from 'react-native-animatable';
+import Status from './HomeScreens/Status';
 const Tab = createMaterialBottomTabNavigator();
-const MediaStack = createStackNavigator();
 const HomePage = createStackNavigator();
-const Ben = createStackNavigator();
-const AccountStack = createStackNavigator();
 const Mesage = createStackNavigator();
 
 const MainTabScreen = () => {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Homes"
       activeColor="#A48A66"
       barStyle={{backgroundColor: '#C6B7A2'}}
+      shifting={false}
       inactiveColor="#ffffff">
       <Tab.Screen
-        name="Homes"
+        name="Home"
         component={HomeScreens}
         options={{
           tabBarColor: '#C6B7A2',
@@ -56,6 +45,7 @@ const MainTabScreen = () => {
       <Tab.Screen
         name="Media"
         component={MediaPageScreen}
+        tabBarOptions={{style: {borderTopColor: '#ffffff', height: 5}}}
         options={{
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
@@ -75,7 +65,7 @@ const MainTabScreen = () => {
       />
       <Tab.Screen
         name="Accounts"
-        component={AccountsScreen}
+        component={Accounts}
         options={{
           tabBarLabel: 'Accounts',
           tabBarColor: '#C6B7A2',
@@ -108,70 +98,27 @@ const MainTabScreen = () => {
 };
 export default MainTabScreen;
 
-const MyAccountStackScreen = ({navigation}) => (
-  <AccountStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <AccountStack.Screen name="MyAccountScreen" component={MyAccountScreen} />
-    <AccountStack.Screen name="GeneralScreen" component={GeneralScreen} />
-    <AccountStack.Screen name="MyPostsScreen" component={MyPostsScreen} />
-    <AccountStack.Screen name="MyMediaScreen" component={MyMediaScreen} />
-    <AccountStack.Screen
-      name="MySubscribtionsScreen"
-      component={MySubscribtionsScreen}
-    />
-    <AccountStack.Screen
-      name="MySubscribersScreen"
-      component={MySubscribersScreen}
-    />
-    <AccountStack.Screen name="SettingsScreen" component={SettingsScreen} />
-  </AccountStack.Navigator>
-);
 const HomeScreens = ({navigation}) => (
   <HomePage.Navigator
     screenOptions={{
       headerShown: false,
     }}>
     <HomePage.Screen name="HomeScreen" component={HomeScreen} />
+    <HomePage.Screen name="Status" component={Status} />
     <HomePage.Screen
       name="AccounProfiletScreen"
       component={AccounProfiletScreen}
     />
     <HomePage.Screen name="MessageStack" component={MessageStack} />
     <HomePage.Screen name="CommentScreen" component={CommentScreen} />
+    <HomePage.Screen name="MesageScreen" component={MesageScreen} />
   </HomePage.Navigator>
-);
-
-const MediaPageScreen = ({navigation}) => (
-  <MediaStack.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <MediaStack.Screen name="MediaScreen" component={MediaScreen} />
-    <MediaStack.Screen name="RowVideosScreen" component={RowVideosScreen} />
-    <MediaStack.Screen name="GridVediosScreen" component={GridVediosScreen} />
-    <MediaStack.Screen name="MediaSearch" component={MediaSearch} />
-  </MediaStack.Navigator>
-);
-
-const BensScreens = ({navigation}) => (
-  <Ben.Navigator
-    screenOptions={{
-      headerShown: false,
-    }}>
-    <Ben.Screen name="BenefactorsScreen" component={BenefactorsScreen} />
-    <Ben.Screen
-      name="BenefactorUserPageScreen"
-      component={BenefactorUserPageScreen}
-    />
-    <Ben.Screen name="BenefactorSearchPage" component={BenefactorSearchPage} />
-  </Ben.Navigator>
 );
 
 const MessageStack = ({navigation}) => (
   <Mesage.Navigator
     screenOptions={() => ({
+      headerTitleAlign: 'center',
       title: (
         <View style={styles.logoContainer}>
           <Image
@@ -221,12 +168,19 @@ const MessageStack = ({navigation}) => (
     <Mesage.Screen name="Mesagees" component={MesageScreen} />
     <Mesage.Screen
       name="Chat"
-      component={ChatScreen}
       options={({route}) => ({
-        title: route.params.userName,
+        title: (
+          <View style={styles.chatTitle}>
+            <Text style={styles.paramsName}>{route.params.name}</Text>
+            <Text style={styles.status}>
+              {moment(route.params.status).fromNow()}
+            </Text>
+          </View>
+        ),
         headerBackTitleVisible: false,
-      })}
-    />
+      })}>
+      {props => <Chat {...props} />}
+    </Mesage.Screen>
   </Mesage.Navigator>
 );
 
@@ -258,7 +212,15 @@ const styles = StyleSheet.create({
     width: 146,
   },
   logoContainer: {
-    paddingLeft: 50,
     paddingTop: 10,
+  },
+  paramsName: {
+    fontSize: 18,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  chatTitle: {
+    display: 'flex',
+    flexDirection: 'column',
   },
 });

@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Text, TextInput, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  TextInput,
+  StyleSheet,
+  KeyboardAvoidingView,
+} from 'react-native';
 import {Controller} from 'react-hook-form';
 
 const CustomInput = ({
@@ -23,17 +30,22 @@ const CustomInput = ({
               {borderColor: error ? 'red' : '#e8e8e8'},
             ]}>
             <Text style={styles.inputHeader}>{title}</Text>
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              onBlur={onBlur}
-              placeholder={placeholder}
-              style={styles.input}
-              secureTextEntry={secureTextEntry}
-            />
+            <KeyboardAvoidingView
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              style={styles.containerKeyBoard}>
+              <TextInput
+                value={value}
+                onChangeText={onChange}
+                onBlur={onBlur}
+                placeholder={placeholder}
+                style={styles.input}
+                secureTextEntry={secureTextEntry}
+                underlineColorAndroid="white"
+              />
+            </KeyboardAvoidingView>
           </View>
           {error && (
-            <Text style={{color: 'red', alignSelf: 'stretch'}}>
+            <Text style={{color: 'red', alignSelf: 'stretch', width: 250}}>
               {error.message || 'Error'}
             </Text>
           )}
@@ -59,15 +71,22 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
     width: 250,
-    height: 36,
+    height: 50,
+    paddingVertical: 10,
     borderRadius: 4,
     alignItems: 'flex-start',
+    color: 'black',
+    paddingHorizontal: 10,
   },
   inputHeader: {
     fontSize: 12,
     color: '#828282',
     paddingTop: 5,
     paddingLeft: 12,
+  },
+  containerKeyBoard: {
+    // flex: 1,
+    // marginBottom: 20,
   },
 });
 

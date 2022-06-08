@@ -5,43 +5,38 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
-// import CountryCodeList from '../components/CountryCodeList';
+import {Controller, useForm} from 'react-hook-form';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
-import {baseUrl} from '../http/index';
-const LocationPageScreen = ({navigation}) => {
-  const [selectedInter, setSselectedInter] = React.useState('');
-  const [countrySelect, setCountrySelect] = React.useState('');
-  const name = useSelector(state => state.usser);
-  const dispatch = useDispatch();
+import CountryCodeList from '../components/CountryCodeList';
+import {registerUser} from '../stores/user/userActions';
+// import auth from '@react-native-firebase/auth';
+// import firestore from '@react-native-firebase/firestore';
 
-  let change = async () => {
-    let dataObjects = Object.assign(
-      name.usserDatNLnames,
-      name.userEmailPhone,
-      name.usserDateLocation,
-      name.usserDatePassword,
-      // name.userInterested1,
-      // name.userInterested2,
-      // name.userInterested3,
-      // name.userInterestedType,
-      // name.userInterestedTypeIndigent,
-      // name.userDateGender,
-      // name.usserDatDate,
-    );
-    const requestOptions = {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(dataObjects),
-    };
-    fetch(baseUrl + '/register', requestOptions)
-      .then(response => response.json())
-      .then(data => console.log(data));
+const LocationPageScreen = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {control, handleSubmit} = useForm({
+    defaultValues: {
+      language: '1',
+    },
+  });
+  const user = useSelector(state => state.user.data);
+  // const submitFormHandler = handleSubmit(data => {
+  //   let objKeys = Object.values(data);
+  //   dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
+  //   // navigation.navigate('CreatePasswordScreen');
+  //   signIn();
+  // });
+
+  const signIn = async () => {
+    dispatch(registerUser(user));
   };
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -55,8 +50,7 @@ const LocationPageScreen = ({navigation}) => {
             <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
           </TouchableOpacity>
           <View style={styles.titlecontent}>
-            <Text style={styles.text}>Choose</Text>
-            <Text style={styles.text}>priority</Text>
+            <Text style={styles.text}>Choose Location</Text>
           </View>
           <View />
         </View>
@@ -68,50 +62,37 @@ const LocationPageScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          <View style={styles.actionLocal}>
-            <Text style={styles.inputHeaderLocation}>Location</Text>
-            <Picker
-              selectedValue={countrySelect}
-              style={styles.pickerSelectStyles}
-              onValueChange={(itemValues, itemIndex) => {
-                setCountrySelect(itemValues);
-                dispatch({
-                  type: 'USSER_SIGN_UPLOCATION',
-                  payload: {country: itemValues},
-                });
-              }}>
-              <Picker.Item label="Armenia" value={1} />
-              <Picker.Item label="Russia" value={2} />
-              <Picker.Item label="US" value={3} />
-            </Picker>
-          </View>
+          <CountryCodeList />
           <View style={styles.action}>
             <Text style={styles.inputHeader}>Language</Text>
-            <Picker
-              selectedValue={selectedInter}
-              style={styles.pickerSelectStyles}
-              onValueChange={(itemValue, itemIndex) => {
-                setSselectedInter(itemValue);
-                dispatch({
-                  type: 'USSER_SIGN_UP_LANGUEGE',
-                  payload: {usserLanguage: itemValue},
-                });
-              }}>
-              <Picker.Item label="English" value="3" />
-              <Picker.Item label="Armenian" value="2" />
-              <Picker.Item label="Russian" value="1" />
-            </Picker>
+            <Controller
+              control={control}
+              name="language"
+              render={({field: {onChange, value, onBlur}}) => {
+                return (
+                  <Picker
+                    selectedValue={value}
+                    style={styles.pickerSelectStyles}
+                    onValueChange={onChange}
+                    onBlur={onBlur}>
+                    <Picker.Item label="English" value="1" />
+                  </Picker>
+                );
+              }}
+            />
           </View>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.signIn}>
+          <TouchableOpacity style={styles.signIn} onPress={signIn}>
             <LinearGradient
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Log In</Text>
             </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.startButton} onPress={change}>
+          <TouchableOpacity
+            style={styles.startButton}
+            onPress={() => navigation.navigate('SignInScreen')}>
             <Text style={styles.textStartButton}>Start</Text>
           </TouchableOpacity>
         </View>
@@ -144,8 +125,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   inputSIcon: {
-    display: 'flex',
-    alignItems: 'center',
+    // display: 'flex',
+    // alignItems: 'center',
   },
   titlecontent: {
     display: 'flex',
@@ -157,6 +138,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 193,
     height: 160,
+    marginLeft: 30,
   },
   icon: {
     paddingLeft: 10,
@@ -188,8 +170,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    width: 250,
-    height: 60,
+    // width: 250,
+    // height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -199,11 +181,10 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#8A8A8A',
     backgroundColor: '#8A8A8A',
-    width: 250,
-    height: 60,
+
     borderRadius: 4,
     alignItems: 'flex-start',
-    color: 'red',
+    color: '',
   },
   inputHeader: {
     fontSize: 12,
@@ -219,11 +200,11 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    height: 0,
-    position: 'absolute',
-    bottom: -10,
-    fontSize: 8,
-    left: -5,
+    // height: 0,
+    // position: 'absolute',
+    // bottom: -10,
+    // fontSize: 8,
+    // left: -5,
   },
   scrollView: {
     width: '100%',
@@ -261,3 +242,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+// const [loading, setLoading] = useState(false);
+// let name = singnUpDatas.usserDatNLnames.name;
+// let email = singnUpDatas.userEmailPhone.email;
+// let password = singnUpDatas.usserDatePassword.password;
+
+// if (loading) {
+//   return <ActivityIndicator size="large" color="#00ff00" />;
+// }
+// const userSignup = async () => {
+//   setLoading(true);
+//   if (!email || !password || !name) {
+//     alert('please add all the field');
+//     return;
+//   }
+//   try {
+//     const result = await auth().createUserWithEmailAndPassword(
+//       email,
+//       password,
+//     );
+//     firestore().collection('users').doc(result.user.uid).set({
+//       name: name,
+//       email: result.user.email,
+//       uid: result.user.uid,
+//       // pic: image,
+//       status: 'online',
+//     });
+//     setLoading(false);
+//   } catch (err) {
+//     alert('something went wrong');
+//   }
+// };

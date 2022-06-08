@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,35 +11,25 @@ import {
 import {useTheme} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl2} from '../../../http/index';
-import {useSelector} from 'react-redux';
-const AccounProfiletScreen = () => {
-  const [data, setData] = useState('');
-  const id = useSelector(state => state.usser.usserAccountId);
+import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
+import {UserSubscribe} from '../../../http/isLiked/isLiked';
+
+// import {useSelector} from 'react-redux';
+const AccounProfiletScreen = props => {
   const theme = useTheme();
-  let i = id.toString();
+  const [isSub, setIssub] = useState('');
+  let id = props.route.params.id;
+  const {options} = useAccountProfHome(id);
+  let user = options.data;
+  const subButton = async () => {
+    try {
+      const {data} = await UserSubscribe.isSubscribe(id);
+      setIssub(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  useEffect(() => {
-    const url = baseUrl2 + '/users/list/' + i;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
-
-  let user = data.data !== undefined ? data.data[0] : null;
-  let img;
-  if (user?.image !== null) {
-    img = {uri: user?.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -49,11 +39,15 @@ const AccounProfiletScreen = () => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image source={img} style={styles.userImage} />
+          <Image source={{uri: user?.image}} style={styles.userImage} />
           <View style={styles.usernameIcon}>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.last_name}</Text>
-            <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+            <View style={styles.names}>
+              <Text style={styles.nameSurname}>{user?.name}</Text>
+              <Text style={styles.nameSurname}>{user?.lastname}</Text>
+            </View>
+            {isSub.subscribed == true ? (
+              <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+            ) : null}
           </View>
         </View>
         <View style={styles.textBody}>
@@ -74,8 +68,16 @@ const AccounProfiletScreen = () => {
               </View>
             </View>
             <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity style={styles.postSubscribeButton}>
-                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+              <TouchableOpacity
+                style={styles.postSubscribeButton}
+                onPress={subButton}>
+                {isSub.subscribed === true ? (
+                  <Text style={styles.postSubscribeButtonText}>
+                    Unsubscribe
+                  </Text>
+                ) : (
+                  <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+                )}
               </TouchableOpacity>
               <TouchableOpacity style={styles.postSubscribeButton}>
                 <Text style={styles.postSubscribeButtonText}>Message</Text>
@@ -110,21 +112,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   userImage: {
-    width: 107,
-    height: 107,
+    width: 170,
+    height: 170,
     borderRadius: 80,
-    marginBottom: 15,
+    marginVertical: 30,
   },
   usernameIcon: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'flex-start',
   },
   nameSurname: {
     color: '#727272',
     fontSize: 24,
     textAlign: 'left',
-    marginHorizontal: 30,
+    marginRight: 10,
   },
   idNumber: {
     color: '#000000',
@@ -203,5 +206,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
     fontWeight: '400',
+  },
+  names: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginRight: 30,
   },
 });
