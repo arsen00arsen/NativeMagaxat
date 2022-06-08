@@ -22,28 +22,9 @@ const MesageScreen = () => {
   useEffect(() => {
     dispatch(loadChatUser());
   }, []);
-  // console.log(chatUsers);
-  // console.log(lastusers?.users?.lastUsers, 'lastuserslastusers');
-  // const getUsers = async () => {
-  //   const querySanp = await firestore()
-  //     .collection('users')
-  //     .where('uid', '!=', user.uid)
-  //     .get();
-  //   const allusers = querySanp.docs.map(docSnap => docSnap.data());
-  //   setUsers(allusers);
-  // };
 
-  // useEffect(() => {
-  //   getUsers();
-  // }, []);
-  // const handleNotification = item => {
-  //   PushNotification.localNotification({
-  //     channelId: 'test-channel',
-  //     title: item.usserName,
-  //     message: item.messageText,
-  //   });
-  // };
   const RenderCard = ({item, index}) => {
+    console.log(item, 'llll');
     return (
       <TouchableOpacity
         key={index}
@@ -59,15 +40,19 @@ const MesageScreen = () => {
         }>
         <View style={styles.messageContainer}>
           <Image style={styles.userImg} source={{uri: item.image}} />
-          <View>
-            <Text style={styles.text}>{item.name}</Text>
-            <Text style={styles.text}>{item.lastname}</Text>
+          <View style={styles.messageUserBody}>
+            <View style={styles.userNames}>
+              <Text style={styles.userName}>{item.name}</Text>
+              <Text style={styles.nameSurname}>{item.lastname}</Text>
+            </View>
+            <View>
+              <Text>ssssssssssssss</Text>
+            </View>
           </View>
         </View>
       </TouchableOpacity>
     );
   };
-
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
@@ -78,7 +63,6 @@ const MesageScreen = () => {
             return <RenderCard item={item} />;
           }}
         />
-        {/* <Text style={styles.test}>{response} </Text> */}
       </View>
     </View>
   );
@@ -94,14 +78,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     position: 'relative',
   },
-  // messageBody: {
-  //   height: '90%',
-  //   width: '100%',
-  // },
   messageContainer: {
     flex: 1,
     width: '100%',
-    // height: 100,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
     display: 'flex',
@@ -128,6 +107,12 @@ const styles = StyleSheet.create({
     color: '#343333',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  nameSurname: {
+    color: '#343333',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
   userMessageView: {
     color: '#696969',
@@ -160,29 +145,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#FFFFFF',
   },
+  userNames: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  messageUserBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '80%',
+  },
 });
-
-{
-  /* <FlatList
-          data={Message}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleNotification(item)}>
-              <View style={styles.messageContainer}>
-                <View>
-                  <Image style={styles.userImg} source={item.usserImag} />
-                </View>
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView} numberOfLines={2}>
-                    {item.messageText}
-                  </Text>
-                </View>
-                <View style={styles.messageInfo}>
-                  <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        /> */
-}
