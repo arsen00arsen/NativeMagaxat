@@ -20,6 +20,7 @@ import * as Animatable from 'react-native-animatable';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {ActivityIndicator, View} from 'react-native';
+import Chat from './screens/navBarScreens/Chat'
 // import Pusher from 'react-native-push-notification';
 const Stack = createNativeStackNavigator();
 
@@ -71,6 +72,7 @@ const App = () => {
             headerShown: false,
           }}>
           <Stack.Screen name="Homes" component={MainTabScreen} />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       ) : (
         <RootStackScreen />

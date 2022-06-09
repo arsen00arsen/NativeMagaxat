@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 import ImageUploadService from '../../http/uploadImageSevice/uplouadImageService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { loginSuccess } from '../../stores/user/userActions';
 
 export const AvatarAdd = props => {
   // const navigation = useNavigationn();
@@ -51,10 +52,11 @@ export const AvatarAdd = props => {
         body: fdata,
       });
       const {data} = await res.json();
-      console.log(data);
+      // dispatch(loginSuccess('image', ...fdata))
     } catch (error) {
       alert(error);
     } finally {
+ 
     }
   };
 

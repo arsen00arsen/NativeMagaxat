@@ -58,14 +58,14 @@ const BenefactorUserPageScreen = props => {
             <TextInput
               style={styles.input}
               // onChangeText={onChangeText}
-              // value={text}
+              underlineColorAndroid="white"
               placeholder={'620e4b6a4908b'}
             />
           </SafeAreaView>
           <TouchableOpacity
             onPress={() => alert('Button Clicked!')}
             style={styles.button}>
-            {/* <Icon name="chevron-right" size={20} color="white" /> */}
+            <MaterialIcons name="chevron-right" size={20} color="white" /> 
           </TouchableOpacity>
         </View>
         <View style={styles.makeContainer}>
@@ -199,9 +199,10 @@ const styles = StyleSheet.create({
     width: 250,
     height: 50,
     borderColor: 'silver',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 5,
+    backgroundColor: 'white'
   },
   button: {
     width: 70,

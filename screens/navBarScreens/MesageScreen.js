@@ -19,6 +19,7 @@ const MesageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const chatUsers = useSelector(state => state.chatUsers);
+  const messag = useSelector(state => state?.messages);
   useEffect(() => {
     dispatch(loadChatUser());
   }, []);

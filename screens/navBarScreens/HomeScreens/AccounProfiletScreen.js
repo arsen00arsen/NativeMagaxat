@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
@@ -18,7 +19,8 @@ import {UserSubscribe} from '../../../http/isLiked/isLiked';
 const AccounProfiletScreen = props => {
   const theme = useTheme();
   const [isSub, setIssub] = useState('');
-  let id = props.route.params.id;
+  const navigation = useNavigation();
+  let id = props.route?.params?.id;
   const {options} = useAccountProfHome(id);
   let user = options.data;
   const subButton = async () => {
@@ -79,7 +81,13 @@ const AccounProfiletScreen = props => {
                   <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
                 )}
               </TouchableOpacity>
-              <TouchableOpacity style={styles.postSubscribeButton}>
+              <TouchableOpacity style={styles.postSubscribeButton} onPress={() =>
+          navigation.navigate('Chat', {
+           uid: id,
+           image: user.image,
+           name: user.name
+          })
+        }>
                 <Text style={styles.postSubscribeButtonText}>Message</Text>
               </TouchableOpacity>
             </View>

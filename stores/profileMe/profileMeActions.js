@@ -22,7 +22,6 @@ export const setMyPostsError = msg => ({
 });
 
 export const removeSinglePost = id => {
-  console.log(id, 'heto ste');
   return {
     type: REMOVE_SINGLE_POST,
     payload: id,

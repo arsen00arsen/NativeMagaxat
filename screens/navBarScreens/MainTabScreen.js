@@ -156,35 +156,6 @@ const MessageStack = ({navigation}) => (
       },
     })}>
     <Mesage.Screen name="Mesagees" component={MesageScreen} />
-    <Mesage.Screen
-      name="Chat"
-      options={({route}) => ({
-        title: (
-          <View style={styles.userChat}>
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('AccounProfiletScreen', {
-                  id: route?.params?.uid,
-                })
-              }>
-              <Image
-                source={{uri: route?.params?.image}}
-                resizeMode="center"
-                style={styles.usersProfileBGimage}
-              />
-            </TouchableOpacity>
-            <View style={styles.chatTitle}>
-              <Text style={styles.paramsName}>{route.params.name}</Text>
-              <Text style={styles.status}>
-                {moment(route.params.status).fromNow()}
-              </Text>
-            </View>
-          </View>
-        ),
-        headerBackTitleVisible: false,
-      })}>
-      {props => <Chat {...props} />}
-    </Mesage.Screen>
   </Mesage.Navigator>
 );
 
@@ -217,27 +188,5 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     paddingTop: 10,
-  },
-  paramsName: {
-    fontSize: 18,
-    color: 'black',
-    fontWeight: 'bold',
-  },
-  chatTitle: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  usersProfileBGimage: {
-    width: 44,
-    height: 44,
-    borderRadius: 50,
-    marginRight: 30,
-  },
-  userChat: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 300,
   },
 });

@@ -3,6 +3,7 @@ import {
   LOAD_MESSAGES_SUCCESS,
   LOAD_MESSAGES_ERROR,
   SET_SINGLE_MESSAGES,
+  LOAD_ALL_MESSAGES_SUCCESS,
   LOAD_MESSAGES,
 } from './type';
 
@@ -13,6 +14,10 @@ export const startLoadMessages = payload => ({
 
 export const setMessages = messages => ({
   type: LOAD_MESSAGES_SUCCESS,
+  payload: messages,
+});
+export const setAllMessages = messages => ({
+  type: LOAD_ALL_MESSAGES_SUCCESS,
   payload: messages,
 });
 export const setMessageError = msg => ({
@@ -36,7 +41,18 @@ export const loadMessages = id => async dispatch => {
     dispatch(startLoadMessages(false));
   }
 };
-
+export const loadAllMessages = id => async dispatch => {
+  try {
+    dispatch(startLoadMessages(true));
+    const {data} = await MessageService.getAllMessages();
+    console.log(data, ';;;;;;;;;;;;;;;;')
+    dispatch(setAllMessages(data.messages));
+  } catch (error) {
+    dispatch(setMessageError(error));
+  } finally {
+    dispatch(startLoadMessages(false));
+  }
+};
 export const loadLastMessages = id => async dispatch => {
   try {
     dispatch(startLoadMessages(true));

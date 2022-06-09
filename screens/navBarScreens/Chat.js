@@ -10,6 +10,7 @@ import ImageView from 'react-native-image-viewing';
 import {useNavigation} from '@react-navigation/native';
 import {loadMessages} from '../../stores/messages/messageActions';
 import {MessageService} from '../../http/messageService/messageService';
+import ChatHeader from '../../components/HeaderComponents/ChatHeader';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -28,7 +29,7 @@ export default function ChatScreen({route, props}) {
   useEffect(() => {
     const msgs = messag?.messages?.reverse().map(msg => {
       return {
-        _id: msg._id,
+        _id: msg._id ? msg._id : msg.id,
         text: msg.text,
         createdAt: msg.created_at,
         user: {
@@ -92,6 +93,7 @@ export default function ChatScreen({route, props}) {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
+      <ChatHeader user={route.params} />
       <GiftedChat
         messages={recvMessages}
         style={styles.canteiner}

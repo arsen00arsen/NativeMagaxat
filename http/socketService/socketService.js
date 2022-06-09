@@ -1,11 +1,11 @@
 // import Echo from 'laravel-echo';
 // import Pusher from 'pusher-js/react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
-// let PusherClient;
-// let echo;
 
-// Pusher.logToConsole = false;
-// const getToken = async () => {
+// export const getNotifications = async () => {
+//   let PusherClient;
+//   let echo;
+//   Pusher.logToConsole = false;
 //   const token = await AsyncStorage.getItem('token');
 //   if (token) {
 //     PusherClient = new Pusher('f3410ab18dff50208018', {
@@ -27,9 +27,15 @@
 //         },
 //       },
 //     });
+
 //     echo = new Echo({
 //       broadcaster: 'pusher',
 //       client: PusherClient ?? undefined,
 //     });
+//     //   echo
+//     //     ?.private(`notifications.${userMain?.user?.id}`)
+//     //     .listen('.notification', e => {
+//     //       dispatch(loadLastMessages(e));
+//     //     });
 //   }
 // };

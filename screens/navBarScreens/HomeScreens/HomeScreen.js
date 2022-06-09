@@ -17,11 +17,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {loadPosts, renderPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {loadAllMessages, loadLastMessages} from '../../../stores/messages/messageActions';
+import {useGetNotifications} from '../../../components/hooks/useGetNotifications';
 import Echo from 'laravel-echo';
-import Pusher from 'pusher-js/react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {loadLastMessages} from '../../../stores/messages/messageActions';
-
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -29,47 +27,8 @@ const HomeScreen = props => {
   const {isLoading, posts} = useSelector(state => state.post);
   const userMain = useSelector(state => state?.user);
   const [currentPage, setCurrentPage] = useState(1);
-  let PusherClient;
-  let echo;
-  useEffect(() => {
-    getToken();
-  }, []);
-
-  Pusher.logToConsole = false;
-  const getToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    if (token) {
-      PusherClient = new Pusher('f3410ab18dff50208018', {
-        appId: 'FS852Lt2GV',
-        key: 'f3410ab18dff50208018',
-        secret: '823ca29599dcd73c1b28',
-        cluster: 'mt1',
-        disableStats: true,
-        encrypted: true,
-        wsHost: 'magaxat.com',
-        authEndpoint: 'https://magaxat.com/broadcasting/auth',
-        enabledTransports: ['ws', 'wss'],
-        wsPort: '443',
-        forceTLS: true,
-        auth: {
-          headers: {
-            Authorization: 'Bearer ' + token,
-            Accept: 'application/json',
-          },
-        },
-      });
-      echo = new Echo({
-        broadcaster: 'pusher',
-        client: PusherClient ?? undefined,
-      });
-      echo
-        ?.private(`notifications.${userMain?.user?.id}`)
-        .listen('.notification', e => {
-          dispatch(loadLastMessages(e));
-        });
-    }
-  };
-
+  const {echo} = useGetNotifications();
+  const allMessages = useSelector(state => state?.messages?.allMessages);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));
@@ -78,6 +37,13 @@ const HomeScreen = props => {
   useEffect(() => {
     dispatch(loadPosts(1));
   }, []);
+
+  echo
+    ?.private(`notifications.${userMain?.user?.id}`)
+    .listen('.notification', e => {
+      dispatch(loadLastMessages(e));
+      dispatch(loadAllMessages());
+    });
 
   let content = (
     <View>
@@ -92,14 +58,14 @@ const HomeScreen = props => {
           <TouchableOpacity
             onPress={() => setSection('Users')}
             style={[station === 'Users' ? styles.storPassive : styles.storAct]}>
-            <Text style={styles.lastUsersContainerText}>Last Signed Users</Text>
+            <Text style={styles.lastUsersContainerText}>Last Users</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => setSection('Stories')}
             style={[
               station === 'Stories' ? styles.storPassive : styles.storAct,
             ]}>
-            <Text style={styles.lastUsersContainerTexta}>Stories</Text>
+            <Text style={styles.lastUsersContainerTexta}>Last Stories</Text>
           </TouchableOpacity>
         </View>
       </LinearGradient>
@@ -135,7 +101,7 @@ const HomeScreen = props => {
 
 const SECTIONS = [
   {
-    title: 'Last Signed Users',
+    title: 'Last Users',
     data: [
       {
         key: '1',
@@ -185,6 +151,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: '#838383',
+    textAlign: 'center',
     fontFamily: 'Roboto-Bold',
   },
   lastUsersContainercontent: {
@@ -216,7 +183,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: '#838383',
-    textAlign: 'right',
+    textAlign: 'center',
     paddingRight: 10,
   },
   seperator: {
