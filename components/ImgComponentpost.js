@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+import ImageModal from 'react-native-image-modal';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -27,10 +28,16 @@ const ImgComponentpost = props => {
   };
 
   let imgBG = (
-    <ImageBackground
-      source={{uri: props?.uri.image_path || props?.uri.image}}
-      resizeMode="cover"
+    // <ImageBackground
+    //   source={{uri: props?.uri.image_path || props?.uri.image}}
+    //   resizeMode="cover"
+    //   style={styles.usersProfileBGimage}
+    // />
+    <ImageModal
+      resizeMode="contain"
+      imageBackgroundColor="#000000"
       style={styles.usersProfileBGimage}
+      source={{uri: props?.uri.image_path || props?.uri.image}}
     />
   );
   let userTitle;
@@ -47,11 +54,12 @@ const ImgComponentpost = props => {
       </Text>
     );
   }
+
   let likeCounts = post?.likes?.length + 1;
   const time = moment().startOf(user?.created_at).format('LL');
   const userProfilePage = () => {
     navigation.navigate('AccounProfiletScreen', {
-      id: user?.user.id,
+      id: user?.id,
     });
   };
   let img;
@@ -89,20 +97,7 @@ const ImgComponentpost = props => {
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.imgCount}
-        onPress={() =>
-          navigation.navigate('CommentScreen', {
-            description: post?.title,
-            post: post.comments,
-            user: user,
-            image: user.image,
-            id: post.id,
-            img: props?.uri.image_path || props?.uri.image,
-          })
-        }>
-        {imgBG}
-      </TouchableOpacity>
+      {imgBG}
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
           <LikeButton
@@ -195,7 +190,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   usersProfileBGimage: {
-    width: '100%',
+    width: 350,
     height: 170,
   },
   shareButton: {

@@ -35,7 +35,6 @@ export const postReducer = (state = initialState, action) => {
       };
     case SET_COMMENTS:
       const {id, data} = payload;
-      console.log(payload, ';;;;;;;;;;;;;;;;;;;;');
       const foundPost = state.posts.map(el => {
         if (el.id === id) {
           return {

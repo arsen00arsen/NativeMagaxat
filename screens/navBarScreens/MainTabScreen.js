@@ -1,6 +1,12 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TouchableOpacity, StyleSheet, Text, Image} from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  Image,
+  ImageBackground,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -17,6 +23,7 @@ import MyAccountStackScreen from './MyAccountScreens/MyAccountStackScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
 import MesageScreen from './MesageScreen';
 import Chat from './Chat';
+import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import {View} from 'react-native-animatable';
 import Status from './HomeScreens/Status';
@@ -25,6 +32,7 @@ const HomePage = createStackNavigator();
 const Mesage = createStackNavigator();
 
 const MainTabScreen = () => {
+  const navigation = useNavigation();
   return (
     <Tab.Navigator
       initialRouteName="Homes"
@@ -146,35 +154,31 @@ const MessageStack = ({navigation}) => (
           </View>
         );
       },
-      headerRight: () => {
-        return (
-          <View style={styles.righttCont}>
-            <LinearGradient
-              style={styles.badgedIcon}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 1}}
-              locations={[0.0, 0.9]}
-              colors={['#D1C7B9', '#D2C8B9']}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => navigation.goBack()}>
-                <IconSearch name="search" size={24} color="black" />
-              </TouchableOpacity>
-            </LinearGradient>
-          </View>
-        );
-      },
     })}>
     <Mesage.Screen name="Mesagees" component={MesageScreen} />
     <Mesage.Screen
       name="Chat"
       options={({route}) => ({
         title: (
-          <View style={styles.chatTitle}>
-            <Text style={styles.paramsName}>{route.params.name}</Text>
-            <Text style={styles.status}>
-              {moment(route.params.status).fromNow()}
-            </Text>
+          <View style={styles.userChat}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('AccounProfiletScreen', {
+                  id: route?.params?.uid,
+                })
+              }>
+              <Image
+                source={{uri: route?.params?.image}}
+                resizeMode="center"
+                style={styles.usersProfileBGimage}
+              />
+            </TouchableOpacity>
+            <View style={styles.chatTitle}>
+              <Text style={styles.paramsName}>{route.params.name}</Text>
+              <Text style={styles.status}>
+                {moment(route.params.status).fromNow()}
+              </Text>
+            </View>
           </View>
         ),
         headerBackTitleVisible: false,
@@ -222,5 +226,18 @@ const styles = StyleSheet.create({
   chatTitle: {
     display: 'flex',
     flexDirection: 'column',
+  },
+  usersProfileBGimage: {
+    width: 44,
+    height: 44,
+    borderRadius: 50,
+    marginRight: 30,
+  },
+  userChat: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 300,
   },
 });

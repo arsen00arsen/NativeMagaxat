@@ -31,6 +31,7 @@ const MesageScreen = () => {
           navigation.navigate('Chat', {
             name: item.name,
             uid: item.id,
+            image: item.image,
             // status:
             //   typeof item.status === 'string'
             //     ? item.status

@@ -35,13 +35,13 @@ const CommentScreen = props => {
   const submitFormHandler = handleSubmit(async submitData => {
     try {
       reset({}, {keepValues: false});
-      console.log(id, submitData);
+
       dispatch(sendComment(id, submitData));
     } catch (error) {
       console.log(error);
     }
   });
-
+  console.log(description, ';llllll');
   let commentContent = foundPost?.comments?.map(elem => {
     let imgComment;
     if (elem.user.image !== null) {
@@ -113,7 +113,7 @@ const CommentScreen = props => {
             </View>
           </View>
           <View style={styles.vedioBodyContent}>{content}</View>
-          <Text>{description} </Text>
+          <Text>{description === 'undefined' ? null : description} </Text>
           <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   usersProfileBGimage: {
-    width: '100%',
+    minWidth: 350,
     height: 170,
   },
   timeText: {
