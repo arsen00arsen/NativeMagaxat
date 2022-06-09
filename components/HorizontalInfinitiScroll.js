@@ -15,7 +15,7 @@ const HorizontalInfinitiScroll = props => {
   const {isLoading, posts, loadMoreItem} = props;
   const renderItem = ({item}) => {
     let content;
-    if (item.image) {
+    if (item?.image) {
       content = <ImgComponentpost uri={item} key={item.id} />;
     } else {
       content = <VideoComponent uri={item} key={item.id} />;

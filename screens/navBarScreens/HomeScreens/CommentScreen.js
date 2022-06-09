@@ -35,11 +35,13 @@ const CommentScreen = props => {
   const submitFormHandler = handleSubmit(async submitData => {
     try {
       reset({}, {keepValues: false});
+      console.log(id, submitData);
       dispatch(sendComment(id, submitData));
     } catch (error) {
       console.log(error);
     }
   });
+
   let commentContent = foundPost?.comments?.map(elem => {
     let imgComment;
     if (elem.user.image !== null) {
@@ -84,7 +86,7 @@ const CommentScreen = props => {
     content = (
       <ImageBackground
         source={{uri: props?.route.params.img}}
-        resizeMode="stretch"
+        resizeMode="center"
         style={styles.usersProfileBGimage}
       />
     );
@@ -201,12 +203,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 4,
     borderColor: '#E6E6E6',
-    width: 34,
-    height: 34,
+    width: 54,
+    height: 54,
   },
   userImage: {
-    width: 37,
-    height: 37,
+    width: 57,
+    height: 57,
     borderRadius: 999,
     borderColor: '#E6E6E6',
     borderWidth: 3,
@@ -262,7 +264,7 @@ const styles = StyleSheet.create({
     borderColor: '#E5E5E5',
     borderRadius: 20,
     marginRight: 10,
-    marginBottom: 2,
+    marginBottom: 10,
     maxHeight: 110,
     width: '80%',
     color: 'black',
@@ -276,7 +278,7 @@ const styles = StyleSheet.create({
   },
   containerKeyBoard: {
     flex: 1,
-    marginBottom: 20,
+    marginBottom: 80,
   },
   textDescription: {
     color: 'black',
@@ -292,6 +294,8 @@ const styles = StyleSheet.create({
   },
   userInfoNames: {
     paddingLeft: 20,
+    display: 'flex',
+    flexDirection: 'row',
   },
   userNames: {
     fontSize: 18,

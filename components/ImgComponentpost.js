@@ -29,7 +29,7 @@ const ImgComponentpost = props => {
   let imgBG = (
     <ImageBackground
       source={{uri: props?.uri.image_path || props?.uri.image}}
-      resizeMode="center"
+      resizeMode="cover"
       style={styles.usersProfileBGimage}
     />
   );
@@ -37,13 +37,13 @@ const ImgComponentpost = props => {
   if (longDis === false) {
     userTitle = (
       <Text style={styles.usersTitle} numberOfLines={2}>
-        {post?.title}
+        {post?.title === 'undefined' ? null : post?.title}
       </Text>
     );
   } else {
     userTitle = (
       <Text style={styles.longDis}>
-        <Text> {post?.title} </Text>;
+        <Text> {post?.title === 'undefined' ? null : post?.title} </Text>;
       </Text>
     );
   }
@@ -89,7 +89,20 @@ const ImgComponentpost = props => {
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
-      {imgBG}
+      <TouchableOpacity
+        style={styles.imgCount}
+        onPress={() =>
+          navigation.navigate('CommentScreen', {
+            description: post?.title,
+            post: post.comments,
+            user: user,
+            image: user.image,
+            id: post.id,
+            img: props?.uri.image_path || props?.uri.image,
+          })
+        }>
+        {imgBG}
+      </TouchableOpacity>
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
           <LikeButton
@@ -104,7 +117,7 @@ const ImgComponentpost = props => {
             style={styles.imgCount}
             onPress={() =>
               navigation.navigate('CommentScreen', {
-                description: user.title,
+                description: post?.title,
                 post: post.comments,
                 user: user,
                 image: user.image,
