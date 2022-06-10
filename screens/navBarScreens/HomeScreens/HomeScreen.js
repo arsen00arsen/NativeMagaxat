@@ -8,42 +8,32 @@ import {
   Text,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import PushNotification from 'react-native-push-notification';
 import LinearGradient from 'react-native-linear-gradient';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import {useDispatch, useSelector} from 'react-redux';
-import {loadPosts, renderPosts} from '../../../stores/post/postActions';
+import {loadPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {loadAllMessages, loadLastMessages} from '../../../stores/messages/messageActions';
-import {useGetNotifications} from '../../../components/hooks/useGetNotifications';
-import Echo from 'laravel-echo';
+
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
   const [station, setSection] = useState('Users');
   const {isLoading, posts} = useSelector(state => state.post);
-  const userMain = useSelector(state => state?.user);
   const [currentPage, setCurrentPage] = useState(1);
-  const {echo} = useGetNotifications();
-  const allMessages = useSelector(state => state?.messages?.allMessages);
+  const newMessage = useSelector(state => state?.messages.allNewMessages);
+  const messagecount = newMessage.length;
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));
   };
 
   useEffect(() => {
+    // echoe();
     dispatch(loadPosts(1));
   }, []);
-
-  echo
-    ?.private(`notifications.${userMain?.user?.id}`)
-    .listen('.notification', e => {
-      dispatch(loadLastMessages(e));
-      dispatch(loadAllMessages());
-    });
 
   let content = (
     <View>
@@ -79,7 +69,7 @@ const HomeScreen = props => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderChatSearch />
+      <HeaderChatSearch count={messagecount} />
       <SafeAreaView style={{flex: 1}}>
         <SectionList
           contentContainerStyle={{paddingHorizontal: 10}}

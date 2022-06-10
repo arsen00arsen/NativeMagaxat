@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -11,16 +11,16 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 
-// import {useSelector} from 'react-redux';
-const AccountScreen = props => {
+const MyPageUsersAccount = props => {
   const theme = useTheme();
   const [isSub, setIssub] = useState('');
   const navigation = useNavigation();
-  let id = props.route?.params.user.id;
+  let id = props.route.params?.user.id;
   const {options} = useAccountProfHome(id);
   let user = options.data;
   const subButton = async () => {
@@ -38,7 +38,7 @@ const AccountScreen = props => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearchSecond />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
           <Image source={{uri: user?.image}} style={styles.userImage} />
@@ -101,7 +101,7 @@ const AccountScreen = props => {
   );
 };
 
-export default AccountScreen;
+export default MyPageUsersAccount;
 
 const styles = StyleSheet.create({
   container: {

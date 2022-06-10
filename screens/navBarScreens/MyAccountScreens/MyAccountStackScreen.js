@@ -7,7 +7,7 @@ import MyMediaScreen from './MyMediaScreen';
 import MySubscribtionsScreen from './MySubscribtionsScreen';
 import MySubscribersScreen from './MySubscribersScreen';
 import SettingsScreen from './SettingsScreen';
-
+import MyPageUsersAccount from './MyPageUsersAccount';
 const AccountStack = createStackNavigator();
 
 const MyAccountStackScreen = ({navigation}) => (
@@ -19,6 +19,10 @@ const MyAccountStackScreen = ({navigation}) => (
     <AccountStack.Screen name="MyAccountScreen" component={MyAccountScreen} />
     <AccountStack.Screen name="GeneralScreen" component={GeneralScreen} />
     <AccountStack.Screen name="MyPostsScreen" component={MyPostsScreen} />
+    <AccountStack.Screen
+      name="MyPageUsersAccount"
+      component={MyPageUsersAccount}
+    />
     <AccountStack.Screen name="MyMediaScreen" component={MyMediaScreen} />
     <AccountStack.Screen
       name="MySubscribtionsScreen"

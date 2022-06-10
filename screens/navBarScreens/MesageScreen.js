@@ -9,21 +9,16 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
-
-import socketio from 'socket.io-client';
-import Echo from 'laravel-echo';
 import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 
 const MesageScreen = () => {
-  const [data, setData] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const chatUsers = useSelector(state => state.chatUsers);
-  const messag = useSelector(state => state?.messages);
+
   useEffect(() => {
     dispatch(loadChatUser());
   }, []);
-
   const RenderCard = ({item, index}) => {
     return (
       <TouchableOpacity

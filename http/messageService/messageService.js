@@ -8,7 +8,4 @@ export class MessageService {
     console.log(data);
     return $authHost.post('/conversation/send', data);
   }
-  static getAllMessages() {
-    return $authHost.get(`/conversation`);
-  }
 }

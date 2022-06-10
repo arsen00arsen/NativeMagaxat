@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconSearch from 'react-native-vector-icons/Feather';
 import moment from 'moment';
+import {useSelector} from 'react-redux';
 // const BadgedIcon = withBadge(2)(Icon);
 
 const ChatHeader = props => {
@@ -24,27 +25,26 @@ const ChatHeader = props => {
           <Icon name="chevron-left" size={24} color="black" />
         </TouchableOpacity>
       </LinearGradient>
-         <View style={styles.userChat}>
-            {console.log(props)}
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('AccounProfiletScreen', {
-                  id: props?.user.uid,
-                })
-              }>
-              <Image
-                source={{uri: props?.user.image}}
-                resizeMode="center"
-                style={styles.usersProfileBGimage}
-              />
-            </TouchableOpacity>
-            <View style={styles.chatTitle}>
-              <Text style={styles.paramsName}>{props?.user?.name}</Text>
-              <Text style={styles.status}>
-                {moment(props?.user?.status).fromNow()}
-              </Text>
-            </View>
-          </View>
+      <View style={styles.userChat}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('AccounProfiletScreen', {
+              id: props?.user.uid,
+            })
+          }>
+          <Image
+            source={{uri: props?.user.image}}
+            resizeMode="center"
+            style={styles.usersProfileBGimage}
+          />
+        </TouchableOpacity>
+        <View style={styles.chatTitle}>
+          <Text style={styles.paramsName}>{props?.user?.name}</Text>
+          <Text style={styles.status}>
+            {moment(props?.user?.status).fromNow()}
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };

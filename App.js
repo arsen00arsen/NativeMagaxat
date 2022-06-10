@@ -20,14 +20,15 @@ import * as Animatable from 'react-native-animatable';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {ActivityIndicator, View} from 'react-native';
-import Chat from './screens/navBarScreens/Chat'
+import Chat from './screens/navBarScreens/Chat';
+import {AuthContainer} from './containers/AuthContainer';
 // import Pusher from 'react-native-push-notification';
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   const dispatch = useDispatch();
 
-  const {loading, isAuth} = useSelector(state => state.user);
+  const {loading, isAuth, user} = useSelector(state => state.user);
 
   useEffect(() => {
     dispatch(getMe());
@@ -65,19 +66,20 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      {isAuth ? (
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="Homes" component={MainTabScreen} />
-          <Stack.Screen name="Chat" component={Chat} />
-        </Stack.Navigator>
-      ) : (
-        <RootStackScreen />
-      )}
-    </NavigationContainer>
+    // <NavigationContainer>
+    //   {isAuth ? (
+    //     <Stack.Navigator
+    //       screenOptions={{
+    //         headerShown: false,
+    //       }}>
+    //       <Stack.Screen name="Homes" component={MainTabScreen} />
+    //       <Stack.Screen name="Chat" component={Chat} />
+    //     </Stack.Navigator>
+    //   ) : (
+    //     <RootStackScreen />
+    //   )}
+    // </NavigationContainer>
+    <AuthContainer isAuth={isAuth} userId={user?.id} />
   );
 };
 

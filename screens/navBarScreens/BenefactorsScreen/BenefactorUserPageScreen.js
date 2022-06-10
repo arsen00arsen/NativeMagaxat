@@ -65,7 +65,7 @@ const BenefactorUserPageScreen = props => {
           <TouchableOpacity
             onPress={() => alert('Button Clicked!')}
             style={styles.button}>
-            <MaterialIcons name="chevron-right" size={20} color="white" /> 
+            <MaterialIcons name="chevron-right" size={20} color="white" />
           </TouchableOpacity>
         </View>
         <View style={styles.makeContainer}>
@@ -202,7 +202,7 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 5,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   button: {
     width: 70,

@@ -16,9 +16,9 @@ export const setMessages = messages => ({
   type: LOAD_MESSAGES_SUCCESS,
   payload: messages,
 });
-export const setAllMessages = messages => ({
+export const setAllMessages = allNewMessages => ({
   type: LOAD_ALL_MESSAGES_SUCCESS,
-  payload: messages,
+  payload: allNewMessages,
 });
 export const setMessageError = msg => ({
   type: LOAD_MESSAGES_ERROR,
@@ -41,22 +41,21 @@ export const loadMessages = id => async dispatch => {
     dispatch(startLoadMessages(false));
   }
 };
-export const loadAllMessages = id => async dispatch => {
+export const loadAllNewMessages = id => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
-    const {data} = await MessageService.getAllMessages();
-    console.log(data, ';;;;;;;;;;;;;;;;')
-    dispatch(setAllMessages(data.messages));
+    // const {data} = await MessageService.getAllMessages();
+    dispatch(setAllMessages(id));
   } catch (error) {
     dispatch(setMessageError(error));
   } finally {
     dispatch(startLoadMessages(false));
   }
 };
-export const loadLastMessages = id => async dispatch => {
+export const loadLastMessages = sms => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
-    dispatch(setNewMessage(id.message));
+    dispatch(setNewMessage(sms.message));
   } catch (error) {
     dispatch(setMessageError(error));
   } finally {

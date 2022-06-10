@@ -18,16 +18,25 @@ const MySubscribersScreen = props => {
   const navigation = useNavigation();
   let users = props?.route.params.subscribers;
   let content = users.map((elem, index) => {
+    console.log(elem.subscriber);
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('AccounProfiletScreen')}>
+          onPress={() =>
+            navigation.navigate('MyPageUsersAccount', {
+              user: elem.subscriber,
+            })
+          }>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
-              <Image source={{uri: elem.image}} style={styles.userImage} />
+              <Image
+                source={{uri: elem?.subscriber.image}}
+                style={styles.userImage}
+              />
             </View>
-            <Text style={styles.userName}>{elem.name}</Text>
+            <Text style={styles.userName}>{elem?.subscriber.name}</Text>
+            <Text style={styles.userName}>{elem?.subscriber.lastname}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -102,6 +111,7 @@ const styles = StyleSheet.create({
     color: '#727272',
     textAlign: 'left',
     fontWeight: '600',
+    paddingLeft: 10,
   },
   shadowProp: {
     elevation: 7,

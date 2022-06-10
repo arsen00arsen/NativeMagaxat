@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconSearch from 'react-native-vector-icons/Feather';
 // const BadgedIcon = withBadge(2)(Icon);
 
-const HeaderChatSearch = () => {
+const HeaderChatSearch = props => {
   const navigation = useNavigation();
-
+  let count = props.count;
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -21,6 +21,9 @@ const HeaderChatSearch = () => {
           style={styles.button}
           onPress={() => navigation.navigate('MessageStack')}>
           <Icon name="message-circle" size={24} color="#FFFFFF" />
+          <View style={styles.titlebg}>
+            <Text style={styles.text}>{count} </Text>
+          </View>
         </TouchableOpacity>
       </LinearGradient>
       <Image
@@ -77,5 +80,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  titlebg: {
+    position: 'absolute',
+    backgroundColor: 'red',
+    width: 20,
+    height: 20,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

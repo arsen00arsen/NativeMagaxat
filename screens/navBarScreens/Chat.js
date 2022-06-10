@@ -5,9 +5,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {LogBox} from 'react-native';
-import ImagePicker from 'react-native-image-crop-picker';
-import ImageView from 'react-native-image-viewing';
-import {useNavigation} from '@react-navigation/native';
 import {loadMessages} from '../../stores/messages/messageActions';
 import {MessageService} from '../../http/messageService/messageService';
 import ChatHeader from '../../components/HeaderComponents/ChatHeader';
@@ -18,7 +15,6 @@ export default function ChatScreen({route, props}) {
   const [recvMessages, setRecvMessages] = useState([]);
   const receiverId = route.params;
   const dispatch = useDispatch();
-  // const {usserId, message, usserImage, uid, userName} = route.params;
   const userMain = useSelector(state => state?.user);
   const messag = useSelector(state => state?.messages);
 
@@ -29,7 +25,7 @@ export default function ChatScreen({route, props}) {
   useEffect(() => {
     const msgs = messag?.messages?.reverse().map(msg => {
       return {
-        _id: msg._id ? msg._id : msg.id,
+        _id: msg.id ? msg.id : msg._id,
         text: msg.text,
         createdAt: msg.created_at,
         user: {
@@ -95,12 +91,11 @@ export default function ChatScreen({route, props}) {
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
       <ChatHeader user={route.params} />
       <GiftedChat
+        messageIdGenerator={msg => msg?._id}
         messages={recvMessages}
         style={styles.canteiner}
         onSend={messages => onSend(messages)}
-        user={{
-          _id: userMain.user.id,
-        }}
+        user={{_id: userMain.user.id}}
         renderAvatar={null}
         renderBubble={renderBubble}
         alwaysShowSend

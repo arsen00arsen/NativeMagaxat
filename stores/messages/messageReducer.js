@@ -8,7 +8,7 @@ import {
 
 const initialState = {
   messages: [],
-  allMessages: [],
+  allNewMessages: [],
   isLoading: false,
   error: '',
 };
@@ -33,12 +33,23 @@ export const messagesReducer = (state = initialState, action) => {
         isLoading: false,
         error: payload,
       };
-      case LOAD_ALL_MESSAGES_SUCCESS:
-        return {
-          ...state,
-          allMessages: payload,
-          error: payload,
-        };
+    case LOAD_ALL_MESSAGES_SUCCESS:
+      const count = state.allNewMessages.filter(el => {
+        console.log(el, 'llolol');
+        if (el.from === payload.from) {
+          return {
+            ...el,
+            allNewMessages: [...el.allNewMessages, payload],
+          };
+        }
+        return el;
+      });
+
+      return {
+        ...state,
+        allNewMessages: [payload, ...state.allNewMessages],
+        error: payload,
+      };
     case SET_SINGLE_MESSAGES:
       return {
         ...state,

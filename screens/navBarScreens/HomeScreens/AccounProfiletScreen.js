@@ -81,13 +81,15 @@ const AccounProfiletScreen = props => {
                   <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
                 )}
               </TouchableOpacity>
-              <TouchableOpacity style={styles.postSubscribeButton} onPress={() =>
-          navigation.navigate('Chat', {
-           uid: id,
-           image: user.image,
-           name: user.name
-          })
-        }>
+              <TouchableOpacity
+                style={styles.postSubscribeButton}
+                onPress={() =>
+                  navigation.navigate('Chat', {
+                    uid: id,
+                    image: user.image,
+                    name: user.name,
+                  })
+                }>
                 <Text style={styles.postSubscribeButtonText}>Message</Text>
               </TouchableOpacity>
             </View>
