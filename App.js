@@ -65,22 +65,7 @@ const App = () => {
     );
   }
 
-  return (
-    // <NavigationContainer>
-    //   {isAuth ? (
-    //     <Stack.Navigator
-    //       screenOptions={{
-    //         headerShown: false,
-    //       }}>
-    //       <Stack.Screen name="Homes" component={MainTabScreen} />
-    //       <Stack.Screen name="Chat" component={Chat} />
-    //     </Stack.Navigator>
-    //   ) : (
-    //     <RootStackScreen />
-    //   )}
-    // </NavigationContainer>
-    <AuthContainer isAuth={isAuth} userId={user?.id} />
-  );
+  return <AuthContainer isAuth={isAuth} userId={user?.id} />;
 };
 
 export default App;

@@ -44,11 +44,9 @@ const GeneralScreen = ({navigation}) => {
     } catch {
       console.log('error');
     } finally {
-      console.log(user.data, 'jajajaja');
-      UploadUserService.uploadUser(user.data);
+      UploadUserService.uploadUser(user?.data);
     }
   });
-  // console.log(user.data);
 
   return (
     <View style={styles.container}>

@@ -44,7 +44,6 @@ export const loadMessages = id => async dispatch => {
 export const loadAllNewMessages = id => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
-    // const {data} = await MessageService.getAllMessages();
     dispatch(setAllMessages(id));
   } catch (error) {
     dispatch(setMessageError(error));

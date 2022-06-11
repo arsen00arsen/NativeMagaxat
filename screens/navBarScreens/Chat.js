@@ -17,7 +17,6 @@ export default function ChatScreen({route, props}) {
   const dispatch = useDispatch();
   const userMain = useSelector(state => state?.user);
   const messag = useSelector(state => state?.messages);
-
   useEffect(() => {
     dispatch(loadMessages(receiverId.uid));
   }, []);
@@ -38,13 +37,13 @@ export default function ChatScreen({route, props}) {
   }, [messag.messages]);
 
   const onSend = useCallback((recvMessages = []) => {
-    setRecvMessages(previousMessages =>
-      GiftedChat.append(previousMessages, recvMessages),
-    );
     MessageService.sendMessages({
       contact_id: receiverId.uid,
       text: recvMessages[0].text,
     });
+    setRecvMessages(previousMessages =>
+      GiftedChat.append(previousMessages, recvMessages),
+    );
   }, []);
 
   const renderSend = props => {

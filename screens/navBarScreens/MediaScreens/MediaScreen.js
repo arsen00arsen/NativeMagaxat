@@ -25,12 +25,11 @@ const MediaScreen = () => {
   const navigation = useNavigation();
   const theme = useTheme();
   const dispatch = useDispatch();
-  const user = useSelector(state => state.user.user);
+  const user = useSelector(state => state?.user.user);
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
   const {control, handleSubmit, reset} = useForm();
-
   const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
     const fdata = new FormData();

@@ -21,9 +21,11 @@ const HeaderChatSearch = props => {
           style={styles.button}
           onPress={() => navigation.navigate('MessageStack')}>
           <Icon name="message-circle" size={24} color="#FFFFFF" />
-          <View style={styles.titlebg}>
-            <Text style={styles.text}>{count} </Text>
-          </View>
+          {count === 0 ? null : (
+            <View style={styles.titlebg}>
+              <Text style={styles.text}>{count}</Text>
+            </View>
+          )}
         </TouchableOpacity>
       </LinearGradient>
       <Image
@@ -83,11 +85,21 @@ const styles = StyleSheet.create({
   },
   titlebg: {
     position: 'absolute',
-    backgroundColor: 'red',
-    width: 20,
-    height: 20,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    right: 2,
+    top: 2,
+    backgroundColor: 'red',
+    width: 22,
+    borderRadius: 10,
+    opacity: 0.6,
+  },
+  text: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
+    opacity: 5,
   },
 });

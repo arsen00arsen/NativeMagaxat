@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -7,7 +7,11 @@ import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 import ImageUploadService from '../../http/uploadImageSevice/uplouadImageService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { loginSuccess } from '../../stores/user/userActions';
+import {
+  loginSuccess,
+  userInfoChange,
+  userPhotoChange,
+} from '../../stores/user/userActions';
 
 export const AvatarAdd = props => {
   // const navigation = useNavigationn();
@@ -32,16 +36,15 @@ export const AvatarAdd = props => {
         throw err;
       }
     } finally {
-      // navigation.navigate('HomeScreen');
     }
   };
 
   const uploadImage = async () => {
+    setSelected(false);
     const fileToUpload = singleFile;
     const fdata = new FormData();
     fdata.append('image', fileToUpload);
     try {
-      // ImageUploadService.changeUserProfileImage(fdata);
       const token = await AsyncStorage.getItem('token');
       const res = await fetch('https://magaxat.com/api/profile/change', {
         method: 'post',
@@ -52,11 +55,10 @@ export const AvatarAdd = props => {
         body: fdata,
       });
       const {data} = await res.json();
-      // dispatch(loginSuccess('image', ...fdata))
+      dispatch(userPhotoChange(data));
     } catch (error) {
       alert(error);
     } finally {
- 
     }
   };
 
@@ -76,8 +78,13 @@ export const AvatarAdd = props => {
           </View>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={uploadImage()} style={styles.container}>
+        <TouchableOpacity onPress={uploadImage} style={styles.container}>
           <Image style={styles.avatar} {...props} source={{uri: image}} />
+          {selected === true ? (
+            <View style={styles.icon}>
+              <Text style={styles.iconText}> Add Photo</Text>
+            </View>
+          ) : null}
         </TouchableOpacity>
       )}
     </>
@@ -110,5 +117,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  iconText: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white',
+    paddingBottom: 15,
   },
 });

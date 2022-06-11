@@ -8,6 +8,9 @@ export const useGetNotifications = () => {
   Pusher.logToConsole = false;
   useEffect(() => {
     getToken();
+    return () => {
+      setEchoClient({});
+    };
   }, []);
   const getToken = async () => {
     const token = await AsyncStorage.getItem('token');
