@@ -34,7 +34,7 @@ export const messagesReducer = (state = initialState, action) => {
         error: payload,
       };
     case LOAD_ALL_MESSAGES_SUCCESS:
-      let count = state.allNewMessages.filter(el => {
+      state.allNewMessages.filter(el => {
         if (el.from === payload.from) {
           return {
             ...el,

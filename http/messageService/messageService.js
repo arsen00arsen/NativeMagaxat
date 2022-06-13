@@ -5,7 +5,8 @@ export class MessageService {
     return $authHost.get(`/conversation/${id}`);
   }
   static sendMessages(data) {
-    console.log(data);
-    return $authHost.post('/conversation/send', data);
+    return $authHost.post('/conversation/send', data).then(res => {
+      console.log(res.data);
+    });
   }
 }

@@ -12,8 +12,8 @@ import ChatHeader from '../../components/HeaderComponents/ChatHeader';
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route, props}) {
-  const [recvMessages, setRecvMessages] = useState([]);
   const receiverId = route.params;
+  const [recvMessages, setRecvMessages] = useState([]);
   const dispatch = useDispatch();
   const userMain = useSelector(state => state?.user);
   const messag = useSelector(state => state?.messages);
@@ -36,14 +36,14 @@ export default function ChatScreen({route, props}) {
     setRecvMessages(msgs);
   }, [messag.messages]);
 
-  const onSend = useCallback((recvMessages = []) => {
-    setRecvMessages(previousMessages =>
-      GiftedChat.append(previousMessages, recvMessages),
-    );
+  const onSend = useCallback((messages = []) => {
     MessageService.sendMessages({
       contact_id: receiverId.uid,
-      text: recvMessages[0].text,
+      text: messages[0].text,
     });
+    setRecvMessages(previousMessages =>
+      GiftedChat.append(previousMessages, messages),
+    );
   }, []);
 
   const renderSend = props => {
@@ -105,6 +105,8 @@ export default function ChatScreen({route, props}) {
         underlineColorAndroid="white"
         textInputProps={{
           underlineColorAndroid: 'white',
+          color: 'black',
+          zIndex: 101,
         }}
       />
     </View>
@@ -114,6 +116,7 @@ export default function ChatScreen({route, props}) {
 const styles = StyleSheet.create({
   canteiner: {
     backgroundColor: '#ECECEC',
+    color: 'red',
   },
   inputToolbar: {
     marginLeft: 10,
