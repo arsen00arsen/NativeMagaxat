@@ -10,28 +10,28 @@ const Stories = () => {
     {
       id: 1,
       name: 'Your Story',
-      image: require('../assets/1.png'),
+      image: require('../assets/Nikol.png'),
     },
     {
       id: 0,
       name: 'Ram_Charan',
-      image: require('../assets/2png.png'),
+      image: require('../assets/Nikol.png'),
     },
     {
       id: 0,
       name: 'Tom',
-      image: require('../assets/3.png'),
+      image: require('../assets/Nikol.png'),
     },
     {
       id: 0,
       name: 'The_Groot',
-      image: require('../assets/5.png'),
+      image: require('../assets/Nikol.png'),
     },
     ,
     {
       id: 0,
       name: 'loverland',
-      image: require('../assets/6.png'),
+      image: require('../assets/Nikol.png'),
     },
     ,
     {

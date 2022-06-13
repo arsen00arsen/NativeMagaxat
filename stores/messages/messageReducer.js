@@ -51,7 +51,7 @@ export const messagesReducer = (state = initialState, action) => {
     case SET_SINGLE_MESSAGES:
       return {
         ...state,
-        messages: [...state.messages, payload],
+        messages: [payload, ...state.messages],
       };
     default:
       return state;

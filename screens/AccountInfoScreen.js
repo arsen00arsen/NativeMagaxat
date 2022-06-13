@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    // height: 0,
+    height: 30,
     position: 'absolute',
     bottom: -10,
     fontSize: 8,

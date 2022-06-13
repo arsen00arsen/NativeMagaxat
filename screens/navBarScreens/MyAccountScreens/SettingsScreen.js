@@ -13,8 +13,6 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../../../stores/user/userActions';
 import LinearGradient from 'react-native-linear-gradient';

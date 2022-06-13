@@ -34,7 +34,7 @@ export const loadMessages = id => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
     const {data} = await MessageService.getMessages(id);
-    dispatch(setMessages(data.messages));
+    dispatch(setMessages(data.messages.reverse()));
   } catch (error) {
     dispatch(setMessageError(error));
   } finally {

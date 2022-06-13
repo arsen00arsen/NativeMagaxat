@@ -22,7 +22,7 @@ export default function ChatScreen({route, props}) {
   }, []);
 
   useEffect(() => {
-    const msgs = messag?.messages?.reverse().map(msg => {
+    const msgs = messag?.messages?.map(msg => {
       return {
         _id: msg.id ? msg.id : msg._id,
         text: msg.text,
@@ -37,13 +37,13 @@ export default function ChatScreen({route, props}) {
   }, [messag.messages]);
 
   const onSend = useCallback((recvMessages = []) => {
+    setRecvMessages(previousMessages =>
+      GiftedChat.append(previousMessages, recvMessages),
+    );
     MessageService.sendMessages({
       contact_id: receiverId.uid,
       text: recvMessages[0].text,
     });
-    setRecvMessages(previousMessages =>
-      GiftedChat.append(previousMessages, recvMessages),
-    );
   }, []);
 
   const renderSend = props => {
