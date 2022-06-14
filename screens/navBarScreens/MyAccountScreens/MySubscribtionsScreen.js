@@ -16,18 +16,27 @@ import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 const MySubscribtionsScreen = props => {
   const theme = useTheme();
   const navigation = useNavigation();
-  let users = props?.route.params.subscription;
-  let content = users.map((elem, index) => {
+  let users = props?.route.params.subscriptions;
+  console.log(users, 'oooo');
+  let content = users?.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('AccounProfiletScreen')}>
+          onPress={() =>
+            navigation.navigate('MyPageUsersAccount', {
+              user: elem.subscription,
+            })
+          }>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
-              <Image source={{uri: users.image}} style={styles.userImage} />
+              <Image
+                source={{uri: elem?.subscription.image}}
+                style={styles.userImage}
+              />
             </View>
-            <Text style={styles.userName}>{elem.name}</Text>
+            <Text style={styles.userName}>{elem?.subscription.name}</Text>
+            <Text style={styles.userName}>{elem?.subscription.lastname}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -71,6 +80,14 @@ const styles = StyleSheet.create({
     width: '100%',
     marginBottom: 10,
   },
+  usersNull: {
+    width: '100%',
+    marginBottom: 10,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   userProfile: {
     width: '100%',
     height: 75,
@@ -102,6 +119,7 @@ const styles = StyleSheet.create({
     color: '#727272',
     textAlign: 'left',
     fontWeight: '600',
+    paddingLeft: 10,
   },
   wrapStyle: {
     display: 'flex',

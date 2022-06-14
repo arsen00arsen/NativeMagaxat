@@ -56,7 +56,7 @@ export default function GridVediosScreen(props) {
             <Text style={styles.subScribeText}>Subscribe</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.userText}>{user.user.posts[0].title}</Text>
+        {/* <Text style={styles.userText}>{user.user.posts[0].title}</Text> */}
         <View style={styles.line} />
         <View style={styles.flexWrap}>{content}</View>
       </ScrollView>

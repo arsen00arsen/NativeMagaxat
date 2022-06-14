@@ -36,7 +36,7 @@
 //         const json = await response.json();
 //         setList(json);
 //       } catch (error) {
-//         console.log('error', error);
+//         ('error', error);
 //       }
 //     };
 //     fetchData();

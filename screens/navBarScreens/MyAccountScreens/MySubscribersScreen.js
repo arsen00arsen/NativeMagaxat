@@ -17,8 +17,7 @@ const MySubscribersScreen = props => {
   const theme = useTheme();
   const navigation = useNavigation();
   let users = props?.route.params.subscribers;
-  let content = users.map((elem, index) => {
-    console.log(elem.subscriber);
+  let content = users?.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity

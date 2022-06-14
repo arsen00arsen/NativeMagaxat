@@ -13,7 +13,7 @@ import configureStore from './store/configureStore';
 const store = configureStore();
 PushNotification.configure({
   onNotification: function (notification) {
-    console.log('NOTIFICATION:', notification);
+    // console.log('NOTIFICATION:', notification);
   },
   requestPermissions: true,
 });

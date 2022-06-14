@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
+import Icon from 'react-native-vector-icons/Feather';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
-import Icon from 'react-native-vector-icons/Feather';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 
 const MyAccountScreen = ({navigation}) => {
@@ -21,7 +21,6 @@ const MyAccountScreen = ({navigation}) => {
   useEffect(() => {
     dispatch(loadMyPosts());
   }, []);
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -61,7 +60,7 @@ const MyAccountScreen = ({navigation}) => {
           style={styles.button}
           onPress={() =>
             navigation.navigate('MySubscribtionsScreen', {
-              subscription: myPosts.subscription,
+              subscriptions: myPosts.subscriptions,
             })
           }>
           <Text style={styles.buttonText}>My Subscribtions</Text>

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -15,10 +15,12 @@ const MesageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const chatUsers = useSelector(state => state.chatUsers);
+  const newMessage = useSelector(state => state?.messages.allNewMessages);
 
   useEffect(() => {
     dispatch(loadChatUser());
   }, []);
+
   const RenderCard = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -42,7 +44,22 @@ const MesageScreen = () => {
               <Text style={styles.nameSurname}>{item.lastname}</Text>
             </View>
             <View>
-              <Text>ssssssssssssss</Text>
+              {newMessage.map(last => {
+                if (item.id === last.from) {
+                  return (
+                    <View key={last.id} tyle={styles.lastMessageContainer}>
+                      <Text style={styles.lastText} numberOfLines={2}>
+                        {last?.text}{' '}
+                      </Text>
+                      <View style={styles.newMessage}>
+                        <Text style={styles.newMessageText}>Message</Text>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  return null;
+                }
+              })}
             </View>
           </View>
         </View>
@@ -149,5 +166,34 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     width: '80%',
+  },
+  lastMessageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  newMessage: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'red',
+    width: '30%',
+    textAlign: 'center',
+    height: 25,
+    borderRadius: 10,
+    right: 0,
+    top: -20,
+    position: 'absolute',
+  },
+  lastText: {
+    width: '60%',
+  },
+  newMessageText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
   },
 });

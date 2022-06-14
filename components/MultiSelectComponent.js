@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
@@ -12,6 +12,7 @@ const MultiSelectComponent = () => {
     <View styles={styles.action}>
       {!isItemLoading && (
         <SectionedMultiSelect
+          key={1}
           items={options}
           IconRenderer={Icon}
           uniqueKey="id"
@@ -22,6 +23,9 @@ const MultiSelectComponent = () => {
           onSelectedItemsChange={onSelectedItemsChange}
           selectedItems={selectedItems}
           showCancelButton={true}
+          hideSearch={true}
+          modalAnimationType="slide"
+          primary="red"
         />
       )}
     </View>

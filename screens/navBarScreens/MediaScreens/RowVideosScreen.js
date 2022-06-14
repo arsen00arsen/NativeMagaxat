@@ -11,8 +11,8 @@ import VideoPlayer from 'react-native-video-player';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
 export default function RowVideosScreen(props) {
-  let user = props.route.params.user;
-  const {medias} = useSelector(state => state.medias);
+  let user = props?.route.params.user;
+  const {medias} = useSelector(state => state?.medias);
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
@@ -26,7 +26,6 @@ export default function RowVideosScreen(props) {
       </View>
     );
   });
-
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
@@ -56,7 +55,7 @@ export default function RowVideosScreen(props) {
             <Text style={styles.subScribeText}>Subscribe</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.userText}>{user.user.posts[0].title}</Text>
+        {/* <Text style={styles.userText}>{user.user.posts[0].title}</Text> */}
         <View style={styles.line} />
         <View style={styles.contentContainer}>{content}</View>
       </ScrollView>

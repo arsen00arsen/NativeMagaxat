@@ -9,14 +9,11 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
-import {baseUrl2} from '../http/index';
+import CustomInput from '../components/loginComponents/CustomInput';
 import {loginUser} from '../stores/user/userActions';
-// import auth from '@react-native-firebase/auth';
 
-// import LoaderComponent from '../components/LoaderComponent';
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -27,24 +24,6 @@ const SignInScreen = ({navigation}) => {
   if (loading) {
     return <ActivityIndicator size="large" color="#00ff00" />;
   }
-  // const submitFormHandler = handleSubmit(async data => {
-  //   console.log(data);
-  //   if (!data.email || !data.password) {
-  //     alert('please add all the field');
-  //     return;
-  //   }
-  //   try {
-  //     setLoading(true);
-  //     const result = await auth().signInWithEmailAndPassword(
-  //       data.email,
-  //       data.password,
-  //     );
-  //   } catch (err) {
-  //     alert('something went wrong');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // });
   const submitFormHandler = handleSubmit(data => {
     const {email, password} = data;
     dispatch(loginUser(email, password));

@@ -29,7 +29,7 @@ const MediaSearch = () => {
         setList(json);
         dispatch(renderPosts());
       } catch (error) {
-        console.log('error', error);
+        'error', error;
       }
     };
     fetchData();

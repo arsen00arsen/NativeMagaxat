@@ -30,6 +30,7 @@ const MediaScreen = () => {
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
   const {control, handleSubmit, reset} = useForm();
+
   const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
     const fdata = new FormData();
@@ -49,6 +50,7 @@ const MediaScreen = () => {
         body: fdata,
       });
       const {data} = await res.json();
+      console.log(fdata._parts, 'pppp');
       dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
@@ -81,6 +83,7 @@ const MediaScreen = () => {
   };
 
   const selectFileVideo = async () => {
+    setImage({type: 'video'});
     setSelected(true);
     try {
       const res = await DocumentPicker.pick({

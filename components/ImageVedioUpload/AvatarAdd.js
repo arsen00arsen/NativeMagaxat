@@ -1,17 +1,10 @@
 import React, {useState} from 'react';
 import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import ImagePicker from 'react-native-image-crop-picker';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
-import ImageUploadService from '../../http/uploadImageSevice/uplouadImageService';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {
-  loginSuccess,
-  userInfoChange,
-  userPhotoChange,
-} from '../../stores/user/userActions';
+import {userPhotoChange} from '../../stores/user/userActions';
 
 export const AvatarAdd = props => {
   // const navigation = useNavigationn();

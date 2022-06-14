@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserService from '../../http/authService/authService';
-import ImageUploadService from '../../http/uploadImageSevice/uplouadImageService';
 
 export const startLogin = () => ({
   type: 'LOGIN_START',
@@ -65,12 +64,9 @@ export const userPhotoChange = imgUpload => async dispatch => {
 export const getMe = () => async dispatch => {
   try {
     dispatch(startLogin());
-
     const token = await AsyncStorage.getItem('token');
-
     if (token) {
       const {data} = await UserService.getMe();
-
       dispatch(loginSuccess(data.data));
     } else {
       dispatch(loginError('Unauthenticated'));

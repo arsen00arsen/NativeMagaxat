@@ -6,7 +6,7 @@ import {PostLike} from '../http/isLiked/isLiked';
 
 const LikeButton = ({id, likeCounts, authLiked}) => {
   const [liked, setLiked] = useState(authLiked || false);
-  const [count, setcount] = useState(likeCounts);
+  const [count, setcount] = useState(likeCounts - 1);
 
   const userLiked = async () => {
     try {

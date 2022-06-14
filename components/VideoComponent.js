@@ -25,11 +25,15 @@ const VideoComponent = props => {
   if (longDis === false) {
     userTitle = (
       <Text style={styles.usersTitle} numberOfLines={2}>
-        {post?.title}
+        {post?.title === 'undefined' ? null : post?.title}
       </Text>
     );
   } else {
-    userTitle = <Text style={styles.longDis}>{post?.title}</Text>;
+    userTitle = (
+      <Text style={styles.longDis}>
+        {post?.title === 'undefined' ? null : post?.title}
+      </Text>
+    );
   }
   const userProfilePage = () => {
     navigation.navigate('AccounProfiletScreen', {

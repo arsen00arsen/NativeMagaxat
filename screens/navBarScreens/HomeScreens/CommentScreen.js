@@ -19,8 +19,10 @@ import VideoPlayer from 'react-native-video-player';
 import {useDispatch, useSelector} from 'react-redux';
 import {sendComment} from '../../../stores/post/postActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import {useNavigation} from '@react-navigation/native';
 
 const CommentScreen = props => {
+  const navigation = useNavigation();
   const scrollViewRef = useRef();
   const dispatch = useDispatch();
   const {control, handleSubmit, reset} = useForm();
@@ -31,7 +33,11 @@ const CommentScreen = props => {
   let id = props?.route.params.id;
   const {posts} = useSelector(state => state.post);
   const foundPost = posts?.find(el => el?.id === id);
-
+  const userProfilePage = () => {
+    navigation.navigate('AccounProfiletScreen', {
+      id: user?.id,
+    });
+  };
   const submitFormHandler = handleSubmit(async submitData => {
     try {
       reset({}, {keepValues: false});
@@ -41,7 +47,6 @@ const CommentScreen = props => {
       console.log(error);
     }
   });
-  console.log(description, ';llllll');
   let commentContent = foundPost?.comments?.map(elem => {
     let imgComment;
     if (elem.user.image !== null) {
@@ -53,7 +58,9 @@ const CommentScreen = props => {
       <View key={elem.id}>
         <View style={styles.userProfile}>
           <View style={styles.imgFrame}>
-            <Image source={imgComment} style={styles.userImage} />
+            <TouchableOpacity onPress={userProfilePage}>
+              <Image source={imgComment} style={styles.userImage} />
+            </TouchableOpacity>
           </View>
           <View>
             <Text>{elem.name} </Text>
