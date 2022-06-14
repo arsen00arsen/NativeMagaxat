@@ -5,7 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {LogBox} from 'react-native';
-import {loadMessages} from '../../stores/messages/messageActions';
+import {
+  loadLastMessages,
+  loadMessages,
+} from '../../stores/messages/messageActions';
 import {MessageService} from '../../http/messageService/messageService';
 import ChatHeader from '../../components/HeaderComponents/ChatHeader';
 
@@ -40,10 +43,12 @@ export default function ChatScreen({route, props}) {
     MessageService.sendMessages({
       contact_id: receiverId.uid,
       text: messages[0].text,
+    }).then(res => {
+      dispatch(loadLastMessages(res.data));
     });
-    setRecvMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
+    // setRecvMessages(previousMessages =>
+    //   GiftedChat.append(previousMessages, messages),
+    // );
   }, []);
 
   const renderSend = props => {
