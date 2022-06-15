@@ -5,25 +5,16 @@
  * @format
  * @flow
  */
-import React, {useEffect, useState, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import RootStackScreen from './screens/RootStackScreen';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import MainTabScreen from './screens/navBarScreens/MainTabScreen';
-import {
-  requestUserPermission,
-  NotificationListner,
-} from './utils/pushNotification';
+import {requestUserPermission} from './utils/pushNotification';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
-import {ActivityIndicator, View} from 'react-native';
-import Chat from './screens/navBarScreens/Chat';
 import {AuthContainer} from './containers/AuthContainer';
-// import Pusher from 'react-native-push-notification';
-const Stack = createNativeStackNavigator();
+import PushNotification from 'react-native-push-notification';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,14 +23,15 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getMe());
+    requestUserPermission;
+    createChanels();
   }, []);
-
-  // const createChanels = () => {
-  //   PushNotification.createChannel({
-  //     channelId: 'test-channel',
-  //     channelName: 'Test Channel',
-  //   });
-  // };
+  const createChanels = () => {
+    PushNotification.createChannel({
+      channelId: 'test-channel',
+      channelName: 'Test Channel',
+    });
+  };
   if (loading) {
     return (
       <LinearGradient

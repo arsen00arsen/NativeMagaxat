@@ -41,7 +41,15 @@ const AccountUsers = () => {
 
   return (
     <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-      <View style={styles.wrapStyle}>{content}</View>
+      <View style={styles.wrapStyle}>
+        {accounts?.lastUsers?.length < 1 ? (
+          <View style={styles.usersEmpoty}>
+            <Text style={styles.textEmpoty}>You havn`t any Users yet</Text>
+          </View>
+        ) : (
+          content
+        )}
+      </View>
     </ScrollView>
   );
 };

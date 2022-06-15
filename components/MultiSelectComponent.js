@@ -12,7 +12,7 @@ const MultiSelectComponent = () => {
     <View styles={styles.action}>
       {!isItemLoading && (
         <SectionedMultiSelect
-          key={1}
+          key={0}
           items={options}
           IconRenderer={Icon}
           uniqueKey="id"

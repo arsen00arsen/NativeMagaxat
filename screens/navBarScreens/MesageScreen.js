@@ -69,13 +69,21 @@ const MesageScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
-        <FlatList
-          data={chatUsers?.chatUsers}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return <RenderCard item={item} />;
-          }}
-        />
+        {chatUsers?.chatUsers.length < 1 ? (
+          <View style={styles.usersEmpoty}>
+            <Text style={styles.textEmpoty}>
+              You havn`t any Users for messageing
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={chatUsers?.chatUsers}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              return <RenderCard item={item} />;
+            }}
+          />
+        )}
       </View>
     </View>
   );
@@ -195,5 +203,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: 'white',
+  },
+  usersEmpoty: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 60,
   },
 });

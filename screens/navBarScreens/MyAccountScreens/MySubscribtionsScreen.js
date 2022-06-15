@@ -17,7 +17,7 @@ const MySubscribtionsScreen = props => {
   const theme = useTheme();
   const navigation = useNavigation();
   let users = props?.route.params.subscriptions;
-  console.log(users, 'oooo');
+
   let content = users?.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
@@ -55,7 +55,15 @@ const MySubscribtionsScreen = props => {
           <View style={{marginBottom: 20}}>
             <MyaccountUsserInfor />
           </View>
-          {content}
+          {users?.length < 1 ? (
+            <View style={styles.users}>
+              <Text style={styles.textEmpoty}>
+                You havn`t any subscribtions yet
+              </Text>
+            </View>
+          ) : (
+            content
+          )}
         </View>
       </ScrollView>
     </View>
@@ -131,5 +139,10 @@ const styles = StyleSheet.create({
     elevation: 7,
     shadowColor: '#785425',
     borderRadius: 8,
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 30,
   },
 });

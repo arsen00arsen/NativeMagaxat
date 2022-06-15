@@ -34,17 +34,10 @@ const GeneralScreen = ({navigation}) => {
 
   const submitFormHandler = handleSubmit(data => {
     try {
-      dispatch({
-        type: 'FIRST_STEP_SUBMIT',
-        payload: {
-          ...data,
-          date_of_birth: moment(data).format('YYYY-MM-DD'),
-        },
-      });
+      UploadUserService.uploadUser(data);
     } catch {
       console.log('error');
     } finally {
-      UploadUserService.uploadUser(user?.data);
     }
   });
 

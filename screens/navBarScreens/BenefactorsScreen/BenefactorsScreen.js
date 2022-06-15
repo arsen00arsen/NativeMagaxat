@@ -24,6 +24,7 @@ const BenefactorsScreen = () => {
   const dispatch = useDispatch();
   const {isLoading, appears} = useSelector(state => state.appears);
   const [currentPages, setCurrentPages] = useState(1);
+
   const loadMoreItem = () => {
     setCurrentPages(currentPages);
   };
@@ -75,16 +76,22 @@ const BenefactorsScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'BenefactorSearchPage'} />
-      <FlatList
-        style={{width: '100%'}}
-        showsVerticalScrollIndicator={false}
-        data={appears}
-        onEndReached={loadMoreItem}
-        keyExtractor={(item, index) => index.toString()}
-        ListFooterComponent={renderLoader}
-        onEndReachedThreshold={2.5}
-        renderItem={renderItem}
-      />
+      {appears?.length < 1 ? (
+        <View style={styles.usersEmpoty}>
+          <Text style={styles.textEmpoty}>You havn`t any Appears yet</Text>
+        </View>
+      ) : (
+        <FlatList
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+          data={appears}
+          onEndReached={loadMoreItem}
+          keyExtractor={index => index.toString()}
+          ListFooterComponent={renderLoader}
+          onEndReachedThreshold={2.5}
+          renderItem={renderItem}
+        />
+      )}
     </View>
   );
 };
@@ -160,5 +167,17 @@ const styles = StyleSheet.create({
   viewText: {
     color: '#FFF',
     fontSize: 20,
+  },
+  usersEmpoty: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 60,
   },
 });

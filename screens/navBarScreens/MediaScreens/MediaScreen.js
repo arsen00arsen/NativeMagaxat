@@ -50,7 +50,6 @@ const MediaScreen = () => {
         body: fdata,
       });
       const {data} = await res.json();
-      console.log(fdata._parts, 'pppp');
       dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
@@ -68,9 +67,13 @@ const MediaScreen = () => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
-      setSingleFile(res[0]);
-      setImage({uri: res[0].uri, type: 'image'});
-      // setType('image');
+      if (res[0].size < 2097152) {
+        setSingleFile(res[0]);
+        setImage({uri: res[0].uri, type: 'image'});
+      } else {
+        alert('Max size of image must be 2 mb');
+        setSelected(false);
+      }
     } catch (err) {
       setSingleFile(null);
       if (DocumentPicker.isCancel(err)) {
@@ -89,8 +92,13 @@ const MediaScreen = () => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.video],
       });
-      setSingleFile(res[0]);
-      setImage(res[0].uri);
+      if (res[0].size < 10485760) {
+        setSingleFile(res[0]);
+        setImage(res[0].uri);
+      } else {
+        alert('Max size of video mast be 10 mb');
+        setSelected(false);
+      }
     } catch (err) {
       setSingleFile(null);
       if (DocumentPicker.isCancel(err)) {

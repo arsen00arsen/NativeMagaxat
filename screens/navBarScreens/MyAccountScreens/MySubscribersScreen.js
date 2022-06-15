@@ -54,7 +54,15 @@ const MySubscribersScreen = props => {
           <View style={{marginBottom: 20}}>
             <MyaccountUsserInfor />
           </View>
-          {content}
+          {users?.length < 1 ? (
+            <View style={styles.users}>
+              <Text style={styles.textEmpoty}>
+                You havn`t any subscribers yet
+              </Text>
+            </View>
+          ) : (
+            content
+          )}
         </View>
       </ScrollView>
     </View>
@@ -122,5 +130,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 30,
   },
 });

@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect, useState} from 'react';
+import {useSelector} from 'react-redux';
 import {baseUrl2} from '../../http';
 
 const url = baseUrl2 + '/types';
@@ -6,16 +8,16 @@ const url = baseUrl2 + '/types';
 export const useMultiSelectComponent = () => {
   const [options, setOptions] = useState([]);
   const [isItemLoading, setIsItemLoading] = useState(false);
+  const user = useSelector(state => state?.user.data.interesting_type);
   const [selectedItems, setSelectedItems] = useState([]);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = await AsyncStorage.getItem('token');
         setIsItemLoading(true);
         await fetch(url, {
           headers: {
-            Authorization:
-              'Bearer ' + '10|oMlp7229KYP9nfdN2BrtCC2CjCuJIJF48fZsrV0J',
+            Authorization: 'Bearer ' + token,
           },
         })
           .then(res => res.json())
@@ -38,7 +40,7 @@ export const useMultiSelectComponent = () => {
     };
     fetchData();
   }, []);
-
+  console.log(selectedItems, 'selectedItems');
   const onSelectedItemsChange = selectedOption => {
     setSelectedItems(selectedOption);
   };

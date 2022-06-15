@@ -1,17 +1,15 @@
-import React, {useState, useEffect, memo} from 'react';
+import React, {memo} from 'react';
 import {
   View,
   Text,
   Image,
   StyleSheet,
-  StatusBar,
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
-import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import {useGetUsers} from '../../../components/hooks/useGetUsers';
 
 const AccountBenefactors = () => {
@@ -24,6 +22,7 @@ const AccountBenefactors = () => {
       user: item,
     });
   };
+
   let content = options.data?.map((elem, index) => {
     return (
       <View key={elem.id} style={styles.users}>
@@ -56,7 +55,17 @@ const AccountBenefactors = () => {
 
   return (
     <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
-      <View style={styles.flexWraps}>{content}</View>
+      <View style={styles.flexWraps}>
+        {options.data?.length < 1 ? (
+          <View style={styles.usersEmpoty}>
+            <Text style={styles.textEmpoty}>
+              You havn`t any Benefactors yet
+            </Text>
+          </View>
+        ) : (
+          content
+        )}
+      </View>
     </ScrollView>
   );
 };
@@ -117,5 +126,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  usersEmpoty: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 60,
   },
 });

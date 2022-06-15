@@ -9,14 +9,13 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch, useSelector} from 'react-redux';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
-import {useDispatch, useSelector} from 'react-redux';
 import {loadPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const HomeScreen = props => {
   const dispatch = useDispatch();
@@ -30,9 +29,8 @@ const HomeScreen = props => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));
   };
-  console.log();
+
   useEffect(() => {
-    // echoe();
     dispatch(loadPosts(1));
   }, []);
 

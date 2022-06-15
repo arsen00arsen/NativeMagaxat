@@ -27,7 +27,7 @@ const MyPostsScreen = props => {
     dispatch(loadMyPosts());
   }, []);
 
-  // let posts = props?.route.params;
+  console.log(myPosts.posts, 'iiiiiiiiiiiiiiiiiii');
   const renderItem = ({item}) => {
     if (item.image_path) {
       return (
@@ -53,14 +53,19 @@ const MyPostsScreen = props => {
       />
       <HeaderBackSearch />
       <MyaccountUsserInfor />
-
-      <FlatList
-        style={{width: '100%'}}
-        showsVerticalScrollIndicator={false}
-        data={myPosts.posts}
-        keyExtractor={(items, index) => index.toString()}
-        renderItem={renderItem}
-      />
+      {myPosts.posts?.length < 1 ? (
+        <View style={styles.usersEmpoty}>
+          <Text style={styles.textEmpoty}>You havn`t any Posts yet</Text>
+        </View>
+      ) : (
+        <FlatList
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+          data={myPosts.posts}
+          keyExtractor={(items, index) => index.toString()}
+          renderItem={renderItem}
+        />
+      )}
     </View>
   );
 };
@@ -83,5 +88,17 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-end',
+  },
+  usersEmpoty: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 60,
   },
 });
