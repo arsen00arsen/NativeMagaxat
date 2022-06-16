@@ -1,19 +1,22 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
+import {useSelector} from 'react-redux';
 
 const MyaccountUsserInfor = () => {
+  const user = useSelector(state => state?.user);
+
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>
         <View style={styles.imgFrame}>
-          <Image
-            source={require('../assets/Nikol.png')}
-            style={styles.userImage}
-          />
+          <Image source={{uri: user?.user.image}} style={styles.userImage} />
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>Nikol Pahinyan</Text>
-          <Text style={styles.userDate}>17.04.1968</Text>
+          <View style={styles.names}>
+            <Text style={styles.userName}>{user?.user.name} </Text>
+            <Text style={styles.userName}>{user?.user.lastname} </Text>
+          </View>
+          <Text style={styles.userDate}>{user?.user.date_of_birth}</Text>
         </View>
       </View>
     </View>
@@ -37,6 +40,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  names: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   imgFrame: {
     display: 'flex',
     alignItems: 'center',
@@ -44,12 +53,12 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 4,
     borderColor: '#E6E6E6',
-    width: 107,
-    height: 107,
+    width: 87,
+    height: 87,
   },
   userImage: {
-    width: 103,
-    height: 103,
+    width: 83,
+    height: 83,
     borderRadius: 999,
     borderColor: '#E6E6E6',
     borderWidth: 3,
@@ -65,6 +74,12 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     color: '#727272',
+  },
+  lastname: {
+    fontSize: 20,
+    fontWeight: '400',
+    color: '#727272',
+    paddingLeft: 10,
   },
   userDate: {
     fontSize: 16,

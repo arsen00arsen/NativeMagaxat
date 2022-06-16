@@ -1,44 +1,40 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  FlatList,
-} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, FlatList} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {baseUrl2} from '../../../http/index';
-import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/Ionicons';
 import SearchComponent from '../../../components/SearchComponent';
 import VideoPlayer from 'react-native-video-player';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {renderPosts} from '../../../stores/post/postActions';
 
 const MediaSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
-  const navigation = useNavigation();
   const dispatch = useDispatch();
 
   useEffect(() => {
     const url = baseUrl2 + '/videos_api?title=' + data;
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        const token = await AsyncStorage.getItem('token');
+        const response = await fetch(url, {
+          headers: {
+            Authorization: 'Bearer ' + token,
+          },
+        });
         const json = await response.json();
         setList(json);
+        dispatch(renderPosts());
       } catch (error) {
-        console.log('error', error);
+        'error', error;
       }
     };
-
     fetchData();
   }, [data]);
-
   const ItemRender = item => {
-    console.log(item, 'lllll');
     let img;
     if (item.userImage !== undefined) {
       img = {uri: item.userImage};
@@ -65,7 +61,7 @@ const MediaSearch = () => {
             </View>
           </View>
           <MaterialCommunityIcons
-            name="account-arrow-right"
+            name="checkmark-done-circle"
             size={30}
             color="#BB9E79"
             style={styles.itemIcon}
@@ -78,10 +74,6 @@ const MediaSearch = () => {
   const Separator = () => {
     return <View style={styles.seperator} />;
   };
-  let userProfilePage = item => {
-    dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('GridVediosScreen');
-  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -92,20 +84,19 @@ const MediaSearch = () => {
         <SearchComponent
           setText={setData}
           searchText="Search Media by title ..."
+          underlineColorAndroid="white"
         />
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list.data}
+        data={list?.data?.data}
         renderItem={({item}) => (
-          <TouchableOpacity onPress={() => userProfilePage(item)}>
-            <ItemRender
-              name={item.user_name}
-              lastName={item.user_lastname}
-              userVedio={item.video_path}
-              vedioTitle={item.video_title}
-            />
-          </TouchableOpacity>
+          <ItemRender
+            name={item.user_name}
+            lastName={item.user_lastname}
+            userVedio={item.video_path}
+            vedioTitle={item.video_title}
+          />
         )}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={Separator}

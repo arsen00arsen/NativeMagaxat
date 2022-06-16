@@ -9,57 +9,33 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 
-const MySubscribersScreen = ({navigation}) => {
+const MySubscribersScreen = props => {
   const theme = useTheme();
-
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      name: 'Nikol Pashinyan',
-      // userImage: "../../assets/FakeImages/Nikol.png"
-    },
-    {
-      id: 2,
-      name: 'Robert Qocharyan',
-    },
-    {
-      id: 3,
-      name: 'Anjela Sargsyan',
-    },
-    {
-      id: 4,
-      name: 'Serj Sargsyan',
-    },
-    {
-      id: 5,
-      name: 'Hayk Marutyan',
-    },
-    {
-      id: 6,
-      name: 'Levon Ter-Petrosyan',
-    },
-    {
-      id: 7,
-      name: 'Vazgen Sargsyan',
-    },
-  ];
-  let content = ANIMAL_NAMES.map((elem, index) => {
+  const navigation = useNavigation();
+  let users = props?.route.params.subscribers;
+  let content = users?.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate('AccounProfiletScreen')}>
+          onPress={() =>
+            navigation.navigate('MyPageUsersAccount', {
+              user: elem.subscriber,
+            })
+          }>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
               <Image
-                source={require('../../../assets/Nikol.png')}
+                source={{uri: elem?.subscriber.image}}
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>{elem.name}</Text>
+            <Text style={styles.userName}>{elem?.subscriber.name}</Text>
+            <Text style={styles.userName}>{elem?.subscriber.lastname}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -78,7 +54,15 @@ const MySubscribersScreen = ({navigation}) => {
           <View style={{marginBottom: 20}}>
             <MyaccountUsserInfor />
           </View>
-          {content}
+          {users?.length < 1 ? (
+            <View style={styles.users}>
+              <Text style={styles.textEmpoty}>
+                You havn`t any subscribers yet
+              </Text>
+            </View>
+          ) : (
+            content
+          )}
         </View>
       </ScrollView>
     </View>
@@ -134,6 +118,7 @@ const styles = StyleSheet.create({
     color: '#727272',
     textAlign: 'left',
     fontWeight: '600',
+    paddingLeft: 10,
   },
   shadowProp: {
     elevation: 7,
@@ -145,5 +130,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 30,
   },
 });

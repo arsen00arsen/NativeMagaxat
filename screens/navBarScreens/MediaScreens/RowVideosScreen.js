@@ -9,53 +9,23 @@ import {
 } from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-
-export default function RowVideosScreen() {
-  const ANIMAL_NAMES = [
-    {
-      id: 1,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 2,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 3,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 4,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 5,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 6,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-    {
-      id: 7,
-      userVedio: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
-    },
-  ];
-
-  let content = ANIMAL_NAMES.map(elem => {
+import {useSelector} from 'react-redux';
+export default function RowVideosScreen(props) {
+  let user = props?.route.params.user;
+  const {medias} = useSelector(state => state?.medias);
+  let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
         <VideoPlayer
-          video={{uri: elem.userVedio}}
+          video={{uri: elem.video_path}}
           autoplay={false}
           defaultMuted={true}
-          thumbnail={require('../../../assets/logoHeader.png')}
+          thumbnail={require('../../../assets/logo.png')}
           style={styles.columnVideo}
         />
       </View>
     );
   });
-
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
@@ -63,35 +33,29 @@ export default function RowVideosScreen() {
         <View style={styles.column}>
           <VideoPlayer
             video={{
-              uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+              uri: user.video_path,
             }}
             autoplay={false}
             defaultMuted={true}
-            thumbnail={require('../../../assets/logoHeader.png')}
+            thumbnail={require('../../../assets/logo.png')}
             style={styles.mediaVideo}
           />
         </View>
 
         <View style={styles.userBody}>
           <View style={styles.imgFrame}>
-            <Image
-              source={require('../../../assets/Nikol.png')}
-              style={styles.userImage}
-            />
+            <Image source={{uri: user.user.image}} style={styles.userImage} />
           </View>
           <View style={styles.flexcontent}>
-            <Text style={styles.username}>Nikol</Text>
-            <Text style={styles.username}>Pashinyan</Text>
+            <Text style={styles.username}>{user.user.name}</Text>
+            <Text style={styles.username}>{user.user.lastname}</Text>
           </View>
 
           <TouchableOpacity style={styles.subScribeButton}>
             <Text style={styles.subScribeText}>Subscribe</Text>
           </TouchableOpacity>
         </View>
-        <Text style={styles.userText}>
-          Մեր կրթական ծրագրերը ներառում են «Շող» կենտրոնները, որոնք ավելի ուշ
-          սկսեցինք՝ 2010թ․ և որոնց ուղղվածությունը և՛ կրթական է, և՛ սոցիալական։
-        </Text>
+        {/* <Text style={styles.userText}>{user.user.posts[0].title}</Text> */}
         <View style={styles.line} />
         <View style={styles.contentContainer}>{content}</View>
       </ScrollView>
@@ -197,6 +161,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
+    marginLeft: 10,
   },
   contentContainer: {
     marginBottom: 40,

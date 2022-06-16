@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,89 +8,38 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import moment from 'moment';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
+import {Controller, useForm} from 'react-hook-form';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
+import {useSelector, useDispatch} from 'react-redux';
+import MultiSelectComponent from '../../../components/MultiSelectComponent';
+import {UploadUserService} from '../../../http/uploadService/uploadService';
 
 const GeneralScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const [date, setDate] = React.useState(new Date());
-  const [data, setData] = React.useState({
-    name: '',
-    lastName: '',
-    date: '',
-    email: '',
-    phone: '',
-    ineterstingAreas: '',
-    ineterstingArea1: '',
-    ineterstingArea2: '',
-    ineterstingArea3: '',
-    ineterstingArea4: '',
-    ineterstingArea5: '',
+  const [date, setDate] = useState(new Date());
+  const user = useSelector(state => state?.user);
+  const [open, setOpen] = useState(false);
+  const {control, handleSubmit, getValues} = useForm({
+    defaultValues: {
+      date_of_birth: new Date(),
+    },
   });
 
-  const inputChange = ({val, nameInput}) => {
-    if (nameInput === 'name') {
-      setData({
-        ...data,
-        name: val,
-      });
-    } else if (nameInput === 'lastName') {
-      setData({
-        ...data,
-        lastName: val,
-      });
-    } else if (nameInput === 'date') {
-      setData({
-        ...data,
-        date: val,
-      });
-    } else if (nameInput === 'email') {
-      setData({
-        ...data,
-        email: val,
-      });
-    } else if (nameInput === 'phone') {
-      setData({
-        ...data,
-        phone: val,
-      });
-    } else if (nameInput === 'ineterstingArea1') {
-      setData({
-        ...data,
-        ineterstingArea1: val,
-      });
-    } else if (nameInput === 'ineterstingAreas') {
-      setData({
-        ...data,
-        ineterstingAreas: val,
-      });
-    } else if (nameInput === 'ineterstingArea2') {
-      setData({
-        ...data,
-        ineterstingArea2: val,
-      });
-    } else if (nameInput === 'ineterstingArea3') {
-      setData({
-        ...data,
-        ineterstingArea3: val,
-      });
-    } else if (nameInput === 'ineterstingArea4') {
-      setData({
-        ...data,
-        ineterstingArea4: val,
-      });
-    } else if (nameInput === 'ineterstingArea5') {
-      setData({
-        ...data,
-        ineterstingArea5: val,
-      });
+  const submitFormHandler = handleSubmit(data => {
+    try {
+      UploadUserService.uploadUser(data);
+    } catch {
+      console.log('error');
+    } finally {
     }
-  };
+  });
 
   return (
     <View style={styles.container}>
@@ -103,263 +52,120 @@ const GeneralScreen = ({navigation}) => {
         <MyaccountUsserInforAvatar />
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Name</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => inputChange({val, nameInput: 'name'})}
-            placeholder="User Name"
+          <Controller
+            control={control}
+            name="name"
+            render={({field: {onChange, value, onBlur}}) => {
+              return (
+                <TextInput
+                  placeholder={user?.user?.name}
+                  placeholderTextColor="#666666"
+                  value={value}
+                  style={styles.textInput}
+                  multiline
+                  onChangeText={onChange}
+                  underlineColorAndroid="white"
+                />
+              );
+            }}
           />
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Last Name</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => inputChange({val, nameInput: 'lastName'})}
-            placeholder="User Last Name"
+          <Controller
+            control={control}
+            name="lastname"
+            render={({field: {onChange, value, onBlur}}) => {
+              return (
+                <TextInput
+                  placeholder={user?.user?.lastname}
+                  placeholderTextColor="#666666"
+                  value={value}
+                  style={styles.textInput}
+                  multiline
+                  onChangeText={onChange}
+                  underlineColorAndroid="white"
+                />
+              );
+            }}
           />
         </View>
         <View>
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
               <Text style={styles.inputHeader}>Date</Text>
-              <TextInput
-                placeholderTextColor="#666666"
-                // style={styles.textInput}
-                autoCapitalize="none"
-              />
-              {/* <Text style={styles.dateText}>{datas}</Text> */}
+              <Text style={styles.dateText}>
+                {moment(date).format('DD.MM.YYYY')}
+              </Text>
             </View>
           </TouchableOpacity>
-          <DatePicker
-            mode="date"
-            modal
-            open={open}
-            date={date}
-            onConfirm={dates => {
-              setOpen(false);
-              setDate(dates);
-              // dispatch({
-              //   type: 'USSER_SIGN_UP_DATE',
-              //   payload: {birthDate: JSON.stringify(dates)},
-              // });
-            }}
-            onCancel={() => {
-              setOpen(false);
+          <Controller
+            control={control}
+            name="date_of_birth"
+            render={({field: {value, onChange}}) => {
+              return (
+                <DatePicker
+                  title="Select date"
+                  mode="date"
+                  modal
+                  open={open}
+                  date={value}
+                  onConfirm={date => {
+                    setDate(date);
+                    setOpen(false);
+                  }}
+                  onCancel={() => setOpen(false)}
+                />
+              );
             }}
           />
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>E-mail</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => inputChange({val, nameInput: 'email'})}
-            placeholder="User E-mail"
+
+          <Controller
+            control={control}
+            name="email"
+            render={({field: {onChange, value, onBlur}}) => {
+              return (
+                <TextInput
+                  placeholder={user?.user?.email}
+                  placeholderTextColor="#666666"
+                  value={value}
+                  style={styles.textInput}
+                  multiline
+                  onChangeText={onChange}
+                  underlineColorAndroid="white"
+                />
+              );
+            }}
           />
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>Phone Number</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => inputChange({val, nameInput: 'phone'})}
-            placeholder="User Phone Number"
-          />
-        </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interested areas</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interested areas'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingAreas'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
+          <Controller
+            control={control}
+            name="phone_number"
+            render={({field: {onChange, value, onBlur}}) => {
               return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
+                <TextInput
+                  placeholder={user?.user?.phone_number}
+                  placeholderTextColor="#666666"
+                  value={value}
+                  style={styles.textInput}
+                  multiline
+                  onChangeText={onChange}
+                  underlineColorAndroid="white"
                 />
               );
             }}
           />
         </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interesting Area 1</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 1'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingArea1'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          />
+
+        <View style={styles.selectAction}>
+          <MultiSelectComponent />
         </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interesting Area 2</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 2'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingArea2'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          />
-        </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interesting Area 3</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 3'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingArea3'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          />
-        </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interesting Area 4</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 4'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingArea4'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          />
-        </View>
-        <View style={styles.action}>
-          <Text style={styles.inputHeader}>Interesting Area 5</Text>
-          <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 5'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value =>
-              inputChange({value, nameInput: 'ineterstingArea5'})
-            }
-            items={[
-              {label: 'It', value: 'it'},
-              {label: 'Footbole', value: 'footbole'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => console.log('AccounProfiletScreen')}>
+        <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -386,7 +192,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingLeft: 10,
     color: 'black',
-    height: '100%',
+    // height: '100%',
     width: '100%',
     borderRadius: 8,
     fontSize: 14,
@@ -427,6 +233,18 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '800',
     color: '#FFFFFF',
+  },
+  dateText: {
+    paddingHorizontal: 13,
+    paddingVertical: 25,
+  },
+  selectAction: {
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    borderRadius: 8,
   },
 });
 

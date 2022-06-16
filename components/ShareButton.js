@@ -8,9 +8,8 @@ const ShareButton = () => {
       onPress={() =>
         Share.share(
           {
-            message:
-              "BAM: we're helping your business with awesome React Native apps",
-            url: 'http://bam.tech',
+            message: 'https://magaxat.com/en',
+            url: 'https://magaxat.com/en',
             title: 'Wow, did you see that?',
           },
           {

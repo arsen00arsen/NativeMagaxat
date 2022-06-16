@@ -9,38 +9,24 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import CustomInput from '../components/loginComponents/CustomInput';
 import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
-import {baseUrl} from '../http/index';
-// import LoaderComponent from '../components/LoaderComponent';
+import CustomInput from '../components/loginComponents/CustomInput';
+import {loginUser} from '../stores/user/userActions';
+
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignInScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
-  const [isLoading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
-
+  if (loading) {
+    return <ActivityIndicator size="large" color="#00ff00" />;
+  }
   const submitFormHandler = handleSubmit(data => {
-    setLoading(true);
-    fetch(baseUrl + '/login', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    })
-      .then(response => response.json())
-      .then(response => {
-        setLoading(false);
-        console.log(response);
-        dispatch({
-          type: 'LOGIN',
-          payload: response,
-        });
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    const {email, password} = data;
+    dispatch(loginUser(email, password));
   });
 
   return (

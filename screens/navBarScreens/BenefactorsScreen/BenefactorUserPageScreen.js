@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -6,67 +6,27 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  SafeAreaView,
   ScrollView,
   TextInput,
+  SafeAreaView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import Icon from 'react-native-vector-icons/Ionicons';
 import VideoPlayer from 'react-native-video-player';
-import Icon from 'react-native-vector-icons/Feather';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome5Brands from 'react-native-vector-icons/Fontisto';
-import {baseUrl2} from '../../../http/index';
-import {useSelector} from 'react-redux';
+import {useBenAccountProfHome} from '../../../components/hooks/useAccountProfHome';
+import {UserSubscribe} from '../../../http/isLiked/isLiked';
 
-const BenefactorUserPageScreen = ({navigation}) => {
+const BenefactorUserPageScreen = props => {
   const theme = useTheme();
-  const [text, onChangeText] = useState('');
-  const [data, setData] = useState('');
-  const id = useSelector(state => state.usser.usserAccountId);
-  let i = id.toString();
+  const [isSub, setIssub] = useState('');
+  let user = props.route.params.id;
 
-  useEffect(() => {
-    const url = baseUrl2 + '/benefactors_api/' + i;
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
-  }, []);
-  let videoContent;
-  if (data.data !== undefined ? data.data[0].latest_two_videos : null) {
-    videoContent = data.data[0].latest_two_videos.map((elem, index) => {
-      console.log(elem, 'llllllllllllllllll');
-      return (
-        <View key={elem.id} style={styles.column}>
-          <VideoPlayer
-            uri={elem.userVedio}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../../../assets/logoHeader.png')}
-            style={styles.video}
-          />
-        </View>
-      );
-    });
-  }
-
-  let user = data.data !== undefined ? data.data[0] : null;
-  let img;
-  if (user?.image !== null) {
-    img = {uri: user?.image};
-  } else {
-    img = require('../../../assets/defoult.png');
-  }
   return (
     <View style={styles.container}>
       <StatusBar
@@ -76,37 +36,36 @@ const BenefactorUserPageScreen = ({navigation}) => {
       <HeaderBackSearch />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.userInfo}>
-          <Image source={img} style={styles.userImage} />
+          <Image source={{uri: user.user.image}} style={styles.userImage} />
           <View>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
-            <Text style={styles.nameSurname}>{user?.last_name}</Text>
-            {/* <Text style={styles.idNumber}>ID 620e4b6a4908b</Text> */}
+            <Text style={styles.nameSurname}>{user.user.name}</Text>
+            <Text style={styles.nameSurname}>{user?.user.lastname}</Text>
           </View>
         </View>
         <View style={styles.textBody}>
-          <Text style={styles.text}>{user?.description}</Text>
+          <Text style={styles.text}>{user.description}</Text>
         </View>
-        <View style={styles.contentVideo}>{videoContent}</View>
+        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
         <View style={styles.helpTextContainer}>
-          <Text style={styles.helpTitle}>How can I help?</Text>
+          <Text style={styles.helpTitle}>{user.title} </Text>
           <Text style={styles.helpText}>
-            To help William, you can send your desired amount to the Magaxat
-            account, marking the recipient ID
+            To help {user?.user.name}, you can send your desired amount to the
+            Magaxat account, marking the recipient ID
           </Text>
         </View>
         <View style={styles.inputContainer}>
           <SafeAreaView>
             <TextInput
               style={styles.input}
-              onChangeText={onChangeText}
-              value={text}
+              // onChangeText={onChangeText}
+              underlineColorAndroid="white"
               placeholder={'620e4b6a4908b'}
             />
           </SafeAreaView>
           <TouchableOpacity
             onPress={() => alert('Button Clicked!')}
             style={styles.button}>
-            <Icon name="chevron-right" size={20} color="white" />
+            <MaterialIcons name="chevron-right" size={20} color="white" />
           </TouchableOpacity>
         </View>
         <View style={styles.makeContainer}>
@@ -147,6 +106,7 @@ const BenefactorUserPageScreen = ({navigation}) => {
             <FontAwesome5Brands name="viber" size={40} color="black" />
           </View>
         </View>
+        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
       </ScrollView>
     </View>
   );
@@ -190,7 +150,6 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    height: 150,
     marginVertical: 30,
   },
   text: {
@@ -240,9 +199,10 @@ const styles = StyleSheet.create({
     width: 250,
     height: 50,
     borderColor: 'silver',
-    borderWidth: 1,
+    // borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 5,
+    backgroundColor: 'white',
   },
   button: {
     width: 70,

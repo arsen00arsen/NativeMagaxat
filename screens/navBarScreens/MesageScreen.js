@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,113 +8,82 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import HeaderBackSearch from '../../components/HeaderComponents/HeaderBackSearch';
-import {baseUrl2} from './../../http/index';
-// import PushNotification from 'react-native-push-notification';
-
-const Message = [
-  {
-    id: '1',
-    usserName: 'Nikol Pashinyan',
-    usserImag: require('../../assets/Nikol.png'),
-    messageTime: 'One Day ago',
-    messageText: 'Yev ayt mek marte dues',
-  },
-  {
-    id: '2',
-    usserName: 'Serj Sargsyan',
-    usserImag: require('../../assets/Serj.png'),
-    messageTime: '6 Yers ago',
-    messageText: 'Razmakan arumov et taracqnere voshmi nshanakutyun chunen',
-  },
-  {
-    id: '3',
-    usserName: 'Robert Qocharyan',
-    usserImag: require('../../assets/Robert.png'),
-    messageTime: '20 Yers ago',
-    messageText: 'Hayr mer vor erkinqnes surb yexece anun qo',
-  },
-];
+import {useSelector, useDispatch} from 'react-redux';
+import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 
 const MesageScreen = () => {
-  const [data, setData] = useState('');
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const chatUsers = useSelector(state => state.chatUsers);
+  const newMessage = useSelector(state => state?.messages.allNewMessages);
+
   useEffect(() => {
-    const url = baseUrl2 + '/messages';
-    const fetchData = async () => {
-      try {
-        const response = await fetch(url);
-        const json = await response.json();
-        setData(json);
-      } catch (error) {
-        console.log('error', error);
-      }
-    };
-    fetchData();
+    dispatch(loadChatUser());
   }, []);
 
-  // const handleNotification = item => {
-  //   PushNotification.localNotification({
-  //     channelId: 'test-channel',
-  //     title: item.usserName,
-  //     message: item.messageText,
-  //   });
-  // };
+  const RenderCard = ({item, index}) => {
+    return (
+      <TouchableOpacity
+        key={index}
+        onPress={() =>
+          navigation.navigate('Chat', {
+            name: item.name,
+            uid: item.id,
+            image: item.image,
+            // status:
+            //   typeof item.status === 'string'
+            //     ? item.status
+            //     : item.status.toDate().toString(),
+          })
+        }>
+        <View style={styles.messageContainer}>
+          <Image style={styles.userImg} source={{uri: item.image}} />
+          <View style={styles.messageUserBody}>
+            <View style={styles.userNames}>
+              <Text style={styles.userName}>{item.name}</Text>
+              <Text style={styles.nameSurname}>{item.lastname}</Text>
+            </View>
+            <View>
+              {newMessage.map(last => {
+                if (item.id === last.from) {
+                  return (
+                    <View key={last.id} tyle={styles.lastMessageContainer}>
+                      <Text style={styles.lastText} numberOfLines={2}>
+                        {last?.text}{' '}
+                      </Text>
+                      <View style={styles.newMessage}>
+                        <Text style={styles.newMessageText}>Message</Text>
+                      </View>
+                    </View>
+                  );
+                } else {
+                  return null;
+                }
+              })}
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
-        <FlatList
-          data={Message}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('Chat', {
-                  userName: item.usserName,
-                  usserId: item.id,
-                  message: item.messageText,
-                  usserImage: item.usserImag,
-                })
-              }>
-              <View style={styles.messageContainer}>
-                <View>
-                  <Image style={styles.userImg} source={item.usserImag} />
-                </View>
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView} numberOfLines={2}>
-                    {item.messageText}
-                  </Text>
-                </View>
-                <View style={styles.messageInfo}>
-                  <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-        {/* <FlatList
-          data={Message}
-          keyExtractor={item => item.id}
-          renderItem={({item}) => (
-            <TouchableOpacity onPress={() => handleNotification(item)}>
-              <View style={styles.messageContainer}>
-                <View>
-                  <Image style={styles.userImg} source={item.usserImag} />
-                </View>
-                <View style={styles.userInfo}>
-                  <Text style={styles.userName}>{item.usserName}</Text>
-                  <Text style={styles.userMessageView} numberOfLines={2}>
-                    {item.messageText}
-                  </Text>
-                </View>
-                <View style={styles.messageInfo}>
-                  <Text style={styles.messageTime}>{item.messageTime} </Text>
-                </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        /> */}
+        {chatUsers?.chatUsers.length < 1 ? (
+          <View style={styles.usersEmpoty}>
+            <Text style={styles.textEmpoty}>
+              You havn`t any Users for messageing
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            data={chatUsers?.chatUsers}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => {
+              return <RenderCard item={item} />;
+            }}
+          />
+        )}
       </View>
     </View>
   );
@@ -130,14 +99,9 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     position: 'relative',
   },
-  // messageBody: {
-  //   height: '90%',
-  //   width: '100%',
-  // },
   messageContainer: {
     flex: 1,
     width: '100%',
-    // height: 100,
     backgroundColor: '#E6E6E6',
     borderRadius: 8,
     display: 'flex',
@@ -164,6 +128,12 @@ const styles = StyleSheet.create({
     color: '#343333',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  nameSurname: {
+    color: '#343333',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginLeft: 10,
   },
   userMessageView: {
     color: '#696969',
@@ -195,5 +165,55 @@ const styles = StyleSheet.create({
   messageCount: {
     fontSize: 13,
     color: '#FFFFFF',
+  },
+  userNames: {
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  messageUserBody: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '80%',
+  },
+  lastMessageContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  newMessage: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'red',
+    width: '30%',
+    textAlign: 'center',
+    height: 25,
+    borderRadius: 10,
+    right: 0,
+    top: -20,
+    position: 'absolute',
+  },
+  lastText: {
+    width: '60%',
+  },
+  newMessageText: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'white',
+  },
+  usersEmpoty: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textEmpoty: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 60,
   },
 });
