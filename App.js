@@ -7,6 +7,7 @@
  */
 import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
+import PushNotification from 'react-native-push-notification';
 import {requestUserPermission} from './utils/pushNotification';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -14,7 +15,6 @@ import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
-import PushNotification from 'react-native-push-notification';
 
 const App = () => {
   const dispatch = useDispatch();
