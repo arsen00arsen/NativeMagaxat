@@ -11,6 +11,9 @@ import {
 } from 'react-native';
 
 const SplashScreen = ({navigation}) => {
+  const goToFoo = () => {
+    navigation.navigate('SignInScreen')
+}
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -21,19 +24,19 @@ const SplashScreen = ({navigation}) => {
       <View style={styles.content}>
         <Text style={styles.text}>Welcome to</Text>
         <Animatable.Image
-          animation="fadeInUpBig"
-          duraton="1500"
+           animation="fadeInUpBig"
+           duraton="1500"
           source={require('../assets/logo.png')}
-          style={styles.logo}
-          resizeMode="stretch"
-        />
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => navigation.navigate('SignInScreen')}>
-          <Text style={styles.textSign}>Next</Text>
-          <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
+           style={styles.logo}
+           resizeMode="stretch"
+         />
+         <TouchableOpacity
+           style={styles.button}
+           onPress={() => goToFoo()}>
+           <Text style={styles.textSign}>Next</Text>
+           {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
         </TouchableOpacity>
-      </View>
+       </View>
     </LinearGradient>
   );
 };
