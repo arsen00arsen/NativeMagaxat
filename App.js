@@ -7,33 +7,35 @@
  */
 import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {NavigationContainer} from '@react-navigation/native';
 import RootStackScreen from './screens/RootStackScreen';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import MainTabScreen from './screens/navBarScreens/MainTabScreen';
 import {useSelector} from 'react-redux';
-import {
-  requestUserPermission,
-  NotificationListner,
-} from './utils/pushNotification';
+// import {
+//   requestUserPermission,
+//   NotificationListner,
+// } from './utils/pushNotification';
 
 const Stack = createNativeStackNavigator();
 const App = () => {
   const loginState = useSelector(state => state.usser.login);
   // console.log(name.success);
-  useEffect(() => {
-    requestUserPermission();
-    NotificationListner();
-  }, []);
+  // useEffect(() => {
+  //   requestUserPermission();
+  //   NotificationListner();
+  // }, []);
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator
+    <GestureHandlerRootView style={{ flex: 1 }}>
+     <NavigationContainer>
+      {/* <Stack.Navigator
         screenOptions={{
           headerShown: false,
         }}>
         <Stack.Screen name="Home" component={MainTabScreen} />
-      </Stack.Navigator>
+      </Stack.Navigator> */}
       {/* {loginState?.success === true ? (
         <Stack.Navigator
           screenOptions={{
@@ -44,7 +46,9 @@ const App = () => {
       ) : (
         <RootStackScreen />
       )} */}
-    </NavigationContainer>
+      <RootStackScreen />
+     </NavigationContainer>
+    </GestureHandlerRootView>
   );
 };
 

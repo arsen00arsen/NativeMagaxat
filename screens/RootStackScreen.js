@@ -14,7 +14,7 @@ const RootStackScreen = () => (
   <RootStack.Navigator screenOptions={{headerShown: false}}>
     <RootStack.Screen name="SplashScreen" component={SplashScreen} />
     <RootStack.Screen name="SignInScreen" component={SignInScreen} />
-    <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
+    {/* <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
     <RootStack.Screen name="AccountInfoScreen" component={AccountInfoScreen} />
     <RootStack.Screen
       name="IneterestingAreaScreen"
@@ -31,7 +31,7 @@ const RootStackScreen = () => (
     <RootStack.Screen
       name="LocationPageScreen"
       component={LocationPageScreen}
-    />
+    /> */}
   </RootStack.Navigator>
 );
 export default RootStackScreen;

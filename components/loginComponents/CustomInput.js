@@ -31,7 +31,7 @@ const CustomInput = ({
             ]}>
             <Text style={styles.inputHeader}>{title}</Text>
             <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+              // behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={styles.containerKeyBoard}>
               <TextInput
                 value={value}
