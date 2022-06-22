@@ -228,11 +228,12 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    height: 30,
-    position: 'absolute',
-    bottom: -10,
-    fontSize: 8,
-    left: -5,
+    // height: 30,
+    // position: 'absolute',
+    // bottom: -10,
+    // fontSize: 8,
+    // left: -5,
+    color: 'red',
   },
   scrollView: {
     width: '100%',
