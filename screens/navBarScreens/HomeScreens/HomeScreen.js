@@ -16,24 +16,35 @@ import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScro
 import {loadPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useIsFocused} from '@react-navigation/native';
+import {messagesCount} from '../../../stores/messages/messageActions';
 
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const [station, setSection] = useState('Users');
   const {isLoading, posts} = useSelector(state => state.post);
   const [currentPage, setCurrentPage] = useState(1);
-  const newMessage = useSelector(state => state?.messages.allNewMessages);
-  const messagecount = newMessage.length;
+  const newMsg = useSelector(state => state?.messages?.allNewMessages);
+  const messagecount = useSelector(state => state?.messages?.messageCount);
+
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));
   };
 
   useEffect(() => {
-    dispatch(loadPosts(1));
-  }, []);
+    if (isFocused) {
+      dispatch(messagesCount());
+    }
+  }, [newMsg, isFocused]);
 
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadPosts(1));
+    }
+  }, [isFocused]);
   let content = (
     <View>
       <LinearGradient

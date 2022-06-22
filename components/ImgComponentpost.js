@@ -1,20 +1,13 @@
 import React, {useState, memo} from 'react';
-import {
-  View,
-  Image,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
+import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import ImageModal from 'react-native-image-modal';
-import LikeButton from '../components/LikeButton';
-import ShareButton from './ShareButton';
+import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
+import LikeButton from '../components/LikeButton';
+import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
-import {useDispatch} from 'react-redux';
 
 const ImgComponentpost = props => {
   const navigation = useNavigation();

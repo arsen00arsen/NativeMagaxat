@@ -9,23 +9,28 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
+import {MessageService} from '../../http/messageService/messageService';
 
 const MesageScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const chatUsers = useSelector(state => state.chatUsers);
   const newMessage = useSelector(state => state?.messages.allNewMessages);
-
   useEffect(() => {
     dispatch(loadChatUser());
-  }, []);
+  }, [newMessage]);
 
+  const isMessageRead = data => {
+    MessageService.isRead({id: data});
+    dispatch(loadChatUser());
+  };
   const RenderCard = ({item, index}) => {
     return (
       <TouchableOpacity
         key={index}
-        onPress={() =>
+        onPress={() => {
           navigation.navigate('Chat', {
             name: item.name,
             uid: item.id,
@@ -34,8 +39,9 @@ const MesageScreen = () => {
             //   typeof item.status === 'string'
             //     ? item.status
             //     : item.status.toDate().toString(),
-          })
-        }>
+          });
+          isMessageRead(item.id);
+        }}>
         <View style={styles.messageContainer}>
           <Image style={styles.userImg} source={{uri: item.image}} />
           <View style={styles.messageUserBody}>
@@ -44,22 +50,41 @@ const MesageScreen = () => {
               <Text style={styles.nameSurname}>{item.lastname}</Text>
             </View>
             <View>
-              {newMessage.map(last => {
-                if (item.id === last.from) {
-                  return (
-                    <View key={last.id} tyle={styles.lastMessageContainer}>
-                      <Text style={styles.lastText} numberOfLines={2}>
-                        {last?.text}{' '}
-                      </Text>
+              {item?.last_message !== null ? (
+                <View>
+                  {item?.last_message.read === false ? (
+                    <View style={styles.lmContainer}>
+                      <Icon
+                        name="checkmark-outline"
+                        color="silver"
+                        size={21}
+                        style={styles.lmicons}
+                      />
+                      <Text>{item?.last_message.text} </Text>
                       <View style={styles.newMessage}>
-                        <Text style={styles.newMessageText}>Message</Text>
+                        <Text style={styles.newMessageText}>
+                          {item.unread}{' '}
+                        </Text>
                       </View>
                     </View>
-                  );
-                } else {
-                  return null;
-                }
-              })}
+                  ) : (
+                    <View style={styles.lmContainer}>
+                      <Icon
+                        name="checkmark-done"
+                        color="#1877f2"
+                        size={21}
+                        style={styles.lmicons}
+                      />
+                      <Text style={styles.lmMessage}>
+                        {item?.last_message.text}{' '}
+                      </Text>
+                    </View>
+                  )}
+                  <Text style={styles.lmCreated}>
+                    {item?.last_message.created_at_diff}
+                  </Text>
+                </View>
+              ) : null}
             </View>
           </View>
         </View>
@@ -188,13 +213,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'red',
-    width: '30%',
     textAlign: 'center',
     height: 25,
-    borderRadius: 10,
+    width: 25,
+    borderRadius: 20,
     right: 0,
     top: -20,
     position: 'absolute',
+    marginHorizontal: 'auto',
   },
   lastText: {
     width: '60%',
@@ -203,6 +229,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: 'white',
+    textAlign: 'center',
   },
   usersEmpoty: {
     width: '100%',
@@ -215,5 +242,21 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginTop: 60,
+  },
+  lmCreated: {
+    color: 'black',
+    marginLeft: 'auto',
+    fontSize: 12,
+  },
+  lmMessage: {
+    color: 'black',
+  },
+  lmContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+  },
+  lmicons: {
+    paddingRight: 10,
   },
 });

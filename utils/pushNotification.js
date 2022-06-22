@@ -82,3 +82,7 @@ export const LocalNotification = sms => {
     actions: '["Yes", "No"]',
   });
 };
+
+export const DeleteReminder = id => {
+  PushNotification.cancelLocalNotifications({id: '5'});
+};

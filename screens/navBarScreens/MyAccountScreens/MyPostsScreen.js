@@ -27,7 +27,6 @@ const MyPostsScreen = props => {
     dispatch(loadMyPosts());
   }, []);
 
-  console.log(myPosts.posts, 'iiiiiiiiiiiiiiiiiii');
   const renderItem = ({item}) => {
     if (item.image_path) {
       return (
