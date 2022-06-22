@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     // bottom: -10,
     // fontSize: 8,
     // left: -5,
-    color: 'red',
+    color: 'black',
   },
   scrollView: {
     width: '100%',

@@ -1,5 +1,5 @@
 // import messaging from '@react-native-firebase/messaging';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PushNotification from 'react-native-push-notification';
 
 // export async function requestUserPermission() {
@@ -69,9 +69,10 @@ import PushNotification from 'react-native-push-notification';
 //   });
 // };
 
-export const LocalNotification = sms => {
+export const LocalNotification = async sms => {
+  let fcmtoken = await AsyncStorage.getItem('token');
   PushNotification.localNotification({
-    channelId: 'test-channel',
+    channelId: fcmtoken,
     autoCancel: true,
     title: 'Local Notification Title',
     message: sms.text,
@@ -83,6 +84,6 @@ export const LocalNotification = sms => {
   });
 };
 
-export const DeleteReminder = id => {
-  PushNotification.cancelLocalNotifications({id: '5'});
-};
+// export const DeleteReminder = id => {
+//   PushNotification.cancelLocalNotifications({id: '5'});
+// };

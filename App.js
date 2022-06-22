@@ -15,20 +15,22 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
 import PushNotification from 'react-native-push-notification';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
   const dispatch = useDispatch();
 
   const {loading, isAuth, user} = useSelector(state => state.user);
-
   useEffect(() => {
     dispatch(getMe());
     requestUserPermission;
     createChanels();
   }, []);
-  const createChanels = () => {
+
+  const createChanels = async () => {
+    let fcmtoken = await AsyncStorage.getItem('token');
     PushNotification.createChannel({
-      channelId: 'test-channel',
+      channelId: fcmtoken,
       channelName: 'Test Channel',
     });
   };
