@@ -1,4 +1,4 @@
-package com.magaxat;
+package com.magaxatcom;
 
 import com.facebook.react.ReactActivity;
 

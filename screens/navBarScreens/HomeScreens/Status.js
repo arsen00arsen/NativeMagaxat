@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -14,14 +14,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import Video from 'react-native-video';
 import {useDispatch} from 'react-redux';
 import {removeMyStory} from '../../../stores/stories/storiesAction';
+
 const Status = ({route, navigation}) => {
   const dispatch = useDispatch();
-  const {name} = route.params;
-  const {image} = route.params;
-  const {user} = route.params;
-  const {video} = route.params;
-  const {isMy} = route.params;
-  const {id} = route.params;
+  const videoRef = useRef(null);
+  const {name, image, user, video, isMy, id} = route.params;
+
   useEffect(() => {
     let timer = setTimeout(() => {
       navigation.goBack();
@@ -38,7 +36,7 @@ const Status = ({route, navigation}) => {
   const [progress, setProgress] = useState(new Animated.Value(0));
 
   const progressAnimation = progress.interpolate({
-    inputRange: [0, 10],
+    inputRange: [1, 10],
     outputRange: ['0%', '100%'],
   });
   const deletePost = () => {
@@ -73,6 +71,7 @@ const Status = ({route, navigation}) => {
       </View>
       {image === null ? (
         <Video
+          ref={videoRef}
           source={{uri: video}}
           style={styles.storiVideo}
           resizeMod={'contain'}

@@ -28,9 +28,8 @@ const App = () => {
   }, []);
 
   const createChanels = async () => {
-    let fcmtoken = await AsyncStorage.getItem('token');
     PushNotification.createChannel({
-      channelId: fcmtoken,
+      channelId: 'test',
       channelName: 'Test Channel',
     });
   };

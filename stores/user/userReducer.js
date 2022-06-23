@@ -22,6 +22,7 @@ export const userReducer = (state = initialUserState, action) => {
         loading: false,
         user: payload,
         isAuth: true,
+        error: null,
       };
     case 'LOGIN_ERROR':
       return {

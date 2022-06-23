@@ -203,9 +203,6 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-around',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
@@ -213,16 +210,13 @@ const styles = StyleSheet.create({
     lineHeight: 21,
   },
   action: {
-    // flexDirection: 'column',
+    flexDirection: 'column',
     marginTop: 10,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#f2f2f2',
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    // width: '100%',
-    // height: 60,
-    // paddingBottom: 30,
     borderRadius: 4,
-    // alignItems: 'flex-start',
+    alignItems: 'flex-start',
   },
   inputHeader: {
     fontSize: 12,
@@ -232,11 +226,6 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    // height: '100%',
-    // position: 'absolute',
-    // bottom: -10,
-    // fontSize: 8,
-    // left: -5,
     flex: 1,
     color: 'black',
   },

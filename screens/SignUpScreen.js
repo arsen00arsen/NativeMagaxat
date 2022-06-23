@@ -14,19 +14,16 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Feather';
-
-// import Avatar from '../components/Avatar';
 import CustomInput from '../components/loginComponents/CustomInput';
 
 const SignUpScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState(new Date());
-  const {control, handleSubmit, getValues} = useForm({
+  const {control, handleSubmit} = useForm({
     defaultValues: {
       date_of_birth: new Date(),
     },
   });
-
   const dispatch = useDispatch();
   const submitFormHandler = handleSubmit(data => {
     dispatch({
@@ -99,7 +96,9 @@ const SignUpScreen = ({navigation}) => {
                 <View>
                   <Text style={styles.inputHeader}>Date</Text>
                   <Text style={styles.dateText}>
-                    {moment(date).format('DD.MM.YYYY')}
+                    <Text style={styles.dateBT}>
+                      {moment(date).format('DD.MM.YYYY')}
+                    </Text>
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -191,18 +190,11 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-around',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
     lineHeight: 21,
-  },
-  text_footer: {
-    color: '#05375a',
-    fontSize: 18,
   },
   dateText: {
     // marginTop: Platform.OS === 'ios' ? 0 : -12,
@@ -224,40 +216,19 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     alignItems: 'flex-start',
   },
-  textInput: {
-    flex: 1,
-    // marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
-    color: '#05375a',
-    height: '100%',
-    width: '100%',
-    paddingTop: 5,
-  },
-  errorMsg: {
-    color: '#FF0000',
-    fontSize: 14,
-  },
-  eyeIcon: {
-    paddingRight: 20,
-    paddingTop: 3,
-  },
   inputHeader: {
     fontSize: 12,
     color: '#828282',
     paddingTop: 8,
     paddingLeft: 12,
   },
-  passHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    height: 28,
-  },
   scrollView: {
     width: '100%',
   },
   nameInput: {
     marginBottom: 15,
+  },
+  dateBT: {
+    color: 'black',
   },
 });

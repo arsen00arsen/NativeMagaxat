@@ -41,6 +41,7 @@ const CustomInput = ({
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
                 underlineColorAndroid="white"
+                autoCapitalize="none"
               />
             </KeyboardAvoidingView>
           </View>
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
     width: 250,
-    height: 50,
+    height: 40,
     paddingVertical: 10,
     borderRadius: 4,
     alignItems: 'flex-start',
