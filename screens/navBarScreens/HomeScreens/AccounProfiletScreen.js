@@ -98,11 +98,7 @@ const AccounProfiletScreen = props => {
             </View>
           </View>
         </View>
-        <PostsComponent
-          posts={user?.posts}
-          image={user?.images}
-          video={user?.posts}
-        />
+        <PostsComponent posts={user?.posts} user={user} video={user?.posts} />
       </ScrollView>
     </View>
   );

@@ -1,17 +1,21 @@
 import React from 'react';
-import {StyleSheet, View, FlatList} from 'react-native';
+import {StyleSheet, View, FlatList, Image} from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import VideoPlayer from 'react-native-video-player';
 
 const PostsComponent = props => {
-  const {posts, image, video} = props;
+  const {posts, image, user} = props;
   const userPost = posts?.data;
+  const users = image?.image;
 
   const renderItem = ({item}) => {
     let content;
     if (item?.image) {
       content = (
         <View style={styles.imgComp}>
+          <View>
+            <Image source={{uri: image}} style={styles.userspic} />
+          </View>
           <ImageModal
             resizeMode="contain"
             imageBackgroundColor="#000000"
@@ -105,5 +109,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
     backgroundColor: 'white',
+  },
+  userspic: {
+    height: 52,
+    width: 52,
+    borderRadius: 50,
   },
 });
