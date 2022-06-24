@@ -40,7 +40,6 @@ export const useMultiSelectComponent = () => {
     };
     fetchData();
   }, []);
-  console.log(selectedItems, 'selectedItems');
   const onSelectedItemsChange = selectedOption => {
     setSelectedItems(selectedOption);
   };

@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {baseUrl2} from './../http/index';
 import {Picker} from '@react-native-picker/picker';
 
-const CountryCodeList = ({navigation}) => {
+const CountryCodeList = () => {
   const [country, setCountry] = useState([]);
   const dispatch = useDispatch();
   const [countrySelect, setCountrySelect] = useState('');
@@ -17,6 +17,7 @@ const CountryCodeList = ({navigation}) => {
     try {
       const response = await fetch(urlPosts);
       const json = await response.json();
+      setCountrySelect(json.data);
       setCountry(json.data);
     } catch (error) {
       console.log('error', error);
@@ -30,6 +31,7 @@ const CountryCodeList = ({navigation}) => {
         selectedValue={countrySelect}
         style={styles.pickerSelectStyles}
         onValueChange={(itemValues, itemIndex) => {
+          console.log(itemValues, ';;;;');
           setCountrySelect(itemValues);
           dispatch({
             type: 'FIRST_STEP_SUBMIT',
@@ -53,8 +55,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#8A8A8A',
     backgroundColor: '#8A8A8A',
-    // width: 250,
-    // height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
     color: 'red',
@@ -67,10 +67,7 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    // height: 0,
-    // position: 'absolute',
-    // bottom: -10,
-    // fontSize: 8,
-    // left: -5,
+
+    color: 'black',
   },
 });

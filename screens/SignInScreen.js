@@ -75,10 +75,8 @@ const SignInScreen = ({navigation}) => {
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Sign In</Text>
-              {/* {isLoading === true ? <LoaderComponent /> : null}  */}
             </LinearGradient>
           </TouchableOpacity>
-
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('SignUpScreen')}>

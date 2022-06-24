@@ -179,9 +179,6 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-around',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
@@ -194,8 +191,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    // width: 250,
-    // height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
   },
@@ -207,11 +202,7 @@ const styles = StyleSheet.create({
   },
   pickerSelectStyles: {
     width: '100%',
-    // height: 0,
-    // position: 'absolute',
-    // bottom: -10,
-    // fontSize: 8,
-    // left: -5,
+    color: 'black',
   },
   scrollView: {
     width: '100%',

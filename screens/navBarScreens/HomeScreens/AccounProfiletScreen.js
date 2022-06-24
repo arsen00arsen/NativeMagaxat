@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
+import PostsComponent from '../../../components/PostsComponent';
 
 // import {useSelector} from 'react-redux';
 const AccounProfiletScreen = props => {
@@ -57,15 +58,17 @@ const AccounProfiletScreen = props => {
           <View style={styles.postSubscribeBody}>
             <View style={styles.postSubscribeCounts}>
               <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.posts_count}</Text>
+                <Text style={styles.postCount}>{user?.posts.length}</Text>
                 <Text style={styles.postText}>Posts</Text>
               </View>
               <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.subscribers_count}</Text>
+                <Text style={styles.postCount}>{user?.subscribers.length}</Text>
                 <Text style={styles.postText}>Subscribers</Text>
               </View>
               <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.subscription_count}</Text>
+                <Text style={styles.postCount}>
+                  {user?.subscriptions.length}
+                </Text>
                 <Text style={styles.postText}>Subscribing</Text>
               </View>
             </View>
@@ -95,7 +98,11 @@ const AccounProfiletScreen = props => {
             </View>
           </View>
         </View>
-        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
+        <PostsComponent
+          posts={user?.posts}
+          image={user?.images}
+          video={user?.posts}
+        />
       </ScrollView>
     </View>
   );

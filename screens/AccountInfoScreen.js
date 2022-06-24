@@ -1,6 +1,6 @@
 import React from 'react';
 import {Picker} from '@react-native-picker/picker';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {
   View,
   StyleSheet,
@@ -14,6 +14,7 @@ import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
 import {Controller, useForm} from 'react-hook-form';
 import CustomInput from '../components/loginComponents/CustomInput';
+import {LoginAvatar} from '../components/ImageVedioUpload/LoginAvatar';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -30,7 +31,7 @@ const AccountInfoScreen = ({navigation}) => {
     dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
     navigation.navigate('IneterestingAreaScreen');
   });
-
+  const {user} = useSelector(state => state);
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -59,6 +60,9 @@ const AccountInfoScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
+          {/* <View style={styles.logo}>
+            <LoginAvatar />
+          </View> */}
           <View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Gender</Text>
@@ -137,7 +141,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // marginBottom:30
   },
   titlecontent: {
     display: 'flex',
@@ -146,9 +149,11 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   logo: {
-    // width: 228,
-    // height: 160,
-    marginVertical: 20,
+    paddingTop: 20,
+    height: 150,
+    width: 150,
+    borderRadius: 100,
+    padding: 20,
   },
   icon: {
     paddingLeft: 10,
@@ -171,18 +176,11 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-around',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
     lineHeight: 21,
-  },
-  text_footer: {
-    color: '#05375a',
-    fontSize: 18,
   },
   action: {
     flexDirection: 'column',
@@ -191,28 +189,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#FFFFFF',
     backgroundColor: '#FFFFFF',
-    // width: 250,
-    // height: 60,
     paddingBottom: 30,
     borderRadius: 4,
     alignItems: 'flex-start',
-  },
-  textInput: {
-    flex: 1,
-    // marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
-    paddingTop: 5,
-    color: '#05375a',
-    height: '100%',
-    width: '100%',
-  },
-  errorMsg: {
-    color: '#FF0000',
-    fontSize: 14,
-  },
-  eyeIcon: {
-    paddingRight: 20,
-    paddingTop: 3,
   },
   inputHeader: {
     fontSize: 12,
@@ -220,19 +199,14 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 12,
   },
-  passHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
   pickerSelectStyles: {
     width: '100%',
-    height: 30,
+    height: '100%',
     position: 'absolute',
     bottom: -10,
     fontSize: 8,
     left: -5,
+    color: 'black',
   },
   scrollView: {
     width: '100%',

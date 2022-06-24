@@ -5,7 +5,6 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
-  ActivityIndicator,
 } from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import LinearGradient from 'react-native-linear-gradient';
@@ -15,23 +14,15 @@ import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
 import CountryCodeList from '../components/CountryCodeList';
 import {registerUser} from '../stores/user/userActions';
-// import auth from '@react-native-firebase/auth';
-// import firestore from '@react-native-firebase/firestore';
 
 const LocationPageScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {control, handleSubmit} = useForm({
+  const {control} = useForm({
     defaultValues: {
       language: '1',
     },
   });
   const user = useSelector(state => state.user.data);
-  // const submitFormHandler = handleSubmit(data => {
-  //   let objKeys = Object.values(data);
-  //   dispatch({type: 'INTERESTEDS_STEP_SUBMIT', payload: objKeys});
-  //   // navigation.navigate('CreatePasswordScreen');
-  //   signIn();
-  // });
 
   const signIn = async () => {
     dispatch(registerUser(user));
@@ -124,10 +115,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  inputSIcon: {
-    // display: 'flex',
-    // alignItems: 'center',
-  },
   titlecontent: {
     display: 'flex',
     flexDirection: 'column',
@@ -161,30 +148,14 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-sround',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   action: {
     flexDirection: 'column',
     marginTop: 10,
     borderBottomWidth: 1,
     borderBottomColor: '#f2f2f2',
     backgroundColor: '#FFFFFF',
-    // width: 250,
-    // height: 60,
     borderRadius: 4,
     alignItems: 'flex-start',
-  },
-  actionLocal: {
-    flexDirection: 'column',
-    marginTop: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#8A8A8A',
-    backgroundColor: '#8A8A8A',
-
-    borderRadius: 4,
-    alignItems: 'flex-start',
-    color: '',
   },
   inputHeader: {
     fontSize: 12,
@@ -192,19 +163,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingLeft: 12,
   },
-  inputHeaderLocation: {
-    fontSize: 12,
-    color: 'white',
-    paddingTop: 10,
-    paddingLeft: 12,
-  },
   pickerSelectStyles: {
     width: '100%',
-    // height: 0,
-    // position: 'absolute',
-    // bottom: -10,
-    // fontSize: 8,
-    // left: -5,
+    color: 'black',
   },
   scrollView: {
     width: '100%',
@@ -242,35 +203,3 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-// const [loading, setLoading] = useState(false);
-// let name = singnUpDatas.usserDatNLnames.name;
-// let email = singnUpDatas.userEmailPhone.email;
-// let password = singnUpDatas.usserDatePassword.password;
-
-// if (loading) {
-//   return <ActivityIndicator size="large" color="#00ff00" />;
-// }
-// const userSignup = async () => {
-//   setLoading(true);
-//   if (!email || !password || !name) {
-//     alert('please add all the field');
-//     return;
-//   }
-//   try {
-//     const result = await auth().createUserWithEmailAndPassword(
-//       email,
-//       password,
-//     );
-//     firestore().collection('users').doc(result.user.uid).set({
-//       name: name,
-//       email: result.user.email,
-//       uid: result.user.uid,
-//       // pic: image,
-//       status: 'online',
-//     });
-//     setLoading(false);
-//   } catch (err) {
-//     alert('something went wrong');
-//   }
-// };
