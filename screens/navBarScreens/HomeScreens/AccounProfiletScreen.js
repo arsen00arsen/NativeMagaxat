@@ -32,6 +32,7 @@ const AccounProfiletScreen = props => {
       console.log(error);
     }
   };
+
   return (
     <View style={styles.container}>
       <StatusBar

@@ -32,7 +32,6 @@ const AccountInfoScreen = ({navigation}) => {
     navigation.navigate('IneterestingAreaScreen');
   });
   const {user} = useSelector(state => state);
-  console.log(user, 'uuuuuuuuuuuuuuuu');
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -54,16 +53,16 @@ const AccountInfoScreen = ({navigation}) => {
             </View>
             <View />
           </View>
-          {/* <Animatable.Image
+          <Animatable.Image
             animation="fadeInUpBig"
             duraton="1500"
             source={require('../assets/account.png')}
             style={styles.logo}
             resizeMode="stretch"
-          /> */}
-          <View style={styles.logo}>
+          />
+          {/* <View style={styles.logo}>
             <LoginAvatar />
-          </View>
+          </View> */}
           <View>
             <View style={styles.action}>
               <Text style={styles.inputHeader}>Gender</Text>
