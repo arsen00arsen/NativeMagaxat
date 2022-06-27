@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  SectionList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
@@ -20,6 +21,7 @@ import PostsComponent from '../../../components/PostsComponent';
 const AccounProfiletScreen = props => {
   const theme = useTheme();
   const [isSub, setIssub] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params?.id;
   const {options} = useAccountProfHome(id);
@@ -32,6 +34,67 @@ const AccounProfiletScreen = props => {
       console.log(error);
     }
   };
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+  };
+
+  let content = (
+    <>
+      <View style={styles.userInfo}>
+        <Image source={{uri: user?.image}} style={styles.userImage} />
+        <View style={styles.usernameIcon}>
+          <View style={styles.names}>
+            <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>{user?.lastname}</Text>
+          </View>
+          {isSub.subscribed == true ? (
+            <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+          ) : null}
+        </View>
+      </View>
+      <View style={styles.textBody}>
+        <Text style={styles.text}>{user?.organisation_description}</Text>
+        <View style={styles.postSubscribeBody}>
+          <View style={styles.postSubscribeCounts}>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.posts.data.length}</Text>
+              <Text style={styles.postText}>Posts</Text>
+            </View>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.subscribers.length}</Text>
+              <Text style={styles.postText}>Subscribers</Text>
+            </View>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.subscriptions.length}</Text>
+              <Text style={styles.postText}>Subscribing</Text>
+            </View>
+          </View>
+          <View style={styles.postSubscribeButtons}>
+            <TouchableOpacity
+              style={styles.postSubscribeButton}
+              onPress={subButton}>
+              {isSub.subscribed === true ? (
+                <Text style={styles.postSubscribeButtonText}>Unsubscribe</Text>
+              ) : (
+                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.postSubscribeButton}
+              onPress={() =>
+                navigation.navigate('Chat', {
+                  uid: id,
+                  image: user.image,
+                  name: user.name,
+                })
+              }>
+              <Text style={styles.postSubscribeButtonText}>Message</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </>
+  );
 
   return (
     <View style={styles.container}>
@@ -40,70 +103,34 @@ const AccounProfiletScreen = props => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.userInfo}>
-          <Image source={{uri: user?.image}} style={styles.userImage} />
-          <View style={styles.usernameIcon}>
-            <View style={styles.names}>
-              <Text style={styles.nameSurname}>{user?.name}</Text>
-              <Text style={styles.nameSurname}>{user?.lastname}</Text>
-            </View>
-            {isSub.subscribed == true ? (
-              <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
-            ) : null}
-          </View>
-        </View>
-        <View style={styles.textBody}>
-          <Text style={styles.text}>{user?.organisation_description}</Text>
-          <View style={styles.postSubscribeBody}>
-            <View style={styles.postSubscribeCounts}>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.posts.length}</Text>
-                <Text style={styles.postText}>Posts</Text>
-              </View>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.subscribers.length}</Text>
-                <Text style={styles.postText}>Subscribers</Text>
-              </View>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>
-                  {user?.subscriptions.length}
-                </Text>
-                <Text style={styles.postText}>Subscribing</Text>
-              </View>
-            </View>
-            <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity
-                style={styles.postSubscribeButton}
-                onPress={subButton}>
-                {isSub.subscribed === true ? (
-                  <Text style={styles.postSubscribeButtonText}>
-                    Unsubscribe
-                  </Text>
-                ) : (
-                  <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.postSubscribeButton}
-                onPress={() =>
-                  navigation.navigate('Chat', {
-                    uid: id,
-                    image: user.image,
-                    name: user.name,
-                  })
-                }>
-                <Text style={styles.postSubscribeButtonText}>Message</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        <PostsComponent posts={user?.posts} user={user} video={user?.posts} />
-      </ScrollView>
+      <SectionList
+        style={{width: '100%'}}
+        // contentContainerStyle={{paddingHorizontal: 10}}
+        stickySectionHeadersEnabled={false}
+        sections={SECTIONS}
+        renderSectionHeader={({section}) => content}
+        renderItem={() => (
+          <PostsComponent
+            posts={user?.posts}
+            user={user}
+            video={user?.posts}
+            loadMoreItem={loadMoreItem}
+          />
+        )}
+      />
     </View>
   );
 };
-
+const SECTIONS = [
+  {
+    title: 'Last Users',
+    data: [
+      {
+        key: '1',
+      },
+    ],
+  },
+];
 export default AccounProfiletScreen;
 
 const styles = StyleSheet.create({

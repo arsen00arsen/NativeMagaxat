@@ -9,7 +9,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
-import {loadPosts} from '../stores/post/postActions';
 
 const HorizontalInfinitiScroll = props => {
   const {isLoading, posts, loadMoreItem} = props;

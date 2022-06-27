@@ -1,20 +1,23 @@
 import React from 'react';
-import {StyleSheet, View, FlatList, Image} from 'react-native';
+import {StyleSheet, View, FlatList, Image, Text} from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import VideoPlayer from 'react-native-video-player';
-
+import moment from 'moment';
 const PostsComponent = props => {
-  const {posts, image, user} = props;
+  const {posts, image, user, loadMoreItem} = props;
   const userPost = posts?.data;
-  const users = image?.image;
 
   const renderItem = ({item}) => {
     let content;
     if (item?.image) {
       content = (
         <View style={styles.imgComp}>
-          <View>
-            <Image source={{uri: image}} style={styles.userspic} />
+          <View style={styles.userInfo}>
+            <Image source={{uri: user?.image}} style={styles.userspic} />
+            <Text style={styles.userTitle}>{item.title} </Text>
+            <Text style={styles.userCreate}>
+              {moment().startOf(user?.created_at).format('LL')}
+            </Text>
           </View>
           <ImageModal
             resizeMode="contain"
@@ -29,15 +32,24 @@ const PostsComponent = props => {
       );
     } else {
       content = (
-        <VideoPlayer
-          video={{uri: item.video}}
-          autoplay={false}
-          defaultMuted={true}
-          thumbnail={require('../assets/logo.png')}
-          style={styles.mediaVideo}
-          fullscreen={true}
-          resizeMode="contain"
-        />
+        <View style={styles.vidComp}>
+          <View style={styles.userInfo}>
+            <Image source={{uri: user?.image}} style={styles.userspic} />
+            <Text style={styles.userTitle}>{item.title} </Text>
+            <Text style={styles.userCreate}>
+              {moment().startOf(user?.created_at).format('LL')}
+            </Text>
+          </View>
+          <VideoPlayer
+            video={{uri: item.video}}
+            autoplay={false}
+            defaultMuted={true}
+            thumbnail={require('../assets/logo.png')}
+            style={styles.mediaVideo}
+            fullscreen={true}
+            resizeMode="contain"
+          />
+        </View>
       );
     }
     return content;
@@ -46,9 +58,11 @@ const PostsComponent = props => {
   return (
     <View>
       <FlatList
+        nestedScrollEnabled
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}
         data={userPost}
+        onEndReached={() => loadMoreItem()}
         keyExtractor={(items, index) => index.toString()}
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
@@ -91,9 +105,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 8,
     height: 180,
     paddingBottom: 10,
-    backgroundColor: 'white',
   },
   mediaVideo: {
+    minWidth: 370,
     width: '100%',
     height: 170,
     borderRadius: 8,
@@ -109,10 +123,45 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 8,
     borderTopLeftRadius: 8,
     backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'silver',
+    padding: 5,
+  },
+  vidComp: {
+    marginBottom: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomLeftRadius: 8,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
+    borderTopLeftRadius: 8,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'silver',
+    padding: 5,
   },
   userspic: {
     height: 52,
     width: 52,
     borderRadius: 50,
+  },
+  userInfo: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingRight: 15,
+    paddingVertical: 5,
+  },
+  userCreate: {
+    color: 'black',
+    width: '30%',
+  },
+  userTitle: {
+    color: 'black',
+    width: '50%',
+    paddingHorizontal: 5,
   },
 });
