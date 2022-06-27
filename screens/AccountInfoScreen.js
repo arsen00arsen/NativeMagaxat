@@ -8,6 +8,7 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -62,27 +63,52 @@ const AccountInfoScreen = ({navigation}) => {
           />
           {/* <View style={styles.logo}>
             <LoginAvatar />
-          </View> */}
+          </View> 
+           */}
           <View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Gender</Text>
-              <Controller
-                control={control}
-                name="gender"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <Picker
-                      selectedValue={value}
-                      style={styles.pickerSelectStyles}
-                      onValueChange={onChange}
-                      onBlur={onBlur}>
-                      <Picker.Item label="Male" value="male" />
-                      <Picker.Item label="Female" value="female" />
-                    </Picker>
-                  );
-                }}
-              />
-            </View>
+            {Platform.OS === 'ios' ? (
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Gender</Text>
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        itemStyle={{fontSize: 14, height: 100}}
+                        height={30}
+                        mode="dialog"
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Male" value="male" />
+                        <Picker.Item label="Female" value="female" />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+            ) : (
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Gender</Text>
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Male" value="male" />
+                        <Picker.Item label="Female" value="female" />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+            )}
             <CustomInput
               name="email"
               control={control}
@@ -150,10 +176,11 @@ const styles = StyleSheet.create({
   },
   logo: {
     paddingTop: 20,
-    height: 150,
-    width: 150,
+    // height: 150,
+    // width: 150,
     borderRadius: 100,
     padding: 20,
+    marginBottom: Platform.OS === 'ios' ? 10 : 0,
   },
   icon: {
     paddingLeft: 10,
@@ -210,5 +237,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+  },
+  actionIOS: {
+    backgroundColor: 'white',
+    borderRadius: 8,
   },
 });

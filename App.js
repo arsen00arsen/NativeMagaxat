@@ -15,6 +15,9 @@ import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
+import Icon from 'react-native-vector-icons/Feather';
+
+Icon.loadFont();
 
 const App = () => {
   const dispatch = useDispatch();
