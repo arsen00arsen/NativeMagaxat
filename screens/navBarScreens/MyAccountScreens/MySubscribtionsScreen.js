@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,15 +10,26 @@ import {
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
+import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 
 const MySubscribtionsScreen = props => {
   const theme = useTheme();
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   const navigation = useNavigation();
-  let users = props?.route.params.subscriptions;
+  const users = useSelector(state => state?.myPosts);
 
-  let content = users?.map(elem => {
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadMyPosts());
+    }
+  }, [isFocused]);
+
+  let content = users?.myPosts.subscriptions.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity

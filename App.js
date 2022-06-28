@@ -19,7 +19,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const App = () => {
   const dispatch = useDispatch();
-
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());

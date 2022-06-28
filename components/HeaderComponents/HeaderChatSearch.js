@@ -38,7 +38,11 @@ const HeaderChatSearch = props => {
         end={{x: 1, y: 1}}
         locations={[0.0, 0.3]}
         colors={['#cccccc', '#c4c4c4']}>
-        <IconSearch name="search" size={24} color="black" />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('PostSearch')}>
+          <IconSearch name="search" size={24} color="black" />
+        </TouchableOpacity>
       </LinearGradient>
     </View>
   );

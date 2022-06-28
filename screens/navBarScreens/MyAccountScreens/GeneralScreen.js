@@ -31,10 +31,14 @@ const GeneralScreen = ({navigation}) => {
       date_of_birth: new Date(),
     },
   });
+  const interested = user?.user?.interesting_type.map(id => {
+    return id.id;
+  });
 
-  const submitFormHandler = handleSubmit(data => {
+  const submitFormHandler = handleSubmit(async data => {
+    dispatch({type: 'INFOCHANGE_STEP_SUBMIT', payload: data});
     try {
-      UploadUserService.uploadUser(data);
+      await UploadUserService.uploadUser(user.infoChange);
     } catch {
       console.log('error');
     } finally {
@@ -62,7 +66,6 @@ const GeneralScreen = ({navigation}) => {
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -82,7 +85,6 @@ const GeneralScreen = ({navigation}) => {
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -95,7 +97,9 @@ const GeneralScreen = ({navigation}) => {
             <View>
               <Text style={styles.inputHeader}>Date</Text>
               <Text style={styles.dateText}>
-                {moment(date).format('DD.MM.YYYY')}
+                {user?.user?.date_of_birth
+                  ? moment(user?.user?.date_of_birth).format('DD.MM.YYYY')
+                  : moment(date).format('DD.MM.YYYY')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -122,7 +126,6 @@ const GeneralScreen = ({navigation}) => {
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>E-mail</Text>
-
           <Controller
             control={control}
             name="email"
@@ -133,7 +136,6 @@ const GeneralScreen = ({navigation}) => {
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -153,7 +155,6 @@ const GeneralScreen = ({navigation}) => {
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -163,7 +164,7 @@ const GeneralScreen = ({navigation}) => {
         </View>
 
         <View style={styles.selectAction}>
-          <MultiSelectComponent />
+          <MultiSelectComponent interested={interested} />
         </View>
         <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
           <Text style={styles.buttonText}>Save</Text>
@@ -237,6 +238,7 @@ const styles = StyleSheet.create({
   dateText: {
     paddingHorizontal: 13,
     paddingVertical: 25,
+    color: 'black',
   },
   selectAction: {
     marginTop: 10,

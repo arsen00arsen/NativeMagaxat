@@ -1,15 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import {baseUrl2} from '../../http';
 
 const url = baseUrl2 + '/types';
 
-export const useMultiSelectComponent = () => {
+export const useMultiSelectComponent = props => {
   const [options, setOptions] = useState([]);
   const [isItemLoading, setIsItemLoading] = useState(false);
-  const user = useSelector(state => state?.user.data.interesting_type);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(props?.interested);
+  const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,6 +42,10 @@ export const useMultiSelectComponent = () => {
   }, []);
   const onSelectedItemsChange = selectedOption => {
     setSelectedItems(selectedOption);
+    dispatch({
+      type: 'INFOCHANGE_INTERESTEDS_STEP_SUBMIT',
+      payload: selectedOption,
+    });
   };
 
   return {options, isItemLoading, onSelectedItemsChange, selectedItems};

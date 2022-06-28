@@ -21,15 +21,13 @@ const ImgComponentpost = props => {
   };
 
   let imgBG = (
-    // <ImageBackground
-    //   source={{uri: props?.uri.image_path || props?.uri.image}}
-    //   resizeMode="cover"
-    //   style={styles.usersProfileBGimage}
-    // />
     <ImageModal
       resizeMode="contain"
       imageBackgroundColor="#000000"
       style={styles.usersProfileBGimage}
+      modalImageStyle={{
+        borderTopRightRadius: 10,
+      }}
       source={{uri: props?.uri.image_path || props?.uri.image}}
     />
   );
@@ -90,7 +88,7 @@ const ImgComponentpost = props => {
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
-      {imgBG}
+      <View style={{borderRadius: 8}}>{imgBG}</View>
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
           <LikeButton
@@ -114,7 +112,7 @@ const ImgComponentpost = props => {
               })
             }>
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
-            <Text>{postCounts} </Text>
+            <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -172,6 +170,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   timeData: {
     maxWidth: '40%',
@@ -181,10 +180,12 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   usersProfileBGimage: {
     width: 350,
     height: 170,
+    borderTopRightRadius: 10,
   },
   shareButton: {
     marginBottom: 20,
@@ -198,5 +199,8 @@ const styles = StyleSheet.create({
   delete: {
     marginLeft: 'auto',
     paddingHorizontal: 10,
+  },
+  counts: {
+    color: '#727272',
   },
 });

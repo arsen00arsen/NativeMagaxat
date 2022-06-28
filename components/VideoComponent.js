@@ -1,9 +1,17 @@
-import React, {useState, memo} from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, memo, useRef} from 'react';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import VideoPlayer from 'react-native-video-player';
+import Video from 'react-native-video';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
@@ -12,6 +20,7 @@ import {useDispatch} from 'react-redux';
 const VideoComponent = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const videoRef = useRef(null);
   const [longDis, setLongDis] = useState(false);
   let user = props?.uri.user;
   let post = props?.uri;
@@ -79,12 +88,13 @@ const VideoComponent = props => {
         </View>
       </View>
       <VideoPlayer
-        video={{uri: props.uri.video}}
+        video={{uri: props?.uri?.video}}
         autoplay={false}
-        defaultMuted={true}
-        thumbnail={require('../assets/logo.png')}
+        defaultMuted={false}
+        // thumbnail={require('./../')}
         style={styles.mediaVideo}
         fullscreen={true}
+        // controls={true}
         resizeMode="contain"
       />
       {props.post === 'post' ? null : (
@@ -109,7 +119,7 @@ const VideoComponent = props => {
               })
             }>
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
-            <Text>{postCounts} </Text>
+            <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
         </View>
       )}
@@ -130,10 +140,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   mediaVideo: {
-    width: '100%',
-    height: 170,
+    width: 350,
+    height: 200,
     borderRadius: 8,
+    // position: 'absolute',
+    // top: 0,
+    // bottom: 0,
+    // left: 0,
+    // right: 0,
   },
+  // me: {
+  //   width: '100%',
+  //   height: 250,
+  //   borderRadius: 8,
+  //   position: 'relative',
+  // },
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
@@ -171,6 +192,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   timeData: {
     maxWidth: '40%',
@@ -180,6 +202,7 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   videoCount: {
     display: 'flex',
@@ -193,5 +216,8 @@ const styles = StyleSheet.create({
   delete: {
     marginLeft: 'auto',
     paddingHorizontal: 10,
+  },
+  counts: {
+    color: '#727272',
   },
 });

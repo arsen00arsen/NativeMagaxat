@@ -31,7 +31,6 @@ const MyPageUsersAccount = props => {
       console.log(error);
     }
   };
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -47,7 +46,7 @@ const MyPageUsersAccount = props => {
               <Text style={styles.nameSurname}>{user?.name}</Text>
               <Text style={styles.nameSurname}>{user?.lastname}</Text>
             </View>
-            {isSub.subscribed == true ? (
+            {isSub.subscribed == true || props.isSubscribers === true ? (
               <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
             ) : null}
           </View>
