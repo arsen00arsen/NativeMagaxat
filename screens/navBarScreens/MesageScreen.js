@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginTop: 60,
+    color: '#727272',
   },
   lmCreated: {
     color: 'black',

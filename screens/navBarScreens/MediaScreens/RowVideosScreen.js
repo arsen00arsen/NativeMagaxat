@@ -10,9 +10,11 @@ import {
 import VideoPlayer from 'react-native-video-player';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
+
 export default function RowVideosScreen(props) {
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
+  console.log(user, ';;;;;');
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
@@ -33,12 +35,12 @@ export default function RowVideosScreen(props) {
         <View style={styles.column}>
           <VideoPlayer
             video={{
-              uri: user.video_path,
+              uri: user?.video_path,
             }}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../../../assets/logo.png')}
-            style={styles.mediaVideo}
+            autoplay={true}
+            defaultMuted={false}
+            // thumbnail={require('../../../assets/logo.png')}
+            style={styles.columnVideo}
           />
         </View>
 
@@ -55,7 +57,6 @@ export default function RowVideosScreen(props) {
             <Text style={styles.subScribeText}>Subscribe</Text>
           </TouchableOpacity>
         </View>
-        {/* <Text style={styles.userText}>{user.user.posts[0].title}</Text> */}
         <View style={styles.line} />
         <View style={styles.contentContainer}>{content}</View>
       </ScrollView>

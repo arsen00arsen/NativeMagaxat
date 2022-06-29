@@ -115,4 +115,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
+  textEmpoty: {
+    color: '#727272',
+  },
 });

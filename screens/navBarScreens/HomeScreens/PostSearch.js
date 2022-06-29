@@ -9,22 +9,22 @@ import {
   FlatList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {baseUrl2} from '../../../http/index';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import VideoPlayer from 'react-native-video-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {baseUrl2} from '../../../http/index';
 import SearchComponent from '../../../components/SearchComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const PostSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    const url = baseUrl2 + '/appears_api?name=' + data;
+    const url = baseUrl2 + '/posts_api?title=' + data;
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -42,20 +42,36 @@ const PostSearch = () => {
     fetchData();
   }, [data]);
 
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+  };
   const ItemRender = item => {
-    let img;
-    if (item.userImage !== undefined) {
-      img = {uri: item.userImage};
-    } else {
-      img = require('../../../assets/defoult.png');
-    }
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
-          <Image source={img} style={styles.usersProfilemage} />
-          <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.name}</Text>
-            <Text style={styles.itemText}>{item.lastName}</Text>
+          <Image
+            source={{uri: item.userImage}}
+            style={styles.usersProfilemage}
+          />
+          <View style={styles.infoContainer}>
+            <View style={styles.usserdata}>
+              <Text style={styles.itemText}>{item.name}</Text>
+              <Text style={styles.itemText}>{item.lastName}</Text>
+            </View>
+            <Text style={styles.itemText}>{item.item.title}</Text>
+          </View>
+          <View style={styles.postContainer}>
+            {item.item.video === null ? (
+              <Image source={{uri: item.item.image}} style={styles.usersPost} />
+            ) : (
+              <VideoPlayer
+                uri={{uri: item.item.video}}
+                autoplay={false}
+                defaultMuted={true}
+                thumbnail={require('../../../assets/logo.png')}
+                style={styles.usersPost}
+              />
+            )}
           </View>
           <MaterialCommunityIcons
             name="account-arrow-right"
@@ -72,30 +88,33 @@ const PostSearch = () => {
     return <View style={styles.seperator} />;
   };
   let userProfilePage = item => {
-    dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('BenefactorUserPageScreen');
+    navigation.navigate('AccounProfiletScreen', {
+      id: item.user.id,
+    });
   };
   return (
     <View style={styles.container}>
-      {/* <StatusBar
+      <StatusBar
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>
         <SearchComponent
           setText={setData}
-          searchText="Search Your Benefactors ..."
+          searchText="Search Posts by title..."
         />
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list.data}
+        data={list?.data?.data}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender
-              name={item.name}
-              lastName={item.last_name}
-              userImage={item.image}
+              name={item.user.name}
+              lastName={item.user.lastname}
+              userImage={item.user.image}
+              id={item.user.id}
+              item={item}
             />
           </TouchableOpacity>
         )}
@@ -103,7 +122,8 @@ const PostSearch = () => {
         ItemSeparatorComponent={Separator}
         vertical={true}
         showsVerticalScrollIndicator={false}
-      /> */}
+        loadMoreItem={loadMoreItem}
+      />
     </View>
   );
 };
@@ -123,10 +143,10 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   usersProfilemage: {
-    width: 50,
-    height: 50,
+    width: 40,
+    height: 40,
     borderRadius: 50,
-    marginRight: 30,
+    marginRight: 10,
   },
   info: {
     display: 'flex',
@@ -136,9 +156,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   itemText: {
-    fontSize: 18,
+    fontSize: 14,
     marginRight: 'auto',
     fontWeight: '500',
+    color: '#727272',
+    paddingLeft: 5,
   },
   flatlist: {
     paddingHorizontal: 15,
@@ -152,7 +174,7 @@ const styles = StyleSheet.create({
   },
   usserdata: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
   },
@@ -164,5 +186,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
+  },
+  usersPost: {
+    height: 64,
+    width: 100,
+    marginLeft: 10,
+  },
+  postContainer: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+  },
+  infoContainer: {
+    width: '40%',
   },
 });

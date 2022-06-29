@@ -42,9 +42,10 @@ export const useMultiSelectComponent = props => {
   }, []);
   const onSelectedItemsChange = selectedOption => {
     setSelectedItems(selectedOption);
+    console.log(selectedOption, 'selectedOption');
     dispatch({
       type: 'INFOCHANGE_INTERESTEDS_STEP_SUBMIT',
-      payload: selectedOption,
+      payload: selectedOption.length === 0 ? selectedItems : selectedOption,
     });
   };
 

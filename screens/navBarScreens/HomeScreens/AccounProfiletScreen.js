@@ -17,7 +17,6 @@ import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import PostsComponent from '../../../components/PostsComponent';
 
-// import {useSelector} from 'react-redux';
 const AccounProfiletScreen = props => {
   const theme = useTheme();
   const [isSub, setIssub] = useState('');

@@ -36,15 +36,21 @@ const GeneralScreen = ({navigation}) => {
   });
 
   const submitFormHandler = handleSubmit(async data => {
-    dispatch({type: 'INFOCHANGE_STEP_SUBMIT', payload: data});
-    try {
-      await UploadUserService.uploadUser(user.infoChange);
-    } catch {
-      console.log('error');
-    } finally {
+    const newDataObj = {};
+    for (let item in data) {
+      if (data[item]) {
+        newDataObj[item] = data[item];
+      }
     }
+    dispatch({type: 'INFOCHANGE_STEP_SUBMIT', payload: newDataObj});
+    console.log(user.infoChange, 'user.infoChangeuser.infoChange');
+    // try {
+    //   await UploadUserService.uploadUser(user.infoChange);
+    // } catch {
+    //   console.log('error');
+    // } finally {
+    // }
   });
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -92,7 +98,7 @@ const GeneralScreen = ({navigation}) => {
             }}
           />
         </View>
-        <View>
+        {/* <View>
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
               <Text style={styles.inputHeader}>Date</Text>
@@ -123,7 +129,7 @@ const GeneralScreen = ({navigation}) => {
               );
             }}
           />
-        </View>
+        </View> */}
         <View style={styles.action}>
           <Text style={styles.inputHeader}>E-mail</Text>
           <Controller
