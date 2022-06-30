@@ -12,21 +12,32 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
-import PostsComponent from '../../../components/PostsComponent';
+import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
+import {loadPostsUser} from '../../../stores/post/postActions';
 
 // import {useSelector} from 'react-redux';
 const AccountScreen = props => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
-  const [longDis, setLongDis] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params.user.id;
-  const [currentPage, setCurrentPage] = useState(1);
+  console.log(id, ';;;l;');
   const {options} = useAccountProfHome(id);
+  const {isLoading, posts} = useSelector(state => state.post);
   let user = options.data;
+  useEffect(() => {
+    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+  }, []);
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+  };
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(id);
@@ -35,9 +46,7 @@ const AccountScreen = props => {
       console.log(error);
     }
   };
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
+
   let content = (
     <>
       <View style={styles.userInfo}>
@@ -109,11 +118,11 @@ const AccountScreen = props => {
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
         renderItem={() => (
-          <PostsComponent
-            posts={user?.posts}
-            user={user}
-            video={user?.posts}
+          <HorizontalInfinitiScroll
+            isLoading={isLoading}
+            posts={posts}
             loadMoreItem={loadMoreItem}
+            from="Account"
           />
         )}
       />

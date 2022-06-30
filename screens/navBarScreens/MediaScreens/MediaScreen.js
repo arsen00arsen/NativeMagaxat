@@ -13,7 +13,7 @@ import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import DocumentPicker from 'react-native-document-picker';
 // import * as ImagePicker from 'react-native-image-picker';
-import * as ImagePicker from 'react-native-image-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import VideoPlayer from 'react-native-video-player';
@@ -32,7 +32,14 @@ const MediaScreen = () => {
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
   const {control, handleSubmit, reset} = useForm();
-
+  const options = {
+    title: 'Video Picker',
+    mediaType: 'video',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
   const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
     const fdata = new FormData();
@@ -51,12 +58,13 @@ const MediaScreen = () => {
         },
         body: fdata,
       });
-      const {data} = await res.json();
-      dispatch(setSinglePost(data));
+      const data = await res.json();
+      // dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
+      console.log(error, 'eeeeeeeeeeeee');
       alert(error.message);
     } finally {
     }
@@ -87,59 +95,22 @@ const MediaScreen = () => {
     }
   };
 
-  // const selectFileVideo = async () => {
-  //   setImage({type: 'video'});
-  //   setSelected(true);
-  //   try {
-  //     ImagePicker.launchImageLibrary(
-  //       {mediaType: 'video', includeBase64: true},
-  //       response => {
-  //         console.log(response);
-  //       },
-  //     );
-  //     // if (res[0].size < 10485760) {
-  //     //   setSingleFile(res[0]);
-  //     //   setImage(res[0].uri);
-  //     // } else {
-  //     //   alert('Max size of video mast be 10 mb');
-  //     //   setSelected(false);
-  //     // }
-  //   } catch (err) {
-  //     setSingleFile(null);
-  //     if (DocumentPicker.isCancel(err)) {
-  //       alert('Canceled');
-  //     } else {
-  //       alert('Unknown Error: ' + JSON.stringify(err));
-  //       throw err;
-  //     }
-  //   }
-  // };
-  const options2 = {
-    title: 'Select video',
-    mediaType: 'video',
-    path: 'video',
-    quality: 1,
-  };
-
   const selectFileVideo = async () => {
+    setImage({type: 'video'});
+    setSelected(true);
     try {
-      const result = await ImagePicker.launchImageLibrary({
-        mediaType: 'video',
-      });
-    } catch (error) {
-      console.log(error);
+      const res = await launchImageLibrary(options);
+      if (res.assets[0].fileSize < 10485760) {
+        setSingleFile(res.assets[0]);
+        setImage({uri: res.assets[0].uri, type: 'video'});
+      } else {
+        alert('Max size of video mast be 10 mb');
+        setSelected(false);
+      }
+    } catch (err) {
+      alert('Max size of video mast be 10 mb');
+      setSingleFile(null);
     }
-
-    // if (response.didCancel) {
-    //   console.log('User cancelled image picker');
-    // } else if (response.error) {
-    //   console.log('ImagePicker Error: ', response.error);
-    // } else if (response.customButton) {
-    //   console.log('User tapped custom button: ', response.customButton);
-    // } else {
-    //   const source = {uri: response.uri};
-    //   // this.setState({videoSource: source});
-    // }
   };
 
   return (

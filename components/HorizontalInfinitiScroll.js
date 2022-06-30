@@ -11,7 +11,7 @@ import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
 
 const HorizontalInfinitiScroll = props => {
-  const {isLoading, posts, loadMoreItem} = props;
+  const {isLoading, posts, loadMoreItem, from} = props;
   const renderItem = ({item}) => {
     let content;
     if (item?.image) {
@@ -31,17 +31,19 @@ const HorizontalInfinitiScroll = props => {
 
   return (
     <>
-      <LinearGradient
-        style={styles.lastUsersContainer}
-        start={{x: 1, y: 0}}
-        end={{x: 1, y: 1}}
-        locations={[0.3, 0.8]}
-        colors={['#E0D0BA', '#E4E3E1']}>
-        <View style={styles.lastUsersContainercontent}>
-          <View style={styles.lastUsersContainerSmall} />
-          <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
-        </View>
-      </LinearGradient>
+      {from === 'Account' ? null : (
+        <LinearGradient
+          style={styles.lastUsersContainer}
+          start={{x: 1, y: 0}}
+          end={{x: 1, y: 1}}
+          locations={[0.3, 0.8]}
+          colors={['#E0D0BA', '#E4E3E1']}>
+          <View style={styles.lastUsersContainercontent}>
+            <View style={styles.lastUsersContainerSmall} />
+            <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
+          </View>
+        </LinearGradient>
+      )}
       <FlatList
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}

@@ -9,22 +9,26 @@ import {
   FlatList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {baseUrl2} from '../../../http/index';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
+import {baseUrl2} from '../../../http/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const AccountSearch = () => {
+const AccountSearch = props => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
   const navigation = useNavigation();
-  const dispatch = useDispatch();
+  let searchContent = props?.route.params;
+  let url;
+  if (searchContent === 'Users') {
+    url = baseUrl2 + '/users/list?name=' + data;
+  } else {
+    url = baseUrl2 + '/benefactors_api?name=' + data;
+  }
 
   useEffect(() => {
-    const url = baseUrl2 + '/appears_api?name=' + data;
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -36,7 +40,7 @@ const AccountSearch = () => {
         const json = await response.json();
         setList(json);
       } catch (error) {
-        console.log('error', error);
+        'error', error;
       }
     };
     fetchData();
@@ -71,9 +75,11 @@ const AccountSearch = () => {
   const Separator = () => {
     return <View style={styles.seperator} />;
   };
+
   let userProfilePage = item => {
-    dispatch({type: 'USSER_ID', payload: item.id});
-    navigation.navigate('BenefactorUserPageScreen');
+    navigation.navigate('AccountScreen', {
+      user: item,
+    });
   };
   return (
     <View style={styles.container}>
@@ -84,7 +90,7 @@ const AccountSearch = () => {
       <View style={styles.serachContainer}>
         <SearchComponent
           setText={setData}
-          searchText="Search Your Benefactors ..."
+          searchText={`Search Your ${searchContent} ...`}
         />
       </View>
       <FlatList

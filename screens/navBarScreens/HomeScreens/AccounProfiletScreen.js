@@ -12,19 +12,31 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
-import PostsComponent from '../../../components/PostsComponent';
+import {loadPostsUser} from '../../../stores/post/postActions';
+import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 
 const AccounProfiletScreen = props => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params?.id;
+  const {isLoading, posts} = useSelector(state => state.post);
   const {options} = useAccountProfHome(id);
   let user = options.data;
+  let isS = options.subscribed;
+  useEffect(() => {
+    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+  }, []);
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+  };
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(id);
@@ -33,10 +45,6 @@ const AccounProfiletScreen = props => {
       console.log(error);
     }
   };
-  const loadMoreItem = () => {
-    setCurrentPage(currentPage + 1);
-  };
-
   let content = (
     <>
       <View style={styles.userInfo}>
@@ -104,16 +112,16 @@ const AccounProfiletScreen = props => {
       <HeaderBackSearch />
       <SectionList
         style={{width: '100%'}}
-        // contentContainerStyle={{paddingHorizontal: 10}}
+        contentContainerStyle={{paddingHorizontal: 10}}
         stickySectionHeadersEnabled={false}
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
         renderItem={() => (
-          <PostsComponent
-            posts={user?.posts}
-            user={user}
-            video={user?.posts}
+          <HorizontalInfinitiScroll
+            isLoading={isLoading}
+            posts={posts}
             loadMoreItem={loadMoreItem}
+            from="Account"
           />
         )}
       />

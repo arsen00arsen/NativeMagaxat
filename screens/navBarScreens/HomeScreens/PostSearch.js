@@ -41,7 +41,6 @@ const PostSearch = () => {
     };
     fetchData();
   }, [data]);
-
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
   };

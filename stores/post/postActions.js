@@ -56,6 +56,23 @@ export const loadPosts =
       dispatch(startLoadPosts(false));
     }
   };
+export const loadPostsUser =
+  ({currentpage = 1, id}) =>
+  async dispatch => {
+    try {
+      dispatch(startLoadPosts(true));
+      const {data} = await PostService.loadPostsUser({currentpage, id});
+      if (currentpage === 1) {
+        dispatch(setPostsInitial(data.data.data));
+      } else {
+        dispatch(setPosts(data.data.data));
+      }
+    } catch (error) {
+      dispatch(setPostsError(error));
+    } finally {
+      dispatch(startLoadPosts(false));
+    }
+  };
 
 export const sendComment = (id, submitData) => async dispatch => {
   try {
