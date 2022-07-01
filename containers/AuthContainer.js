@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
 import ChatScreen from '../screens/navBarScreens/Chat';
 import MainTabScreen from '../screens/navBarScreens/MainTabScreen';
 import RootStackScreen from '../screens/RootStackScreen';
@@ -17,16 +16,12 @@ const Stack = createNativeStackNavigator();
 
 export const AuthContainer = ({isAuth, userId}) => {
   const dispatch = useDispatch();
-  // const navigation = useNavigation();
   const {echoClient} = useGetNotifications();
 
   useEffect(() => {
     echoe();
   }, [echoClient]);
 
-  // const nacigation = () => {
-  //   return navigation.navigate('AccounProfiletScreen');
-  // };
   const echoe = () => {
     return echoClient
       ?.private(`notifications.${userId}`)

@@ -26,7 +26,7 @@ const MyPostsScreen = props => {
   useEffect(() => {
     dispatch(loadMyPosts());
   }, []);
-  console.log(myPosts.posts.data, 'myPosts');
+
   const renderItem = ({item}) => {
     if (item.image) {
       return (

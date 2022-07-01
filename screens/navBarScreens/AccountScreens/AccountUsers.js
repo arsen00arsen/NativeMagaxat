@@ -15,7 +15,6 @@ const AccountUsers = () => {
   const accounts = useSelector(state => state.users);
 
   const userProfilePage = elem => {
-    console.log(elem);
     navigation.navigate('AccountScreen', {
       user: elem,
     });

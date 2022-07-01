@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import DocumentPicker, {types} from 'react-native-document-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
+import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadStori, setSingleStori} from '../stores/stories/storiesAction';
 
@@ -24,10 +25,22 @@ const Stories = () => {
     dispatch(loadStori());
   }, []);
 
+  const options = {
+    selectionLimit: 1,
+    mediaType: 'mixed',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
   const postStory = async datas => {
     const fileToUpload = datas;
     const fdata = new FormData();
-    fdata.append(datas?.type === 'image/png' ? 'image' : 'video', fileToUpload);
+    fdata.append(datas?.type[0] === 'i' ? 'image' : 'video', {
+      uri: fileToUpload.uri,
+      type: fileToUpload.type,
+      name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
+    });
     try {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch('https://magaxat.com/api/stories_api', {
@@ -47,19 +60,22 @@ const Stories = () => {
 
   const selectFile = async () => {
     try {
-      const res = await DocumentPicker.pick({
-        type: [types.video, types.images],
-      });
-      if (res[0].type === 'video/mp4' && res[0].size < 10485760) {
-        postStory(res[0]);
-      } else if (res[0].type === 'image/png' && res[0].size < 2097152) {
-        postStory(res[0]);
+      const res = await launchImageLibrary(options);
+      if (
+        res.assets[0].type === 'video/mp4' &&
+        res.assets[0].fileSize < 10485760
+      ) {
+        postStory(res.assets[0]);
+      } else if (
+        res.assets[0].type === 'image/jpeg' &&
+        res.assets[0].fileSize < 2097152
+      ) {
+        postStory(res.assets[0]);
       }
     } catch (err) {
-      alert('Your story size to big');
+      alert('Max size of video mast be 10mb for image 2mb');
     }
   };
-
   let content = stori.map((data, index) => {
     return (
       <TouchableOpacity
@@ -85,10 +101,9 @@ const Stories = () => {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              // opacity: data.user.id == 0 ? 1 : 0.5,
             }}>
-            <Text>{data?.user.name}</Text>
-            <Text>{data?.user.lastname}</Text>
+            <Text style={styles.userInfo}>{data?.user.name}</Text>
+            <Text style={styles.userInfo}>{data?.user.lastname}</Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -155,6 +170,9 @@ const styles = StyleSheet.create({
     width: '92%',
     height: '92%',
     borderRadius: 100,
-    backgroundColor: 'orange',
+    backgroundColor: '#E0D0BA',
+  },
+  userInfo: {
+    color: '#727272',
   },
 });

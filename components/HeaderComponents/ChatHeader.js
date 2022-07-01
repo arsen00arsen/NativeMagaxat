@@ -1,22 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import IconSearch from 'react-native-vector-icons/Feather';
 import moment from 'moment';
-import {useSelector, useDispatch} from 'react-redux';
-import {messagesCount} from '../../stores/messages/messageActions';
-// const BadgedIcon = withBadge(2)(Icon);
 
 const ChatHeader = props => {
   const navigation = useNavigation();
-  // const dispatch = useDispatch();
-  // const count = useSelector(state => state?.messages);
-  // useEffect(() => {
-  //   dispatch(messagesCount());
-  // }, []);
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -46,9 +36,9 @@ const ChatHeader = props => {
         </TouchableOpacity>
         <View style={styles.chatTitle}>
           <Text style={styles.paramsName}>{props?.user?.name}</Text>
-          <Text style={styles.status}>
+          {/* <Text style={styles.status}>
             {moment(props?.user?.status).fromNow()}
-          </Text>
+          </Text> */}
         </View>
       </View>
     </View>

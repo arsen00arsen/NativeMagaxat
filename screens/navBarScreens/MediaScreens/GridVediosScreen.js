@@ -21,7 +21,7 @@ export default function GridVediosScreen(props) {
           video={{uri: elem.video_path}}
           autoplay={false}
           defaultMuted={true}
-          thumbnail={require('../../../assets/logo.png')}
+          thumbnail={{uri: elem.video_name}}
           style={styles.rowVideo}
         />
       </View>
@@ -36,9 +36,8 @@ export default function GridVediosScreen(props) {
             video={{
               uri: user.video_path,
             }}
-            autoplay={false}
+            autoplay={true}
             defaultMuted={true}
-            thumbnail={require('../../../assets/logo.png')}
             style={styles.columnVideo}
           />
         </View>

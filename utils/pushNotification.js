@@ -4,7 +4,7 @@ export const LocalNotification = async sms => {
   PushNotification.localNotification({
     channelId: 'test',
     autoCancel: true,
-    title: 'Local Notification Title',
+    title: sms.full_name,
     message: sms.text,
     vibrate: true,
     vibration: 300,

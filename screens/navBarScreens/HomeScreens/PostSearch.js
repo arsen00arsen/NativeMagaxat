@@ -11,6 +11,7 @@ import {
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import VideoPlayer from 'react-native-video-player';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {baseUrl2} from '../../../http/index';
 import SearchComponent from '../../../components/SearchComponent';
@@ -57,19 +58,26 @@ const PostSearch = () => {
               <Text style={styles.itemText}>{item.name}</Text>
               <Text style={styles.itemText}>{item.lastName}</Text>
             </View>
-            <Text style={styles.itemText}>{item.item.title}</Text>
+            <Text style={styles.itemText} numberOfLines={2}>
+              {item.item.title}
+            </Text>
           </View>
           <View style={styles.postContainer}>
             {item.item.video === null ? (
               <Image source={{uri: item.item.image}} style={styles.usersPost} />
             ) : (
-              <VideoPlayer
-                uri={{uri: item.item.video}}
-                autoplay={false}
-                defaultMuted={true}
-                thumbnail={require('../../../assets/logo.png')}
-                style={styles.usersPost}
-              />
+              <View style={{position: 'relative'}}>
+                <Image
+                  style={styles.usersPost}
+                  source={{uri: item.item?.video_name}}
+                />
+                <IconPlay
+                  name="play"
+                  size={25}
+                  color="gray"
+                  style={styles.icPlayRow}
+                />
+              </View>
             )}
           </View>
           <MaterialCommunityIcons
@@ -199,5 +207,12 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     width: '40%',
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 20,
+    position: 'absolute',
   },
 });

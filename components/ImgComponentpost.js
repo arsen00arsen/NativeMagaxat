@@ -96,9 +96,6 @@ const ImgComponentpost = props => {
             id={post.id}
             authLiked={post.authLiked}
           />
-          <View style={styles.shareButton}>
-            <ShareButton />
-          </View>
           <TouchableOpacity
             style={styles.imgCount}
             onPress={() =>
@@ -114,6 +111,9 @@ const ImgComponentpost = props => {
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
             <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
+          <View style={styles.shareButton}>
+            <ShareButton />
+          </View>
         </View>
       )}
     </View>
@@ -175,6 +175,7 @@ const styles = StyleSheet.create({
   timeData: {
     maxWidth: '40%',
     fontSize: 12,
+    color: '#727272',
   },
   longDis: {
     maxWidth: '100%',

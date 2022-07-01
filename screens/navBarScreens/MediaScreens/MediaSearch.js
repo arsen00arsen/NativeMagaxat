@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@react-navigation/native';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import {baseUrl2} from '../../../http/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
@@ -65,7 +66,9 @@ const MediaSearch = () => {
                     <Text style={styles.itemText}>{item.user.name}</Text>
                     <Text style={styles.itemText}>{item.user.lastname}</Text>
                   </View>
-                  <Text style={styles.itemText}>{item.vedioTitle}</Text>
+                  <Text style={styles.itemText} numberOfLines={2}>
+                    {item.vedioTitle}
+                  </Text>
                 </View>
               </View>
             </View>
@@ -78,6 +81,18 @@ const MediaSearch = () => {
             thumbnail={require('../../../assets/logoHeader.png')}
             style={styles.searchVideo}
           />
+          {/* <View style={{position: 'relative'}}>
+            <Image
+              style={styles.searchVideo}
+              source={{uri: item.item?.video_name}}
+            />
+            <IconPlay
+              name="play"
+              size={25}
+              color="gray"
+              style={styles.icPlayRow}
+            />
+          </View> */}
           <MaterialCommunityIcons
             name="account-arrow-right"
             size={35}
@@ -229,5 +244,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
     marginLeft: 'auto',
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 20,
+    position: 'absolute',
   },
 });

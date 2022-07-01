@@ -31,7 +31,6 @@ const CountryCodeList = () => {
         selectedValue={countrySelect}
         style={styles.pickerSelectStyles}
         onValueChange={(itemValues, itemIndex) => {
-          console.log(itemValues, ';;;;');
           setCountrySelect(itemValues);
           dispatch({
             type: 'FIRST_STEP_SUBMIT',

@@ -14,15 +14,15 @@ import {useSelector} from 'react-redux';
 export default function RowVideosScreen(props) {
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
-  console.log(user, ';;;;;');
   let content = medias.map(elem => {
+    console.log(elem, 'ppp');
     return (
       <View key={elem.id} style={styles.column}>
         <VideoPlayer
           video={{uri: elem.video_path}}
           autoplay={false}
           defaultMuted={true}
-          thumbnail={require('../../../assets/logo.png')}
+          thumbnail={{uri: elem.video_name}}
           style={styles.columnVideo}
         />
       </View>
@@ -39,7 +39,6 @@ export default function RowVideosScreen(props) {
             }}
             autoplay={true}
             defaultMuted={false}
-            // thumbnail={require('../../../assets/logo.png')}
             style={styles.columnVideo}
           />
         </View>

@@ -269,10 +269,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     borderColor: '#E5E5E5',
+    borderWidth: 1,
     borderRadius: 20,
     marginRight: 10,
     marginBottom: 10,
-    maxHeight: 110,
+    maxHeight: 150,
+    // height: 60,
     width: '80%',
     color: 'black',
     fontSize: 16,
@@ -285,7 +287,8 @@ const styles = StyleSheet.create({
   },
   containerKeyBoard: {
     flex: 1,
-    marginBottom: 80,
+    marginBottom: 30,
+    // height: 150,
   },
   textDescription: {
     marginTop: 20,
@@ -298,6 +301,7 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 10,
     textAlign: 'right',
+    color: '#727272',
   },
   userInfoNames: {
     paddingLeft: 20,

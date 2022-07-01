@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/Entypo';
 import {TouchableOpacity} from 'react-native';
 import {Share} from 'react-native';
 const ShareButton = () => {
@@ -20,7 +20,7 @@ const ShareButton = () => {
           },
         )
       }>
-      <Icon name={'share-outline'} size={24} color={'#8A8A8A'} />
+      <Icon name={'share-alternative'} size={24} color={'#8A8A8A'} />
     </TouchableOpacity>
   );
 };

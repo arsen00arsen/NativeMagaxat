@@ -27,7 +27,6 @@ const AccountScreen = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params.user.id;
-  console.log(id, ';;;l;');
   const {options} = useAccountProfHome(id);
   const {isLoading, posts} = useSelector(state => state.post);
   let user = options.data;

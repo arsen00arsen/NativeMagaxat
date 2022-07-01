@@ -11,7 +11,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
 import VideoPlayer from 'react-native-video-player';
-import Video from 'react-native-video';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
@@ -54,17 +53,11 @@ const VideoComponent = props => {
     dispatch(removeMyPosts(post?.id));
   };
   const time = moment().startOf(user?.created_at).format('LL');
-  let img;
-  if (!user?.image) {
-    img = props.user.image;
-  } else {
-    img = user?.image;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <TouchableOpacity onPress={userProfilePage}>
-          <Image source={{uri: img}} style={styles.userspic} />
+          <Image source={{uri: user?.image}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
@@ -73,14 +66,9 @@ const VideoComponent = props => {
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
-
             <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={styles.usersname}>
-                {user?.name || props?.user.name}{' '}
-              </Text>
-              <Text style={styles.usersname}>
-                {user?.lastname || props?.user.lastname}{' '}
-              </Text>
+              <Text style={styles.usersname}>{user?.name}</Text>
+              <Text style={styles.usersname}>{user?.lastname}</Text>
             </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
@@ -91,11 +79,11 @@ const VideoComponent = props => {
         video={{uri: props?.uri?.video}}
         autoplay={false}
         defaultMuted={false}
-        // thumbnail={require('./../')}
+        thumbnail={{uri: props?.uri?.video_name}}
         style={styles.mediaVideo}
         fullscreen={true}
         // controls={true}
-        resizeMode="contain"
+        // resizeMode="contain"
       />
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
@@ -104,9 +92,7 @@ const VideoComponent = props => {
             id={post.id}
             authLiked={post.authLiked}
           />
-          <View style={styles.shareButton}>
-            <ShareButton />
-          </View>
+
           <TouchableOpacity
             style={styles.videoCount}
             onPress={() =>
@@ -121,6 +107,9 @@ const VideoComponent = props => {
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
             <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
+          <View style={styles.shareButton}>
+            <ShareButton />
+          </View>
         </View>
       )}
     </View>
@@ -140,21 +129,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   mediaVideo: {
-    width: 350,
-    height: 200,
+    width: '100%',
+    height: 180,
     borderRadius: 8,
-    // position: 'absolute',
-    // top: 0,
-    // bottom: 0,
-    // left: 0,
-    // right: 0,
   },
-  // me: {
-  //   width: '100%',
-  //   height: 250,
-  //   borderRadius: 8,
-  //   position: 'relative',
-  // },
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
@@ -172,6 +150,7 @@ const styles = StyleSheet.create({
   usersname: {
     color: '#666666',
     fontSize: 16,
+    marginLeft: 5,
   },
   usersnames: {
     display: 'flex',
@@ -197,6 +176,7 @@ const styles = StyleSheet.create({
   timeData: {
     maxWidth: '40%',
     fontSize: 12,
+    color: '#727272',
   },
   longDis: {
     maxWidth: '100%',

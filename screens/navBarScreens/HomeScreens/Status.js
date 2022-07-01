@@ -153,6 +153,15 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   storiText: {color: 'white', fontSize: 15, paddingLeft: 10},
-  storiImage: {position: 'absolute', width: '60%', height: '70%'},
-  storiVideo: {position: 'absolute', width: '60%', height: '70%'},
+  storiImage: {
+    position: 'absolute',
+    width: '60%',
+    height: '70%',
+    resizeMode: 'contain',
+  },
+  storiVideo: {
+    position: 'absolute',
+    width: '60%',
+    height: '70%',
+  },
 });

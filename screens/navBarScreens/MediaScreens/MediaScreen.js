@@ -9,10 +9,10 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
 import DocumentPicker from 'react-native-document-picker';
-// import * as ImagePicker from 'react-native-image-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -20,7 +20,6 @@ import VideoPlayer from 'react-native-video-player';
 import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import MediaContent from '../../../components/MediaContent';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {setSinglePost} from '../../../stores/post/postActions';
 
 const MediaScreen = () => {
@@ -43,10 +42,11 @@ const MediaScreen = () => {
   const submitFormHandler = handleSubmit(async title => {
     const fileToUpload = singleFile;
     const fdata = new FormData();
-    fdata.append(
-      image.type === 'image' ? 'image_path' : 'video_path',
-      fileToUpload,
-    );
+    fdata.append(image.type === 'image' ? 'image_path' : 'video_path', {
+      uri: fileToUpload.uri,
+      type: fileToUpload.type,
+      name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
+    });
     fdata.append('title', title.title);
     try {
       const token = await AsyncStorage.getItem('token');
@@ -59,7 +59,7 @@ const MediaScreen = () => {
         body: fdata,
       });
       const data = await res.json();
-      // dispatch(setSinglePost(data));
+      dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
@@ -69,7 +69,6 @@ const MediaScreen = () => {
     } finally {
     }
   });
-
   const selectFile = async () => {
     setImage({type: 'image'});
     setSelected(true);
