@@ -18,17 +18,16 @@ import PushNotification from 'react-native-push-notification';
 
 const App = () => {
   const dispatch = useDispatch();
-
   const {loading, isAuth, user} = useSelector(state => state.user);
-
   useEffect(() => {
     dispatch(getMe());
     requestUserPermission;
     createChanels();
   }, []);
-  const createChanels = () => {
+
+  const createChanels = async () => {
     PushNotification.createChannel({
-      channelId: 'test-channel',
+      channelId: 'test',
       channelName: 'Test Channel',
     });
   };

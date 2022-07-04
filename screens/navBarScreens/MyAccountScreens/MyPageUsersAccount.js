@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -7,22 +7,36 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
+  SectionList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {useDispatch, useSelector} from 'react-redux';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import {loadPostsUser} from '../../../stores/post/postActions';
+import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 
 const MyPageUsersAccount = props => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route.params?.user.id;
   const {options} = useAccountProfHome(id);
+  const {isLoading, posts} = useSelector(state => state.post);
   let user = options.data;
+  useEffect(() => {
+    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+  }, []);
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+  };
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(id);
@@ -31,7 +45,63 @@ const MyPageUsersAccount = props => {
       console.log(error);
     }
   };
-
+  const content = (
+    <>
+      <View style={styles.userInfo}>
+        <Image source={{uri: user?.image}} style={styles.userImage} />
+        <View style={styles.usernameIcon}>
+          <View style={styles.names}>
+            <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>{user?.lastname}</Text>
+          </View>
+          {isSub.subscribed == true || props.isSubscribers === true ? (
+            <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
+          ) : null}
+        </View>
+      </View>
+      <View style={styles.textBody}>
+        <Text style={styles.text}>{user?.organisation_description}</Text>
+        <View style={styles.postSubscribeBody}>
+          <View style={styles.postSubscribeCounts}>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.posts_count}</Text>
+              <Text style={styles.postText}>Posts</Text>
+            </View>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.subscribers_count}</Text>
+              <Text style={styles.postText}>Subscribers</Text>
+            </View>
+            <View style={styles.post}>
+              <Text style={styles.postCount}>{user?.subscription_count}</Text>
+              <Text style={styles.postText}>Subscribing</Text>
+            </View>
+          </View>
+          <View style={styles.postSubscribeButtons}>
+            <TouchableOpacity
+              style={styles.postSubscribeButton}
+              onPress={subButton}>
+              {isSub.subscribed === true ? (
+                <Text style={styles.postSubscribeButtonText}>Unsubscribe</Text>
+              ) : (
+                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.postSubscribeButton}
+              onPress={() =>
+                navigation.navigate('Chat', {
+                  uid: id,
+                  image: user.image,
+                  name: user.name,
+                })
+              }>
+              <Text style={styles.postSubscribeButtonText}>Message</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </>
+  );
   return (
     <View style={styles.container}>
       <StatusBar
@@ -39,68 +109,34 @@ const MyPageUsersAccount = props => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.userInfo}>
-          <Image source={{uri: user?.image}} style={styles.userImage} />
-          <View style={styles.usernameIcon}>
-            <View style={styles.names}>
-              <Text style={styles.nameSurname}>{user?.name}</Text>
-              <Text style={styles.nameSurname}>{user?.lastname}</Text>
-            </View>
-            {isSub.subscribed == true ? (
-              <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
-            ) : null}
-          </View>
-        </View>
-        <View style={styles.textBody}>
-          <Text style={styles.text}>{user?.organisation_description}</Text>
-          <View style={styles.postSubscribeBody}>
-            <View style={styles.postSubscribeCounts}>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.posts_count}</Text>
-                <Text style={styles.postText}>Posts</Text>
-              </View>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.subscribers_count}</Text>
-                <Text style={styles.postText}>Subscribers</Text>
-              </View>
-              <View style={styles.post}>
-                <Text style={styles.postCount}>{user?.subscription_count}</Text>
-                <Text style={styles.postText}>Subscribing</Text>
-              </View>
-            </View>
-            <View style={styles.postSubscribeButtons}>
-              <TouchableOpacity
-                style={styles.postSubscribeButton}
-                onPress={subButton}>
-                {isSub.subscribed === true ? (
-                  <Text style={styles.postSubscribeButtonText}>
-                    Unsubscribe
-                  </Text>
-                ) : (
-                  <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
-                )}
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.postSubscribeButton}
-                onPress={() =>
-                  navigation.navigate('Chat', {
-                    uid: id,
-                    image: user.image,
-                    name: user.name,
-                  })
-                }>
-                <Text style={styles.postSubscribeButtonText}>Message</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-        {/* <View style={styles.contentVideo}>{videoContent}</View> */}
-      </ScrollView>
+      <SectionList
+        style={{width: '100%'}}
+        // contentContainerStyle={{paddingHorizontal: 10}}
+        stickySectionHeadersEnabled={false}
+        sections={SECTIONS}
+        renderSectionHeader={({section}) => content}
+        renderItem={() => (
+          <HorizontalInfinitiScroll
+            isLoading={isLoading}
+            posts={posts}
+            loadMoreItem={loadMoreItem}
+            from="Account"
+          />
+        )}
+      />
     </View>
   );
 };
-
+const SECTIONS = [
+  {
+    title: 'Last Users',
+    data: [
+      {
+        key: '1',
+      },
+    ],
+  },
+];
 export default MyPageUsersAccount;
 
 const styles = StyleSheet.create({

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StatusBar,
   Text,
+  RefreshControl,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -16,22 +17,43 @@ import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScro
 import {loadPosts} from '../../../stores/post/postActions';
 import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useIsFocused} from '@react-navigation/native';
+import {messagesCount} from '../../../stores/messages/messageActions';
 
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const [station, setSection] = useState('Users');
   const {isLoading, posts} = useSelector(state => state.post);
   const [currentPage, setCurrentPage] = useState(1);
-  const newMessage = useSelector(state => state?.messages.allNewMessages);
-  const messagecount = newMessage.length;
+  const [refreshing, setRefreshing] = useState(false);
+  const newMsg = useSelector(state => state?.messages?.allNewMessages);
+  const messagecount = useSelector(state => state?.messages?.messageCount);
+
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));
   };
 
   useEffect(() => {
-    dispatch(loadPosts(1));
+    if (isFocused) {
+      dispatch(messagesCount());
+    }
+  }, [newMsg, isFocused]);
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadPosts(1));
+    }
+  }, [isFocused, refreshing]);
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(1500).then(() => setRefreshing(false));
   }, []);
 
   let content = (
@@ -71,6 +93,13 @@ const HomeScreen = props => {
       <HeaderChatSearch count={messagecount} />
       <SafeAreaView style={{flex: 1}}>
         <SectionList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#E4E3E1']}
+            />
+          }
           contentContainerStyle={{paddingHorizontal: 10}}
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}

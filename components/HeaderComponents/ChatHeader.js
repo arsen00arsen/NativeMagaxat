@@ -3,14 +3,10 @@ import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import IconSearch from 'react-native-vector-icons/Feather';
 import moment from 'moment';
-import {useSelector} from 'react-redux';
-// const BadgedIcon = withBadge(2)(Icon);
 
 const ChatHeader = props => {
   const navigation = useNavigation();
-
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -40,9 +36,9 @@ const ChatHeader = props => {
         </TouchableOpacity>
         <View style={styles.chatTitle}>
           <Text style={styles.paramsName}>{props?.user?.name}</Text>
-          <Text style={styles.status}>
+          {/* <Text style={styles.status}>
             {moment(props?.user?.status).fromNow()}
-          </Text>
+          </Text> */}
         </View>
       </View>
     </View>

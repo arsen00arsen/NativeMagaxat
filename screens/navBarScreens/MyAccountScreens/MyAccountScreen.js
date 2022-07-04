@@ -58,21 +58,13 @@ const MyAccountScreen = ({navigation}) => {
         </TouchableOpacity> */}
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
-            navigation.navigate('MySubscribtionsScreen', {
-              subscriptions: myPosts.subscriptions,
-            })
-          }>
+          onPress={() => navigation.navigate('MySubscribtionsScreen')}>
           <Text style={styles.buttonText}>My Subscribtions</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
-          onPress={() =>
-            navigation.navigate('MySubscribersScreen', {
-              subscribers: myPosts.subscribers,
-            })
-          }>
+          onPress={() => navigation.navigate('MySubscribersScreen')}>
           <Text style={styles.buttonText}>My Subscribers</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity>

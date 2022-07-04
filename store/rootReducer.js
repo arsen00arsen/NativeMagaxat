@@ -7,6 +7,7 @@ import {appearsReducer} from '../stores/appears/appearsReducer';
 import {myPostReducer} from '../stores/profileMe/profileMeReducer';
 import {chatUserReducer} from '../stores/chatUsers/chatUsersReducer';
 import {messagesReducer} from '../stores/messages/messageReducer';
+import {storiReducer} from '../stores/stories/storiesReducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -17,4 +18,5 @@ export const rootReducer = combineReducers({
   myPosts: myPostReducer,
   chatUsers: chatUserReducer,
   messages: messagesReducer,
+  stori: storiReducer,
 });

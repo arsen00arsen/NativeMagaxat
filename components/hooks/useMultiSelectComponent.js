@@ -1,15 +1,18 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useEffect, useState} from 'react';
-import {useSelector} from 'react-redux';
 import {baseUrl2} from '../../http';
 
 const url = baseUrl2 + '/types';
 
-export const useMultiSelectComponent = () => {
+export const useMultiSelectComponent = ({selectedOptions, setValue}) => {
   const [options, setOptions] = useState([]);
   const [isItemLoading, setIsItemLoading] = useState(false);
-  const user = useSelector(state => state?.user.data.interesting_type);
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState(selectedOptions);
+
+  useEffect(() => {
+    setSelectedItems(selectedOptions);
+  }, [selectedOptions]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,7 +33,7 @@ export const useMultiSelectComponent = () => {
                 name: el.name_en,
               })),
             };
-            setOptions(prev => [...prev, interestItem]);
+            setOptions([interestItem]);
           });
       } catch (error) {
         console.log('error', error);
@@ -40,9 +43,9 @@ export const useMultiSelectComponent = () => {
     };
     fetchData();
   }, []);
-  console.log(selectedItems, 'selectedItems');
   const onSelectedItemsChange = selectedOption => {
     setSelectedItems(selectedOption);
+    setValue('interesting_type', selectedOption);
   };
 
   return {options, isItemLoading, onSelectedItemsChange, selectedItems};

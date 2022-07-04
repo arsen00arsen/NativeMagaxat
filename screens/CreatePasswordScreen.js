@@ -126,18 +126,11 @@ const styles = StyleSheet.create({
     height: 57,
     justifyContent: 'space-around',
   },
-  arrowIcon: {
-    marginRight: 20,
-  },
   textSign: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 18,
     lineHeight: 21,
-  },
-  text_footer: {
-    color: '#05375a',
-    fontSize: 18,
   },
   scrollView: {
     width: '100%',
@@ -154,42 +147,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginBottom: 40,
   },
-  textInput: {
-    flex: 1,
-    // marginTop: Platform.OS === 'ios' ? 0 : -12,
-    paddingLeft: 10,
-    color: '#05375a',
-    height: '100%',
-    width: '100%',
-    paddingTop: 5,
-  },
-  errorMsg: {
-    color: '#FF0000',
-    fontSize: 14,
-  },
-  signIn: {
-    width: 237,
-    height: 57,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 30,
-  },
-  eyeIcon: {
-    paddingRight: 20,
-    paddingTop: 3,
-  },
-  inputHeader: {
-    fontSize: 12,
-    color: '#828282',
-    paddingTop: 10,
-    paddingLeft: 12,
-  },
-  passHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-  },
   headerWidthButton: {
     display: 'flex',
     width: '100%',
@@ -197,10 +154,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 30,
-  },
-  textDanger: {
-    color: 'black',
-    fontSize: 12,
   },
   nameInput: {
     marginBottom: 20,

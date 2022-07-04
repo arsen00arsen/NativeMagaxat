@@ -14,7 +14,7 @@ import ChatHeader from '../../components/HeaderComponents/ChatHeader';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
-export default function ChatScreen({route, props}) {
+export default function ChatScreen({route}) {
   const receiverId = route.params;
   const [recvMessages, setRecvMessages] = useState([]);
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function ChatScreen({route, props}) {
   useEffect(() => {
     dispatch(loadMessages(receiverId.uid));
   }, []);
-
+  console.log(receiverId, 'receiverId');
   useEffect(() => {
     const msgs = messag?.messages?.map(msg => {
       return {

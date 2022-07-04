@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import VideoPlayer from 'react-native-video-player';
 import {useDispatch, useSelector} from 'react-redux';
@@ -23,6 +24,7 @@ export default function MediaContent() {
       setcolumnOrGrid('grid');
     }
   };
+  console.log(medias, ';;;;;');
   let content = medias.map(elem => {
     if (columnOrGrid === 'column') {
       return (content = (
@@ -33,13 +35,18 @@ export default function MediaContent() {
                 user: elem,
               })
             }>
-            <VideoPlayer
-              uri={elem.user.video_path}
-              autoplay={false}
-              defaultMuted={true}
-              thumbnail={require('../assets/logo.png')}
-              style={styles.columnVideo}
-            />
+            <View style={{position: 'relative'}}>
+              <Image
+                style={styles.columnVideo}
+                source={{uri: elem.video_name}}
+              />
+              <IconPlay
+                name="play"
+                size={50}
+                color="gray"
+                style={styles.icPlay}
+              />
+            </View>
             <View style={styles.opacity}>
               <View style={styles.rowEffect}>
                 <View style={styles.imgFrame}>
@@ -65,13 +72,15 @@ export default function MediaContent() {
               })
             }
             style={styles.row}>
-            <VideoPlayer
-              uri={elem.user.video_path}
-              autoplay={false}
-              defaultMuted={true}
-              thumbnail={require('../assets/logo.png')}
-              style={styles.rowVideo}
-            />
+            <View style={{position: 'relative'}}>
+              <Image style={styles.rowVideo} source={{uri: elem.video_name}} />
+              <IconPlay
+                name="play"
+                size={25}
+                color="gray"
+                style={styles.icPlayRow}
+              />
+            </View>
             <View style={styles.opacityGrid}>
               <View style={styles.rowEffect}>
                 <View style={styles.imgFrame}>
@@ -156,6 +165,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     borderRadius: 8,
+    resizeMode: 'contain',
   },
   row: {
     display: 'flex',
@@ -176,14 +186,14 @@ const styles = StyleSheet.create({
     height: 200,
     position: 'absolute',
     borderRadius: 8,
-    opacity: 0.7,
+    // opacity: 0.7,
   },
   opacityGrid: {
     width: '100%',
     height: 100,
     position: 'absolute',
     borderRadius: 8,
-    opacity: 0.7,
+    // opacity: 0.7,
   },
   imgFrame: {
     display: 'flex',
@@ -205,7 +215,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   userName: {
-    color: '#FFFFFF',
+    color: '#727272',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -222,5 +232,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  icPlay: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 70,
+    position: 'absolute',
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 35,
+    position: 'absolute',
   },
 });

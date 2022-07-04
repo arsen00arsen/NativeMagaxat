@@ -1,5 +1,6 @@
 import {
   LOAD_MESSAGES_SUCCESS,
+  MESSAGES_COUNT,
   LOAD_MESSAGES_ERROR,
   SET_SINGLE_MESSAGES,
   LOAD_ALL_MESSAGES_SUCCESS,
@@ -8,6 +9,7 @@ import {
 
 const initialState = {
   messages: [],
+  messageCount: 0,
   allNewMessages: [],
   isLoading: false,
   error: '',
@@ -27,6 +29,11 @@ export const messagesReducer = (state = initialState, action) => {
         messages: payload,
         isLoading: false,
       };
+    case MESSAGES_COUNT:
+      return {
+        ...state,
+        messageCount: payload,
+      };
     case LOAD_MESSAGES_ERROR:
       return {
         ...state,
@@ -34,15 +41,15 @@ export const messagesReducer = (state = initialState, action) => {
         error: payload,
       };
     case LOAD_ALL_MESSAGES_SUCCESS:
-      state.allNewMessages.filter(el => {
-        if (el.from === payload.from) {
-          return {
-            ...el,
-            allNewMessages: [...el.allNewMessages, payload],
-          };
-        }
-        return el;
-      });
+      // state.allNewMessages.filter(el => {
+      //   if (el.from === payload.from) {
+      //     return {
+      //       ...el,
+      //       allNewMessages: [...el.allNewMessages, payload],
+      //     };
+      //   }
+      //   return el;
+      // });
       return {
         ...state,
         allNewMessages: [payload, ...state.allNewMessages],

@@ -71,19 +71,19 @@ const BenefactorUserPageScreen = props => {
         <View style={styles.makeContainer}>
           <Text style={styles.helpTitle}>Make</Text>
           <TouchableOpacity
-            onPress={() => alert('Button Clicked!')}
+            // onPress={() => alert('Button Clicked!')}
             style={styles.transferButton}>
             <MaterialIcons name="online-prediction" size={24} color="#AF9065" />
             <Text style={styles.bottomTextStyle}>Online Transfer</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => alert('Button Clicked!')}
+            // onPress={() => alert('Button Clicked!')}
             style={styles.transferButton}>
             <FontAwesome name="bank" size={24} color="#AF9065" />
             <Text style={styles.bottomTextStyle}>Bank Transfer</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={() => alert('Button Clicked!')}
+            // onPress={() => alert('Button Clicked!')}
             style={styles.transferButton}>
             <Ionicons name="cloud-download" size={24} color="#AF9065" />
             <Text style={styles.bottomTextStyle}>Download document</Text>
@@ -203,6 +203,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 5,
     backgroundColor: 'white',
+    color: '#727272',
   },
   button: {
     width: 70,

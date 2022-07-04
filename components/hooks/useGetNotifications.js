@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';

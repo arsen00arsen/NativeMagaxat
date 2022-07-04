@@ -27,7 +27,7 @@ const AccountsScreen = () => {
         backgroundColor="#009387"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearchSecond pageTo={'AccountSearch'} />
+      <HeaderBackSearchSecond pageTo={'AccountSearch'} searchFor={select} />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.titleButtons}>
           <TouchableOpacity

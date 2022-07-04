@@ -32,7 +32,7 @@ const LikeButton = ({id, likeCounts, authLiked}) => {
           <Icon name={'heart'} size={24} color={'red'} />
         </Animated.View>
       </Pressable>
-      <Text>{count}</Text>
+      <Text style={styles.counts}>{count}</Text>
     </View>
   );
 };
@@ -45,5 +45,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  counts: {
+    color: '#727272',
   },
 });

@@ -1,5 +1,12 @@
-import React, {useState, memo} from 'react';
-import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React, {useState, memo, useRef} from 'react';
+import {
+  View,
+  Image,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Modal,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import moment from 'moment';
@@ -12,6 +19,7 @@ import {useDispatch} from 'react-redux';
 const VideoComponent = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const videoRef = useRef(null);
   const [longDis, setLongDis] = useState(false);
   let user = props?.uri.user;
   let post = props?.uri;
@@ -45,17 +53,11 @@ const VideoComponent = props => {
     dispatch(removeMyPosts(post?.id));
   };
   const time = moment().startOf(user?.created_at).format('LL');
-  let img;
-  if (!user?.image) {
-    img = props.user.image;
-  } else {
-    img = user?.image;
-  }
   return (
     <View style={styles.container}>
       <View style={styles.userInfo}>
         <TouchableOpacity onPress={userProfilePage}>
-          <Image source={{uri: img}} style={styles.userspic} />
+          <Image source={{uri: user?.image}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
           <View style={styles.usersnames}>
@@ -64,14 +66,9 @@ const VideoComponent = props => {
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
-
             <View style={{display: 'flex', flexDirection: 'row'}}>
-              <Text style={styles.usersname}>
-                {user?.name || props?.user.name}{' '}
-              </Text>
-              <Text style={styles.usersname}>
-                {user?.lastname || props?.user.lastname}{' '}
-              </Text>
+              <Text style={styles.usersname}>{user?.name}</Text>
+              <Text style={styles.usersname}>{user?.lastname}</Text>
             </View>
             <Text style={styles.timeData}>{time} </Text>
           </View>
@@ -79,13 +76,14 @@ const VideoComponent = props => {
         </View>
       </View>
       <VideoPlayer
-        video={{uri: props.uri.video}}
+        video={{uri: props?.uri?.video}}
         autoplay={false}
-        defaultMuted={true}
-        thumbnail={require('../assets/logo.png')}
+        defaultMuted={false}
+        thumbnail={{uri: props?.uri?.video_name}}
         style={styles.mediaVideo}
         fullscreen={true}
-        resizeMode="contain"
+        // controls={true}
+        // resizeMode="contain"
       />
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
@@ -94,9 +92,7 @@ const VideoComponent = props => {
             id={post.id}
             authLiked={post.authLiked}
           />
-          <View style={styles.shareButton}>
-            <ShareButton />
-          </View>
+
           <TouchableOpacity
             style={styles.videoCount}
             onPress={() =>
@@ -109,8 +105,11 @@ const VideoComponent = props => {
               })
             }>
             <Icon name={'comment-outline'} size={24} color={'#8A8A8A'} />
-            <Text>{postCounts} </Text>
+            <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
+          <View style={styles.shareButton}>
+            <ShareButton />
+          </View>
         </View>
       )}
     </View>
@@ -131,7 +130,7 @@ const styles = StyleSheet.create({
   },
   mediaVideo: {
     width: '100%',
-    height: 170,
+    height: 180,
     borderRadius: 8,
   },
   userInfo: {
@@ -151,6 +150,7 @@ const styles = StyleSheet.create({
   usersname: {
     color: '#666666',
     fontSize: 16,
+    marginLeft: 5,
   },
   usersnames: {
     display: 'flex',
@@ -171,15 +171,18 @@ const styles = StyleSheet.create({
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   timeData: {
     maxWidth: '40%',
     fontSize: 12,
+    color: '#727272',
   },
   longDis: {
     maxWidth: '100%',
     paddingBottom: 15,
     paddingTop: 10,
+    color: '#727272',
   },
   videoCount: {
     display: 'flex',
@@ -193,5 +196,8 @@ const styles = StyleSheet.create({
   delete: {
     marginLeft: 'auto',
     paddingHorizontal: 10,
+  },
+  counts: {
+    color: '#727272',
   },
 });

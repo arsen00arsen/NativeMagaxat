@@ -5,6 +5,7 @@ import {
   SET_SINGLE_MESSAGES,
   LOAD_ALL_MESSAGES_SUCCESS,
   LOAD_MESSAGES,
+  MESSAGES_COUNT,
 } from './type';
 
 export const startLoadMessages = payload => ({
@@ -29,7 +30,10 @@ export const setNewMessage = payload => ({
   type: SET_SINGLE_MESSAGES,
   payload,
 });
-
+export const setMessageCount = messageCount => ({
+  type: MESSAGES_COUNT,
+  payload: messageCount,
+});
 export const loadMessages = id => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
@@ -55,6 +59,17 @@ export const loadLastMessages = sms => async dispatch => {
   try {
     dispatch(startLoadMessages(true));
     dispatch(setNewMessage(sms.message));
+  } catch (error) {
+    dispatch(setMessageError(error));
+  } finally {
+    dispatch(startLoadMessages(false));
+  }
+};
+export const messagesCount = () => async dispatch => {
+  try {
+    dispatch(startLoadMessages(true));
+    const {data} = await MessageService.getMessagesCount();
+    dispatch(setMessageCount(data.count));
   } catch (error) {
     dispatch(setMessageError(error));
   } finally {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,15 +9,26 @@ import {
   ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
-
-const MySubscribersScreen = props => {
+import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+import {useIsFocused} from '@react-navigation/native';
+const MySubscribersScreen = () => {
+  const isFocused = useIsFocused();
   const theme = useTheme();
   const navigation = useNavigation();
-  let users = props?.route.params.subscribers;
-  let content = users?.map(elem => {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state?.myPosts);
+
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadMyPosts());
+    }
+  }, [isFocused]);
+
+  let content = users?.myPosts.subscribers?.map(elem => {
     return (
       <View key={elem.id} style={styles.users}>
         <TouchableOpacity

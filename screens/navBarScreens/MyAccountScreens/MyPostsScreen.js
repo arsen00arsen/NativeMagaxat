@@ -27,9 +27,8 @@ const MyPostsScreen = props => {
     dispatch(loadMyPosts());
   }, []);
 
-  console.log(myPosts.posts, 'iiiiiiiiiiiiiiiiiii');
   const renderItem = ({item}) => {
-    if (item.image_path) {
+    if (item.image) {
       return (
         <ImgComponentpost uri={item} key={item?.id} user={user} post="post" />
       );
@@ -61,7 +60,7 @@ const MyPostsScreen = props => {
         <FlatList
           style={{width: '100%'}}
           showsVerticalScrollIndicator={false}
-          data={myPosts.posts}
+          data={myPosts.posts.data}
           keyExtractor={(items, index) => index.toString()}
           renderItem={renderItem}
         />

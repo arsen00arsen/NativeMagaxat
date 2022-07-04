@@ -4,9 +4,12 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import {useMultiSelectComponent} from './hooks/useMultiSelectComponent';
 
-const MultiSelectComponent = () => {
+const MultiSelectComponent = ({interested, setValue}) => {
   const {isItemLoading, options, onSelectedItemsChange, selectedItems} =
-    useMultiSelectComponent();
+    useMultiSelectComponent({
+      selectedOptions: interested,
+      setValue,
+    });
 
   return (
     <View styles={styles.action}>

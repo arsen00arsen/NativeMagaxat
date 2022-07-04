@@ -15,7 +15,6 @@ const AccountUsers = () => {
   const accounts = useSelector(state => state.users);
 
   const userProfilePage = elem => {
-    console.log(elem);
     navigation.navigate('AccountScreen', {
       user: elem,
     });
@@ -114,5 +113,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+  },
+  textEmpoty: {
+    color: '#727272',
   },
 });

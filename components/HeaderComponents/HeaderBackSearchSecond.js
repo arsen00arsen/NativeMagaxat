@@ -9,7 +9,7 @@ import IconSearch from 'react-native-vector-icons/Feather';
 
 const HeaderBackSearchSecond = props => {
   const navigation = useNavigation();
-  const {pageTo} = props;
+  const {pageTo, searchFor} = props;
   let content = (
     <Animatable.View
       animation="slideInDown"
@@ -40,7 +40,7 @@ const HeaderBackSearchSecond = props => {
         colors={['#cccccc', '#c4c4c4']}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => navigation.navigate(`${pageTo}`)}>
+          onPress={() => navigation.navigate(`${pageTo}`, searchFor)}>
           <IconSearch name="search" size={24} color="black" />
         </TouchableOpacity>
       </LinearGradient>
