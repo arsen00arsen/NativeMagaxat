@@ -7,6 +7,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@react-navigation/native';
@@ -54,51 +55,46 @@ const MediaSearch = () => {
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
-          <View style={styles.usserdatas}>
-            <View style={styles.usserdatarow}>
-              <Image
-                source={{uri: item.user.image}}
-                style={styles.usersProfilemage}
-              />
-              <View style={styles.infoContainer}>
-                <View style={styles.usserdata}>
-                  <View style={styles.usserNames}>
-                    <Text style={styles.itemText}>{item.user.name}</Text>
-                    <Text style={styles.itemText}>{item.user.lastname}</Text>
-                  </View>
-                  <Text style={styles.itemText} numberOfLines={2}>
-                    {item.vedioTitle}
-                  </Text>
+          <View style={styles.usserdatarow}>
+            <Image
+              source={{uri: item.user.image}}
+              style={styles.usersProfilemage}
+            />
+            <View style={styles.infoContainer}>
+              <View style={styles.usserdata}>
+                <View style={styles.usserNames}>
+                  <Text style={styles.itemText}>{item.user.name}</Text>
+                  <Text style={styles.itemText}>{item.user.lastname}</Text>
                 </View>
+                <Text style={styles.itemText} numberOfLines={2}>
+                  {item.vedioTitle}
+                </Text>
               </View>
             </View>
           </View>
-          <View style={styles.postContainer} />
-          <VideoPlayer
-            uri={item.userVedio}
-            autoplay={false}
-            defaultMuted={true}
-            thumbnail={require('../../../assets/logoHeader.png')}
-            style={styles.searchVideo}
-          />
-          {/* <View style={{position: 'relative'}}>
-            <Image
+          <View style={styles.postContainer}>
+            {/* <VideoPlayer
+              uri={item.userVedio}
+              autoplay={false}
+              defaultMuted={true}
+              thumbnail={require('../../../assets/logoHeader.png')}
               style={styles.searchVideo}
-              source={{uri: item.item?.video_name}}
-            />
+            /> */}
+            {console.log(item.videos)}
+            <Image style={styles.rowVideo} source={{uri: item.video_name}} />
             <IconPlay
               name="play"
               size={25}
               color="gray"
               style={styles.icPlayRow}
             />
-          </View> */}
-          <MaterialCommunityIcons
-            name="account-arrow-right"
-            size={35}
-            color="#BB9E79"
-            style={styles.itemIcon}
-          />
+            <MaterialCommunityIcons
+              name="account-arrow-right"
+              size={35}
+              color="#BB9E79"
+              style={styles.itemIcon}
+            />
+          </View>
         </View>
       </View>
     );
@@ -156,6 +152,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
+    marginTop: Platform.OS === 'ios' ? 25 : 0,
   },
   info: {
     display: 'flex',
@@ -216,7 +213,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    width: '55%',
   },
   paddingName: {
     paddingRight: 5,
@@ -235,7 +233,7 @@ const styles = StyleSheet.create({
   },
   usserNames: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
@@ -243,7 +241,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginLeft: 'auto',
+    width: '45%',
   },
   icPlayRow: {
     marginLeft: 'auto',

@@ -170,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#838383',
     textAlign: 'center',
-    fontFamily: 'Roboto-Bold',
+    // fontFamily: 'Roboto-Bold',
   },
   lastUsersContainercontent: {
     display: 'flex',

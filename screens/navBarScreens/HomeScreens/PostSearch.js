@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
+  Platform,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
+    marginTop: Platform.OS === 'ios' ? 23 : 0,
   },
   usersProfilemage: {
     width: 40,

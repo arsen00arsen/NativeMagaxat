@@ -119,7 +119,7 @@ const MediaScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'MediaSearch'} />
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <View style={styles.postContainer}>
           <View
             style={[selected !== true ? styles.postBody : styles.postUnheight]}>

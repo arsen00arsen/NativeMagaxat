@@ -1,5 +1,12 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -55,6 +62,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
     marginVertical: 10,
+    marginTop: Platform.OS === 'ios' ? 45 : 0,
+    borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
+    borderBottomColor: Platform.OS === 'ios' ? 'silver' : 'white',
+    paddingBottom: Platform.OS === 'ios' ? 5 : 0,
   },
   button: {
     display: 'flex',
