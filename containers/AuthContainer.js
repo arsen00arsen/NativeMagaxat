@@ -34,7 +34,7 @@ export const AuthContainer = ({isAuth, userId}) => {
 
   return (
     <NavigationContainer>
-      {isAuth ? (
+      {/* {isAuth ? (
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
@@ -42,9 +42,9 @@ export const AuthContainer = ({isAuth, userId}) => {
           <Stack.Screen name="Homes" component={MainTabScreen} />
           <Stack.Screen name="Chat" component={ChatScreen} />
         </Stack.Navigator>
-      ) : (
-        <RootStackScreen />
-      )}
+      ) : ( */}
+      <RootStackScreen />
+      {/* )} */}
     </NavigationContainer>
   );
 };
