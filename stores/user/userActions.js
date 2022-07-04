@@ -83,7 +83,6 @@ export const logoutUser = () => async dispatch => {
     await AsyncStorage.removeItem('token');
     dispatch(loginError('Logged out'));
   } catch (error) {
-    console.log(error, 'lllllllllllllllllllllllllllllllllllll');
     dispatch(loginError(error.message));
   }
 };

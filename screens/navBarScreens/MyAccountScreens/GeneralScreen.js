@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import moment from 'moment';
-import {useTheme} from '@react-navigation/native';
+import {useTheme, useIsFocused} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/Feather';
@@ -23,24 +23,53 @@ import {UploadUserService} from '../../../http/uploadService/uploadService';
 const GeneralScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const [date, setDate] = useState(new Date());
   const user = useSelector(state => state?.user);
   const [open, setOpen] = useState(false);
-  const {control, handleSubmit, getValues} = useForm({
+  const [valuesSelect, setValuesSelect] = useState([]);
+  // useEffect(() => {
+  //   if (isFocused) {
+  //   }
+  // }, [isFocused]);
+  const dt = user?.user?.date_of_birth ? user?.user?.date_of_birth : new Date();
+  const {control, handleSubmit, getValues, setValue} = useForm({
     defaultValues: {
-      date_of_birth: new Date(),
+      date_of_birth: moment(dt).toDate(),
+      name: user.user?.name,
+      lastname: user.user?.lastname,
+      email: user.user?.email,
+      phone_number: user.user?.phone_number,
+      // interesting_type: user.user?.interesting_type,
     },
   });
 
-  const submitFormHandler = handleSubmit(data => {
+  useEffect(() => {
+    const vals = getValues('interesting_type');
+    if (vals?.length) {
+      const mappedVals = vals.map(el => el?.id);
+      setValuesSelect(mappedVals);
+    }
+  }, [dispatch]);
+
+  const submitFormHandler = handleSubmit(async data => {
+    Object.keys(data).map(function (key) {
+      if (key === 'date_of_birth') {
+        let _date = data[key];
+        data[key] = moment(_date).format('YYYY-MM-DD');
+      }
+    });
     try {
-      UploadUserService.uploadUser(data);
+      await UploadUserService.uploadUser(data);
     } catch {
       console.log('error');
-    } finally {
     }
   });
 
+  if (!Object.values(user.user).length) {
+    return null;
+  }
+  console.log(user.user?.interesting_type, 'interesting_type');
   return (
     <View style={styles.container}>
       <StatusBar
@@ -58,11 +87,9 @@ const GeneralScreen = ({navigation}) => {
             render={({field: {onChange, value, onBlur}}) => {
               return (
                 <TextInput
-                  placeholder={user?.user?.name}
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -78,11 +105,9 @@ const GeneralScreen = ({navigation}) => {
             render={({field: {onChange, value, onBlur}}) => {
               return (
                 <TextInput
-                  placeholder={user?.user?.lastname}
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -94,8 +119,9 @@ const GeneralScreen = ({navigation}) => {
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
               <Text style={styles.inputHeader}>Date</Text>
+              {}
               <Text style={styles.dateText}>
-                {moment(date).format('DD.MM.YYYY')}
+                {moment(dt).format('YYYY-MM-DD')}
               </Text>
             </View>
           </TouchableOpacity>
@@ -108,6 +134,7 @@ const GeneralScreen = ({navigation}) => {
                   title="Select date"
                   mode="date"
                   modal
+                  defaultShow={user?.user.date_of_birth}
                   open={open}
                   date={value}
                   onConfirm={date => {
@@ -122,18 +149,15 @@ const GeneralScreen = ({navigation}) => {
         </View>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>E-mail</Text>
-
           <Controller
             control={control}
             name="email"
             render={({field: {onChange, value, onBlur}}) => {
               return (
                 <TextInput
-                  placeholder={user?.user?.email}
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -149,11 +173,9 @@ const GeneralScreen = ({navigation}) => {
             render={({field: {onChange, value, onBlur}}) => {
               return (
                 <TextInput
-                  placeholder={user?.user?.phone_number}
                   placeholderTextColor="#666666"
                   value={value}
                   style={styles.textInput}
-                  multiline
                   onChangeText={onChange}
                   underlineColorAndroid="white"
                 />
@@ -163,7 +185,7 @@ const GeneralScreen = ({navigation}) => {
         </View>
 
         <View style={styles.selectAction}>
-          <MultiSelectComponent />
+          <MultiSelectComponent interested={valuesSelect} setValue={setValue} />
         </View>
         <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
           <Text style={styles.buttonText}>Save</Text>
@@ -197,6 +219,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     fontSize: 14,
     fontWeight: '700',
+    height: 50,
   },
   action: {
     flexDirection: 'column',
@@ -237,6 +260,7 @@ const styles = StyleSheet.create({
   dateText: {
     paddingHorizontal: 13,
     paddingVertical: 25,
+    color: 'black',
   },
   selectAction: {
     marginTop: 10,

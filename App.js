@@ -21,7 +21,6 @@ Icon.loadFont();
 
 const App = () => {
   const dispatch = useDispatch();
-
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());

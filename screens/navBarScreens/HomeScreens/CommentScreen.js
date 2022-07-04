@@ -28,7 +28,6 @@ const CommentScreen = props => {
   const {control, handleSubmit, reset} = useForm();
   let user = props?.route.params.user;
   let video = props?.route.params.video;
-  let image = props?.route.params.image;
   let description = props?.route.params.description;
   let id = props?.route.params.id;
   const {posts} = useSelector(state => state.post);
@@ -120,7 +119,9 @@ const CommentScreen = props => {
             </View>
           </View>
           <View style={styles.vedioBodyContent}>{content}</View>
-          <Text>{description === 'undefined' ? null : description} </Text>
+          <Text style={styles.userNames}>
+            {description === 'undefined' ? null : description}{' '}
+          </Text>
           <Text style={styles.textDescription}>{user.title}</Text>
         </View>
         <View style={styles.comentBox}>{commentContent}</View>
@@ -267,12 +268,13 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   textInput: {
-    // borderWidth: 2.5,
     borderColor: '#E5E5E5',
+    borderWidth: 1,
     borderRadius: 20,
     marginRight: 10,
     marginBottom: 10,
-    maxHeight: 110,
+    maxHeight: 150,
+    // height: 60,
     width: '80%',
     color: 'black',
     fontSize: 16,
@@ -285,11 +287,12 @@ const styles = StyleSheet.create({
   },
   containerKeyBoard: {
     flex: 1,
-    marginBottom: 80,
+    marginBottom: 30,
+    // height: 150,
   },
   textDescription: {
-    color: 'black',
     marginTop: 20,
+    color: '#666666',
   },
   usersProfileBGimage: {
     minWidth: 350,
@@ -298,6 +301,7 @@ const styles = StyleSheet.create({
   timeText: {
     fontSize: 10,
     textAlign: 'right',
+    color: '#727272',
   },
   userInfoNames: {
     paddingLeft: 20,
@@ -306,5 +310,6 @@ const styles = StyleSheet.create({
   },
   userNames: {
     fontSize: 18,
+    color: '#666666',
   },
 });

@@ -60,11 +60,11 @@ const MesageScreen = () => {
                         size={21}
                         style={styles.lmicons}
                       />
-                      <Text>{item?.last_message.text} </Text>
+                      <Text style={{color: '#727272'}}>
+                        {item?.last_message.text}{' '}
+                      </Text>
                       <View style={styles.newMessage}>
-                        <Text style={styles.newMessageText}>
-                          {item.unread}{' '}
-                        </Text>
+                        <Text style={styles.newMessageText}>{item.unread}</Text>
                       </View>
                     </View>
                   ) : (
@@ -242,6 +242,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     marginTop: 60,
+    color: '#727272',
   },
   lmCreated: {
     color: 'black',

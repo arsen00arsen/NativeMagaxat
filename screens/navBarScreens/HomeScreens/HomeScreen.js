@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StatusBar,
   Text,
+  RefreshControl,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -26,6 +27,7 @@ const HomeScreen = props => {
   const [station, setSection] = useState('Users');
   const {isLoading, posts} = useSelector(state => state.post);
   const [currentPage, setCurrentPage] = useState(1);
+  const [refreshing, setRefreshing] = useState(false);
   const newMsg = useSelector(state => state?.messages?.allNewMessages);
   const messagecount = useSelector(state => state?.messages?.messageCount);
 
@@ -44,7 +46,16 @@ const HomeScreen = props => {
     if (isFocused) {
       dispatch(loadPosts(1));
     }
-  }, [isFocused]);
+  }, [isFocused, refreshing]);
+
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(1500).then(() => setRefreshing(false));
+  }, []);
+
   let content = (
     <View>
       <LinearGradient
@@ -82,6 +93,13 @@ const HomeScreen = props => {
       <HeaderChatSearch count={messagecount} />
       <SafeAreaView style={{flex: 1}}>
         <SectionList
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              colors={['#E4E3E1']}
+            />
+          }
           contentContainerStyle={{paddingHorizontal: 10}}
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}

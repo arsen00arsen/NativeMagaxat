@@ -1,8 +1,18 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, StatusBar, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  StatusBar,
+  FlatList,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@react-navigation/native';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import {baseUrl2} from '../../../http/index';
-import MaterialCommunityIcons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
 import VideoPlayer from 'react-native-video-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,6 +22,7 @@ import {renderPosts} from '../../../stores/post/postActions';
 const MediaSearch = () => {
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
+  const navigation = useNavigation();
   const theme = useTheme();
   const dispatch = useDispatch();
 
@@ -34,16 +45,35 @@ const MediaSearch = () => {
     };
     fetchData();
   }, [data]);
+  let userProfilePage = item => {
+    navigation.navigate('RowVideosScreen', {
+      user: item,
+    });
+  };
   const ItemRender = item => {
-    let img;
-    if (item.userImage !== undefined) {
-      img = {uri: item.userImage};
-    } else {
-      img = require('../../../assets/defoult.png');
-    }
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
+          <View style={styles.usserdatas}>
+            <View style={styles.usserdatarow}>
+              <Image
+                source={{uri: item.user.image}}
+                style={styles.usersProfilemage}
+              />
+              <View style={styles.infoContainer}>
+                <View style={styles.usserdata}>
+                  <View style={styles.usserNames}>
+                    <Text style={styles.itemText}>{item.user.name}</Text>
+                    <Text style={styles.itemText}>{item.user.lastname}</Text>
+                  </View>
+                  <Text style={styles.itemText} numberOfLines={2}>
+                    {item.vedioTitle}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+          <View style={styles.postContainer} />
           <VideoPlayer
             uri={item.userVedio}
             autoplay={false}
@@ -51,18 +81,21 @@ const MediaSearch = () => {
             thumbnail={require('../../../assets/logoHeader.png')}
             style={styles.searchVideo}
           />
-          <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.vedioTitle}</Text>
-            <View style={styles.usserdatarow}>
-              <Text style={[styles.itemText, styles.paddingName]}>
-                {item.name}
-              </Text>
-              <Text style={styles.itemText}>{item.lastName}</Text>
-            </View>
-          </View>
+          {/* <View style={{position: 'relative'}}>
+            <Image
+              style={styles.searchVideo}
+              source={{uri: item.item?.video_name}}
+            />
+            <IconPlay
+              name="play"
+              size={25}
+              color="gray"
+              style={styles.icPlayRow}
+            />
+          </View> */}
           <MaterialCommunityIcons
-            name="checkmark-done-circle"
-            size={30}
+            name="account-arrow-right"
+            size={35}
             color="#BB9E79"
             style={styles.itemIcon}
           />
@@ -91,12 +124,15 @@ const MediaSearch = () => {
         style={styles.flatlist}
         data={list?.data?.data}
         renderItem={({item}) => (
-          <ItemRender
-            name={item.user_name}
-            lastName={item.user_lastname}
-            userVedio={item.video_path}
-            vedioTitle={item.video_title}
-          />
+          <TouchableOpacity onPress={() => userProfilePage(item)}>
+            <ItemRender
+              name={item.user_name}
+              lastName={item.user_lastname}
+              userVedio={item.video_path}
+              vedioTitle={item.video_title}
+              user={item.user}
+            />
+          </TouchableOpacity>
         )}
         keyExtractor={item => item.id}
         ItemSeparatorComponent={Separator}
@@ -121,12 +157,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F2F2F2',
     height: '100%',
   },
-  usersProfilemage: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-    marginRight: 30,
-  },
   info: {
     display: 'flex',
     flexDirection: 'row',
@@ -134,10 +164,20 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
   },
-  itemText: {
-    fontSize: 18,
+  itemTextTitle: {
+    fontSize: 16,
     marginRight: 'auto',
     fontWeight: '500',
+    color: '#727272',
+    paddingLeft: 5,
+    maxWidth: 40,
+  },
+  itemText: {
+    fontSize: 16,
+    marginRight: 'auto',
+    fontWeight: '500',
+    color: '#727272',
+    paddingLeft: 5,
   },
   flatlist: {
     // paddingHorizontal: 15,
@@ -167,17 +207,49 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   searchVideo: {
-    maxWidth: 150,
-    maxHeight: 90,
+    maxWidth: 100,
+    height: 65,
     borderRadius: 8,
   },
+
   usserdatarow: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
   paddingName: {
     paddingRight: 5,
+  },
+  usersProfilemage: {
+    width: 40,
+    height: 40,
+    borderRadius: 50,
+    // marginRight: 10,
+  },
+  infoContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  usserNames: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  postContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginLeft: 'auto',
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 20,
+    position: 'absolute',
   },
 });
