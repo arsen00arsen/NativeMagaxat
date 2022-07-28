@@ -16,7 +16,7 @@ const HeaderChatSearch = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.9]}
-        colors={['#D1C7B9', '#D2C8B9']}>
+        colors={['#2F4F4F', '#696969']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MessageStack')}>
@@ -37,11 +37,11 @@ const HeaderChatSearch = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.3]}
-        colors={['#cccccc', '#c4c4c4']}>
+        colors={['#2F4F4F', '#696969']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('PostSearch')}>
-          <IconSearch name="search" size={24} color="black" />
+          <IconSearch name="search" size={24} color="#FFFFFF" />
         </TouchableOpacity>
       </LinearGradient>
     </View>

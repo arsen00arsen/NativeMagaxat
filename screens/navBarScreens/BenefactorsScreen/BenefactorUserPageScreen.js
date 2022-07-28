@@ -30,7 +30,7 @@ const BenefactorUserPageScreen = props => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="transparent"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch />

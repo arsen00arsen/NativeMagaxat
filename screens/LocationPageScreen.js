@@ -14,9 +14,11 @@ import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
 import CountryCodeList from '../components/CountryCodeList';
 import {registerUser} from '../stores/user/userActions';
+import {useTheme} from '@react-navigation/native';
 
 const LocationPageScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const {control} = useForm({
     defaultValues: {
       language: '1',
@@ -34,7 +36,10 @@ const LocationPageScreen = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <View style={styles.content}>
         <View style={styles.headerWidthButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

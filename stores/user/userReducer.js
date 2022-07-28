@@ -3,12 +3,10 @@ const initialUserState = {
   loading: false,
   error: null,
   isAuth: false,
-  data: {
-    interesting_type: [],
-  },
-  infoChange: {
-    interesting_type: [],
-  },
+  data: {},
+  // infoChange: {
+  //   interesting_type: [],
+  // },
 };
 
 export const userReducer = (state = initialUserState, action) => {
@@ -34,9 +32,9 @@ export const userReducer = (state = initialUserState, action) => {
         user: {},
         isAuth: false,
         error: payload,
-        data: {
-          interesting_type: [],
-        },
+        // data: {
+        //   interesting_type: [],
+        // },
       };
 
     case 'FIRST_STEP_SUBMIT':
@@ -55,20 +53,20 @@ export const userReducer = (state = initialUserState, action) => {
           ...payload,
         },
       };
-    case 'INFOCHANGE_INTERESTEDS_STEP_SUBMIT':
-      return {
-        ...state,
-        infoChange: {
-          ...state.infoChange,
-          interesting_type: [...state.infoChange.interesting_type, ...payload],
-        },
-      };
+    // case 'INFOCHANGE_INTERESTEDS_STEP_SUBMIT':
+    //   return {
+    //     ...state,
+    //     infoChange: {
+    //       ...state.infoChange,
+    //       interesting_type: [...state.infoChange.interesting_type, ...payload],
+    //     },
+    //   };
     case 'INTERESTEDS_STEP_SUBMIT':
       return {
         ...state,
         data: {
           ...state.data,
-          interesting_type: [...state.data.interesting_type, ...payload],
+          // interesting_type: [...state.data.interesting_type, ...payload],
         },
       };
     default:

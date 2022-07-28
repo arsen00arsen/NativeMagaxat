@@ -4,7 +4,6 @@ import {
   View,
   SectionList,
   SafeAreaView,
-  StatusBar,
   Text,
   RefreshControl,
 } from 'react-native';
@@ -19,7 +18,7 @@ import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useIsFocused} from '@react-navigation/native';
 import {messagesCount} from '../../../stores/messages/messageActions';
-
+import {StatusBar} from 'react-native';
 const HomeScreen = props => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -63,21 +62,21 @@ const HomeScreen = props => {
         start={{x: 1, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.3, 0.8]}
-        colors={['#E0D0BA', '#E4E3E1']}>
+        colors={['#2F4F4F', '#696969']}>
         <View style={styles.lastUsersContainercontent}>
           <View style={styles.lastUsersContainerSmall} />
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => setSection('Users')}
             style={[station === 'Users' ? styles.storPassive : styles.storAct]}>
-            <Text style={styles.lastUsersContainerText}>Last Users</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+          </TouchableOpacity> */}
+          <Text style={styles.lastUsersContainerText}>Last Users</Text>
+          {/* <TouchableOpacity
             onPress={() => setSection('Stories')}
             style={[
               station === 'Stories' ? styles.storPassive : styles.storAct,
             ]}>
             <Text style={styles.lastUsersContainerTexta}>Last Stories</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </LinearGradient>
       {station === 'Users' ? <PersonsData /> : <Stories />}
@@ -87,7 +86,7 @@ const HomeScreen = props => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="transparent"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderChatSearch count={messagecount} />
@@ -162,13 +161,13 @@ const styles = StyleSheet.create({
     width: 8,
     borderBottomRightRadius: 5,
     borderTopRightRadius: 5,
-    backgroundColor: '#ACA093',
+    backgroundColor: '#DFFF00',
     marginRight: 10,
   },
   lastUsersContainerText: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#838383',
+    color: 'white',
     textAlign: 'center',
     fontFamily: 'Roboto-Bold',
   },

@@ -12,31 +12,29 @@ import {
 
 const SplashScreen = ({navigation}) => {
   const goToFoo = () => {
-    navigation.navigate('SignInScreen')
-}
+    navigation.navigate('SignInScreen');
+  };
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#2F4F4F', '#2F4F4F', '#696969']}
       style={styles.linearGradien}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="transparent" barStyle="light-content" />
       <View style={styles.content}>
         <Text style={styles.text}>Welcome to</Text>
         <Animatable.Image
-           animation="fadeInUpBig"
-           duraton="1500"
+          animation="fadeInUpBig"
+          duraton="1500"
           source={require('../assets/logo.png')}
-           style={styles.logo}
-           resizeMode="stretch"
-         />
-         <TouchableOpacity
-           style={styles.button}
-           onPress={() => goToFoo()}>
-           <Text style={styles.textSign}>Next</Text>
-           {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
+          style={styles.logo}
+          resizeMode="stretch"
+        />
+        <TouchableOpacity style={styles.button} onPress={() => goToFoo()}>
+          <Text style={styles.textSign}>Next</Text>
+          {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
         </TouchableOpacity>
-       </View>
+      </View>
     </LinearGradient>
   );
 };
@@ -64,9 +62,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 30,
-    borderRadius: 50,
-    borderColor: '#FFFFFF',
+    marginTop: 15,
+    borderRadius: 20,
+    borderColor: '#DFFF00',
     borderWidth: 1,
     width: 237,
     height: 57,

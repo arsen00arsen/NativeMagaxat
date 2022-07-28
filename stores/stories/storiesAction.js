@@ -34,17 +34,24 @@ export const setStoriError = msg => ({
   payload: msg,
 });
 
-export const loadStori = () => async dispatch => {
-  try {
-    dispatch(startLoadStori(true));
-    const {data} = await StoriService.loadStories();
-    dispatch(setStoriInitial(data.data));
-  } catch (error) {
-    dispatch(setStoriError(error));
-  } finally {
-    dispatch(startLoadStori(false));
-  }
-};
+export const loadStori =
+  (currentpage = 1) =>
+  async dispatch => {
+    try {
+      dispatch(startLoadStori(true));
+      const {data} = await StoriService.loadStories(currentpage);
+      if (currentpage === 1) {
+        dispatch(setStoriInitial(data.data));
+      } else {
+        dispatch(setStori(data.data));
+      }
+      // dispatch(setStoriInitial(data.data));
+    } catch (error) {
+      dispatch(setStoriError(error));
+    } finally {
+      dispatch(startLoadStori(false));
+    }
+  };
 
 export const removeMyStory = id => async dispatch => {
   try {

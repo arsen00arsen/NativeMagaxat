@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
     width: '100%',
-    borderColor: '#e8e8e8',
+    borderColor: '#DFFF00',
     borderWidth: 1,
     borderRadius: 5,
     // paddingHorizontal: 10,

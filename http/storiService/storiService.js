@@ -1,8 +1,8 @@
 import {$authHost} from '..';
 
 export class StoriService {
-  static loadStories() {
-    return $authHost.get('/stories_api');
+  static loadStories(currentPage = 1) {
+    return $authHost.get(`/stories_api?page=${currentPage}`);
   }
   static loadMyStories() {
     return $authHost.get('profile/me');

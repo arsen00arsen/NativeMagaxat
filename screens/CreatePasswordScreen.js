@@ -13,9 +13,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
 import CustomInput from '../components/loginComponents/CustomInput';
+import {useTheme} from '@react-navigation/native';
 
 const CreatePasswordScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const {control, handleSubmit, watch} = useForm();
   let pwd = watch('password');
   const submitFormHandler = handleSubmit(data => {
@@ -29,7 +31,10 @@ const CreatePasswordScreen = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>

@@ -22,7 +22,7 @@ export const loadAppears =
     try {
       dispatch(startLoadAppears(true));
       const {data} = await AppearsService.getAppers(currentpages);
-      dispatch(setAppears(data?.data?.data));
+      dispatch(setAppears(data?.data));
     } catch (error) {
       dispatch(setAppearsError(error));
     } finally {

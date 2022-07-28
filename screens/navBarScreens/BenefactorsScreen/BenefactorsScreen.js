@@ -55,8 +55,10 @@ const BenefactorsScreen = () => {
             <Image source={{uri: item.image}} style={styles.userImage} />
           </View>
           <View style={styles.descriptionContent}>
-            <Text style={styles.title} numberOfLines={2}>
-              {item.description}
+            <Text style={styles.title}>
+              {item.name}
+              {'  '}
+              {item.lastname}
             </Text>
             <TouchableOpacity
               onPress={() => userProfilePage(item)}
@@ -72,7 +74,7 @@ const BenefactorsScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="transparent"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'BenefactorSearchPage'} />
@@ -137,7 +139,8 @@ const styles = StyleSheet.create({
   title: {
     width: '90%',
     fontWeight: 'bold',
-    color: '#AF9065',
+    fontSize: 18,
+    color: '#2F4F4F',
   },
   button: {
     display: 'flex',
@@ -146,10 +149,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     marginVertical: 10,
-    borderWidth: 1,
-    borderColor: '#F2F2F2',
     borderRadius: 30,
     backgroundColor: '#F2F2F2',
+    borderWidth: 1,
+    borderColor: '#DFFF00',
   },
   descriptionContent: {
     width: '60%',
@@ -160,7 +163,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#AF9065',
+    backgroundColor: '#2F4F4F',
     borderRadius: 30,
     marginVertical: 5,
   },

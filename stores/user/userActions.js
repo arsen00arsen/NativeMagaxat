@@ -27,7 +27,7 @@ export const loginUser = (email, password) => async dispatch => {
     dispatch(loginSuccess(data.data));
     await AsyncStorage.setItem('token', data.token);
   } catch (error) {
-    console.log(error);
+    alert('Invalid password or Login');
     dispatch(loginError(error.message));
   }
 };

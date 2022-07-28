@@ -29,7 +29,7 @@ const AccounProfiletScreen = props => {
   const {isLoading, posts} = useSelector(state => state.post);
   const {options} = useAccountProfHome(id);
   let user = options.data;
-  let isS = options.subscribed;
+
   useEffect(() => {
     dispatch(loadPostsUser({currentPage: currentPage, id: id}));
   }, []);
@@ -106,7 +106,7 @@ const AccounProfiletScreen = props => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="transparent"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch />

@@ -41,6 +41,7 @@ const Stories = () => {
       type: fileToUpload.type,
       name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
     });
+    console.log(fileToUpload, ';;;;;;;;;;;;;;;;;');
     try {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch('https://magaxat.com/api/stories_api', {

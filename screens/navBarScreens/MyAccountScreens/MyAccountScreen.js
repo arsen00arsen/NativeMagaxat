@@ -34,7 +34,7 @@ const MyAccountScreen = ({navigation}) => {
             <MyaccountUsserInfor />
           </View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('GeneralScreen')}>
           <Text style={styles.buttonText}>General</Text>
@@ -56,7 +56,7 @@ const MyAccountScreen = ({navigation}) => {
           <Text style={styles.buttonText}>My Media</Text>
           <Icon name="chevron-right" size={20} color="black" />
         </TouchableOpacity> */}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MySubscribtionsScreen')}>
           <Text style={styles.buttonText}>My Subscribtions</Text>
@@ -67,7 +67,8 @@ const MyAccountScreen = ({navigation}) => {
           onPress={() => navigation.navigate('MySubscribersScreen')}>
           <Text style={styles.buttonText}>My Subscribers</Text>
           <Icon name="chevron-right" size={20} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity>{' '}
+         */}
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('SettingsScreen')}>

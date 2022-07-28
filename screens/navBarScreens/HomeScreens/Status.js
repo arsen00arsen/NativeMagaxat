@@ -14,8 +14,10 @@ import Feather from 'react-native-vector-icons/Feather';
 import Video from 'react-native-video';
 import {useDispatch} from 'react-redux';
 import {removeMyStory} from '../../../stores/stories/storiesAction';
+import {useTheme} from '@react-navigation/native';
 
 const Status = ({route, navigation}) => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const videoRef = useRef(null);
   const {name, image, user, video, isMy, id} = route.params;
@@ -45,7 +47,10 @@ const Status = ({route, navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="black" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <View style={styles.mainContainer}>
         <Animated.View
           style={{

@@ -1,7 +1,4 @@
-import React, {useState} from 'react';
-import {useDispatch} from 'react-redux';
-import {Controller, useForm} from 'react-hook-form';
-import moment from 'moment';
+import React from 'react';
 import {
   View,
   StyleSheet,
@@ -12,32 +9,14 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import DatePicker from 'react-native-date-picker';
 import Icon from 'react-native-vector-icons/Feather';
-import CustomInput from '../components/loginComponents/CustomInput';
 import {useTheme} from '@react-navigation/native';
 
-const SignUpScreen = ({navigation}) => {
+const CreatAsScreen = ({navigation}) => {
+  const navigateButton = page => {
+    navigation.navigate(page);
+  };
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState(new Date());
-  const {control, handleSubmit} = useForm({
-    defaultValues: {
-      date_of_birth: new Date(),
-    },
-  });
-  const dispatch = useDispatch();
-  const submitFormHandler = handleSubmit(data => {
-    dispatch({
-      type: 'FIRST_STEP_SUBMIT',
-      payload: {
-        ...data,
-        date_of_birth: moment(data).format('YYYY-MM-DD'),
-      },
-    });
-    navigation.navigate('AccountInfoScreen');
-  });
-
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -57,7 +36,7 @@ const SignUpScreen = ({navigation}) => {
               <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
-              <Text style={styles.text}>Create Your Profile</Text>
+              <Text style={styles.text}>Create Profile As</Text>
               <Animatable.Image
                 animation="fadeInUpBig"
                 duraton="1500"
@@ -69,71 +48,19 @@ const SignUpScreen = ({navigation}) => {
             <View />
           </View>
           <View>
-            <CustomInput
-              style={styles.nameInput}
-              name="name"
-              control={control}
-              title="First Name"
-              rules={{
-                required: 'Name required',
-                minLength: {
-                  value: 1,
-                  message: 'Name cannot be empoty',
-                },
-              }}
-            />
-            <CustomInput
-              name="lastname"
-              control={control}
-              title="Last Name"
-              rules={{
-                required: 'Last Name required',
-                minLength: {
-                  value: 1,
-                  message: 'Last Name cannot be empoty',
-                },
-              }}
-            />
-            <View>
-              <TouchableOpacity
-                style={styles.action}
-                onPress={() => setOpen(true)}>
-                <View>
-                  <Text style={styles.inputHeader}>Date</Text>
-                  <Text style={styles.dateText}>
-                    <Text style={styles.dateBT}>
-                      {moment(date).format('DD.MM.YYYY')}
-                    </Text>
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Controller
-                control={control}
-                name="date_of_birth"
-                render={({field: {value, onChange}}) => {
-                  return (
-                    <DatePicker
-                      title="Select date"
-                      mode="date"
-                      modal
-                      open={open}
-                      date={value}
-                      onConfirm={date => {
-                        setDate(date);
-                        setOpen(false);
-                      }}
-                      onCancel={() => setOpen(false)}
-                    />
-                  );
-                }}
-              />
-            </View>
-          </View>
-          <View>
-            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigateButton('AccountInfoScreen')}>
               <View />
-              <Text style={styles.textSign}>Next</Text>
-              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
+              <Text style={styles.textSign}>Sign up as user</Text>
+              <Icon name="arrow-right" color={'white'} size={25} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => navigateButton('PriorityPageScreen')}>
+              <View />
+              <Text style={styles.textSign}>Sign up as shop</Text>
+              <Icon name="arrow-right" color={'white'} size={25} />
             </TouchableOpacity>
           </View>
         </View>
@@ -142,7 +69,7 @@ const SignUpScreen = ({navigation}) => {
   );
 };
 
-export default SignUpScreen;
+export default CreatAsScreen;
 
 const styles = StyleSheet.create({
   linearGradient: {
@@ -188,12 +115,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    borderRadius: 50,
-    borderColor: '#FFFFFF',
+    borderRadius: 20,
+    borderColor: '#DFFF00',
     borderWidth: 1,
     width: 237,
     height: 57,
     justifyContent: 'space-around',
+    backgroundColor: '#758468',
   },
   textSign: {
     color: 'white',
@@ -232,8 +160,5 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     marginBottom: 15,
-  },
-  dateBT: {
-    color: 'black',
   },
 });

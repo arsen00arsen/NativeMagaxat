@@ -14,11 +14,11 @@ export const useMultiSelectComponent = ({selectedOptions, setValue}) => {
   }, [selectedOptions]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = () => {
       try {
-        const token = await AsyncStorage.getItem('token');
+        const token = AsyncStorage.getItem('token');
         setIsItemLoading(true);
-        await fetch(url, {
+        fetch(url, {
           headers: {
             Authorization: 'Bearer ' + token,
           },

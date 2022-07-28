@@ -13,6 +13,7 @@ import {useForm} from 'react-hook-form';
 import {useDispatch} from 'react-redux';
 import CustomInput from '../components/loginComponents/CustomInput';
 import {loginUser} from '../stores/user/userActions';
+import {useTheme} from '@react-navigation/native';
 
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -20,6 +21,7 @@ const EMAIL_REGEX =
 const SignInScreen = ({navigation}) => {
   const {control, handleSubmit} = useForm();
   const [loading, setLoading] = useState(false);
+  const theme = useTheme();
   const dispatch = useDispatch();
   if (loading) {
     return <ActivityIndicator size="large" color="#00ff00" />;
@@ -33,9 +35,12 @@ const SignInScreen = ({navigation}) => {
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#2F4F4F', '#2F4F4F', '#696969']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <View style={styles.content}>
         <Text style={styles.text}>Log In</Text>
         <Animatable.Image
@@ -72,14 +77,14 @@ const SignInScreen = ({navigation}) => {
         <View>
           <TouchableOpacity style={styles.signIn} onPress={submitFormHandler}>
             <LinearGradient
-              colors={['#88673A', '#3C3835']}
+              colors={['#758468', '#758468']}
               style={styles.signIn}>
               <Text style={styles.textSign}>Sign In</Text>
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => navigation.navigate('SignUpScreen')}>
+            onPress={() => navigation.navigate('CreatAsScreen')}>
             <Text style={styles.textSign}>Register</Text>
           </TouchableOpacity>
         </View>
@@ -119,12 +124,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    borderRadius: 50,
-    borderColor: '#FFFFFF',
+    borderRadius: 20,
+    borderColor: '#DFFF00',
     borderWidth: 1,
     width: 237,
     height: 57,
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   arrowIcon: {
     marginRight: 20,
@@ -166,10 +171,13 @@ const styles = StyleSheet.create({
   },
   signIn: {
     width: 237,
-    height: 57,
+    height: 56,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 30,
+    borderRadius: 20,
+    borderColor: '#DFFF00',
+    borderWidth: 1,
+    paddingBottom: 1,
   },
   eyeIcon: {
     paddingRight: 20,

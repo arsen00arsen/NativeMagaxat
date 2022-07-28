@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -12,33 +12,42 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
-import {Controller, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import CustomInput from '../components/loginComponents/CustomInput';
-import {LoginAvatar} from '../components/ImageVedioUpload/LoginAvatar';
-
+import {useTheme} from '@react-navigation/native';
+import {registerUser} from '../stores/user/userActions';
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const AccountInfoScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  const {control, handleSubmit} = useForm({
-    defaultValues: {
-      gender: 'male',
-    },
-  });
+  const theme = useTheme();
+  const {control, handleSubmit, watch} = useForm();
+  let pwd = watch('password');
 
   const submitFormHandler = handleSubmit(data => {
-    dispatch({type: 'FIRST_STEP_SUBMIT', payload: data});
-    navigation.navigate('IneterestingAreaScreen');
+    let myObject = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      lastname: data.lastname,
+      phone_number: data.phone_number,
+      type: 'user',
+    };
+    dispatch(registerUser(myObject));
   });
-  const {user} = useSelector(state => state);
+
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#2F4F4F', '#2F4F4F', '#696969']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
@@ -48,8 +57,8 @@ const AccountInfoScreen = ({navigation}) => {
               <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
-              <Text style={styles.text}>Account</Text>
-              <Text style={styles.text}>Information</Text>
+              <Text style={styles.text}>Creat your</Text>
+              <Text style={styles.text}>profile</Text>
             </View>
             <View />
           </View>
@@ -60,29 +69,32 @@ const AccountInfoScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          {/* <View style={styles.logo}>
-            <LoginAvatar />
-          </View> */}
           <View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Gender</Text>
-              <Controller
-                control={control}
-                name="gender"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <Picker
-                      selectedValue={value}
-                      style={styles.pickerSelectStyles}
-                      onValueChange={onChange}
-                      onBlur={onBlur}>
-                      <Picker.Item label="Male" value="male" />
-                      <Picker.Item label="Female" value="female" />
-                    </Picker>
-                  );
-                }}
-              />
-            </View>
+            <CustomInput
+              style={styles.nameInput}
+              name="name"
+              control={control}
+              title="First Name"
+              rules={{
+                required: 'Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Name cannot be empoty',
+                },
+              }}
+            />
+            <CustomInput
+              name="lastname"
+              control={control}
+              title="Last Name"
+              rules={{
+                required: 'Last Name required',
+                minLength: {
+                  value: 1,
+                  message: 'Last Name cannot be empoty',
+                },
+              }}
+            />
             <CustomInput
               name="email"
               control={control}
@@ -105,11 +117,36 @@ const AccountInfoScreen = ({navigation}) => {
                 },
               }}
             />
+            <CustomInput
+              name="password"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password should be at least 8 characters',
+                },
+              }}
+              title="Password"
+            />
+            <CustomInput
+              name="confirmPassword"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                validate: value =>
+                  value === pwd || 'The passwords do not match',
+              }}
+              title="Confirm Your Password"
+            />
           </View>
           <View>
             <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
-              <Text style={styles.textSign}>Next</Text>
+              <Text style={styles.textSign}>Sign IN</Text>
               <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
             </TouchableOpacity>
           </View>
@@ -125,7 +162,6 @@ const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: 50,
   },
   content: {
     display: 'flex',
@@ -134,6 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     height: '70%',
     paddingHorizontal: 20,
+    paddingTop: 30,
   },
   headerWidthButton: {
     display: 'flex',
@@ -151,7 +188,7 @@ const styles = StyleSheet.create({
   logo: {
     paddingTop: 20,
     height: 150,
-    width: 150,
+    // width: 150,
     borderRadius: 100,
     padding: 20,
   },
@@ -169,12 +206,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
-    borderRadius: 50,
-    borderColor: '#FFFFFF',
+    borderRadius: 20,
+    borderColor: '#DFFF00',
     borderWidth: 1,
-    width: 237,
+    width: 250,
     height: 57,
+    backgroundColor: '#758468',
     justifyContent: 'space-around',
+    marginBottom: 30,
   },
   textSign: {
     color: 'white',
@@ -210,5 +249,16 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+  },
+  dateBT: {
+    color: 'black',
+  },
+  selectAction: {
+    marginTop: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#f2f2f2',
+    backgroundColor: '#FFFFFF',
+    width: 252,
+    borderRadius: 8,
   },
 });

@@ -31,9 +31,15 @@ export const AuthContainer = ({isAuth, userId}) => {
         LocalNotification(sms.message);
       });
   };
-
   return (
     <NavigationContainer>
+      {/* <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        <Stack.Screen name="Homes" component={MainTabScreen} />
+        <Stack.Screen name="Chat" component={ChatScreen} />
+      </Stack.Navigator> */}
       {isAuth ? (
         <Stack.Navigator
           screenOptions={{

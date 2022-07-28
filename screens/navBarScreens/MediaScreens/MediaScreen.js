@@ -59,6 +59,7 @@ const MediaScreen = () => {
         body: fdata,
       });
       const data = await res.json();
+      console.log(data, 'eeeeeeeeeeeee');
       dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
@@ -115,7 +116,7 @@ const MediaScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="transparent"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'MediaSearch'} />

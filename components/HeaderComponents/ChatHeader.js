@@ -2,11 +2,13 @@ import React from 'react';
 import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
+import {StatusBar} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 
 const ChatHeader = props => {
   const navigation = useNavigation();
+
   return (
     <View style={styles.container}>
       <LinearGradient

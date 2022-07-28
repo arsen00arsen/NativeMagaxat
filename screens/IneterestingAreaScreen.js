@@ -13,9 +13,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Picker} from '@react-native-picker/picker';
 import {useDispatch} from 'react-redux';
 import {Controller, useForm} from 'react-hook-form';
+import {useTheme} from '@react-navigation/native';
 
 const IneterestingAreaScreen = ({navigation}) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const {control, handleSubmit} = useForm({
     defaultValues: {
       type1: '1',
@@ -34,7 +36,10 @@ const IneterestingAreaScreen = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar
+        backgroundColor="transparent"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>

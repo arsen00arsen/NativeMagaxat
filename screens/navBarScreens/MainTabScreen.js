@@ -8,7 +8,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import IconSearch from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +21,7 @@ import AccounProfiletScreen from './HomeScreens/AccounProfiletScreen';
 import CommentScreen from '../navBarScreens/HomeScreens/CommentScreen';
 import MediaPageScreen from './MediaScreens/MediaPageScreen';
 import MyAccountStackScreen from './MyAccountScreens/MyAccountStackScreen';
-import IconSec from 'react-native-vector-icons/FontAwesome5';
+import Entypo from 'react-native-vector-icons/Entypo';
 import MesageScreen from './MesageScreen';
 import Chat from './Chat';
 import {useNavigation} from '@react-navigation/native';
@@ -37,8 +37,8 @@ const MainTabScreen = () => {
   return (
     <Tab.Navigator
       initialRouteName="Homes"
-      activeColor="#A48A66"
-      barStyle={{backgroundColor: '#C6B7A2'}}
+      activeColor="#DFFF00"
+      barStyle={{backgroundColor: '#2F4F4F'}}
       shifting={false}
       inactiveColor="#ffffff">
       <Tab.Screen
@@ -52,23 +52,23 @@ const MainTabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Media"
+        name="Stories"
         component={MediaPageScreen}
         tabBarOptions={{style: {borderTopColor: '#ffffff', height: 5}}}
         options={{
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
-            <MaterialIcons name="perm-media" color={color} size={26} />
+            <Entypo name="emoji-flirt" color={color} size={24} />
           ),
         }}
       />
       <Tab.Screen
-        name="Benefactors"
+        name="Exchange"
         component={BensScreens}
         options={{
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
-            <IconSec name="hand-holding-usd" color={color} size={26} />
+            <FontAwesome name="exchange" color={color} size={23} />
           ),
         }}
       />
@@ -82,7 +82,7 @@ const MainTabScreen = () => {
             <MaterialCommunityIcons
               name="account-group"
               color={color}
-              size={26}
+              size={24}
             />
           ),
         }}
@@ -96,7 +96,7 @@ const MainTabScreen = () => {
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
               name="account-circle"
-              size={25}
+              size={24}
               color={color}
             />
           ),

@@ -3,22 +3,21 @@ import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
+// import ImgToBase64 from 'react-native-image-base64';
 
 export const LoginAvatar = props => {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
-  const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState('');
 
   const selectFile = async () => {
-    setSelected(true);
     try {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.images],
       });
+      uploadImage();
       setSingleFile(res[0]);
       setImage(res[0].uri);
-      uploadImage();
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
         alert('Canceled');
@@ -30,36 +29,23 @@ export const LoginAvatar = props => {
     }
   };
 
-  const uploadImage = async () => {
-    const fileToUpload = singleFile;
-    const fdata = new FormData();
-    fdata.append('image', fileToUpload);
+  const uploadImage = () => {
     try {
-      dispatch({type: 'FIRST_STEP_SUBMIT', payload: fdata});
+      console.log(singleFile);
+      dispatch({type: 'FIRST_STEP_SUBMIT', payload: singleFile});
     } catch (error) {
       alert(error);
     } finally {
     }
   };
-
-  let img;
-  if (props?.image !== undefined) {
-    img = {uri: props?.image};
-  } else {
-  }
-
   return (
     <>
-      {selected === false ? (
-        <TouchableOpacity onPress={selectFile} style={styles.container}>
-          <Image style={styles.avatar} {...props} source={img} />
-          <View style={styles.icon}>
-            <Icon name="camera" size={24} color="#B9B9B9" />
-          </View>
-        </TouchableOpacity>
-      ) : (
+      <TouchableOpacity onPress={selectFile} style={styles.container}>
         <Image style={styles.avatar} {...props} source={{uri: image}} />
-      )}
+        <View style={styles.icon}>
+          <Icon name="camera" size={24} color="#B9B9B9" />
+        </View>
+      </TouchableOpacity>
     </>
   );
 };
@@ -67,8 +53,8 @@ export const LoginAvatar = props => {
 const styles = StyleSheet.create({
   avatar: {
     paddingTop: 20,
-    height: 130,
-    width: 130,
+    height: 150,
+    width: 150,
     borderRadius: 100,
     padding: 20,
     resizeMode: 'cover',
@@ -83,8 +69,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomLeftRadius: 55,
-    borderBottomRightRadius: 55,
+    borderBottomLeftRadius: 75,
+    borderBottomRightRadius: 75,
   },
   container: {
     display: 'flex',
@@ -92,6 +78,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'white',
     borderRadius: 99,
+    marginBottom: 10,
   },
   iconText: {
     fontSize: 16,
