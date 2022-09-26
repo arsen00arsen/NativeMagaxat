@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userPhotoChange} from '../../stores/user/userActions';
+import {baseUrl2} from '../../http';
 
 export const AvatarAdd = props => {
   // const navigation = useNavigationn();
@@ -39,7 +40,7 @@ export const AvatarAdd = props => {
     fdata.append('image', fileToUpload);
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch('https://magaxat.com/api/profile/change', {
+      const res = await fetch(baseUrl2 + '/profile/change', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',

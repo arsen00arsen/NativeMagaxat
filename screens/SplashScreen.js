@@ -12,31 +12,29 @@ import {
 
 const SplashScreen = ({navigation}) => {
   const goToFoo = () => {
-    navigation.navigate('SignInScreen')
-}
+    navigation.navigate('SignInScreen');
+  };
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradien}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#674C31" barStyle="light-content" />
       <View style={styles.content}>
         <Text style={styles.text}>Welcome to</Text>
         <Animatable.Image
-           animation="fadeInUpBig"
-           duraton="1500"
+          animation="fadeInUpBig"
+          duraton="1500"
           source={require('../assets/logo.png')}
-           style={styles.logo}
-           resizeMode="stretch"
-         />
-         <TouchableOpacity
-           style={styles.button}
-           onPress={() => goToFoo()}>
-           <Text style={styles.textSign}>Next</Text>
-           {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
+          style={styles.logo}
+          resizeMode="stretch"
+        />
+        <TouchableOpacity style={styles.button} onPress={() => goToFoo()}>
+          <Text style={styles.textSign}>Next</Text>
+          {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
         </TouchableOpacity>
-       </View>
+      </View>
     </LinearGradient>
   );
 };

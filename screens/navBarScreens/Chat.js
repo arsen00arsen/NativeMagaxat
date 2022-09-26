@@ -23,7 +23,6 @@ export default function ChatScreen({route}) {
   useEffect(() => {
     dispatch(loadMessages(receiverId.uid));
   }, []);
-  console.log(receiverId, 'receiverId');
   useEffect(() => {
     const msgs = messag?.messages?.map(msg => {
       return {

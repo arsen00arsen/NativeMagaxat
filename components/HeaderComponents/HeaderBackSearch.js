@@ -51,6 +51,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   logo: {
+    width: 156,
+    height: 35,
     marginHorizontal: 45,
   },
   badgedIcon: {
