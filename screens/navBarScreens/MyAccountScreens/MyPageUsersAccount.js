@@ -15,7 +15,6 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
-import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
@@ -27,9 +26,10 @@ const MyPageUsersAccount = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route.params?.user.id;
-  const {options} = useAccountProfHome(id);
+  const {options} = useAccountProfHome({id, isSub});
   const {isLoading, posts} = useSelector(state => state.post);
   let user = options.data;
+  let isS = options.subscribed;
   useEffect(() => {
     dispatch(loadPostsUser({currentPage: currentPage, id: id}));
   }, []);
@@ -54,7 +54,7 @@ const MyPageUsersAccount = props => {
             <Text style={styles.nameSurname}>{user?.name}</Text>
             <Text style={styles.nameSurname}>{user?.lastname}</Text>
           </View>
-          {isSub.subscribed == true || props.isSubscribers === true ? (
+          {isS === true || props.isSubscribers === true ? (
             <Icon name="shield-checkmark-sharp" size={24} color="#AF9065" />
           ) : null}
         </View>
@@ -80,7 +80,7 @@ const MyPageUsersAccount = props => {
             <TouchableOpacity
               style={styles.postSubscribeButton}
               onPress={subButton}>
-              {isSub.subscribed === true ? (
+              {isS === true ? (
                 <Text style={styles.postSubscribeButtonText}>Unsubscribe</Text>
               ) : (
                 <Text style={styles.postSubscribeButtonText}>Subscribe</Text>

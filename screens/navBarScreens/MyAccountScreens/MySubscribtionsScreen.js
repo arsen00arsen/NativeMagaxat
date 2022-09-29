@@ -60,7 +60,7 @@ const MySubscribtionsScreen = props => {
         backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearch serachFalse="false" />
       <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
         <View style={styles.wrapStyle}>
           <View style={{marginBottom: 20}}>

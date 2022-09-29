@@ -25,7 +25,7 @@ const AccountSearch = props => {
   if (searchContent === 'Users') {
     url = baseUrl2 + '/users/list?name=' + data;
   } else {
-    url = baseUrl2 + '/benefactors_api?name=' + data;
+    url = baseUrl2 + '/users/list?name' + data;
   }
 
   useEffect(() => {

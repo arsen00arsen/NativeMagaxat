@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 156,
-    height: 35,
+    height: 37,
     marginHorizontal: 45,
   },
   badgedIcon: {

@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import IconSearch from 'react-native-vector-icons/Feather';
 // const BadgedIcon = withBadge(2)(Icon);
 
-const HeaderBackSearch = () => {
+const HeaderBackSearch = props => {
   const navigation = useNavigation();
 
   return (
@@ -27,14 +27,18 @@ const HeaderBackSearch = () => {
         source={require('../../assets/logoHeader.png')}
         style={styles.logo}
       />
-      <LinearGradient
-        style={styles.searchIcon}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
-        locations={[0.0, 0.3]}
-        colors={['#cccccc', '#c4c4c4']}>
-        <IconSearch name="search" size={24} color="black" />
-      </LinearGradient>
+      {props.serachFalse === 'false' ? (
+        <View style={styles.empoty} />
+      ) : (
+        <LinearGradient
+          style={styles.searchIcon}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 1}}
+          locations={[0.0, 0.3]}
+          colors={['#cccccc', '#c4c4c4']}>
+          <IconSearch name="search" size={24} color="black" />
+        </LinearGradient>
+      )}
     </View>
   );
 };
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 156,
-    height: 35,
+    height: 37,
     marginHorizontal: 45,
   },
   badgedIcon: {
@@ -77,5 +81,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     height: '100%',
+  },
+  empoty: {
+    width: 30,
   },
 });

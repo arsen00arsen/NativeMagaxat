@@ -56,7 +56,7 @@ const SettingsScreen = ({navigation}) => {
         backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearch serachFalse="false" />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <View style={{marginBottom: 20}}>{/* <MyaccountUsserInfor /> */}</View>
         <View style={styles.action}>

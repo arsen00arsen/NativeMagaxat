@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
   },
   logo: {
-    height: 35,
+    height: 37,
     width: 146,
   },
   logoContainer: {

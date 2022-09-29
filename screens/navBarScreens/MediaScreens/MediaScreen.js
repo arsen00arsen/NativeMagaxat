@@ -65,7 +65,7 @@ const MediaScreen = () => {
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.log(error, 'eeeeeeeeeeeee');
+      console.log(error);
       alert(error.message);
     } finally {
     }

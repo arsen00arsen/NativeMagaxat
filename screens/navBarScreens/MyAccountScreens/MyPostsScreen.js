@@ -50,7 +50,7 @@ const MyPostsScreen = props => {
         backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearch serachFalse="false" />
       <MyaccountUsserInfor />
       {myPosts.posts?.length < 1 ? (
         <View style={styles.usersEmpoty}>
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     justifyContent: 'flex-start',
     paddingHorizontal: 15,
     paddingTop: 15,
