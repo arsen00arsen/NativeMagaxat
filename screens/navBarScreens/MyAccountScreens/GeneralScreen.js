@@ -69,14 +69,14 @@ const GeneralScreen = ({navigation}) => {
   if (!Object.values(user.user).length) {
     return null;
   }
-  console.log(user.user?.interesting_type, 'interesting_type');
+
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearch serachFalse="false" />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <MyaccountUsserInforAvatar />
         <View style={styles.action}>

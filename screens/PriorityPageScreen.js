@@ -32,7 +32,7 @@ const PriorityPageScreen = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#009387" barStyle="light-content" />
+      <StatusBar backgroundColor="#674C31" barStyle="light-content" />
       <View style={styles.content}>
         <View style={styles.headerWidthButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>

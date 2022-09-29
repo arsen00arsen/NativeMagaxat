@@ -10,32 +10,14 @@ export const useAccountProfHome = props => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const {data} = await GetUserService.getUserId(props);
+        const {data} = await GetUserService.getUserId(props.id);
         setOptions(data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchData();
-  }, []);
-
-  return {options};
-};
-
-export const useBenAccountProfHome = props => {
-  const [options, setOptions] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {data} = await GetBenUserService.getBenUserId(props);
-        setOptions(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  }, [props.isSub]);
 
   return {options};
 };

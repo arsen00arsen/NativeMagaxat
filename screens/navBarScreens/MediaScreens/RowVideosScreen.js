@@ -15,7 +15,6 @@ export default function RowVideosScreen(props) {
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
   let content = medias.map(elem => {
-    console.log(elem, 'ppp');
     return (
       <View key={elem.id} style={styles.column}>
         <VideoPlayer

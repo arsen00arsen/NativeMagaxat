@@ -21,6 +21,7 @@ import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import MediaContent from '../../../components/MediaContent';
 import {setSinglePost} from '../../../stores/post/postActions';
+import {baseUrl2} from '../../../http';
 
 const MediaScreen = () => {
   const navigation = useNavigation();
@@ -50,7 +51,7 @@ const MediaScreen = () => {
     fdata.append('title', title.title);
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch('https://magaxat.com/api/posts_api', {
+      const res = await fetch(baseUrl2 + '/api/posts_api', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -64,7 +65,7 @@ const MediaScreen = () => {
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.log(error, 'eeeeeeeeeeeee');
+      console.log(error);
       alert(error.message);
     } finally {
     }
@@ -115,7 +116,7 @@ const MediaScreen = () => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'MediaSearch'} />
