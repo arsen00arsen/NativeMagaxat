@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadStori, setSingleStori} from '../stores/stories/storiesAction';
-
+import {baseUrl2} from '../http';
 const Stories = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const Stories = () => {
     console.log(fdata._parts, 'fileToUpload');
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch('https://magaxat.com/api/stories_api', {
+      const res = await fetch(baseUrl2 + '/stories_api', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',

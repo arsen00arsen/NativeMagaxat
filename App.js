@@ -51,7 +51,7 @@ const App = () => {
           animation="fadeInUpBig"
           duraton="1500"
           source={require('./assets/logo.png')}
-          style={{width: 237, marginBottom: 100}}
+          style={{width: 237, height: 57, marginBottom: 100}}
           resizeMode="stretch"
         />
         <ActivityIndicator size="large" color="white" />

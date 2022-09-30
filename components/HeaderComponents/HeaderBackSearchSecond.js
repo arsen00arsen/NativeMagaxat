@@ -64,7 +64,8 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
-    width: 146,
+    width: 156,
+    height: 37,
   },
   badgedIcon: {
     display: 'flex',

@@ -25,7 +25,7 @@ const AccountSearch = props => {
   if (searchContent === 'Users') {
     url = baseUrl2 + '/users/list?name=' + data;
   } else {
-    url = baseUrl2 + '/benefactors_api?name=' + data;
+    url = baseUrl2 + '/users/list?name' + data;
   }
 
   useEffect(() => {
@@ -84,7 +84,7 @@ const AccountSearch = props => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>

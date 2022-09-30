@@ -28,7 +28,7 @@ export default function MediaContent() {
   let content = medias.map(elem => {
     if (columnOrGrid === 'column') {
       return (content = (
-        <View style={styles.column} key={elem.id}>
+        <View style={styles.column} key={elem?.id}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('RowVideosScreen', {
