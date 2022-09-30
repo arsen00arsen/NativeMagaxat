@@ -3,6 +3,7 @@ import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userPhotoChange} from '../../stores/user/userActions';
 import {baseUrl2} from '../../http';
@@ -14,21 +15,23 @@ export const AvatarAdd = props => {
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState('');
 
+  const options2 = {
+    title: 'Image Picker',
+    mediaType: 'image',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+
   const selectFile = async () => {
     setSelected(true);
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
-      setSingleFile(res[0]);
-      setImage(res[0].uri);
+      const res = await launchImageLibrary(options2);
+      setSingleFile(res.assets[0]);
+      setImage(res.assets[0].uri);
     } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        alert('Canceled');
-      } else {
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
-      }
+      alert('Unknown Error: ' + JSON.stringify(err));
     } finally {
     }
   };
@@ -99,13 +102,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     bottom: 0,
     minWidth: '100%',
-    height: '50%',
+    // height: '50%',
     opacity: 0.5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
+    // borderBottomLeftRadius: 80,
+    // borderBottomRightRadius: 80,
+    borderRadius: 80,
+    width: '100%',
+    height: '100%',
   },
   container: {
     display: 'flex',

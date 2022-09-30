@@ -7,7 +7,7 @@
  */
 import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
-// import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import {requestUserPermission} from './utils/pushNotification';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -24,12 +24,12 @@ const App = () => {
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());
-    // requestUserPermission;
+    requestUserPermission;
     // createChanels();
   }, []);
 
   // const createChanels = async () => {
-  //   PushNotification.createChannel({
+  //   PushNotificationIOS.createChannel({
   //     channelId: 'test',
   //     channelName: 'Test Channel',
   //   });

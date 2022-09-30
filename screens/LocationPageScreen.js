@@ -17,7 +17,6 @@ import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
 import CountryCodeList from '../components/CountryCodeList';
 import {registerUser} from '../stores/user/userActions';
-
 const LocationPageScreen = ({navigation}) => {
   const [check, setCheck] = useState(true);
   const dispatch = useDispatch();
@@ -27,7 +26,6 @@ const LocationPageScreen = ({navigation}) => {
     },
   });
   const user = useSelector(state => state.user.data);
-
   const signIn = async () => {
     if (check === false) {
       alert('Please check privacy policy');
@@ -35,7 +33,6 @@ const LocationPageScreen = ({navigation}) => {
       dispatch(registerUser(user));
     }
   };
-
   return (
     <LinearGradient
       start={{x: 1, y: 1}}
@@ -124,9 +121,7 @@ const LocationPageScreen = ({navigation}) => {
     </LinearGradient>
   );
 };
-
 export default LocationPageScreen;
-
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,

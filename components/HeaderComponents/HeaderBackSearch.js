@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -52,7 +58,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    marginVertical: 10,
+    marginVertical: Platform.OS === 'ios' ? 33 : 10,
   },
   logo: {
     width: 156,

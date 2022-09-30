@@ -27,7 +27,7 @@ export const loginUser = (email, password) => async dispatch => {
     dispatch(loginSuccess(data.data));
     await AsyncStorage.setItem('token', data.token);
   } catch (error) {
-    console.log(error);
+    alert(error);
     dispatch(loginError(error.message));
   }
 };
@@ -39,7 +39,7 @@ export const registerUser = dataToSend => async dispatch => {
     dispatch(loginSuccess(data.data));
     await AsyncStorage.setItem('token', data.token);
   } catch (error) {
-    console.log(error);
+    alert(error);
     dispatch(loginError(error.message));
   }
 };

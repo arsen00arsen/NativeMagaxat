@@ -13,7 +13,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
-import DocumentPicker from 'react-native-document-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -42,6 +41,14 @@ const MediaScreen = () => {
   };
   const options2 = {
     title: 'Select Avatar',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  const options2 = {
+    title: 'Image Picker',
+    mediaType: 'image',
     storageOptions: {
       skipBackup: true,
       path: 'images',
