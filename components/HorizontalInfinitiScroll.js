@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     color: '#838383',
-    fontFamily: 'Roboto-Bold',
+    // fontFamily: 'Roboto-Bold',
   },
   lastUsersContainercontent: {
     display: 'flex',

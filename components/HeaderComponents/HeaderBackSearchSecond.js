@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {Image, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import * as Animatable from 'react-native-animatable';
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: 40,
     marginVertical: 10,
+    marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
     width: 156,

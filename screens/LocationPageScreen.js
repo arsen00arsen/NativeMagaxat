@@ -5,6 +5,7 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import LinearGradient from 'react-native-linear-gradient';
@@ -54,24 +55,46 @@ const LocationPageScreen = ({navigation}) => {
             resizeMode="stretch"
           />
           <CountryCodeList />
-          <View style={styles.action}>
-            <Text style={styles.inputHeader}>Language</Text>
-            <Controller
-              control={control}
-              name="language"
-              render={({field: {onChange, value, onBlur}}) => {
-                return (
-                  <Picker
-                    selectedValue={value}
-                    style={styles.pickerSelectStyles}
-                    onValueChange={onChange}
-                    onBlur={onBlur}>
-                    <Picker.Item label="English" value="1" />
-                  </Picker>
-                );
-              }}
-            />
-          </View>
+          {Platform.OS === 'ios' ? (
+            <View style={styles.actionIOS}>
+              <Text style={styles.inputHeader}>Language</Text>
+              <Controller
+                control={control}
+                name="language"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      itemStyle={{fontSize: 13, height: 100}}
+                      onBlur={onBlur}>
+                      <Picker.Item label="English" value="1" />
+                    </Picker>
+                  );
+                }}
+              />
+            </View>
+          ) : (
+            <View style={styles.action}>
+              <Text style={styles.inputHeader}>Language</Text>
+              <Controller
+                control={control}
+                name="language"
+                render={({field: {onChange, value, onBlur}}) => {
+                  return (
+                    <Picker
+                      selectedValue={value}
+                      style={styles.pickerSelectStyles}
+                      onValueChange={onChange}
+                      onBlur={onBlur}>
+                      <Picker.Item label="English" value="1" />
+                    </Picker>
+                  );
+                }}
+              />
+            </View>
+          )}
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.signIn} onPress={signIn}>
@@ -201,5 +224,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight: '400',
     fontSize: 18,
+  },
+  actionIOS: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginBottom: 20,
   },
 });

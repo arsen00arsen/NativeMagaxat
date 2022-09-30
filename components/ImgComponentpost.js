@@ -125,7 +125,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     width: '100%',
     padding: 15,
     marginTop: 20,
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
   },
   inf: {
     width: '80%',
+    paddingLeft: 15,
   },
   usersname: {
     color: '#666666',
@@ -165,6 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     paddingBottom: 10,
+    width: '100%',
   },
   usersTitle: {
     maxWidth: '100%',
@@ -184,7 +187,7 @@ const styles = StyleSheet.create({
     color: '#727272',
   },
   usersProfileBGimage: {
-    width: 350,
+    width: 320,
     height: 170,
     borderTopRightRadius: 10,
   },

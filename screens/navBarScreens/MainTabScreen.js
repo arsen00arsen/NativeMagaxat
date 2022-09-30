@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   ImageBackground,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import IconSearch from 'react-native-vector-icons/Feather';
@@ -137,7 +138,11 @@ const MessageStack = ({navigation}) => (
           />
         </View>
       ),
-      headerStyle: {backgroundColor: '#F2F2F2', elevation: 0},
+      headerStyle: {
+        backgroundColor: '#F2F2F2',
+        elevation: 0,
+        shadowColor: Platform.OS === 'ios' ? 'transparent' : 'unset',
+      },
       headerLeft: () => {
         return (
           <View style={styles.leftCont}>

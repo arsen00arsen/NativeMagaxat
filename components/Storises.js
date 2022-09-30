@@ -8,7 +8,6 @@ import {
   StyleSheet,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import DocumentPicker, {types} from 'react-native-document-picker';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -41,6 +40,7 @@ const Stories = () => {
       type: fileToUpload.type,
       name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
     });
+    console.log(fdata._parts, 'fileToUpload');
     try {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch(baseUrl2 + '/stories_api', {
@@ -52,6 +52,7 @@ const Stories = () => {
         body: fdata,
       });
       const {data} = await res.json();
+      console.log(data, ';;;;;;');
       dispatch(setSingleStori(data));
     } catch (error) {
       alert(error.message);
@@ -61,13 +62,14 @@ const Stories = () => {
   const selectFile = async () => {
     try {
       const res = await launchImageLibrary(options);
+      console.log(res.assets[0].type[0], 'llllllklklkkkk');
       if (
         res.assets[0].type === 'video/mp4' &&
         res.assets[0].fileSize < 10485760
       ) {
         postStory(res.assets[0]);
       } else if (
-        res.assets[0].type === 'image/jpeg' &&
+        res.assets[0].type[0] === 'i' &&
         res.assets[0].fileSize < 2097152
       ) {
         postStory(res.assets[0]);
@@ -146,13 +148,13 @@ const styles = StyleSheet.create({
     bottom: 15,
     right: 10,
     zIndex: 1,
-    paddingRight: 3,
+    // paddingRight: 3,
+    backgroundColor: 'white',
+    borderRadius: 100,
   },
   etno: {
     fontSize: 20,
     color: '#405de6',
-    backgroundColor: 'white',
-    borderRadius: 100,
     marginVertical: 'auto',
   },
   otherStory: {

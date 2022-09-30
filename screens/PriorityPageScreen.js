@@ -5,6 +5,8 @@ import {
   Text,
   StatusBar,
   TouchableOpacity,
+  ScrollView,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -52,67 +54,137 @@ const PriorityPageScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          <View style={styles.action}>
-            <Text style={styles.inputHeader}>Type</Text>
-            <Controller
-              control={control}
-              name="type1"
-              render={({field: {onChange, value, onBlur}}) => {
-                return (
-                  <Picker
-                    selectedValue={value}
-                    style={styles.pickerSelectStyles}
-                    onValueChange={onChange}
-                    onBlur={onBlur}>
-                    <Picker.Item label="Education / training" value="11" />
-                    <Picker.Item
-                      label="Healthcare / Pharmaceutical"
-                      value="12"
-                    />
-                    <Picker.Item label="Construction" value="13" />
-                    <Picker.Item label="Human Resources" value="14" />
-                    <Picker.Item label="Sports" value="15" />
-                    <Picker.Item
-                      label="Procurement/Logistics/Courier"
-                      value="16"
-                    />
-                  </Picker>
-                );
-              }}
-            />
-          </View>
-          <View style={styles.action}>
-            <Text style={styles.inputHeader}>Type Indigent</Text>
-            <Controller
-              control={control}
-              name="type2"
-              render={({field: {onChange, value, onBlur}}) => {
-                return (
-                  <Picker
-                    selectedValue={value}
-                    style={styles.pickerSelectStyles}
-                    onValueChange={onChange}
-                    onBlur={onBlur}>
-                    <Picker.Item label="Beauty" value="17" />
-                    <Picker.Item
-                      label="Healthcare / Pharmaceutical"
-                      value="12"
-                    />
-                    <Picker.Item label="Production" value="18" />
-                    <Picker.Item label="Business / Management" value="19" />
-                    <Picker.Item
-                      label="Art / Design / Architecture"
-                      value="20"
-                    />
-                    <Picker.Item
-                      label="General / professional / Other services"
-                      value="21"
-                    />
-                  </Picker>
-                );
-              }}
-            />
-          </View>
+          {Platform.OS === 'ios' ? (
+            <>
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Type</Text>
+                <Controller
+                  control={control}
+                  name="type1"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        itemStyle={{fontSize: 13, height: 100}}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Education / training" value="11" />
+                        <Picker.Item
+                          label="Healthcare / Pharmaceutical"
+                          value="12"
+                        />
+                        <Picker.Item label="Construction" value="13" />
+                        <Picker.Item label="Human Resources" value="14" />
+                        <Picker.Item label="Sports" value="15" />
+                        <Picker.Item
+                          label="Procurement/Logistics/Courier"
+                          value="16"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Type Indigent</Text>
+                <Controller
+                  control={control}
+                  name="type2"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        itemStyle={{fontSize: 13, height: 100}}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Beauty" value="17" />
+                        <Picker.Item
+                          label="Healthcare / Pharmaceutical"
+                          value="12"
+                        />
+                        <Picker.Item label="Production" value="18" />
+                        <Picker.Item label="Business / Management" value="19" />
+                        <Picker.Item
+                          label="Art / Design / Architecture"
+                          value="20"
+                        />
+                        <Picker.Item
+                          label="General / professional / Other services"
+                          value="21"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+            </>
+          ) : (
+            <>
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Type</Text>
+                <Controller
+                  control={control}
+                  name="type1"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Education / training" value="11" />
+                        <Picker.Item
+                          label="Healthcare / Pharmaceutical"
+                          value="12"
+                        />
+                        <Picker.Item label="Construction" value="13" />
+                        <Picker.Item label="Human Resources" value="14" />
+                        <Picker.Item label="Sports" value="15" />
+                        <Picker.Item
+                          label="Procurement/Logistics/Courier"
+                          value="16"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Type Indigent</Text>
+                <Controller
+                  control={control}
+                  name="type2"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Beauty" value="17" />
+                        <Picker.Item
+                          label="Healthcare / Pharmaceutical"
+                          value="12"
+                        />
+                        <Picker.Item label="Production" value="18" />
+                        <Picker.Item label="Business / Management" value="19" />
+                        <Picker.Item
+                          label="Art / Design / Architecture"
+                          value="20"
+                        />
+                        <Picker.Item
+                          label="General / professional / Other services"
+                          value="21"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+            </>
+          )}
         </View>
         <View>
           <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
@@ -157,6 +229,7 @@ const styles = StyleSheet.create({
   logo: {
     width: 245,
     height: 200,
+    marginBottom: Platform.OS === 'ios' ? 15 : 0,
   },
   icon: {
     paddingLeft: 10,
@@ -206,5 +279,10 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
+  },
+  actionIOS: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginBottom: 20,
   },
 });

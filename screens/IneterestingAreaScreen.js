@@ -6,6 +6,7 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  Platform,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
@@ -56,84 +57,173 @@ const IneterestingAreaScreen = ({navigation}) => {
             style={styles.logo}
             resizeMode="stretch"
           />
-          <View style={styles.actionbody}>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Interest #1</Text>
-              <Controller
-                control={control}
-                name="type1"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <Picker
-                      selectedValue={value}
-                      style={styles.pickerSelectStyles}
-                      onValueChange={onChange}
-                      onBlur={onBlur}>
-                      <Picker.Item label="Education / training" value="1" />
-                      <Picker.Item
-                        label="Sales / service management"
-                        value="2"
-                      />
-                      <Picker.Item
-                        label="Administrative / office-work"
-                        value="3"
-                      />
-                      <Picker.Item
-                        label="Tourism / Hospitality / HoReCa"
-                        value="4"
-                      />
-                    </Picker>
-                  );
-                }}
-              />
+          {Platform.OS === 'ios' ? (
+            <View style={{width: '80%'}}>
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Interest #1</Text>
+                <Controller
+                  control={control}
+                  name="type1"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        itemStyle={{fontSize: 13, height: 100}}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Education / training" value="1" />
+                        <Picker.Item
+                          label="Sales / service management"
+                          value="2"
+                        />
+                        <Picker.Item
+                          label="Administrative / office-work"
+                          value="3"
+                        />
+                        <Picker.Item
+                          label="Tourism / Hospitality / HoReCa"
+                          value="4"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Interest #2</Text>
+                <Controller
+                  control={control}
+                  name="type2"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        itemStyle={{fontSize: 13, height: 100}}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item
+                          label="Marketing / Advertising"
+                          value="5"
+                        />
+                        <Picker.Item
+                          label="Communications / Journalism / PR"
+                          value="6"
+                        />
+                        <Picker.Item
+                          label="Accounting / Bookkeeping / Cash register"
+                          value="7"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Interest #3</Text>
+                <Controller
+                  control={control}
+                  name="type3"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        itemStyle={{fontSize: 13, height: 100}}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Finance Management" value="8" />
+                        <Picker.Item label="Banking / credit" value="9" />
+                        <Picker.Item label="Audit / Compliance" value="10" />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
             </View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Interest #2</Text>
-              <Controller
-                control={control}
-                name="type2"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <Picker
-                      selectedValue={value}
-                      style={styles.pickerSelectStyles}
-                      onValueChange={onChange}
-                      onBlur={onBlur}>
-                      <Picker.Item label="Marketing / Advertising" value="5" />
-                      <Picker.Item
-                        label="Communications / Journalism / PR"
-                        value="6"
-                      />
-                      <Picker.Item
-                        label="Accounting / Bookkeeping / Cash register"
-                        value="7"
-                      />
-                    </Picker>
-                  );
-                }}
-              />
+          ) : (
+            <View style={styles.actionbody}>
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Interest #1</Text>
+                <Controller
+                  control={control}
+                  name="type1"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Education / training" value="1" />
+                        <Picker.Item
+                          label="Sales / service management"
+                          value="2"
+                        />
+                        <Picker.Item
+                          label="Administrative / office-work"
+                          value="3"
+                        />
+                        <Picker.Item
+                          label="Tourism / Hospitality / HoReCa"
+                          value="4"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Interest #2</Text>
+                <Controller
+                  control={control}
+                  name="type2"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item
+                          label="Marketing / Advertising"
+                          value="5"
+                        />
+                        <Picker.Item
+                          label="Communications / Journalism / PR"
+                          value="6"
+                        />
+                        <Picker.Item
+                          label="Accounting / Bookkeeping / Cash register"
+                          value="7"
+                        />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Interest #3</Text>
+                <Controller
+                  control={control}
+                  name="type3"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Finance Management" value="8" />
+                        <Picker.Item label="Banking / credit" value="9" />
+                        <Picker.Item label="Audit / Compliance" value="10" />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
             </View>
-            <View style={styles.action}>
-              <Text style={styles.inputHeader}>Interest #3</Text>
-              <Controller
-                control={control}
-                name="type3"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <Picker
-                      selectedValue={value}
-                      style={styles.pickerSelectStyles}
-                      onValueChange={onChange}
-                      onBlur={onBlur}>
-                      <Picker.Item label="Finance Management" value="8" />
-                      <Picker.Item label="Banking / credit" value="9" />
-                      <Picker.Item label="Audit / Compliance" value="10" />
-                    </Picker>
-                  );
-                }}
-              />
-            </View>
-          </View>
+          )}
+
           <View>
             <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
               <View />
@@ -221,7 +311,7 @@ const styles = StyleSheet.create({
   inputHeader: {
     fontSize: 12,
     color: '#828282',
-    paddingTop: 10,
+    paddingTop: 5,
     paddingLeft: 12,
   },
   pickerSelectStyles: {
@@ -231,5 +321,10 @@ const styles = StyleSheet.create({
   },
   actionbody: {
     width: 250,
+  },
+  actionIOS: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    marginBottom: 20,
   },
 });

@@ -1,16 +1,31 @@
 import React from 'react';
-import {View, Image, StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {
+  View,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  StatusBar,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import {useTheme} from '@react-navigation/native';
+
 import IconSearch from 'react-native-vector-icons/Feather';
 // const BadgedIcon = withBadge(2)(Icon);
 
 const HeaderChatSearch = props => {
   const navigation = useNavigation();
   let count = props.count;
+  const theme = useTheme();
   return (
     <View style={styles.container}>
+      <StatusBar
+        backgroundColor="#009387"
+        barStyle={theme.dark ? 'light-content' : 'dark-content'}
+      />
       <LinearGradient
         style={styles.badgedIcon}
         start={{x: 0, y: 0}}
@@ -58,6 +73,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     width: '100%',
     marginVertical: 10,
+    marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
     width: 156,

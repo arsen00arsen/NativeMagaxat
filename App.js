@@ -7,6 +7,7 @@
  */
 import React, {useEffect} from 'react';
 import 'react-native-gesture-handler';
+// import PushNotification from 'react-native-push-notification';
 import {requestUserPermission} from './utils/pushNotification';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -14,23 +15,25 @@ import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
-import PushNotification from 'react-native-push-notification';
+import Icon from 'react-native-vector-icons/Feather';
+
+Icon.loadFont();
 
 const App = () => {
   const dispatch = useDispatch();
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());
-    requestUserPermission;
-    createChanels();
+    // requestUserPermission;
+    // createChanels();
   }, []);
 
-  const createChanels = async () => {
-    PushNotification.createChannel({
-      channelId: 'test',
-      channelName: 'Test Channel',
-    });
-  };
+  // const createChanels = async () => {
+  //   PushNotification.createChannel({
+  //     channelId: 'test',
+  //     channelName: 'Test Channel',
+  //   });
+  // };
   if (loading) {
     return (
       <LinearGradient
