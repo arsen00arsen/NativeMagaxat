@@ -12,7 +12,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
-import DocumentPicker from 'react-native-document-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -35,6 +34,14 @@ const MediaScreen = () => {
   const options = {
     title: 'Video Picker',
     mediaType: 'video',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
+  const options2 = {
+    title: 'Image Picker',
+    mediaType: 'image',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -74,24 +81,18 @@ const MediaScreen = () => {
     setImage({type: 'image'});
     setSelected(true);
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
-      if (res[0].size < 2097152) {
-        setSingleFile(res[0]);
-        setImage({uri: res[0].uri, type: 'image'});
+      const res = await launchImageLibrary(options2);
+      if (res.assets[0].fileSize < 2097152) {
+        setSingleFile(res.assets[0]);
+        setImage({uri: res.assets[0].uri, type: 'image'});
       } else {
         alert('Max size of image must be 2 mb');
         setSelected(false);
       }
     } catch (err) {
       setSingleFile(null);
-      if (DocumentPicker.isCancel(err)) {
-        alert('Canceled');
-      } else {
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
-      }
+      alert('Max size of video mast be 10 mb');
+      setSingleFile(null);
     }
   };
 

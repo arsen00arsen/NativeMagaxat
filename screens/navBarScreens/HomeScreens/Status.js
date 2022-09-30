@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Animated,
+  Platform,
 } from 'react-native';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'gray',
     position: 'absolute',
     top: 18,
+    marginTop: Platform.OS === 'ios' ? 50 : 0,
   },
   secondContainer: {
     padding: 15,
@@ -122,6 +124,7 @@ const styles = StyleSheet.create({
     top: 12,
     left: 0,
     width: '90%',
+    marginTop: Platform.OS === 'ios' ? 50 : 0,
   },
   smallContainer: {
     borderRadius: 100,
