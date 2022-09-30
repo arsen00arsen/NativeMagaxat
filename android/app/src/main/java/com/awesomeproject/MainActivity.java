@@ -1,4 +1,4 @@
-package com.magaxatcom;
+package com.sponsor;
 
 import com.facebook.react.ReactActivity;
 
