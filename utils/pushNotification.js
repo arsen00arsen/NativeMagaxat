@@ -15,12 +15,9 @@
 // };
 import PushNotificationIOS from '@react-native-community/push-notification-ios';
 export const LocalNotification = async sms => {
-  // const messagecount = useSelector(state => state?.messages?.messageCount);
-  console.log(sms, 'smsmsm');
   PushNotificationIOS.presentLocalNotification({
     alertTitle: sms.full_name,
     alertBody: sms.text,
     // applicationIconBadgeNumber: messagecount,
-    // soundName: 'default',
   });
 };

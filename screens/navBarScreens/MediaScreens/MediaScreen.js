@@ -32,16 +32,13 @@ const MediaScreen = () => {
   const [singleFile, setSingleFile] = useState(null);
   const {control, handleSubmit, reset} = useForm();
   const options = {
-    title: 'Video Picker',
+    title: 'Select video',
     mediaType: 'video',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
+    path: 'video',
+    quality: 1,
   };
   const options2 = {
-    title: 'Image Picker',
-    mediaType: 'image',
+    title: 'Select Avatar',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -53,12 +50,14 @@ const MediaScreen = () => {
     fdata.append(image.type === 'image' ? 'image_path' : 'video_path', {
       uri: fileToUpload.uri,
       type: fileToUpload.type,
-      name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
+      name: fileToUpload.fileName,
     });
     fdata.append('title', title.title);
+
     try {
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch(baseUrl2 + '/api/posts_api', {
+      console.log(token);
+      const res = await fetch(baseUrl2 + '/posts_api', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',
