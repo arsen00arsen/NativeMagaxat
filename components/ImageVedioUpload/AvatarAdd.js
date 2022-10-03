@@ -40,7 +40,11 @@ export const AvatarAdd = props => {
     setSelected(false);
     const fileToUpload = singleFile;
     const fdata = new FormData();
-    fdata.append('image', fileToUpload);
+    fdata.append('image', {
+      uri: fileToUpload.uri,
+      type: fileToUpload.type,
+      name: fileToUpload.fileName,
+    });
     try {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch(baseUrl2 + '/profile/change', {
@@ -79,7 +83,7 @@ export const AvatarAdd = props => {
           <Image style={styles.avatar} {...props} source={{uri: image}} />
           {selected === true ? (
             <View style={styles.icon}>
-              <Text style={styles.iconText}> Add Photo</Text>
+              <Text style={styles.iconText}> Change Photo</Text>
             </View>
           ) : null}
         </TouchableOpacity>
