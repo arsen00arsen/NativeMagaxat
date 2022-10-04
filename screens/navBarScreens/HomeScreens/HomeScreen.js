@@ -30,7 +30,6 @@ const HomeScreen = props => {
   const [refreshing, setRefreshing] = useState(false);
   const newMsg = useSelector(state => state?.messages?.allNewMessages);
   const messagecount = useSelector(state => state?.messages?.messageCount);
-
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadPosts(currentPage + 1));

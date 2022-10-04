@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
@@ -30,6 +31,7 @@ const MediaScreen = () => {
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
+  const [load, setLoad] = useState();
   const {control, handleSubmit, reset} = useForm();
   const options = {
     title: 'Select video',
@@ -55,8 +57,8 @@ const MediaScreen = () => {
     fdata.append('title', title.title);
 
     try {
+      setLoad('true');
       const token = await AsyncStorage.getItem('token');
-      console.log(token);
       const res = await fetch(baseUrl2 + '/posts_api', {
         method: 'post',
         headers: {
@@ -66,16 +68,17 @@ const MediaScreen = () => {
         body: fdata,
       });
       const data = await res.json();
+      setLoad('false');
       dispatch(setSinglePost(data));
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.log(error);
       alert(error.message);
     } finally {
     }
   });
+
   const selectFile = async () => {
     setImage({type: 'image'});
     setSelected(true);
@@ -148,19 +151,30 @@ const MediaScreen = () => {
             {selected !== false && image !== null ? (
               <>
                 {image.type == 'image' ? (
-                  <Image source={{uri: image?.uri}} style={styles.io} />
+                  <View>
+                    {load === 'true' ? (
+                      <ActivityIndicator style={styles.io} />
+                    ) : (
+                      <Image source={{uri: image?.uri}} style={styles.io} />
+                    )}
+                  </View>
                 ) : (
-                  <VideoPlayer
-                    video={{uri: image?.uri}}
-                    autoplay={false}
-                    defaultMuted={true}
-                    // thumbnail={require('../assets/logo.png')}
-                    style={styles.io}
-                    fullscreen={true}
-                    resizeMode="contain"
-                  />
+                  <View>
+                    {load === 'true' ? (
+                      <ActivityIndicator style={styles.io} />
+                    ) : (
+                      <VideoPlayer
+                        video={{uri: image?.uri}}
+                        autoplay={false}
+                        defaultMuted={true}
+                        // thumbnail={require('../assets/logo.png')}
+                        style={styles.io}
+                        fullscreen={true}
+                        resizeMode="contain"
+                      />
+                    )}
+                  </View>
                 )}
-
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}
