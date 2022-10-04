@@ -41,7 +41,7 @@ const CommentScreen = props => {
   const submitFormHandler = handleSubmit(async submitData => {
     try {
       reset({}, {keepValues: false});
-
+      Keyboard.dismiss();
       dispatch(sendComment(id, submitData));
     } catch (error) {
       console.log(error);
@@ -104,67 +104,67 @@ const CommentScreen = props => {
     );
   }
   return (
-    <View style={styles.container}>
-      <HeaderBackSearch />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        horizontal={false}
-        ref={scrollViewRef}
-        onContentSizeChange={() =>
-          scrollViewRef.current.scrollToEnd({animated: true})
-        }
-        style={styles.scroll}>
-        <View style={styles.vedioContent}>
-          <View style={styles.userProfile}>
-            <View style={styles.imgFrame}>
-              <Image source={{uri: user?.image}} style={styles.userImage} />
+    <KeyboardAvoidingView behavior="height" style={styles.container}>
+      {/* <KeyboardAvoidingView behavior="height" > */}
+      <View>
+        <HeaderBackSearch />
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          horizontal={false}
+          ref={scrollViewRef}
+          onContentSizeChange={() =>
+            scrollViewRef.current.scrollToEnd({animated: true})
+          }
+          style={styles.scroll}>
+          <View style={styles.vedioContent}>
+            <View style={styles.userProfile}>
+              <View style={styles.imgFrame}>
+                <Image source={{uri: user?.image}} style={styles.userImage} />
+              </View>
+              <View style={styles.userInfoNames}>
+                <Text style={styles.userNames}>{user?.name} </Text>
+                <Text style={styles.userNames}>{user?.lastname} </Text>
+              </View>
             </View>
-            <View style={styles.userInfoNames}>
-              <Text style={styles.userNames}>{user?.name} </Text>
-              <Text style={styles.userNames}>{user?.lastname} </Text>
-            </View>
+            <View style={styles.vedioBodyContent}>{content}</View>
+            <Text style={styles.userNames}>
+              {description === 'undefined' ? null : description}{' '}
+            </Text>
+            <Text style={styles.textDescription}>{user.title}</Text>
           </View>
-          <View style={styles.vedioBodyContent}>{content}</View>
-          <Text style={styles.userNames}>
-            {description === 'undefined' ? null : description}{' '}
-          </Text>
-          <Text style={styles.textDescription}>{user.title}</Text>
-        </View>
-        <View style={styles.comentBox}>{commentContent}</View>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={styles.containerKeyBoard}>
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.inner}>
-              <Controller
-                control={control}
-                name="title"
-                render={({field: {onChange, value, onBlur}}) => {
-                  return (
-                    <TextInput
-                      placeholder="Add Your Comment ..."
-                      value={value}
-                      style={styles.textInput}
-                      multiline
-                      onChangeText={onChange}
-                      underlineColorAndroid="white"
-                    />
-                  );
-                }}
+          <View style={styles.comentBox}>{commentContent}</View>
+        </ScrollView>
+        <TouchableWithoutFeedback>
+          <View style={styles.inner}>
+            <Controller
+              control={control}
+              name="title"
+              render={({field: {onChange, value, onBlur}}) => {
+                return (
+                  <TextInput
+                    placeholder="Add Your Comment ..."
+                    value={value}
+                    style={styles.textInput}
+                    multiline
+                    onChangeText={onChange}
+                    underlineColorAndroid="white"
+                  />
+                );
+              }}
+            />
+            <TouchableOpacity onPress={submitFormHandler}>
+              <Icon
+                name="send-circle"
+                size={54}
+                color="#BB9E79"
+                style={{marginBottom: 5, marginRight: 5}}
               />
-              <TouchableOpacity onPress={submitFormHandler}>
-                <Icon
-                  name="send-circle"
-                  size={54}
-                  color="#BB9E79"
-                  style={{marginBottom: 5, marginRight: 5}}
-                />
-              </TouchableOpacity>
-            </View>
-          </TouchableWithoutFeedback>
-        </KeyboardAvoidingView>
-      </ScrollView>
-    </View>
+            </TouchableOpacity>
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
+      {/* </KeyboardAvoidingView> */}
+    </KeyboardAvoidingView>
   );
 };
 
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'flex-start',
     paddingHorizontal: 15,
     paddingTop: 15,
@@ -239,9 +239,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#666666',
   },
-  scroll: {
-    width: '90%',
-  },
+  // scroll: {
+  //   width: '90%',
+  // },
   comentBox: {
     marginTop: 30,
   },
@@ -267,6 +267,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    minHeight: 60,
     justifyContent: 'space-between',
   },
   header: {
@@ -280,7 +281,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginBottom: 10,
     maxHeight: 150,
-    // height: 60,
+    height: 60,
     width: '80%',
     color: 'black',
     fontSize: 16,
@@ -291,13 +292,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginTop: 12,
   },
-  containerKeyBoard: {
-    flex: 1,
-    marginBottom: 30,
-    // height: 150,
-  },
+  // containerKeyBoard: {
+  //   flex: 1,
+  //   marginBottom: 10,
+  //   height: 150,
+  // },
   textDescription: {
-    marginTop: 20,
+    // marginTop: 20,
     color: '#666666',
   },
   usersProfileBGimage: {

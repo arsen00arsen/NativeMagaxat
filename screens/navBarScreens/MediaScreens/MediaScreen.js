@@ -76,17 +76,18 @@ const MediaScreen = () => {
         body: fdata,
       });
       const data = await res.json();
+      setLoad('false');
       dispatch(setSinglePost(data));
       setLoad('false');
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.log(error);
       alert(error.message);
     } finally {
     }
   });
+
   const selectFile = async () => {
     setImage({type: 'image'});
     setSelected(true);
@@ -182,7 +183,6 @@ const MediaScreen = () => {
                     )}
                   </View>
                 )}
-
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}

@@ -203,7 +203,8 @@ export default PriorityPageScreen;
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 80,
   },
   content: {
     display: 'flex',
