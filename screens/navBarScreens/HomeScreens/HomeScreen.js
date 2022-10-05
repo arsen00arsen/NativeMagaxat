@@ -55,7 +55,6 @@ const HomeScreen = props => {
     setRefreshing(true);
     wait(1500).then(() => setRefreshing(false));
   }, []);
-
   let content = (
     <View>
       <LinearGradient
