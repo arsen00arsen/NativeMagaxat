@@ -8,6 +8,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
@@ -31,10 +32,16 @@ const MediaScreen = () => {
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
   const [singleFile, setSingleFile] = useState(null);
+  const [load, setLoad] = useState();
   const {control, handleSubmit, reset} = useForm();
   const options = {
-    title: 'Video Picker',
+    title: 'Select video',
     mediaType: 'video',
+    path: 'video',
+    quality: 1,
+  };
+  const options2 = {
+    title: 'Select Avatar',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -46,12 +53,14 @@ const MediaScreen = () => {
     fdata.append(image.type === 'image' ? 'image_path' : 'video_path', {
       uri: fileToUpload.uri,
       type: fileToUpload.type,
-      name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
+      name: fileToUpload.fileName,
     });
     fdata.append('title', title.title);
+
     try {
+      setLoad('true');
       const token = await AsyncStorage.getItem('token');
-      const res = await fetch(baseUrl2 + '/api/posts_api', {
+      const res = await fetch(baseUrl2 + '/posts_api', {
         method: 'post',
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -61,6 +70,7 @@ const MediaScreen = () => {
       });
       const data = await res.json();
       dispatch(setSinglePost(data));
+      setLoad('false');
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
@@ -74,24 +84,18 @@ const MediaScreen = () => {
     setImage({type: 'image'});
     setSelected(true);
     try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
-      if (res[0].size < 2097152) {
-        setSingleFile(res[0]);
-        setImage({uri: res[0].uri, type: 'image'});
+      const res = await launchImageLibrary(options2);
+      if (res.assets[0].fileSize < 2097152) {
+        setSingleFile(res.assets[0]);
+        setImage({uri: res.assets[0].uri, type: 'image'});
       } else {
         alert('Max size of image must be 2 mb');
         setSelected(false);
       }
     } catch (err) {
       setSingleFile(null);
-      if (DocumentPicker.isCancel(err)) {
-        alert('Canceled');
-      } else {
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
-      }
+      alert('Max size of video mast be 10 mb');
+      setSingleFile(null);
     }
   };
 
@@ -112,7 +116,6 @@ const MediaScreen = () => {
       setSingleFile(null);
     }
   };
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -148,17 +151,29 @@ const MediaScreen = () => {
             {selected !== false && image !== null ? (
               <>
                 {image.type == 'image' ? (
-                  <Image source={{uri: image?.uri}} style={styles.io} />
+                  <View>
+                    {load === 'true' ? (
+                      <ActivityIndicator style={styles.io} />
+                    ) : (
+                      <Image source={{uri: image?.uri}} style={styles.io} />
+                    )}
+                  </View>
                 ) : (
-                  <VideoPlayer
-                    video={{uri: image?.uri}}
-                    autoplay={false}
-                    defaultMuted={true}
-                    // thumbnail={require('../assets/logo.png')}
-                    style={styles.io}
-                    fullscreen={true}
-                    resizeMode="contain"
-                  />
+                  <View>
+                    {load === 'true' ? (
+                      <ActivityIndicator style={styles.io} />
+                    ) : (
+                      <VideoPlayer
+                        video={{uri: image?.uri}}
+                        autoplay={false}
+                        defaultMuted={true}
+                        // thumbnail={require('../assets/logo.png')}
+                        style={styles.io}
+                        fullscreen={true}
+                        resizeMode="contain"
+                      />
+                    )}
+                  </View>
                 )}
 
                 <View style={styles.uploadImgVedio}>

@@ -86,3 +86,15 @@ export const logoutUser = () => async dispatch => {
     dispatch(loginError(error.message));
   }
 };
+
+export const remove = id => async dispatch => {
+  try {
+    dispatch(startLogin());
+    await UserService.deleteUser(id);
+    dispatch(loginError('Logged out'));
+    await AsyncStorage.removeItem('token');
+  } catch (error) {
+    dispatch(loginError(error.message));
+  } finally {
+  }
+};

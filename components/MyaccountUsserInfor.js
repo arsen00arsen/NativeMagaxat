@@ -9,14 +9,14 @@ const MyaccountUsserInfor = () => {
     <View style={styles.container}>
       <View style={styles.userProfile}>
         <View style={styles.imgFrame}>
-          <Image source={{uri: user?.user.image}} style={styles.userImage} />
+          <Image source={{uri: user?.user?.image}} style={styles.userImage} />
         </View>
         <View style={styles.userInfo}>
           <View style={styles.names}>
-            <Text style={styles.userName}>{user?.user.name} </Text>
-            <Text style={styles.userName}>{user?.user.lastname} </Text>
+            <Text style={styles.userName}>{user?.user?.name} </Text>
+            <Text style={styles.userName}>{user?.user?.lastname} </Text>
           </View>
-          <Text style={styles.userDate}>{user?.user.date_of_birth}</Text>
+          <Text style={styles.userDate}>{user?.user?.date_of_birth}</Text>
         </View>
       </View>
     </View>

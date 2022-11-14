@@ -1,12 +1,5 @@
 import * as React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Image,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
@@ -30,30 +23,27 @@ export default function RowVideosScreen(props) {
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
+      <View style={styles.column}>
+        <VideoPlayer
+          video={{
+            uri: user?.video_path,
+          }}
+          autoplay={true}
+          defaultMuted={false}
+          style={styles.columnVideo}
+        />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={styles.column}>
-          <VideoPlayer
-            video={{
-              uri: user?.video_path,
-            }}
-            autoplay={true}
-            defaultMuted={false}
-            style={styles.columnVideo}
-          />
-        </View>
-
         <View style={styles.userBody}>
           <View style={styles.imgFrame}>
-            <Image source={{uri: user.user.image}} style={styles.userImage} />
+            <Image source={{uri: user?.user?.image}} style={styles.userImage} />
           </View>
           <View style={styles.flexcontent}>
-            <Text style={styles.username}>{user.user.name}</Text>
-            <Text style={styles.username}>{user.user.lastname}</Text>
+            <Text style={styles.username}>
+              {user?.user?.name} {'  '}
+            </Text>
+            <Text style={styles.username}>{user?.user?.lastname}</Text>
           </View>
-
-          <TouchableOpacity style={styles.subScribeButton}>
-            <Text style={styles.subScribeText}>Subscribe</Text>
-          </TouchableOpacity>
         </View>
         <View style={styles.line} />
         <View style={styles.contentContainer}>{content}</View>
@@ -77,14 +67,14 @@ const styles = StyleSheet.create({
   column: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 20,
     borderRadius: 8,
     marginBottom: 40,
   },
   columnVideo: {
     alignSelf: 'center',
     width: '100%',
-    height: 200,
+    minWidth: 330,
+    height: 150,
     borderRadius: 8,
   },
   rowVideo: {
@@ -103,7 +93,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   imgFrame: {
@@ -157,7 +147,7 @@ const styles = StyleSheet.create({
   },
   flexcontent: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     marginLeft: 10,

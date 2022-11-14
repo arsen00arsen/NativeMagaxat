@@ -108,7 +108,7 @@ const VideoComponent = props => {
             <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
           <View style={styles.shareButton}>
-            <ShareButton />
+            <ShareButton size={24} />
           </View>
         </View>
       )}

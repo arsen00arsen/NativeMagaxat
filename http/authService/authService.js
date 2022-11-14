@@ -16,4 +16,10 @@ export default class UserService {
   static logout() {
     return $authHost.post('/profile/logout');
   }
+  static deleteUser(id) {
+    return $authHost.post(`/profile/delete/${id}`);
+  }
+  static reportSend(data) {
+    return $authHost.post('/reports_api', data);
+  }
 }

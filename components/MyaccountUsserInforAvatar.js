@@ -9,12 +9,12 @@ const MyaccountUsserInforAvatar = () => {
     <View style={styles.container}>
       <View style={styles.userProfile}>
         <View style={styles.imgFrame}>
-          <AvatarAdd image={user.user.image} />
+          <AvatarAdd image={user?.user?.image} />
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>{user.user.name} </Text>
-          <Text style={styles.userName}>{user.user.lastname} </Text>
-          <Text style={styles.userDate}>{user.user.date_of_birth}</Text>
+          <Text style={styles.userName}>{user?.user?.name} </Text>
+          <Text style={styles.userName}>{user?.user?.lastname} </Text>
+          <Text style={styles.userDate}>{user?.user?.date_of_birth}</Text>
         </View>
       </View>
     </View>

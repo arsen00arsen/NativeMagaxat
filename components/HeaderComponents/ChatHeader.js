@@ -1,19 +1,23 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Image,
   StyleSheet,
   TouchableOpacity,
   Text,
-  Platform,
+  Modal,
+  ScrollView,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import moment from 'moment';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const ChatHeader = props => {
   const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const _isUserBlock = props.isUserBlock;
   return (
     <View style={styles.container}>
       <LinearGradient
@@ -43,11 +47,59 @@ const ChatHeader = props => {
         </TouchableOpacity>
         <View style={styles.chatTitle}>
           <Text style={styles.paramsName}>{props?.user?.name}</Text>
-          {/* <Text style={styles.status}>
-            {moment(props?.user?.status).fromNow()}
-          </Text> */}
         </View>
       </View>
+      <View>
+        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+          <Entypo
+            name="block"
+            size={24}
+            color={props.isBlock === false ? 'black' : 'red'}
+          />
+        </TouchableOpacity>
+      </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{width: '100%', height: '100%'}}>
+              <View>
+                {props.isBlock === false ? (
+                  <Text style={{fontSize: 19, color: 'black', paddingTop: 30}}>
+                    Are you suare you want to block this user?
+                  </Text>
+                ) : (
+                  <Text style={{fontSize: 19, color: 'black', paddingTop: 30}}>
+                    Are you suare you want to unblock this user?
+                  </Text>
+                )}
+              </View>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  onPress={() => {
+                    _isUserBlock(), setModalVisible(!modalVisible);
+                  }}
+                  style={[styles.button, styles.buttonClose2]}>
+                  <Text style={styles.textStyle2}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={styles.textStyle}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -109,5 +161,67 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: 300,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  modalView: {
+    marginVertical: 40,
+    marginHorizontal: 20,
+    backgroundColor: '#e6e6e6',
+    borderRadius: 15,
+    padding: 15,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    height: 250,
+  },
+
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 0,
+    backgroundColor: '#5f5a5ae3',
+    height: 100,
+  },
+  buttonClose: {
+    backgroundColor: '#013220',
+    marginBottom: 15,
+    width: '48%',
+    borderRadius: 7,
+    height: 40,
+  },
+  buttonClose2: {
+    marginBottom: 15,
+    width: '48%',
+    paddingVertical: 10,
+    borderRadius: 7,
+    color: '#1f1f1f',
+    height: 50,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  textStyle2: {
+    color: '#1f1f1f',
+    textDecorationLine: 'underline',
+    fontWeight: 'bold',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });

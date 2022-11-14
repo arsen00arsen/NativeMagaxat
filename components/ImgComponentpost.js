@@ -8,6 +8,7 @@ import moment from 'moment';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
+import RadiusButton from './RadiusButton';
 
 const ImgComponentpost = props => {
   const navigation = useNavigation();
@@ -83,11 +84,23 @@ const ImgComponentpost = props => {
                 {user?.lastname || props?.user.lastname}{' '}
               </Text>
             </View>
-            <Text style={styles.timeData}>{time} </Text>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}>
+              <Text style={styles.timeData}>{time} </Text>
+              <View>
+                <RadiusButton id={props.uri.id} />
+              </View>
+            </View>
           </View>
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
+
       <View style={{borderRadius: 8}}>{imgBG}</View>
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
@@ -112,7 +125,7 @@ const ImgComponentpost = props => {
             <Text style={styles.counts}>{postCounts} </Text>
           </TouchableOpacity>
           <View style={styles.shareButton}>
-            <ShareButton />
+            <ShareButton size={24} />
           </View>
         </View>
       )}
@@ -176,9 +189,10 @@ const styles = StyleSheet.create({
     color: '#727272',
   },
   timeData: {
-    maxWidth: '40%',
+    maxWidth: '100%',
     fontSize: 12,
     color: '#727272',
+    paddingRight: 5,
   },
   longDis: {
     maxWidth: '100%',

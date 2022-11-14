@@ -20,6 +20,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {sendComment} from '../../../stores/post/postActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useNavigation} from '@react-navigation/native';
+import RadiusButton from '../../../components/RadiusButton';
 
 const CommentScreen = props => {
   const navigation = useNavigation();
@@ -56,18 +57,23 @@ const CommentScreen = props => {
     return (
       <View key={elem.id}>
         <View style={styles.userProfile}>
-          <View style={styles.imgFrame}>
-            <TouchableOpacity onPress={userProfilePage}>
-              <Image source={imgComment} style={styles.userImage} />
-            </TouchableOpacity>
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <View style={styles.imgFrame}>
+              <TouchableOpacity onPress={userProfilePage}>
+                <Image source={imgComment} style={styles.userImage} />
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text>{elem.name} </Text>
+              <Text />
+            </View>
+            <View style={styles.userInfo}>
+              <Text style={styles.userName}>{elem.user.name} </Text>
+              <Text style={styles.userName}>{elem.user.lastname} </Text>
+            </View>
           </View>
           <View>
-            <Text>{elem.name} </Text>
-            <Text />
-          </View>
-          <View style={styles.userInfo}>
-            <Text style={styles.userName}>{elem.user.name} </Text>
-            <Text style={styles.userName}>{elem.user.lastname} </Text>
+            <RadiusButton id={elem.id} />
           </View>
         </View>
         <View style={styles.commentBody}>
@@ -199,7 +205,7 @@ const styles = StyleSheet.create({
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 15,
     paddingLeft: 5,

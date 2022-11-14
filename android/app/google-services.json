@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "347228152197",
-    "project_id": "magaxat-18a66",
-    "storage_bucket": "magaxat-18a66.appspot.com"
+    "project_number": "442729071615",
+    "project_id": "sponsor-e5b4f",
+    "storage_bucket": "sponsor-e5b4f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:347228152197:android:3c3e5dc994a0c46d63a4ec",
+        "mobilesdk_app_id": "1:442729071615:android:b85b35bd6f10c74e079dca",
         "android_client_info": {
-          "package_name": "com.magaxatcom"
+          "package_name": "com.sponsoram"
         }
       },
       "oauth_client": [
         {
-          "client_id": "347228152197-0e3v9dooa851f4ivg2hun20g3hqs7o18.apps.googleusercontent.com",
+          "client_id": "442729071615-04rpf1u4k9uirqki1dn76c0ll1u3ar7s.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyA9Hz7o43QS4tRzCRXGMI-TJ8v0f2gjGyU"
+          "current_key": "AIzaSyC7g4BlIejuXw_FNVht7fv2QpqajdSLVB0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "347228152197-0e3v9dooa851f4ivg2hun20g3hqs7o18.apps.googleusercontent.com",
+              "client_id": "442729071615-04rpf1u4k9uirqki1dn76c0ll1u3ar7s.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -5,51 +5,28 @@ import {
   StyleSheet,
   StatusBar,
   ScrollView,
-  TextInput,
+  Modal,
   TouchableOpacity,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
-import RNPickerSelect from 'react-native-picker-select';
-import Icon from 'react-native-vector-icons/Feather';
-import {useDispatch} from 'react-redux';
-import {logoutUser} from '../../../stores/user/userActions';
+import {useDispatch, useSelector} from 'react-redux';
+import {logoutUser, remove} from '../../../stores/user/userActions';
 import LinearGradient from 'react-native-linear-gradient';
+
 const SettingsScreen = ({navigation}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const [user, setuser] = useState('');
-  // useEffect(() => {
-  //   const unregister = auth().onAuthStateChanged(userExist => {
-  //     if (userExist) {
-  //       firestore().collection('users').doc(userExist.uid).update({
-  //         status: 'online',
-  //       });
-  //       setuser(userExist);
-  //     } else {
-  //       setuser('');
-  //     }
-  //   });
+  const user = useSelector(state => state?.user);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  //   return () => {
-  //     unregister();
-  //   };
-  // }, []);
-  // const logOut = () => {
-  //   firestore()
-  //     .collection('users')
-  //     .doc(user.uid)
-  //     .update({
-  //       status: firestore.FieldValue.serverTimestamp(),
-  //     })
-  //     .then(() => {
-  //       auth().signOut();
-  //     });
-  // };
+  const removeUser = () => {
+    dispatch(remove(user.user.id));
+  };
   const logOut = () => {
     dispatch(logoutUser());
   };
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -109,10 +86,44 @@ const SettingsScreen = ({navigation}) => {
             placeholder="About Us"
           />
         </View> */}
+        <View style={styles.centeredView}>
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              alert('Modal has been closed.');
+              setModalVisible(!modalVisible);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>Are you sure?</Text>
+                <View style={styles.modalButtons}>
+                  <TouchableOpacity
+                    style={[styles.button, styles.buttonClose2]}
+                    onPress={() => setModalVisible(!modalVisible)}>
+                    <Text style={styles.textStyle}>No</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.button, styles.buttonClose]}
+                    onPress={removeUser}>
+                    <Text style={styles.textStyle2}>Yes</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal>
+        </View>
         <TouchableOpacity onPress={logOut} style={styles.action}>
           <LinearGradient colors={['#88673A', '#3C3835']} style={styles.signIn}>
             <Text style={styles.textSign}>Log Out</Text>
-            {/* {isLoading === true ? <LoaderComponent /> : null}  */}
+          </LinearGradient>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setModalVisible(true)}
+          style={styles.action}>
+          <LinearGradient colors={['#88673A', '#3C3835']} style={styles.signIn}>
+            <Text style={styles.textSign}>Delete Account</Text>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>
@@ -179,6 +190,74 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 18,
     lineHeight: 21,
+    textAlign: 'center',
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 0,
+    backgroundColor: '#5f5a5ae3',
+  },
+  modalView: {
+    marginVertical: 40,
+    marginHorizontal: 20,
+    backgroundColor: '#e6e6e6',
+    borderRadius: 15,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    width: '48%',
+  },
+  buttonOpen: {
+    backgroundColor: '#F194FF',
+  },
+  buttonClose: {
+    backgroundColor: '#750000',
+    marginBottom: 5,
+    width: '48%',
+    paddingVertical: 10,
+    borderRadius: 7,
+    color: '#e6e6e6',
+  },
+  buttonClose2: {
+    backgroundColor: '#013220',
+    marginBottom: 5,
+    width: '48%',
+    paddingVertical: 10,
+    borderRadius: 7,
+  },
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalText: {
+    marginBottom: 30,
+    textAlign: 'center',
+  },
+  modalButtons: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  textStyle2: {
+    color: '#e6e6e6',
+    fontWeight: 'bold',
     textAlign: 'center',
   },
 });

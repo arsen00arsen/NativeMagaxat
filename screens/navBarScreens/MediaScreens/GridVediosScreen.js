@@ -14,12 +14,14 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 export default function GridVediosScreen(props) {
   let user = props.route.params.user;
   const {medias} = useSelector(state => state.medias);
+  const videoRef = React.useRef(null);
   let content = medias.map(elem => {
     return (
       <View style={styles.row} key={elem.id}>
         <VideoPlayer
           video={{uri: elem.video_path}}
           autoplay={false}
+          ref={videoRef}
           defaultMuted={true}
           thumbnail={{uri: elem.video_name}}
           style={styles.rowVideo}
@@ -27,35 +29,33 @@ export default function GridVediosScreen(props) {
       </View>
     );
   });
+
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={styles.column}>
-          <VideoPlayer
-            video={{
-              uri: user.video_path,
-            }}
-            autoplay={true}
-            defaultMuted={true}
-            style={styles.columnVideo}
-          />
-        </View>
-
+      <View style={styles.column}>
+        <VideoPlayer
+          video={{
+            uri: user.video_path,
+          }}
+          ref={videoRef}
+          autoplay={false}
+          defaultMuted={true}
+          style={styles.columnVideo}
+        />
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{width: '100%', flex: 1}}>
         <View style={styles.userBody}>
           <View style={styles.imgFrame}>
-            <Image source={{uri: user.user.image}} style={styles.userImage} />
+            <Image source={{uri: user?.user?.image}} style={styles.userImage} />
           </View>
           <View style={styles.flexColumn}>
-            <Text style={styles.username}>{user.user.name} </Text>
-            <Text style={styles.username}>{user.user.lastname}</Text>
+            <Text style={styles.username}>{user?.user?.name} </Text>
+            <Text style={styles.username}>{user?.user?.lastname}</Text>
           </View>
-
-          <TouchableOpacity style={styles.subScribeButton}>
-            <Text style={styles.subScribeText}>Subscribe</Text>
-          </TouchableOpacity>
         </View>
-        {/* <Text style={styles.userText}>{user.user.posts[0].title}</Text> */}
         <View style={styles.line} />
         <View style={styles.flexWrap}>{content}</View>
       </ScrollView>
@@ -85,19 +85,19 @@ const styles = StyleSheet.create({
   rowVideo: {
     width: '100%',
     minWidth: 180,
-    height: 100,
+    height: 200,
     borderRadius: 8,
   },
   column: {
     display: 'flex',
     flexDirection: 'column',
-    marginTop: 20,
     borderRadius: 8,
   },
   columnVideo: {
     alignSelf: 'center',
     width: '100%',
-    height: 200,
+    minWidth: 330,
+    height: 150,
     borderRadius: 8,
   },
   userBody: {
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 8,
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   imgFrame: {

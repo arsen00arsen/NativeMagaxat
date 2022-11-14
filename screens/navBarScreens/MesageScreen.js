@@ -35,6 +35,7 @@ const MesageScreen = () => {
             name: item.name,
             uid: item.id,
             image: item.image,
+            isBlocket: item.blocked,
             // status:
             //   typeof item.status === 'string'
             //     ? item.status
@@ -94,7 +95,7 @@ const MesageScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.messageBody}>
-        {chatUsers?.chatUsers.length < 1 ? (
+        {chatUsers.chatUsers.length < 1 ? (
           <View style={styles.usersEmpoty}>
             <Text style={styles.textEmpoty}>
               You havn`t any Users for messageing

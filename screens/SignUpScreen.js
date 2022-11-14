@@ -40,9 +40,9 @@ const SignUpScreen = ({navigation}) => {
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#cbb085', '#B8B8B8', '#cbb085']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#674C31" barStyle="light-content" />
+      <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={styles.scrollView}>
