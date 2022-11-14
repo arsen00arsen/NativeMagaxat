@@ -11,15 +11,17 @@ import {
 } from '../../stores/messages/messageActions';
 import {MessageService} from '../../http/messageService/messageService';
 import ChatHeader from '../../components/HeaderComponents/ChatHeader';
+import UserService from '../../http/authService/authService';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
 export default function ChatScreen({route}) {
   const receiverId = route.params;
   const [recvMessages, setRecvMessages] = useState([]);
+  const [block, setUnblock] = useState(receiverId.isBlocket);
   const dispatch = useDispatch();
-  const userMain = useSelector(state => state?.user);
-  const messag = useSelector(state => state?.messages);
+  const userMain = useSelector(state => state.user);
+  const messag = useSelector(state => state.messages);
   useEffect(() => {
     dispatch(loadMessages(receiverId.uid));
   }, []);
@@ -39,6 +41,12 @@ export default function ChatScreen({route}) {
     setRecvMessages(msgs);
   }, [messag.messages]);
 
+  const _block = () => {
+    setUnblock(!block);
+    MessageService.blockUser({id: receiverId?.uid})
+      .then(res => console.log(res.data))
+      .catch(error => console.log(error));
+  };
   const onSend = useCallback((messages = []) => {
     MessageService.sendMessages({
       contact_id: receiverId.uid,
@@ -93,10 +101,11 @@ export default function ChatScreen({route}) {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
-      <ChatHeader user={route.params} />
+      <ChatHeader user={route.params} isUserBlock={_block} isBlock={block} />
       <GiftedChat
         messageIdGenerator={msg => msg?._id}
         messages={recvMessages}
+        disableComposer={block === true ? true : false}
         style={styles.canteiner}
         onSend={messages => onSend(messages)}
         user={{_id: userMain.user.id}}
@@ -113,6 +122,7 @@ export default function ChatScreen({route}) {
           color: 'black',
           zIndex: 101,
         }}
+        focusTextInput={() => false}
       />
     </View>
   );

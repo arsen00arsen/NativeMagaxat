@@ -9,6 +9,7 @@ const initialUserState = {
   infoChange: {
     interesting_type: [],
   },
+  report: '',
 };
 
 export const userReducer = (state = initialUserState, action) => {
@@ -62,6 +63,11 @@ export const userReducer = (state = initialUserState, action) => {
           ...state.infoChange,
           interesting_type: [...state.infoChange.interesting_type, ...payload],
         },
+      };
+    case 'REPORT_INFO':
+      return {
+        ...state,
+        report: payload,
       };
     case 'INTERESTEDS_STEP_SUBMIT':
       return {

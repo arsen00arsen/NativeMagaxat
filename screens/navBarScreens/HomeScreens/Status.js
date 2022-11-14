@@ -161,7 +161,9 @@ const styles = StyleSheet.create({
   },
   storiVideo: {
     position: 'absolute',
-    width: '60%',
-    height: '70%',
+    top: 70,
+    left: 0,
+    bottom: 0,
+    right: 0,
   },
 });

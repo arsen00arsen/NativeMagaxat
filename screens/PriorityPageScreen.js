@@ -32,9 +32,9 @@ const PriorityPageScreen = ({navigation}) => {
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#cbb085', '#B8B8B8', '#cbb085']}
       style={styles.linearGradient}>
-      <StatusBar backgroundColor="#674C31" barStyle="light-content" />
+      <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
       <View style={styles.content}>
         <View style={styles.headerWidthButton}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     marginRight: 40,
   },
   logo: {
-    width: 245,
+    // width: 245,
     height: 200,
     marginBottom: Platform.OS === 'ios' ? 15 : 0,
   },

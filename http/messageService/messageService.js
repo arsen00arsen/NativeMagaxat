@@ -13,6 +13,9 @@ export class MessageService {
   static getMessagesCount() {
     return $authHost.get('/unread/count');
   }
+  static blockUser(data) {
+    return $authHost.post('/block_api', data);
+  }
 }
 
 // .then(res => console.log(res, 'llllllllllll'))

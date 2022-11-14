@@ -35,7 +35,7 @@ const BenefactorsScreen = () => {
 
   let userProfilePage = item => {
     navigation.navigate('BenefactorUserPageScreen', {
-      id: item,
+      id: item.id,
     });
   };
 
@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   usersEmpoty: {
+    flex: 1,
     width: '100%',
     display: 'flex',
     flexDirection: 'row',

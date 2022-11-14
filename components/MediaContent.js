@@ -226,6 +226,8 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginTop: 'auto',
     marginBottom: 10,
+    marginLeft: '5%',
+    width: '90%',
   },
   wrapContent: {
     display: 'flex',

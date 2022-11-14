@@ -64,7 +64,7 @@ const MainTabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Benefactors"
+        name="Appeals"
         component={BensScreens}
         options={{
           tabBarColor: '#C6B7A2',

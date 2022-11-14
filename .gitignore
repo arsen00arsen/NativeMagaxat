@@ -58,3 +58,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+android/gradle/cashes/*
+android/gradle/.tmp/*
+
+android/gradle/whenever/dists
