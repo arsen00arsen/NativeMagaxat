@@ -63,7 +63,7 @@ const AccountInfoScreen = ({navigation}) => {
           />
           {/* <View style={styles.logo}>
             <LoginAvatar />
-          </View> 
+          </View>
            */}
           <View>
             {Platform.OS === 'ios' ? (

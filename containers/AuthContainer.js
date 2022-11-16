@@ -28,7 +28,7 @@ export const AuthContainer = ({isAuth, userId}) => {
       .listen('.notification', sms => {
         dispatch(loadAllNewMessages(sms.message));
         dispatch(loadLastMessages(sms));
-        // LocalNotification(sms.message);
+        LocalNotification(sms.message);
       });
   };
 

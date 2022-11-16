@@ -11,7 +11,7 @@ const MyMediaScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#F2F2F2"
+        backgroundColor="#FFFFFF"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch serachFalse="false" />

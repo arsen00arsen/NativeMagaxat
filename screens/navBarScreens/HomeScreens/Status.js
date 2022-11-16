@@ -45,7 +45,7 @@ const Status = ({route, navigation}) => {
   };
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor="black" barStyle="light-content" />
+      <StatusBar backgroundColor="#FFFFFF" barStyle="light-content" />
       <View style={styles.mainContainer}>
         <Animated.View
           style={{
