@@ -25,7 +25,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getMe());
     requestUserPermission;
-    // createChanels();
+    //createChanels();
   }, []);
 
   // const createChanels = async () => {

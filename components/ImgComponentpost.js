@@ -76,7 +76,7 @@ const ImgComponentpost = props => {
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+            <View style={{display: 'flex', flexDirection: 'column'}}>
               <Text style={styles.usersname}>
                 {user?.name || props?.user.name}{' '}
               </Text>
@@ -88,8 +88,9 @@ const ImgComponentpost = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start',
+                width: '70%',
               }}>
               <Text style={styles.timeData}>{time} </Text>
               <View>
@@ -97,9 +98,9 @@ const ImgComponentpost = props => {
               </View>
             </View>
           </View>
-          <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
 
       <View style={{borderRadius: 8}}>{imgBG}</View>
       {props.post === 'post' ? null : (
@@ -189,10 +190,10 @@ const styles = StyleSheet.create({
     color: '#727272',
   },
   timeData: {
-    maxWidth: '100%',
+    maxWidth: '40%',
     fontSize: 12,
     color: '#727272',
-    paddingRight: 5,
+    marginRight: 10,
   },
   longDis: {
     maxWidth: '100%',

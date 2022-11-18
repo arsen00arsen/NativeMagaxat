@@ -72,7 +72,7 @@ const CommentScreen = props => {
               <Text style={styles.userName}>{elem.user.lastname} </Text>
             </View>
           </View>
-          <View>
+          <View style={{zIndex: 5}}>
             <RadiusButton id={elem.id} />
           </View>
         </View>
@@ -254,6 +254,7 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
+    zIndex: -1,
   },
   commentText: {
     color: 'black',

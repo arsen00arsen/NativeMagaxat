@@ -52,7 +52,7 @@ const BenefactorUserPageScreen = props => {
       },
     );
   };
-  console.log(user);
+
   let content = (
     <>
       <View style={styles.userInfo}>
@@ -175,11 +175,12 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    paddingLeft: 30,
+    paddingLeft: 10,
+    maxWidth: '70%',
   },
   userImage: {
-    width: 130,
-    height: 130,
+    width: 120,
+    height: 120,
     borderRadius: 80,
     marginVertical: 30,
   },
@@ -201,7 +202,7 @@ const styles = StyleSheet.create({
   // },
   nameSurname: {
     color: '#727272',
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'left',
     marginRight: 10,
   },

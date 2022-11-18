@@ -15,6 +15,7 @@ import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
 import {useDispatch} from 'react-redux';
+import RadiusButton from './RadiusButton';
 
 const VideoComponent = props => {
   const navigation = useNavigation();
@@ -66,15 +67,27 @@ const VideoComponent = props => {
                 <Icon name="delete-circle-outline" color="red" size={32} />
               </TouchableOpacity>
             ) : null}
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+            <View style={{display: 'flex', flexDirection: 'column'}}>
               <Text style={styles.usersname}>{user?.name}</Text>
               <Text style={styles.usersname}>{user?.lastname}</Text>
             </View>
-            <Text style={styles.timeData}>{time} </Text>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start',
+                width: '70%',
+              }}>
+              <Text style={styles.timeData}>{time} </Text>
+              <View>
+                <RadiusButton id={props.uri.id} />
+              </View>
+            </View>
           </View>
-          <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
       <VideoPlayer
         video={{uri: props?.uri?.video}}
         autoplay={false}
@@ -177,6 +190,7 @@ const styles = StyleSheet.create({
     maxWidth: '40%',
     fontSize: 12,
     color: '#727272',
+    marginRight: 10,
   },
   longDis: {
     maxWidth: '100%',

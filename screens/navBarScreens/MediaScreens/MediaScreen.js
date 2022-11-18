@@ -39,13 +39,13 @@ const MediaScreen = () => {
     path: 'video',
     quality: 1,
   };
-  const options2 = {
-    title: 'Select Avatar',
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
-  };
+  // const options2 = {
+  //   title: 'Select Avatar',
+  //   storageOptions: {
+  //     skipBackup: true,
+  //     path: 'images',
+  //   },
+  // };
   const options2 = {
     title: 'Image Picker',
     mediaType: 'image',

@@ -31,7 +31,7 @@ const RadiusButton = ({id}) => {
   });
 
   return (
-    <View>
+    <View style={styles.mainDiv}>
       <TouchableOpacity onPress={() => setIsShow(!isShow)} delayPressIn={150}>
         <View style={styles.button1}>
           <Entypo name="dots-three-vertical" color="#8A8A8A" size={10} />
@@ -46,9 +46,9 @@ const RadiusButton = ({id}) => {
           </TouchableOpacity>
         </View>
       ) : null}
-      <View style={styles.centeredView}>
+      <View style={[modalVisible === true ? styles.centeredView : null]}>
         <Modal
-          animationType="slide"
+          animationType="fild"
           transparent={true}
           visible={modalVisible}
           onRequestClose={() => {
@@ -103,12 +103,15 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderColor: '#8A8A8A',
     padding: 5,
+    width: 22,
   },
   button2: {
     position: 'absolute',
     top: 30,
+    backgroundColor: 'white',
     right: 0,
-    zIndex: 2,
+    zIndex: 25,
+    // width: 80,
   },
   reportButton: {
     borderWidth: 1,
@@ -136,7 +139,7 @@ const styles = StyleSheet.create({
   modalView: {
     marginVertical: 40,
     marginHorizontal: 20,
-    backgroundColor: '#e6e6e6',
+    backgroundColor: 'white',
     borderRadius: 15,
     padding: 15,
     height: 'auto',
@@ -186,5 +189,8 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  mainDiv: {
+    height: 60,
   },
 });

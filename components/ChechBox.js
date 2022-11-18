@@ -14,26 +14,46 @@ const ChechBox = props => {
         onValueChange={newValue => setValue(newValue)}
         value={value}>
         <View style={styles.container}>
-          <Text style={{flex: 1, flexWrap: 'wrap', color: 'silver'}}>
+          <Text
+            style={{
+              flex: 1,
+              flexWrap: 'wrap',
+              color: 'silver',
+              paddingLeft: 10,
+            }}>
             My friend's account might be compromised or hacked
           </Text>
-          <RadioButton value="My friend's account might be compromised or hacked" />
+          <View style={styles.onlyIos}>
+            <RadioButton value="My friend's account might be compromised or hacked" />
+          </View>
         </View>
         <View style={styles.container}>
-          <Text style={{color: 'silver'}}>Violence or harmful behavior</Text>
-          <RadioButton value="Violence or harmful behavior" />
+          <Text style={{color: 'silver', paddingLeft: 10}}>
+            Violence or harmful behavior
+          </Text>
+          <View style={styles.onlyIos}>
+            <RadioButton value="Violence or harmful behavior" />
+          </View>
         </View>
         <View style={styles.container}>
-          <Text style={{color: 'silver'}}>Hate speech</Text>
-          <RadioButton value="Hate speech" />
+          <Text style={{color: 'silver', paddingLeft: 10}}>Hate speech</Text>
+          <View style={styles.onlyIos}>
+            <RadioButton value="Hate speech" />
+          </View>
         </View>
         <View style={styles.container}>
-          <Text style={{color: 'silver'}}>Sexually explicit content</Text>
-          <RadioButton value="Sexually explicit content" />
+          <Text style={{color: 'silver', paddingLeft: 10}}>
+            Sexually explicit content
+          </Text>
+          <View style={styles.onlyIos}>
+            <RadioButton value="Sexually explicit content" />
+          </View>
         </View>
         <View style={styles.container}>
-          <Text style={{color: 'silver'}}>Other</Text>
-          <RadioButton value="Other" />
+          <Text style={{color: 'silver', paddingLeft: 10}}>Other</Text>
+          <View style={styles.onlyIos}>
+            <RadioButton value="Other" />
+          </View>
         </View>
       </RadioButton.Group>
       {value === 'Other' ? (
@@ -91,5 +111,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     backgroundColor: 'white',
     maxWidth: 330,
+    paddingVertical: 10,
+  },
+
+  onlyIos: {
+    borderWidth: 1,
+    borderColor: 'silver',
+    borderRadius: 50,
+    zIndex: 5,
   },
 });
