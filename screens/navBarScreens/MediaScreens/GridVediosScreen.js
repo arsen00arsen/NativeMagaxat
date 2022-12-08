@@ -10,6 +10,7 @@ import {
 import VideoPlayer from 'react-native-video-player';
 import {useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
+import Pleyer from './Pleyer';
 
 export default function GridVediosScreen(props) {
   let user = props.route.params.user;
@@ -33,20 +34,12 @@ export default function GridVediosScreen(props) {
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
-      <View style={styles.column}>
-        <VideoPlayer
-          video={{
-            uri: user.video_path,
-          }}
-          ref={videoRef}
-          autoplay={false}
-          defaultMuted={true}
-          style={styles.columnVideo}
-        />
-      </View>
       <ScrollView
         showsVerticalScrollIndicator={false}
         style={{width: '100%', flex: 1}}>
+        <View style={styles.column}>
+          <Pleyer video_path={user.video_path} />
+        </View>
         <View style={styles.userBody}>
           <View style={styles.imgFrame}>
             <Image source={{uri: user?.user?.image}} style={styles.userImage} />

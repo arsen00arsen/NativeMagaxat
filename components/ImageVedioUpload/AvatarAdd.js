@@ -56,6 +56,7 @@ export const AvatarAdd = props => {
         body: fdata,
       });
       const {data} = await res.json();
+      console.log(data, ';;;;;;oiioiiii')
       dispatch(userPhotoChange(data));
     } catch (error) {
       alert(error);

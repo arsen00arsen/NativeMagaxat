@@ -64,7 +64,7 @@ export default function MediaContent() {
       ));
     } else {
       return (content = (
-        <View key={elem.id}>
+        <View key={elem.id} style={styles.columnGrid}>
           <TouchableOpacity
             onPress={() =>
               navigation.navigate('GridVediosScreen', {
@@ -89,8 +89,10 @@ export default function MediaContent() {
                     style={styles.userImage}
                   />
                 </View>
-                <Text style={styles.userName}>{elem?.user.name} </Text>
-                <Text style={styles.userName}>{elem?.user.lastname} </Text>
+                <View style={{display: 'flex', flexDirection: 'column'}}>
+                  <Text style={styles.userName}>{elem?.user.name} </Text>
+                  <Text style={styles.userName}>{elem?.user.lastname} </Text>
+                </View>
               </View>
             </View>
           </TouchableOpacity>
@@ -166,6 +168,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 8,
     resizeMode: 'contain',
+    backgroundColor: 'black',
   },
   row: {
     display: 'flex',
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
   },
   rowVideo: {
     width: '100%',
-    minWidth: 180,
+    minWidth: 160,
     height: 100,
     borderRadius: 8,
   },
@@ -215,7 +218,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   userName: {
-    color: '#727272',
+    color: 'white',
     fontSize: 12,
     fontWeight: '600',
   },
@@ -234,6 +237,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
+    width: '100%',
   },
   icPlay: {
     marginLeft: 'auto',
@@ -248,5 +252,8 @@ const styles = StyleSheet.create({
     left: '45%',
     top: 35,
     position: 'absolute',
+  },
+  columnGrid: {
+    width: '48%',
   },
 });

@@ -61,12 +61,12 @@ const VideoComponent = props => {
           <Image source={{uri: user?.image}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
+          {props.post === 'post' ? (
+            <TouchableOpacity style={styles.delete} onPress={deletePost}>
+              <Icon name="delete-circle-outline" color="red" size={32} />
+            </TouchableOpacity>
+          ) : null}
           <View style={styles.usersnames}>
-            {props.post === 'post' ? (
-              <TouchableOpacity style={styles.delete} onPress={deletePost}>
-                <Icon name="delete-circle-outline" color="red" size={32} />
-              </TouchableOpacity>
-            ) : null}
             <View style={{display: 'flex', flexDirection: 'column'}}>
               <Text style={styles.usersname}>{user?.name}</Text>
               <Text style={styles.usersname}>{user?.lastname}</Text>

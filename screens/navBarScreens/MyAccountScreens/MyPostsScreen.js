@@ -26,7 +26,7 @@ const MyPostsScreen = props => {
   useEffect(() => {
     dispatch(loadMyPosts());
   }, []);
-
+  console.log(myPosts.posts.data.length, ';;;;')
   const renderItem = ({item}) => {
     if (item.image) {
       return (
@@ -52,9 +52,9 @@ const MyPostsScreen = props => {
       />
       <HeaderBackSearch serachFalse="false" />
       <MyaccountUsserInfor />
-      {myPosts.posts?.length < 1 ? (
+      {myPosts.posts.data.length === 0 ? (
         <View style={styles.usersEmpoty}>
-          <Text style={styles.textEmpoty}>You havn`t any Posts yet</Text>
+          <Text style={styles.textEmpoty}>You havn`t any Post yet</Text>
         </View>
       ) : (
         <FlatList
@@ -89,15 +89,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   usersEmpoty: {
+    flex: 1,
     width: '100%',
+    height: '90%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   textEmpoty: {
     fontSize: 20,
     textAlign: 'center',
-    marginTop: 60,
+    // marginTop: 60,
   },
 });

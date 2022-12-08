@@ -121,7 +121,7 @@ const BenefactorUserPageScreen = props => {
         backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearch />
+      <HeaderBackSearch serachFalse="false" />
       <SectionList
         style={{width: '100%'}}
         contentContainerStyle={{paddingHorizontal: 10}}

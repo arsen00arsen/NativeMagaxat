@@ -137,7 +137,7 @@ const MediaScreen = () => {
             style={[selected !== true ? styles.postBody : styles.postUnheight]}>
             <View style={styles.addPost}>
               <View style={styles.imgBody}>
-                <Image style={styles.img} source={{uri: user.image}} />
+                <Image style={styles.img} source={{uri: user?.image}} />
               </View>
               <Controller
                 control={control}
@@ -175,7 +175,6 @@ const MediaScreen = () => {
                         video={{uri: image?.uri}}
                         autoplay={false}
                         defaultMuted={true}
-                        // thumbnail={require('../assets/logo.png')}
                         style={styles.io}
                         fullscreen={true}
                         resizeMode="contain"
