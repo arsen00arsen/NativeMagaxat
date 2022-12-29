@@ -40,6 +40,7 @@ const AccountInfoScreen = ({navigation}) => {
       end={{x: 1, y: 0}}
       colors={['#D6AB6F', '#B8B8B8', '#674C31']}
       style={styles.linearGradient}>
+
       <StatusBar backgroundColor="#674C31" barStyle="light-content" />
       <KeyboardAvoidingView style={styles.scrollView} behavior="height">
         <ScrollView showsVerticalScrollIndicator={false}>
@@ -51,6 +52,54 @@ const AccountInfoScreen = ({navigation}) => {
               <View style={styles.titlecontent}>
                 <Text style={styles.text}>Account</Text>
                 <Text style={styles.text}>Information</Text>
+      <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={styles.scrollView}>
+        <View style={styles.content}>
+          <View style={styles.headerWidthButton}>
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
+            </TouchableOpacity>
+            <View style={styles.titlecontent}>
+              <Text style={styles.text}>Account</Text>
+              <Text style={styles.text}>Information</Text>
+            </View>
+            <View />
+          </View>
+          <Animatable.Image
+            animation="fadeInUpBig"
+            duraton="1500"
+            source={require('../assets/account.png')}
+            style={styles.logo}
+            resizeMode="stretch"
+          />
+          {/* <View style={styles.logo}>
+            <LoginAvatar />
+          </View>
+           */}
+          <View>
+            {Platform.OS === 'ios' ? (
+              <View style={styles.actionIOS}>
+                <Text style={styles.inputHeader}>Gender</Text>
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        itemStyle={{fontSize: 14, height: 100}}
+                        height={30}
+                        mode="dialog"
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Male" value="male" />
+                        <Picker.Item label="Female" value="female" />
+                      </Picker>
+                    );
+                  }}
+                />
               </View>
               <View />
             </View>
