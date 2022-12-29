@@ -13,7 +13,6 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation, useTheme} from '@react-navigation/native';
 import {Controller, useForm} from 'react-hook-form';
-import DocumentPicker from 'react-native-document-picker';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
@@ -40,8 +39,10 @@ const MediaScreen = () => {
     path: 'video',
     quality: 1,
   };
+
   const options2 = {
-    title: 'Select Avatar',
+    title: 'Image Picker',
+    mediaType: 'photo',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -69,17 +70,18 @@ const MediaScreen = () => {
         body: fdata,
       });
       const data = await res.json();
+      setLoad('false');
       dispatch(setSinglePost(data));
       setLoad('false');
       setSelected(!selected);
       reset({}, {keepValues: false});
       navigation.navigate('HomeScreen');
     } catch (error) {
-      console.log(error);
       alert(error.message);
     } finally {
     }
   });
+
   const selectFile = async () => {
     setImage({type: 'image'});
     setSelected(true);
@@ -94,7 +96,8 @@ const MediaScreen = () => {
       }
     } catch (err) {
       setSingleFile(null);
-      alert('Max size of video mast be 10 mb');
+      setSelected(false);
+      //alert('Max size of video mast be 2 mb');
       setSingleFile(null);
     }
   };
@@ -112,7 +115,8 @@ const MediaScreen = () => {
         setSelected(false);
       }
     } catch (err) {
-      alert('Max size of video mast be 10 mb');
+      setSelected(false);
+      //alert('Max size of video mast be 10 mb ssssssss');
       setSingleFile(null);
     }
   };
@@ -129,7 +133,7 @@ const MediaScreen = () => {
             style={[selected !== true ? styles.postBody : styles.postUnheight]}>
             <View style={styles.addPost}>
               <View style={styles.imgBody}>
-                <Image style={styles.img} source={{uri: user.image}} />
+                <Image style={styles.img} source={{uri: user?.image}} />
               </View>
               <Controller
                 control={control}
@@ -167,7 +171,6 @@ const MediaScreen = () => {
                         video={{uri: image?.uri}}
                         autoplay={false}
                         defaultMuted={true}
-                        // thumbnail={require('../assets/logo.png')}
                         style={styles.io}
                         fullscreen={true}
                         resizeMode="contain"
@@ -175,7 +178,6 @@ const MediaScreen = () => {
                     )}
                   </View>
                 )}
-
                 <View style={styles.uploadImgVedio}>
                   <TouchableOpacity
                     style={styles.postImg}
@@ -341,6 +343,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: '100%',
+    paddingVertical: 10,
     // borderWidth: 2.5,
     borderColor: '#E5E5E5',
     backgroundColor: '#fff',
@@ -351,6 +354,6 @@ const styles = StyleSheet.create({
     maxWidth: 230,
     color: 'black',
     fontSize: 16,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
 });

@@ -8,9 +8,9 @@ const ShareButton = props => {
       onPress={() =>
         Share.share(
           {
-            message: 'https://magaxat.com/en',
-            url: 'https://magaxat.com/en',
-            title: 'Wow, did you see that?',
+            //message: 'https://sponsor.am/en',
+            url: 'https://sponsor.am/en',
+            //title: 'Welcome to sponsor.am',
           },
           {
             // Android only:

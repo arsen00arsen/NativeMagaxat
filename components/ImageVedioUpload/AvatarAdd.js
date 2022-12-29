@@ -1,8 +1,14 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ActivityIndicator,
+} from 'react-native';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
-import DocumentPicker from 'react-native-document-picker';
+import {launchImageLibrary} from 'react-native-image-picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userPhotoChange} from '../../stores/user/userActions';
 import {baseUrl2} from '../../http';
@@ -12,54 +18,53 @@ export const AvatarAdd = props => {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
-  const [singleFile, setSingleFile] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const selectFile = async () => {
-    setSelected(true);
-    try {
-      const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images],
-      });
-      setSingleFile(res[0]);
-      setImage(res[0].uri);
-    } catch (err) {
-      if (DocumentPicker.isCancel(err)) {
-        alert('Canceled');
-      } else {
-        alert('Unknown Error: ' + JSON.stringify(err));
-        throw err;
-      }
-    } finally {
-    }
+  const options2 = {
+    title: 'Image Picker',
+    mediaType: 'photo',
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
   };
 
-  const uploadImage = async () => {
-    setSelected(false);
-    const fileToUpload = singleFile;
+  const selectFile = async () => {
+    const image = await launchImageLibrary(options2);
+    setLoading(true);
+    setImage(image.assets[0].uri);
+    if (image.assets[0].fileSize > 20000) {
+      return alert('Max size of image must be 2 mb'), setLoading(false);
+    }
+    const fileToUpload = image.assets[0];
     const fdata = new FormData();
-    fdata.append('image', fileToUpload);
+    fdata.append('image', {
+      uri: fileToUpload.uri,
+      type: fileToUpload.type,
+      name: fileToUpload.fileName,
+    });
+    const token = await AsyncStorage.getItem('token');
+    const res = await fetch(baseUrl2 + '/profile/change', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: 'Bearer ' + token,
+      },
+      body: fdata,
+    });
     try {
-      const token = await AsyncStorage.getItem('token');
-      const res = await fetch(baseUrl2 + '/profile/change', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: 'Bearer ' + token,
-        },
-        body: fdata,
-      });
       const {data} = await res.json();
       dispatch(userPhotoChange(data));
     } catch (error) {
       alert(error);
     } finally {
+      setLoading(false);
     }
   };
 
   let img;
   if (props?.image !== undefined) {
     img = {uri: props?.image};
-  } else {
   }
 
   return (
@@ -68,18 +73,18 @@ export const AvatarAdd = props => {
         <TouchableOpacity onPress={selectFile} style={styles.container}>
           <Image style={styles.avatar} {...props} source={img} />
           <View style={styles.icon}>
-            <Icon name="camera" size={24} color="#B9B9B9" />
+            {loading === false ? (
+              <Icon name="camera" size={24} color="#B9B9B9" />
+            ) : (
+              <ActivityIndicator size="large" color="white" />
+            )}
           </View>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity onPress={uploadImage} style={styles.container}>
+        <View style={styles.container}>
           <Image style={styles.avatar} {...props} source={{uri: image}} />
-          {selected === true ? (
-            <View style={styles.icon}>
-              <Text style={styles.iconText}> Add Photo</Text>
-            </View>
-          ) : null}
-        </TouchableOpacity>
+          {selected === true ? <View style={styles.icon} /> : null}
+        </View>
       )}
     </>
   );
@@ -99,13 +104,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'black',
     bottom: 0,
     minWidth: '100%',
-    height: '50%',
     opacity: 0.5,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderBottomLeftRadius: 50,
-    borderBottomRightRadius: 50,
+    borderRadius: 80,
+    width: '100%',
+    height: '100%',
   },
   container: {
     display: 'flex',
@@ -116,6 +121,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     color: 'white',
-    paddingBottom: 15,
   },
 });

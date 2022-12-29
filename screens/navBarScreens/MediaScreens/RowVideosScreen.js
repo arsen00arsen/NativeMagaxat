@@ -3,6 +3,7 @@ import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
+import Pleyer from './Pleyer';
 
 export default function RowVideosScreen(props) {
   let user = props?.route.params.user;
@@ -23,17 +24,10 @@ export default function RowVideosScreen(props) {
   return (
     <View style={styles.container}>
       <HeaderBackSearch />
-      <View style={styles.column}>
-        <VideoPlayer
-          video={{
-            uri: user?.video_path,
-          }}
-          autoplay={true}
-          defaultMuted={false}
-          style={styles.columnVideo}
-        />
-      </View>
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+        <View style={styles.column}>
+          <Pleyer video_path={user.video_path} />
+        </View>
         <View style={styles.userBody}>
           <View style={styles.imgFrame}>
             <Image source={{uri: user?.user?.image}} style={styles.userImage} />
@@ -69,13 +63,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     borderRadius: 8,
     marginBottom: 40,
-  },
-  columnVideo: {
-    alignSelf: 'center',
-    width: '100%',
-    minWidth: 330,
-    height: 150,
-    borderRadius: 8,
   },
   rowVideo: {
     width: '100%',

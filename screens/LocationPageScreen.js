@@ -17,24 +17,22 @@ import {Picker} from '@react-native-picker/picker';
 import {useSelector, useDispatch} from 'react-redux';
 import CountryCodeList from '../components/CountryCodeList';
 import {registerUser} from '../stores/user/userActions';
-
 const LocationPageScreen = ({navigation}) => {
-  const [check, setCheck] = useState(true);
   const dispatch = useDispatch();
-  const {control} = useForm({
+  const user = useSelector(state => state.user.data);
+  const {handleSubmit} = useForm({
     defaultValues: {
-      language: '1',
+      country_id: 1,
     },
   });
-  const user = useSelector(state => state.user.data);
 
-  const signIn = async () => {
-    if (check === false) {
-      alert('Please check privacy policy');
+  const signIn = handleSubmit(data => {
+    if (user.country_id === undefined) {
+      dispatch(registerUser({...user, ...data}));
     } else {
       dispatch(registerUser(user));
     }
-  };
+  });
 
   return (
     <LinearGradient
@@ -65,7 +63,7 @@ const LocationPageScreen = ({navigation}) => {
               resizeMode="stretch"
             />
             <CountryCodeList />
-            <View style={styles.action}>
+            {/* <View style={styles.action}>
               <Text style={styles.inputHeader}>Language</Text>
               <Controller
                 control={control}
@@ -82,8 +80,8 @@ const LocationPageScreen = ({navigation}) => {
                   );
                 }}
               />
-            </View>
-            <View style={styles.chackContainer}>
+            </View> */}
+            {/* <View style={styles.chackContainer}>
               <Text
                 style={{
                   color: 'black',
@@ -103,7 +101,7 @@ const LocationPageScreen = ({navigation}) => {
                   <Icon1 name="check" color="black" size={18} />
                 ) : null}
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.signIn} onPress={signIn}>
@@ -124,9 +122,7 @@ const LocationPageScreen = ({navigation}) => {
     </LinearGradient>
   );
 };
-
 export default LocationPageScreen;
-
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
@@ -190,6 +186,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     borderRadius: 4,
     alignItems: 'flex-start',
+    height: 100,
   },
   inputHeader: {
     fontSize: 12,

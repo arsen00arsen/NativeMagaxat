@@ -7,17 +7,31 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useSelector} from 'react-redux';
 import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
 
 const HorizontalInfinitiScroll = props => {
   const {isLoading, posts, loadMoreItem, from} = props;
+  const {user} = useSelector(state => state.user);
   const renderItem = ({item}) => {
     let content;
     if (item?.image) {
-      content = <ImgComponentpost uri={item} key={item.id} />;
+      content = (
+        <ImgComponentpost
+          uri={item}
+          key={item.id}
+          isMyne={user?.email === item?.user?.email ? true : false}
+        />
+      );
     } else {
-      content = <VideoComponent uri={item} key={item.id} />;
+      content = (
+        <VideoComponent
+          uri={item}
+          key={item.id}
+          isMyne={user?.email === item?.user?.email ? true : false}
+        />
+      );
     }
     return content;
   };

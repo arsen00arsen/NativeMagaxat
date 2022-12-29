@@ -62,6 +62,7 @@ const ImgComponentpost = props => {
   }
   const deletePost = () => {
     dispatch(removeMyPosts(post?.id));
+    alert('Your post delete');
   };
   return (
     <View style={styles.container}>
@@ -70,13 +71,13 @@ const ImgComponentpost = props => {
           <Image source={{uri: img}} style={styles.userspic} />
         </TouchableOpacity>
         <View style={styles.inf}>
+          {props.post === 'post' ? (
+            <TouchableOpacity style={styles.delete} onPress={deletePost}>
+              <Icon name="delete-circle-outline" color="red" size={32} />
+            </TouchableOpacity>
+          ) : null}
           <View style={styles.usersnames}>
-            {props.post === 'post' ? (
-              <TouchableOpacity style={styles.delete} onPress={deletePost}>
-                <Icon name="delete-circle-outline" color="red" size={32} />
-              </TouchableOpacity>
-            ) : null}
-            <View style={{display: 'flex', flexDirection: 'row'}}>
+            <View style={{display: 'flex', flexDirection: 'column'}}>
               <Text style={styles.usersname}>
                 {user?.name || props?.user.name}{' '}
               </Text>
@@ -88,18 +89,21 @@ const ImgComponentpost = props => {
               style={{
                 display: 'flex',
                 flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
+                justifyContent: 'flex-end',
+                alignItems: 'flex-start',
+                width: '70%',
               }}>
               <Text style={styles.timeData}>{time} </Text>
               <View>
-                <RadiusButton id={props.uri.id} />
+                {props?.isMyne === true ? null : (
+                  <RadiusButton id={post.id} types="post" />
+                )}
               </View>
             </View>
           </View>
-          <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
 
       <View style={{borderRadius: 8}}>{imgBG}</View>
       {props.post === 'post' ? null : (
@@ -189,10 +193,10 @@ const styles = StyleSheet.create({
     color: '#727272',
   },
   timeData: {
-    maxWidth: '100%',
+    maxWidth: '40%',
     fontSize: 12,
     color: '#727272',
-    paddingRight: 5,
+    marginRight: 10,
   },
   longDis: {
     maxWidth: '100%',
@@ -216,7 +220,6 @@ const styles = StyleSheet.create({
   },
   delete: {
     marginLeft: 'auto',
-    paddingHorizontal: 10,
   },
   counts: {
     color: '#727272',

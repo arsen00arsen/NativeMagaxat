@@ -73,14 +73,6 @@ const MediaSearch = () => {
             </View>
           </View>
           <View style={styles.postContainer}>
-            {/* <VideoPlayer
-              uri={item.userVedio}
-              autoplay={false}
-              defaultMuted={true}
-              thumbnail={require('../../../assets/logoHeader.png')}
-              style={styles.searchVideo}
-            /> */}
-            {console.log(item.videos)}
             <Image style={styles.rowVideo} source={{uri: item.video_name}} />
             <IconPlay
               name="play"

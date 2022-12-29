@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
 import * as Animatable from 'react-native-animatable';
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     minHeight: 40,
-    marginVertical: 20,
+    marginVertical: Platform.OS === 'ios' ? 35 : 20,
     paddingHorizontal: 15,
   },
   searchbody: {

@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 import {MessageService} from '../../http/messageService/messageService';
+import {loadMessages, setMessages} from '../../stores/messages/messageActions';
 
 const MesageScreen = () => {
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ const MesageScreen = () => {
   const isMessageRead = data => {
     MessageService.isRead({id: data});
     dispatch(loadChatUser());
+    dispatch(setMessages([]));
   };
   const RenderCard = ({item, index}) => {
     return (
@@ -64,9 +66,13 @@ const MesageScreen = () => {
                       <Text style={{color: '#727272'}}>
                         {item?.last_message.text}{' '}
                       </Text>
-                      <View style={styles.newMessage}>
-                        <Text style={styles.newMessageText}>{item.unread}</Text>
-                      </View>
+                      {item?.last_message.isVideo === undefined ? null : (
+                        <View style={styles.newMessage}>
+                          <Text style={styles.newMessageText}>
+                            {item.unread}
+                          </Text>
+                        </View>
+                      )}
                     </View>
                   ) : (
                     <View style={styles.lmContainer}>

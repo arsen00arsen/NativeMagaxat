@@ -8,11 +8,13 @@ import {
   Modal,
   ScrollView,
   Alert,
+  Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
+import RadiusButton from '../RadiusButton';
 
 const ChatHeader = props => {
   const navigation = useNavigation();
@@ -50,13 +52,16 @@ const ChatHeader = props => {
         </View>
       </View>
       <View>
-        <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+        {/* <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
           <Entypo
             name="block"
             size={24}
             color={props.isBlock === false ? 'black' : 'red'}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+        <View style={{marginBottom: -40, zIndex: 100}}>
+          <RadiusButton types="user" id={props?.id} />
+        </View>
       </View>
       <Modal
         animationType="slide"
@@ -117,7 +122,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 45 : 0,
     borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
     borderBottomColor: Platform.OS === 'ios' ? 'silver' : 'white',
-    paddingBottom: Platform.OS === 'ios' ? 5 : 0,
+    paddingBottom: Platform.OS === 'ios' ? 18 : 0,
   },
   button: {
     display: 'flex',

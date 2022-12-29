@@ -11,7 +11,6 @@ import {
 } from '../../stores/messages/messageActions';
 import {MessageService} from '../../http/messageService/messageService';
 import ChatHeader from '../../components/HeaderComponents/ChatHeader';
-import UserService from '../../http/authService/authService';
 
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 
@@ -101,7 +100,12 @@ export default function ChatScreen({route}) {
 
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
-      <ChatHeader user={route.params} isUserBlock={_block} isBlock={block} />
+      <ChatHeader
+        user={route.params}
+        isUserBlock={_block}
+        isBlock={block}
+        id={receiverId.uid}
+      />
       <GiftedChat
         messageIdGenerator={msg => msg?._id}
         messages={recvMessages}

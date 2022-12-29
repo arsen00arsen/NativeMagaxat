@@ -70,7 +70,6 @@ const BenefactorSearchPage = () => {
     return <View style={styles.seperator} />;
   };
   let userProfilePage = item => {
-    console.log(item.id, 'oooo');
     navigation.navigate('BenefactorUserPageScreen', {
       id: item.id,
     });

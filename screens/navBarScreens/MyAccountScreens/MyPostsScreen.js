@@ -1,20 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  StatusBar,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
-import {baseUrl2} from '../../../http/index';
+import React, {useEffect} from 'react';
+import {View, Text, FlatList, StyleSheet, StatusBar} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 
@@ -52,9 +42,9 @@ const MyPostsScreen = props => {
       />
       <HeaderBackSearch serachFalse="false" />
       <MyaccountUsserInfor />
-      {myPosts.posts?.length < 1 ? (
+      {myPosts.posts.data.length === 0 ? (
         <View style={styles.usersEmpoty}>
-          <Text style={styles.textEmpoty}>You havn`t any Posts yet</Text>
+          <Text style={styles.textEmpoty}>You havn`t any Post yet</Text>
         </View>
       ) : (
         <FlatList
@@ -89,15 +79,17 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   usersEmpoty: {
+    flex: 1,
     width: '100%',
+    height: '90%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   textEmpoty: {
     fontSize: 20,
     textAlign: 'center',
-    marginTop: 60,
+    // marginTop: 60,
   },
 });
