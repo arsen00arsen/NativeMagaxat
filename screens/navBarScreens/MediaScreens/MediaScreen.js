@@ -39,16 +39,10 @@ const MediaScreen = () => {
     path: 'video',
     quality: 1,
   };
-  // const options2 = {
-  //   title: 'Select Avatar',
-  //   storageOptions: {
-  //     skipBackup: true,
-  //     path: 'images',
-  //   },
-  // };
+
   const options2 = {
     title: 'Image Picker',
-    mediaType: 'image',
+    mediaType: 'photo',
     storageOptions: {
       skipBackup: true,
       path: 'images',
@@ -102,7 +96,8 @@ const MediaScreen = () => {
       }
     } catch (err) {
       setSingleFile(null);
-      alert('Max size of video mast be 10 mb');
+      setSelected(false);
+      //alert('Max size of video mast be 2 mb');
       setSingleFile(null);
     }
   };
@@ -120,7 +115,8 @@ const MediaScreen = () => {
         setSelected(false);
       }
     } catch (err) {
-      alert('Max size of video mast be 10 mb');
+      setSelected(false);
+      //alert('Max size of video mast be 10 mb ssssssss');
       setSingleFile(null);
     }
   };
@@ -347,6 +343,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     height: '100%',
+    paddingVertical: 10,
     // borderWidth: 2.5,
     borderColor: '#E5E5E5',
     backgroundColor: '#fff',
@@ -357,6 +354,6 @@ const styles = StyleSheet.create({
     maxWidth: 230,
     color: 'black',
     fontSize: 16,
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
 });

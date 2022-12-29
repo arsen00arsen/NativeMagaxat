@@ -15,6 +15,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import Video from 'react-native-video';
 import {useDispatch} from 'react-redux';
 import {removeMyStory} from '../../../stores/stories/storiesAction';
+import RadiusButton from '../../../components/RadiusButton';
 
 const Status = ({route, navigation}) => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const Status = ({route, navigation}) => {
               name="close"
               style={{fontSize: 20, color: 'white', opacity: 0.6}}
             />
+            {/* {isMy !== true ?  : null} */}
           </TouchableOpacity>
         </View>
       </View>
@@ -84,14 +86,21 @@ const Status = ({route, navigation}) => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Feather
             name="navigation"
-            style={{fontSize: 30, color: 'white', marginLeft: 'auto'}}
+            style={{
+              fontSize: 30,
+              color: 'white',
+              marginLeft: 'auto',
+              marginBottom: 30,
+            }}
           />
         </TouchableOpacity>
         {isMy === true ? (
           <TouchableOpacity style={styles.delete} onPress={deletePost}>
             <Icon name="delete-circle-outline" color="red" size={32} />
           </TouchableOpacity>
-        ) : null}
+        ) : (
+          <RadiusButton types="story" id={id} />
+        )}
       </View>
     </View>
   );
@@ -150,7 +159,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-around',
     marginVertical: 10,
     width: '100%',
@@ -168,5 +177,8 @@ const styles = StyleSheet.create({
     left: 0,
     bottom: 0,
     right: 0,
+  },
+  delete: {
+    bottom: 20,
   },
 });

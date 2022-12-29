@@ -1,20 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  StatusBar,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
-import {baseUrl2} from '../../../http/index';
+import React, {useEffect} from 'react';
+import {View, Text, FlatList, StyleSheet, StatusBar} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 
@@ -26,7 +16,7 @@ const MyPostsScreen = props => {
   useEffect(() => {
     dispatch(loadMyPosts());
   }, []);
-  console.log(myPosts.posts.data.length, ';;;;')
+
   const renderItem = ({item}) => {
     if (item.image) {
       return (

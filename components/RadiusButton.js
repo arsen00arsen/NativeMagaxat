@@ -11,23 +11,31 @@ import {
 import {useForm} from 'react-hook-form';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ChechBox from './ChechBox';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import UserService from '../http/authService/authService';
+import {loadPosts} from '../stores/post/postActions';
+import {loadStori} from '../stores/stories/storiesAction';
 
-const RadiusButton = ({id}) => {
+const RadiusButton = ({id, types}) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const dispatch = useDispatch();
   const [isShow, setIsShow] = useState(false);
   const {control, handleSubmit} = useForm();
   const type = useSelector(state => state.user.report);
   const submitFormHandler = handleSubmit(async data => {
-    let object = {sent_id: id, type: type, ...data};
-    Alert.alert('Thank you, your report has been sent. ');
+    let object = {model_id: id, model_type: types, message: type};
     setIsShow(false);
     setModalVisible(false);
     UserService.reportSend(object)
-      .then(res => console.log(res))
-      .catch(error => console.log(error));
-    console.log(object);
+      .then(() => {
+        if (types === 'post') {
+          dispatch(loadPosts(1));
+        } else if (types === 'story') {
+          dispatch(loadStori());
+        }
+      })
+      .catch(error => console.log(error, 'erroir'));
+    Alert.alert('Thank you, your report has been sent. ');
   });
 
   return (
@@ -62,6 +70,7 @@ const RadiusButton = ({id}) => {
                 style={{width: '100%', height: '100%'}}>
                 <View>
                   <ChechBox
+                    types={types}
                     title="Spam or scam"
                     number="first"
                     control={control}
@@ -117,7 +126,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#8A8A8A',
     paddingHorizontal: 10,
-    borderRadius: 5,
+    //borderRadius: 5,
     paddingVertical: 5,
     width: 80,
     backgroundColor: 'silver',

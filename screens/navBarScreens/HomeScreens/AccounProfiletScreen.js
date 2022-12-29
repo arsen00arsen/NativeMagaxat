@@ -17,6 +17,7 @@ import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
+import RadiusButton from '../../../components/RadiusButton';
 
 const AccounProfiletScreen = props => {
   const theme = useTheme();
@@ -50,7 +51,8 @@ const AccounProfiletScreen = props => {
       <View style={styles.userInfo}>
         <Image source={{uri: user?.image}} style={styles.userImage} />
         <View style={styles.usernameIcon}>
-          <View style={styles.names}>
+
+          <View style={[styles.names]}>
             <Text style={styles.nameSurname}>{user?.name}</Text>
             <Text style={styles.nameSurname}>{user?.lastname}</Text>
           </View>
@@ -93,10 +95,14 @@ const AccounProfiletScreen = props => {
                   uid: id,
                   image: user.image,
                   name: user.name,
+                  isBlocket: false,
                 })
               }>
               <Text style={styles.postSubscribeButtonText}>Message</Text>
             </TouchableOpacity>
+            <View style={{marginBottom: -40}}>
+              <RadiusButton types="user" id={id} />
+            </View>
           </View>
         </View>
       </View>
@@ -245,7 +251,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#BB9E79',
     borderRadius: 5,
-    width: '48%',
+    width: '43%',
     height: 43,
     justifyContent: 'center',
   },

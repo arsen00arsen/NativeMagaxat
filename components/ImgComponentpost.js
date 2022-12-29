@@ -95,7 +95,9 @@ const ImgComponentpost = props => {
               }}>
               <Text style={styles.timeData}>{time} </Text>
               <View>
-                <RadiusButton id={props.uri.id} />
+                {props?.isMyne === true ? null : (
+                  <RadiusButton id={post.id} types="post" />
+                )}
               </View>
             </View>
           </View>

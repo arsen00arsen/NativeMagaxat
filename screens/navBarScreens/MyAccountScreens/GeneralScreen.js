@@ -19,6 +19,7 @@ import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAv
 import {useSelector, useDispatch} from 'react-redux';
 import MultiSelectComponent from '../../../components/MultiSelectComponent';
 import {UploadUserService} from '../../../http/uploadService/uploadService';
+import {getMe} from '../../../stores/user/userActions';
 
 const GeneralScreen = ({navigation}) => {
   const dispatch = useDispatch();
@@ -50,7 +51,7 @@ const GeneralScreen = ({navigation}) => {
       const mappedVals = vals.map(el => el?.id);
       setValuesSelect(mappedVals);
     }
-  }, [dispatch]);
+  }, []);
 
   const submitFormHandler = handleSubmit(async data => {
     Object.keys(data).map(function (key) {
@@ -61,14 +62,17 @@ const GeneralScreen = ({navigation}) => {
     });
     try {
       await UploadUserService.uploadUser(data);
+      dispatch(getMe());
+      alert('Your date succesfully changed');
     } catch {
       console.log('error');
+    } finally {
     }
   });
 
-  if (!Object.values(user.user).length) {
-    return null;
-  }
+  // if (!Object.values(user?.user).length) {
+  //   return null;
+  // }
 
   return (
     <View style={styles.container}>

@@ -15,9 +15,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
-import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
+import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
+import RadiusButton from '../../../components/RadiusButton';
 
 const MyPageUsersAccount = props => {
   const theme = useTheme();
@@ -97,6 +98,9 @@ const MyPageUsersAccount = props => {
               }>
               <Text style={styles.postSubscribeButtonText}>Message</Text>
             </TouchableOpacity>
+            <View style={{marginBottom: -40}}>
+              <RadiusButton types="user" id={id} />
+            </View>
           </View>
         </View>
       </View>
@@ -108,7 +112,7 @@ const MyPageUsersAccount = props => {
         backgroundColor="#F2F2F2"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
-      <HeaderBackSearchSecond />
+      <HeaderBackSearch serachFalse="false" />
       <SectionList
         style={{width: '100%'}}
         // contentContainerStyle={{paddingHorizontal: 10}}
@@ -244,7 +248,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#BB9E79',
     borderRadius: 5,
-    width: '48%',
+    width: '43%',
     height: 43,
     justifyContent: 'center',
   },

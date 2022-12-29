@@ -40,7 +40,6 @@ const Stories = () => {
       type: fileToUpload.type,
       name: fileToUpload.fileName ? fileToUpload.fileName : fileToUpload.name,
     });
-    console.log(fdata._parts, 'fileToUpload');
     try {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch(baseUrl2 + '/stories_api', {
@@ -52,7 +51,6 @@ const Stories = () => {
         body: fdata,
       });
       const {data} = await res.json();
-      console.log(data, ';;;;;;');
       dispatch(setSingleStori(data));
     } catch (error) {
       alert(error.message);
@@ -62,7 +60,6 @@ const Stories = () => {
   const selectFile = async () => {
     try {
       const res = await launchImageLibrary(options);
-      console.log(res.assets[0].type[0], 'llllllklklkkkk');
       if (
         res.assets[0].type === 'video/mp4' &&
         res.assets[0].fileSize < 10485760

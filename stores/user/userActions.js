@@ -41,6 +41,8 @@ export const registerUser = dataToSend => async dispatch => {
   } catch (error) {
     alert(error);
     dispatch(loginError(error.message));
+  } finally {
+    dispatch(getMe());
   }
 };
 

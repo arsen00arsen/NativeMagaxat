@@ -2,15 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/macminitime/Projects/NativeMagaxat/ios/SponsorAM.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Entypo.ttf">
+      location = "group:SponsorAM.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:SponsorAM.xcodeproj">
    </FileRef>
 </Workspace>

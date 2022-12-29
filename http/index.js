@@ -8,14 +8,14 @@ const headers = {
 
 export const $host = axios.create({
   baseURL: 'https://sponsor.am/api',
-  // baseURL: 'http://192.168.0.124/api',
+  //baseURL: 'http://192.168.50.251:8069/api',
   headers,
   withCredentials: true,
 });
 
 export const $authHost = axios.create({
   baseURL: 'https://sponsor.am/api',
-  // baseURL: 'http://192.168.0.124/api',
+  //baseURL: 'http://192.168.50.251:8069/api',
   headers,
   withCredentials: true,
 });
@@ -56,5 +56,5 @@ $authHost.interceptors.response.use(
 );
 
 const baseUrl2 = 'https://sponsor.am/api';
-// const baseUrl2 = 'http://192.168.0.124/api';
+//const baseUrl2 = 'http://192.168.50.251:8069/api';
 export {baseUrl2};
