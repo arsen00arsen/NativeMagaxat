@@ -7,13 +7,11 @@ import {
   Text,
   Modal,
   ScrollView,
-  Alert,
   Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
-import Entypo from 'react-native-vector-icons/Entypo';
 import RadiusButton from '../RadiusButton';
 
 const ChatHeader = props => {
@@ -118,7 +116,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     width: '100%',
-    marginVertical: 10,
+    marginVertical: 30,
     marginTop: Platform.OS === 'ios' ? 45 : 0,
     borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
     borderBottomColor: Platform.OS === 'ios' ? 'silver' : 'white',

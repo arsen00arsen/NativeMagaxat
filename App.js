@@ -25,17 +25,6 @@ const App = () => {
   useEffect(() => {
     dispatch(getMe());
     requestUserPermission;
-
-    //createChanels();
-  }, []);
-
-  // const createChanels = async () => {
-  //   PushNotificationIOS.createChannel({
-  //     channelId: 'test',
-  //     channelName: 'Test Channel',
-  //   });
-  // };
-
     createChanels();
   }, []);
 
@@ -45,7 +34,6 @@ const App = () => {
       channelName: 'Test Channel',
     });
   };
-
   if (loading) {
     return (
       <LinearGradient

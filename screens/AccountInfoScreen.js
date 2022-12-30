@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Platform,
-  KeyboardAvoidingView,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -38,20 +37,8 @@ const AccountInfoScreen = ({navigation}) => {
     <LinearGradient
       start={{x: 1, y: 1}}
       end={{x: 1, y: 0}}
-      colors={['#D6AB6F', '#B8B8B8', '#674C31']}
+      colors={['#cbb085', '#B8B8B8', '#cbb085']}
       style={styles.linearGradient}>
-
-      <StatusBar backgroundColor="#674C31" barStyle="light-content" />
-      <KeyboardAvoidingView style={styles.scrollView} behavior="height">
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.content}>
-            <View style={styles.headerWidthButton}>
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
-              </TouchableOpacity>
-              <View style={styles.titlecontent}>
-                <Text style={styles.text}>Account</Text>
-                <Text style={styles.text}>Information</Text>
       <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -101,99 +88,59 @@ const AccountInfoScreen = ({navigation}) => {
                   }}
                 />
               </View>
-              <View />
-            </View>
-            <Animatable.Image
-              animation="fadeInUpBig"
-              duraton="1500"
-              source={require('../assets/account.png')}
-              style={styles.logo}
-              resizeMode="stretch"
+            ) : (
+              <View style={styles.action}>
+                <Text style={styles.inputHeader}>Gender</Text>
+                <Controller
+                  control={control}
+                  name="gender"
+                  render={({field: {onChange, value, onBlur}}) => {
+                    return (
+                      <Picker
+                        selectedValue={value}
+                        style={styles.pickerSelectStyles}
+                        onValueChange={onChange}
+                        onBlur={onBlur}>
+                        <Picker.Item label="Male" value="male" />
+                        <Picker.Item label="Female" value="female" />
+                      </Picker>
+                    );
+                  }}
+                />
+              </View>
+            )}
+            <CustomInput
+              name="email"
+              control={control}
+              title="Email"
+              rules={{
+                required: 'Email is required',
+                pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+              }}
             />
-            {/* <View style={styles.logo}>
-            <LoginAvatar />
+            <CustomInput
+              name="phone_number"
+              control={control}
+              type="number"
+              title="Phone"
+              rules={{
+                required: 'Phone Number is required',
+                minLength: {
+                  value: 5,
+                  message: 'Phone Number should be at least 3 characters long',
+                },
+              }}
+            />
           </View>
-           */}
-            <View>
-              {Platform.OS === 'ios' ? (
-                <View style={styles.actionIOS}>
-                  <Text style={styles.inputHeader}>Gender</Text>
-                  <Controller
-                    control={control}
-                    name="gender"
-                    render={({field: {onChange, value, onBlur}}) => {
-                      return (
-                        <Picker
-                          selectedValue={value}
-                          itemStyle={{fontSize: 14, height: 100}}
-                          height={30}
-                          mode="dialog"
-                          onValueChange={onChange}
-                          onBlur={onBlur}>
-                          <Picker.Item label="Male" value="male" />
-                          <Picker.Item label="Female" value="female" />
-                        </Picker>
-                      );
-                    }}
-                  />
-                </View>
-              ) : (
-                <View style={styles.action}>
-                  <Text style={styles.inputHeader}>Gender</Text>
-                  <Controller
-                    control={control}
-                    name="gender"
-                    render={({field: {onChange, value, onBlur}}) => {
-                      return (
-                        <Picker
-                          selectedValue={value}
-                          style={styles.pickerSelectStyles}
-                          onValueChange={onChange}
-                          onBlur={onBlur}>
-                          <Picker.Item label="Male" value="male" />
-                          <Picker.Item label="Female" value="female" />
-                        </Picker>
-                      );
-                    }}
-                  />
-                </View>
-              )}
-              <CustomInput
-                name="email"
-                control={control}
-                title="Email"
-                rules={{
-                  required: 'Email is required',
-                  pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
-                }}
-              />
-              <CustomInput
-                name="phone_number"
-                control={control}
-                type="number"
-                title="Phone"
-                rules={{
-                  required: 'Phone Number is required',
-                  minLength: {
-                    value: 5,
-                    message:
-                      'Phone Number should be at least 3 characters long',
-                  },
-                }}
-              />
-            </View>
-            <View>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={submitFormHandler}>
-                <View />
-                <Text style={styles.textSign}>Next</Text>
-                <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
-              </TouchableOpacity>
-            </View>
+          <View>
+            <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
+              <View />
+              <Text style={styles.textSign}>Next</Text>
+              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
+        </View>
+      </ScrollView>
     </LinearGradient>
   );
 };
@@ -202,6 +149,7 @@ export default AccountInfoScreen;
 
 const styles = StyleSheet.create({
   linearGradient: {
+    flex: 1,
     justifyContent: 'center',
     paddingTop: 50,
   },
@@ -228,8 +176,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     paddingTop: 20,
-    // height: 150,
-    // width: 150,
+    height: 150,
+    // width: 180,
     borderRadius: 100,
     padding: 20,
     marginBottom: Platform.OS === 'ios' ? 10 : 0,
@@ -289,7 +237,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: '100%',
-    height: '100%',
   },
   actionIOS: {
     backgroundColor: 'white',

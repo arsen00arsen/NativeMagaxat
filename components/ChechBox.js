@@ -10,7 +10,7 @@ const ChechBox = props => {
   dispatch({type: 'REPORT_INFO', payload: value});
   return (
     <View style={{paddingTop: 25}}>
-      <RadioButton.Group
+      {/* <RadioButton.Group
         onValueChange={newValue => setValue(newValue)}
         value={value}>
         {props?.types === 'user' ? null : (
@@ -61,7 +61,7 @@ const ChechBox = props => {
             <RadioButton value="Other" />
           </View>
         </View>
-      </RadioButton.Group>
+      </RadioButton.Group> */}
       {value === 'Other' ? (
         <Controller
           control={props.control}

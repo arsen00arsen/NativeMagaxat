@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -15,17 +16,20 @@ import {useSelector, useDispatch} from 'react-redux';
 import UserService from '../http/authService/authService';
 import {loadPosts} from '../stores/post/postActions';
 import {loadStori} from '../stores/stories/storiesAction';
+import {Controller} from 'react-hook-form';
 
 const RadiusButton = ({id, types}) => {
-  const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
+  const [modalVisible, setModalVisible] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const {control, handleSubmit} = useForm();
   const type = useSelector(state => state.user.report);
+
   const submitFormHandler = handleSubmit(async data => {
     let object = {model_id: id, model_type: types, message: type};
     setIsShow(false);
     setModalVisible(false);
+    console.log(object, 'llllll');
     UserService.reportSend(object)
       .then(() => {
         if (types === 'post') {
@@ -54,52 +58,90 @@ const RadiusButton = ({id, types}) => {
           </TouchableOpacity>
         </View>
       ) : null}
-      <View style={[modalVisible === true ? styles.centeredView : null]}>
-        <Modal
-          animationType="fild"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{width: '100%', height: '100%'}}>
-                <View>
-                  <ChechBox
-                    types={types}
-                    title="Spam or scam"
-                    number="first"
-                    control={control}
-                    rules={{
-                      required: 'Please write a message',
-                      minLength: {
-                        value: 1,
-                        message: 'Please write a message',
-                      },
-                    }}
-                  />
-                </View>
-                <View style={styles.modalButtons}>
-                  <TouchableOpacity
-                    onPress={submitFormHandler}
-                    style={[styles.button, styles.buttonClose2]}>
-                    <Text style={styles.textStyle2}>Submit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(false)}>
-                    <Text style={styles.textStyle}>Close</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
-            </View>
+
+      <Modal
+        animationType="fild"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              style={{width: '100%', height: '100%'}}>
+              <View>
+                {/* <ChechBox
+                  types={types}
+                  title="Spam or scam"
+                  number="first"
+                  control={control}
+                  rules={{
+                    required: 'Please write a message',
+                    minLength: {
+                      value: 1,
+                      message: 'Please write a message',
+                    },
+                  }}
+                /> */}
+                <Controller
+                  control={control}
+                  name="message"
+                  rules={{
+                    required: 'Please write a message',
+                    minLength: {
+                      value: 1,
+                      message: 'Please write a message',
+                    },
+                  }}
+                  render={({
+                    field: {onChange, value, onBlur},
+                    fieldState: {error},
+                  }) => {
+                    return (
+                      <>
+                        <TextInput
+                          placeholder=" ..."
+                          style={styles.textInput}
+                          value={value}
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          multiline
+                          underlineColorAndroid="white"
+                        />
+                        {error && (
+                          <Text
+                            style={{
+                              color: 'red',
+                              alignSelf: 'stretch',
+                              width: 250,
+                            }}>
+                            {error.message || 'Error'}
+                          </Text>
+                        )}
+                      </>
+                    );
+                  }}
+                />
+              </View>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  onPress={submitFormHandler}
+                  style={[styles.button, styles.buttonClose2]}>
+                  <Text style={styles.textStyle2}>Submit</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.button, styles.buttonClose]}
+                  onPress={() => setModalVisible(false)}>
+                  <Text style={styles.textStyle}>Close</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -201,5 +243,6 @@ const styles = StyleSheet.create({
   },
   mainDiv: {
     height: 60,
+    backgroundColor: 'transparent',
   },
 });
