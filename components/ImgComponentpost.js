@@ -20,6 +20,7 @@ const ImgComponentpost = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
+  console.log(props.type, 'dd')
 
   let imgBG = (
     <ImageModal
@@ -103,9 +104,11 @@ const ImgComponentpost = props => {
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
+      <TouchableOpacity style={{zIndex: -1}} onPress={isLongDs}>
+        {userTitle}
+      </TouchableOpacity>
 
-      <View style={{borderRadius: 8}}>{imgBG}</View>
+      <View style={{borderRadius: 8, zIndex: -1}}>{imgBG}</View>
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
           <LikeButton
@@ -191,6 +194,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingTop: 10,
     color: '#727272',
+    zIndex: 0,
   },
   timeData: {
     maxWidth: '40%',
@@ -203,6 +207,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     paddingTop: 10,
     color: '#727272',
+    zIndex: -1
   },
   usersProfileBGimage: {
     width: 320,

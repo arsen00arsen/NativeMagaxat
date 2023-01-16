@@ -9,7 +9,16 @@ const ChechBox = props => {
   const [value, setValue] = React.useState('Other');
   dispatch({type: 'REPORT_INFO', payload: value});
   return (
-    <View style={{paddingTop: 25}}>
+    <View style={{paddingTop: 5}}>
+      <Text
+        style={{
+          marginVertical: 50,
+          textAlign: 'center',
+          fontSize: 25,
+          fontWeight: '700',
+        }}>
+        Report sender ?
+      </Text>
       <RadioButton.Group
         onValueChange={newValue => setValue(newValue)}
         value={value}>

@@ -63,7 +63,7 @@ const GeneralScreen = ({navigation}) => {
     try {
       await UploadUserService.uploadUser(data);
       dispatch(getMe());
-      alert('Your date succesfully changed');
+      alert('Your data succesfully changed');
     } catch {
       console.log('error');
     } finally {

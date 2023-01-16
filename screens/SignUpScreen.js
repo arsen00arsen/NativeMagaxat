@@ -20,28 +20,33 @@ import DatePicker from 'react-native-date-picker';
 import Icon1 from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/Feather';
 import CustomInput from '../components/loginComponents/CustomInput';
-
+import { registerUser } from '../stores/user/userActions';
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const SignUpScreen = ({navigation}) => {
   const [open, setOpen] = useState(false);
   const [check, setCheck] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
   const {width} = useWindowDimensions();
   const [date, setDate] = useState(new Date());
-  const {control, handleSubmit} = useForm({
-    defaultValues: {
-      date_of_birth: new Date(),
-    },
+  const {control, handleSubmit, watch} = useForm({
+    // defaultValues: {
+    //   date_of_birth: new Date(),
+    // },
   });
+  let pwd = watch('password');
   const dispatch = useDispatch();
   const submitFormHandler = handleSubmit(data => {
-    dispatch({
-      type: 'FIRST_STEP_SUBMIT',
-      payload: {
-        ...data,
-        date_of_birth: moment(data).format('YYYY-MM-DD'),
-      },
-    });
-    navigation.navigate('AccountInfoScreen');
+    // dispatch({
+    //   type: 'FIRST_STEP_SUBMIT',
+    //   payload: {
+    //     ...data,
+    //     date_of_birth: moment(data).format('YYYY-MM-DD'),
+    //   },
+    // });
+    // navigation.navigate('LocationPageScreen');
+    dispatch(registerUser(data));
+    console.log(data, 'ooooooooo');
   });
   const source = {
     html: `
@@ -256,7 +261,55 @@ const SignUpScreen = ({navigation}) => {
                 },
               }}
             />
-            <View>
+            <CustomInput
+              name="email"
+              control={control}
+              title="Email"
+              rules={{
+                required: 'Email is required',
+                pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+              }}
+            />
+            {/* <CustomInput
+              name="phone_number"
+              control={control}
+              type="number"
+              title="Phone"
+              rules={{
+                required: 'Phone Number is required',
+                minLength: {
+                  value: 5,
+                  message: 'Phone Number should be at least 3 characters long',
+                },
+              }}
+            /> */}
+            <CustomInput
+              name="password"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                required: 'Password is required',
+                minLength: {
+                  value: 8,
+                  message: 'Password should be at least 8 characters',
+                },
+              }}
+              title="Password"
+            />
+            <CustomInput
+              name="confirmPassword"
+              control={control}
+              style={styles.nameInput}
+              secureTextEntry
+              rules={{
+                validate: value =>
+                  value === pwd || 'The passwords do not match',
+              }}
+              title="Confirm Your Password"
+            />
+
+            {/* <View>
               <TouchableOpacity
                 style={styles.action}
                 onPress={() => setOpen(true)}>
@@ -289,7 +342,7 @@ const SignUpScreen = ({navigation}) => {
                   );
                 }}
               />
-            </View>
+            </View> */}
           </View>
           <View style={styles.chackContainer}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -344,9 +397,8 @@ const SignUpScreen = ({navigation}) => {
               style={styles.button}
               onPress={submitFormHandler}
               disabled={!check}>
-              <View />
-              <Text style={styles.textSign}>Next</Text>
-              <Icon name="arrow-right" color={'#FFFFFF'} size={25} />
+              <Text style={styles.textSign}>Login</Text>
+              {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
             </TouchableOpacity>
           </View>
         </View>
@@ -401,6 +453,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 15,
+    marginBottom: 50,
     borderRadius: 50,
     borderColor: '#FFFFFF',
     borderWidth: 1,
@@ -508,5 +561,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 10,
     top: 10,
-  }
+  },
 });

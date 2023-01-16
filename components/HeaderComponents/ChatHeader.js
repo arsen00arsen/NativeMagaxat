@@ -13,6 +13,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import Octicons from 'react-native-vector-icons/Octicons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import RadiusButton from '../RadiusButton';
 
@@ -60,7 +61,16 @@ const ChatHeader = props => {
           />
         </TouchableOpacity> */}
         <View style={{marginBottom: -40, zIndex: 100}}>
-          <RadiusButton types="user" id={props?.id} />
+          {props?.isBlock === true ? (
+            <Octicons
+              name="blocked"
+              size={21}
+              color="red"
+              style={{marginBottom: 20}}
+            />
+          ) : (
+            <RadiusButton types="user" id={props?.id} chat />
+          )}
         </View>
       </View>
       <Modal

@@ -171,6 +171,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 10,
   },
+  mediaVideo: {
+    // width: '100%',
+    height: 89,
+  },
   usersProfileBGimage: {
     width: '100%',
     minWidth: 150,
