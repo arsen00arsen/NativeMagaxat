@@ -36,6 +36,7 @@ export const registerUser = dataToSend => async dispatch => {
   try {
     dispatch(startLogin());
     const {data} = await UserService.register(dataToSend);
+    console.log(data, ';;;;;;;')
     dispatch(loginSuccess(data.data));
     await AsyncStorage.setItem('token', data.token);
   } catch (error) {

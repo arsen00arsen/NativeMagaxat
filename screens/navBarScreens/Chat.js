@@ -97,7 +97,7 @@ export default function ChatScreen({route}) {
   const renderToolbar = props => {
     return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
   };
-
+console.log(recvMessages[0], 'mmmmm')
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
       <ChatHeader

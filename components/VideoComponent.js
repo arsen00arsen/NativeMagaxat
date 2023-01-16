@@ -89,17 +89,21 @@ const VideoComponent = props => {
           </View>
         </View>
       </View>
-      <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
-      <VideoPlayer
-        video={{uri: props?.uri?.video}}
-        autoplay={false}
-        defaultMuted={false}
-        thumbnail={{uri: props?.uri?.video_name}}
-        style={styles.mediaVideo}
-        fullscreen={true}
-        // controls={true}
-        // resizeMode="contain"
-      />
+      <TouchableOpacity style={{zIndex: -1}} onPress={isLongDs}>
+        {userTitle}
+      </TouchableOpacity>
+      <View style={{zIndex: -1}}>
+        <VideoPlayer
+          video={{uri: props?.uri?.video}}
+          autoplay={false}
+          defaultMuted={false}
+          thumbnail={{uri: props?.uri?.video_name}}
+          style={[styles.mediaVideo]}
+          fullscreen={true}
+          // controls={true}
+          // resizeMode="contain"
+        />
+      </View>
       {props.post === 'post' ? null : (
         <View style={styles.postIcons}>
           <LikeButton

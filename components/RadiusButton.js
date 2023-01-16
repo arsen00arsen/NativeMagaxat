@@ -7,24 +7,31 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  TextInput,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
 import Entypo from 'react-native-vector-icons/Entypo';
 import ChechBox from './ChechBox';
+import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import UserService from '../http/authService/authService';
 import {loadPosts} from '../stores/post/postActions';
 import {loadStori} from '../stores/stories/storiesAction';
+import {Controller} from 'react-hook-form';
 
-const RadiusButton = ({id, types}) => {
-  const [modalVisible, setModalVisible] = useState(false);
+const RadiusButton = ({id, types, chat}) => {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [block, setBlock] = useState();
   const [isShow, setIsShow] = useState(false);
   const {control, handleSubmit} = useForm();
   const type = useSelector(state => state.user.report);
+
   const submitFormHandler = handleSubmit(async data => {
     let object = {model_id: id, model_type: types, message: type};
     setIsShow(false);
+    setBlock();
     setModalVisible(false);
     UserService.reportSend(object)
       .then(() => {
@@ -36,8 +43,9 @@ const RadiusButton = ({id, types}) => {
       })
       .catch(error => console.log(error, 'erroir'));
     Alert.alert('Thank you, your report has been sent. ');
+    navigation.navigate('HomeScreen')
   });
-
+  console.log(types, 'types');
   return (
     <View style={styles.mainDiv}>
       <TouchableOpacity onPress={() => setIsShow(!isShow)} delayPressIn={150}>
@@ -47,28 +55,127 @@ const RadiusButton = ({id, types}) => {
       </TouchableOpacity>
       {isShow === true ? (
         <View style={styles.button2}>
-          <TouchableOpacity
-            style={styles.reportButton}
-            onPress={() => setModalVisible(!modalVisible)}>
-            <Text style={styles.reportButtonText}> Report</Text>
-          </TouchableOpacity>
+          {chat ? (
+            <TouchableOpacity
+              style={[styles.reportButton, {borderTopWidth: 0}]}
+              onPress={() => {
+                setModalVisible(!modalVisible), setBlock('block');
+              }}>
+              <Text style={styles.reportButtonText}>Block</Text>
+            </TouchableOpacity>
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.reportButton}
+                onPress={() => setModalVisible(!modalVisible)}>
+                <Text style={styles.reportButtonText}>Report</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.reportButton, {borderTopWidth: 0}]}
+                onPress={() => {
+                  setModalVisible(!modalVisible), setBlock('block');
+                }}>
+                <Text style={styles.reportButtonText}>Block</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
       ) : null}
-      <View style={[modalVisible === true ? styles.centeredView : null]}>
-        <Modal
-          animationType="fild"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            alert('Modal has been closed.');
-            setModalVisible(!modalVisible);
-          }}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <ScrollView
-                showsVerticalScrollIndicator={false}
-                style={{width: '100%', height: '100%'}}>
-                <View>
+
+      <Modal
+        animationType="fild"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            {block === 'block' ? (
+              <View>
+                {types === 'user' ? (
+                  <Text
+                    style={{
+                      marginVertical: 50,
+                      textAlign: 'center',
+                      fontSize: 25,
+                      fontWeight: '700',
+                    }}>
+                    Are you suer for block this user?
+                  </Text>
+                ) : (
+                  <Text
+                    style={{
+                      marginVertical: 50,
+                      textAlign: 'center',
+                      fontSize: 25,
+                      fontWeight: '700',
+                    }}>
+                    Are you suer for block content?
+                  </Text>
+                )}
+              </View>
+            ) : (
+              <View>
+                {chat ? (
+                  <Controller
+                    control={control}
+                    name="message"
+                    rules={{
+                      required: 'Please write a message',
+                      minLength: {
+                        value: 1,
+                        message: 'Please write a message',
+                      },
+                    }}
+                    render={({
+                      field: {onChange, value, onBlur},
+                      fieldState: {error},
+                    }) => {
+                      return (
+                        <>
+                          <Text
+                            style={{
+                              marginTop: 50,
+                              textAlign: 'center',
+                              fontSize: 25,
+                              fontWeight: '700',
+                            }}>
+                            Block messages ?
+                          </Text>
+                          <Text
+                            style={{
+                              marginVertical: 5,
+                              textAlign: 'center',
+                              fontSize: 12,
+                            }}>
+                            The conversation will stay in Chats.
+                          </Text>
+                          <TextInput
+                            placeholder="Reason for block .."
+                            style={styles.textInput}
+                            value={value}
+                            onChangeText={onChange}
+                            onBlur={onBlur}
+                            multiline
+                            underlineColorAndroid="white"
+                          />
+                          {error && (
+                            <Text
+                              style={{
+                                color: 'red',
+                                alignSelf: 'stretch',
+                                width: 250,
+                              }}>
+                              {error.message || 'Error'}
+                            </Text>
+                          )}
+                        </>
+                      );
+                    }}
+                  />
+                ) : (
                   <ChechBox
                     types={types}
                     title="Spam or scam"
@@ -82,24 +189,36 @@ const RadiusButton = ({id, types}) => {
                       },
                     }}
                   />
-                </View>
-                <View style={styles.modalButtons}>
-                  <TouchableOpacity
-                    onPress={submitFormHandler}
-                    style={[styles.button, styles.buttonClose2]}>
-                    <Text style={styles.textStyle2}>Submit</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[styles.button, styles.buttonClose]}
-                    onPress={() => setModalVisible(false)}>
-                    <Text style={styles.textStyle}>Close</Text>
-                  </TouchableOpacity>
-                </View>
-              </ScrollView>
+                )}
+              </View>
+            )}
+
+            <View style={styles.modalButtons}>
+              <TouchableOpacity
+                onPress={submitFormHandler}
+                style={[styles.button, styles.buttonClose2]}>
+                {block === 'block' ? (
+                  <Text style={styles.textStyle2}>Yes</Text>
+                ) : (
+                  <Text style={styles.textStyle2}>Submit</Text>
+                )}
+                {/* <Text style={styles.textStyle2}>Submit</Text> */}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => {
+                  setModalVisible(false), setBlock();
+                }}>
+                {block === 'block' ? (
+                  <Text style={styles.textStyle}>No</Text>
+                ) : (
+                  <Text style={styles.textStyle}>Close</Text>
+                )}
+              </TouchableOpacity>
             </View>
           </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -120,21 +239,31 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     right: 0,
     zIndex: 25,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#555',
+
     // width: 80,
   },
   reportButton: {
-    borderWidth: 1,
-    borderColor: '#8A8A8A',
-    paddingHorizontal: 10,
-    //borderRadius: 5,
-    paddingVertical: 5,
-    width: 80,
-    backgroundColor: 'silver',
+    width: 120,
+    padding: 10,
+    display: 'flex',
+    justifyContent: 'center',
   },
   reportButtonText: {
-    color: 'white',
+    color: 'black',
+    zIndex: 25,
   },
-
+  textInput: {
+    height: 80,
+    borderColor: 'silver',
+    borderWidth: 1,
+    marginTop: 50,
+    borderRadius: 8,
+    marginBottom: 30,
+    padding: 10,
+  },
   //
   modalText: {
     marginBottom: 15,
@@ -171,7 +300,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 0,
-    backgroundColor: '#5f5a5ae3',
+    backgroundColor: '#000e',
     height: '100%',
   },
   buttonClose: {
@@ -201,5 +330,6 @@ const styles = StyleSheet.create({
   },
   mainDiv: {
     height: 60,
+    backgroundColor: 'transparent',
   },
 });

@@ -76,12 +76,14 @@ const MesageScreen = () => {
                     </View>
                   ) : (
                     <View style={styles.lmContainer}>
-                      <Icon
-                        name="checkmark-done"
-                        color="#1877f2"
-                        size={21}
-                        style={styles.lmicons}
-                      />
+                      {item?.last_message !== '' ? (
+                        <Icon
+                          name="checkmark-done"
+                          color="#1877f2"
+                          size={21}
+                          style={styles.lmicons}
+                        />
+                      ) : null}
                       <Text style={styles.lmMessage}>
                         {item?.last_message.text}{' '}
                       </Text>

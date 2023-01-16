@@ -97,8 +97,8 @@ const MediaScreen = () => {
     } catch (err) {
       setSingleFile(null);
       setSelected(false);
-      //alert('Max size of video mast be 2 mb');
-      setSingleFile(null);
+      alert('Max size of video mast be 2 mb');
+      // setSingleFile(null);
     }
   };
 
