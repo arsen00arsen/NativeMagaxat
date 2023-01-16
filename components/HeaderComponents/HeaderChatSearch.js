@@ -23,7 +23,7 @@ const HeaderChatSearch = props => {
   return (
     <View style={styles.container}>
       <StatusBar
-        backgroundColor="#009387"
+        backgroundColor="#FFFFFF"
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <LinearGradient
