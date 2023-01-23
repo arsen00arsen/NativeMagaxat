@@ -94,12 +94,15 @@ const VideoComponent = props => {
       </TouchableOpacity>
       <View style={{zIndex: -1}}>
         <VideoPlayer
+          resizeMode={'stretch'}
+          ref={videoRef}
           video={{uri: props?.uri?.video}}
           autoplay={false}
           defaultMuted={false}
           thumbnail={{uri: props?.uri?.video_name}}
           style={[styles.mediaVideo]}
           fullscreen={true}
+          videoWidth={100}
           // controls={true}
           // resizeMode="contain"
         />
@@ -142,7 +145,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     width: '100%',
-    padding: 15,
+    paddingVertical: 15,
     marginTop: 20,
     borderRadius: 8,
     backgroundColor: 'white',
@@ -150,13 +153,14 @@ const styles = StyleSheet.create({
   mediaVideo: {
     width: '100%',
     height: 180,
-    borderRadius: 8,
+    //borderRadius: 8,
   },
   userInfo: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal: 8,
   },
   userspic: {
     height: 52,
@@ -188,8 +192,7 @@ const styles = StyleSheet.create({
   },
   usersTitle: {
     maxWidth: '100%',
-    paddingBottom: 15,
-    paddingTop: 10,
+    paddingBottom: 5,
     color: '#727272',
   },
   timeData: {
@@ -200,8 +203,7 @@ const styles = StyleSheet.create({
   },
   longDis: {
     maxWidth: '100%',
-    paddingBottom: 15,
-    paddingTop: 10,
+    paddingBottom: 5,
     color: '#727272',
   },
   videoCount: {

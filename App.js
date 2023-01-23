@@ -36,8 +36,8 @@ const App = () => {
   //   });
   // };
 
-    createChanels();
-  }, []);
+  //   createChanels();
+  // }, []);
 
   const createChanels = async () => {
     PushNotification.createChannel({

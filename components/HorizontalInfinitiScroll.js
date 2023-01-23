@@ -51,7 +51,7 @@ const HorizontalInfinitiScroll = props => {
           start={{x: 1, y: 0}}
           end={{x: 1, y: 1}}
           locations={[0.3, 0.8]}
-          colors={['#E0D0BA', '#E4E3E1']}>
+          colors={['#E4E3E1', '#cccccc']}>
           <View style={styles.lastUsersContainercontent}>
             <View style={styles.lastUsersContainerSmall} />
             <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   lastUsersContainerSmall: {
-    height: 30,
-    width: 8,
-    borderBottomRightRadius: 5,
-    borderTopRightRadius: 5,
+    height: 35,
+    width: 5,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
     backgroundColor: '#ACA093',
     marginRight: 10,
   },

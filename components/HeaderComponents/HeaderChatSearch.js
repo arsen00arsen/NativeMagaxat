@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
-    width: 156,
+    width: 150,
     height: 37,
     marginHorizontal: 45,
   },

@@ -46,7 +46,6 @@ const SignUpScreen = ({navigation}) => {
     // });
     // navigation.navigate('LocationPageScreen');
     dispatch(registerUser(data));
-    console.log(data, 'ooooooooo');
   });
   const source = {
     html: `

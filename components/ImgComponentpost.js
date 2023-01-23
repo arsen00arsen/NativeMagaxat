@@ -20,7 +20,6 @@ const ImgComponentpost = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
-  console.log(props.type, 'dd')
 
   let imgBG = (
     <ImageModal
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    padding: 15,
+    paddingVertical: 15,
     marginTop: 20,
     borderRadius: 8,
     backgroundColor: 'white',
@@ -191,8 +190,7 @@ const styles = StyleSheet.create({
   },
   usersTitle: {
     maxWidth: '100%',
-    paddingBottom: 15,
-    paddingTop: 10,
+    paddingBottom: 5,
     color: '#727272',
     zIndex: 0,
   },
@@ -204,13 +202,12 @@ const styles = StyleSheet.create({
   },
   longDis: {
     maxWidth: '100%',
-    paddingBottom: 15,
-    paddingTop: 10,
+    paddingBottom: 5,
     color: '#727272',
-    zIndex: -1
+    zIndex: -1,
   },
   usersProfileBGimage: {
-    width: 320,
+    minWidth: '100%',
     height: 170,
     borderTopRightRadius: 10,
   },

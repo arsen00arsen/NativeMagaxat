@@ -45,7 +45,6 @@ const RadiusButton = ({id, types, chat}) => {
     Alert.alert('Thank you, your report has been sent. ');
     navigation.navigate('HomeScreen')
   });
-  console.log(types, 'types');
   return (
     <View style={styles.mainDiv}>
       <TouchableOpacity onPress={() => setIsShow(!isShow)} delayPressIn={150}>

@@ -7,26 +7,34 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import {useNavigation} from '@react-navigation/native';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import Pleyer from './Pleyer';
 
 export default function GridVediosScreen(props) {
   let user = props.route.params.user;
+  const navigation = useNavigation();
   const {medias} = useSelector(state => state.medias);
   const videoRef = React.useRef(null);
   let content = medias.map(elem => {
     return (
       <View style={styles.row} key={elem.id}>
-        <VideoPlayer
-          video={{uri: elem.video_path}}
-          autoplay={false}
-          ref={videoRef}
-          defaultMuted={true}
-          thumbnail={{uri: elem.video_name}}
-          style={styles.rowVideo}
-        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('GridVediosScreen', {
+              user: elem,
+            })
+          }>
+          <Image source={{uri: elem.video_name}} style={styles.rowVideo} />
+          <IconPlay
+            name="play"
+            size={25}
+            color="gray"
+            style={styles.icPlayRow}
+          />
+        </TouchableOpacity>
       </View>
     );
   });
@@ -40,17 +48,22 @@ export default function GridVediosScreen(props) {
         <View style={styles.column}>
           <Pleyer video_path={user.video_path} />
         </View>
-        <View style={styles.userBody}>
-          <View style={styles.imgFrame}>
-            <Image source={{uri: user?.user?.image}} style={styles.userImage} />
+        <View style={{paddingHorizontal: 15}}>
+          <View style={styles.userBody}>
+            <View style={styles.imgFrame}>
+              <Image
+                source={{uri: user?.user?.image}}
+                style={styles.userImage}
+              />
+            </View>
+            <View style={styles.flexColumn}>
+              <Text style={styles.username}>{user?.user?.name} </Text>
+              <Text style={styles.username}>{user?.user?.lastname}</Text>
+            </View>
           </View>
-          <View style={styles.flexColumn}>
-            <Text style={styles.username}>{user?.user?.name} </Text>
-            <Text style={styles.username}>{user?.user?.lastname}</Text>
-          </View>
+          <View style={styles.line} />
+          <View style={styles.flexWrap}>{content}</View>
         </View>
-        <View style={styles.line} />
-        <View style={styles.flexWrap}>{content}</View>
       </ScrollView>
     </View>
   );
@@ -62,7 +75,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
@@ -77,8 +90,8 @@ const styles = StyleSheet.create({
   },
   rowVideo: {
     width: '100%',
-    minWidth: 180,
-    height: 200,
+    minWidth: 170,
+    height: 100,
     borderRadius: 8,
   },
   column: {
@@ -170,5 +183,12 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     marginBottom: 40,
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: 35,
+    position: 'absolute',
   },
 });

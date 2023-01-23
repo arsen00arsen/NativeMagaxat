@@ -61,7 +61,7 @@ const HomeScreen = props => {
         start={{x: 1, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.3, 0.8]}
-        colors={['#E0D0BA', '#E4E3E1']}>
+        colors={['#E4E3E1', '#cccccc']}>
         <View style={styles.lastUsersContainercontent}>
           <View style={styles.lastUsersContainerSmall} />
           <TouchableOpacity
@@ -156,10 +156,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   lastUsersContainerSmall: {
-    height: 30,
-    width: 8,
-    borderBottomRightRadius: 5,
-    borderTopRightRadius: 5,
+    height: 35,
+    width: 5,
+    borderBottomRightRadius: 8,
+    borderTopRightRadius: 8,
     backgroundColor: '#ACA093',
     marginRight: 10,
   },
@@ -215,8 +215,8 @@ const styles = StyleSheet.create({
     minWidth: 150,
     borderRadius: 4,
     borderWidth: 1,
-    borderColor: 'silver',
-    backgroundColor: '#E0D0BA',
+    borderColor: '#e8e8e8e8',
+    backgroundColor: '#cccccc',
     shadowRadius: 3,
   },
   storAct: {

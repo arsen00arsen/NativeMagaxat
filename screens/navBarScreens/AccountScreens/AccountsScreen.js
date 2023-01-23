@@ -39,12 +39,10 @@ const AccountsScreen = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[
-              select === 'Benefactors'
-                ? styles.buttons
-                : styles.isSelectedButton,
+              select === 'Sponsor' ? styles.buttons : styles.isSelectedButton,
             ]}
-            onPress={() => selectedType('Benefactors')}>
-            <Text style={styles.buttonText}>Benefactors</Text>
+            onPress={() => selectedType('Sponsor')}>
+            <Text style={styles.buttonText}>Sponsor</Text>
           </TouchableOpacity>
         </View>
         {select === 'Users' ? <AccountUsers /> : <AccountBenefactors />}

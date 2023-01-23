@@ -22,7 +22,7 @@ const HeaderBackSearch = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.9]}
-        colors={['#D1C7B9', '#D2C8B9']}>
+        colors={['#cccccc', '#c4c4c4']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}>
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     marginVertical: Platform.OS === 'ios' ? 33 : 10,
   },
   logo: {
-    width: 156,
+    width: 150,
     height: 37,
     marginHorizontal: 45,
   },

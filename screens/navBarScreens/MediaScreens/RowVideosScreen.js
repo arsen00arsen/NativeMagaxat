@@ -1,6 +1,14 @@
 import * as React from 'react';
-import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
 import Pleyer from './Pleyer';
@@ -8,16 +16,24 @@ import Pleyer from './Pleyer';
 export default function RowVideosScreen(props) {
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
+  const navigation = useNavigation();
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
-        <VideoPlayer
-          video={{uri: elem.video_path}}
-          autoplay={false}
-          defaultMuted={true}
-          thumbnail={{uri: elem.video_name}}
-          style={styles.columnVideo}
-        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('RowVideosScreen', {
+              user: elem,
+            })
+          }>
+          <Image source={{uri: elem.video_name}} style={styles.rowVideo} />
+          <IconPlay
+            name="play"
+            size={45}
+            color="gray"
+            style={styles.icPlayRow}
+          />
+        </TouchableOpacity>
       </View>
     );
   });
@@ -28,19 +44,24 @@ export default function RowVideosScreen(props) {
         <View style={styles.column}>
           <Pleyer video_path={user.video_path} />
         </View>
-        <View style={styles.userBody}>
-          <View style={styles.imgFrame}>
-            <Image source={{uri: user?.user?.image}} style={styles.userImage} />
+        <View style={{paddingHorizontal: 15}}>
+          <View style={styles.userBody}>
+            <View style={styles.imgFrame}>
+              <Image
+                source={{uri: user?.user?.image}}
+                style={styles.userImage}
+              />
+            </View>
+            <View style={styles.flexcontent}>
+              <Text style={styles.username}>
+                {user?.user?.name} {'  '}
+              </Text>
+              <Text style={styles.username}>{user?.user?.lastname}</Text>
+            </View>
           </View>
-          <View style={styles.flexcontent}>
-            <Text style={styles.username}>
-              {user?.user?.name} {'  '}
-            </Text>
-            <Text style={styles.username}>{user?.user?.lastname}</Text>
-          </View>
+          <View style={styles.line} />
+          <View style={styles.contentContainer}>{content}</View>
         </View>
-        <View style={styles.line} />
-        <View style={styles.contentContainer}>{content}</View>
       </ScrollView>
     </View>
   );
@@ -53,8 +74,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
-    paddingTop: 15,
+    // paddingHorizontal: 15,
+    paddingTop: 5,
     backgroundColor: '#F2F2F2',
     height: '100%',
   },
@@ -62,11 +83,11 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     borderRadius: 8,
-    marginBottom: 40,
+    marginBottom: 15,
   },
   rowVideo: {
     width: '100%',
-    height: 100,
+    height: 150,
     borderRadius: 8,
   },
   userBody: {
@@ -144,5 +165,12 @@ const styles = StyleSheet.create({
   },
   mediaVideo: {
     borderRadius: 8,
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: '38%',
+    position: 'absolute',
   },
 });

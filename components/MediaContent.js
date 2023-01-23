@@ -3,7 +3,6 @@ import {View, StyleSheet, TouchableOpacity, Text, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/Feather';
 import IconPlay from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
-import VideoPlayer from 'react-native-video-player';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadAllMedias} from '../stores/medias/mediaAction';
 
@@ -39,6 +38,7 @@ export default function MediaContent() {
               <Image
                 style={styles.columnVideo}
                 source={{uri: elem.video_name}}
+                resizeMode={'stretch'}
               />
               <IconPlay
                 name="play"
@@ -73,7 +73,11 @@ export default function MediaContent() {
             }
             style={styles.row}>
             <View style={{position: 'relative'}}>
-              <Image style={styles.rowVideo} source={{uri: elem.video_name}} />
+              <Image
+                style={styles.rowVideo}
+                source={{uri: elem.video_name}}
+                resizeMode={'stretch'}
+              />
               <IconPlay
                 name="play"
                 size={25}
@@ -87,6 +91,7 @@ export default function MediaContent() {
                   <Image
                     source={{uri: elem.user.image}}
                     style={styles.userImage}
+                    resizeMode={'stretch'}
                   />
                 </View>
                 <View style={{display: 'flex', flexDirection: 'column'}}>
