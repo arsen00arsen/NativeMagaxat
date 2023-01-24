@@ -1,73 +1,73 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  StatusBar,
-  FlatList,
-  TouchableOpacity,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {useTheme} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
+import {View, StyleSheet, StatusBar} from 'react-native';
+import {useIsFocused, useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
+import {useDispatch} from 'react-redux';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
-import {useGetAppearsUsers} from '../../../components/hooks/useGetUsers';
+import BenefactorsComponent from '../../../components/BenefactorsComponent';
 import {loadAppears} from '../../../stores/appears/appearAction';
 const BenefactorsScreen = () => {
+  const dispatch = useDispatch();
   const theme = useTheme();
   const navigation = useNavigation();
-  // const {options} = useGetAppearsUsers();
-  const dispatch = useDispatch();
-  const {isLoading, appears} = useSelector(state => state.appears);
-  const [currentPages, setCurrentPages] = useState(1);
+  const isFocused = useIsFocused();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const loadMoreItem = () => {
-    setCurrentPages(currentPages);
+    setCurrentPage(currentPage + 1);
+    dispatch(loadAppears(currentPage + 1));
   };
-
   useEffect(() => {
-    dispatch(loadAppears(currentPages));
-  }, [currentPages]);
+    if (isFocused) {
+      dispatch(loadAppears(1));
+    }
+  }, []);
+  // const loadMoreItem = () => {
+  //   setCurrentPages(currentPages + 1);
+  //   dispatch(loadAppears(currentPages + 1));
+  // };
 
-  let userProfilePage = item => {
-    navigation.navigate('BenefactorUserPageScreen', {
-      id: item.id,
-    });
-  };
+  // const loadMoreItem = () => {
+  //   setCurrentPages(currentPages);
+  // };
+  // useEffect(() => {
+  //   dispatch(loadAppears(currentPages));
+  // }, [currentPages]);
+  // let userProfilePage = item => {
+  //   navigation.navigate('BenefactorUserPageScreen', {
+  //     id: item.id,
+  //   });
+  // };
 
-  const renderLoader = () => {
-    return isLoading ? (
-      <View style={styles.loaderStyle}>
-        <ActivityIndicator size="large" color="#aaa" />
-      </View>
-    ) : null;
-  };
+  // const renderLoader = () => {
+  //   return isLoading ? (
+  //     <View style={styles.loaderStyle}>
+  //       <ActivityIndicator size="large" color="#aaa" />
+  //     </View>
+  //   ) : null;
+  // };
 
-  const renderItem = ({item}) => {
-    return (
-      <View>
-        <View style={[styles.button, styles.shadowProp]}>
-          <View style={styles.imgFrame}>
-            <Image source={{uri: item.image}} style={styles.userImage} />
-          </View>
-          <View style={styles.descriptionContent}>
-            <Text style={styles.title} numberOfLines={2}>
-              {item.description}
-            </Text>
-            <TouchableOpacity
-              onPress={() => userProfilePage(item)}
-              style={styles.view}>
-              <Text style={styles.viewText}>View</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </View>
-    );
-  };
+  // const renderItem = ({item, index}) => {
+  //   return (
+  //     <View key={index}>
+  //       <View style={[styles.button, styles.shadowProp]}>
+  //         <View style={styles.imgFrame}>
+  //           <Image source={{uri: item.image}} style={styles.userImage} />
+  //         </View>
+  //         <View style={styles.descriptionContent}>
+  //           <Text style={styles.title} numberOfLines={2}>
+  //             {item.description}
+  //           </Text>
+  //           <TouchableOpacity
+  //             onPress={() => userProfilePage(item)}
+  //             style={styles.view}>
+  //             <Text style={styles.viewText}>View</Text>
+  //           </TouchableOpacity>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // };
 
   return (
     <View style={styles.container}>
@@ -76,22 +76,11 @@ const BenefactorsScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'BenefactorSearchPage'} />
-      {appears?.length < 1 ? (
-        <View style={styles.usersEmpoty}>
-          <Text style={styles.textEmpoty}>You havn`t any Appears yet</Text>
-        </View>
-      ) : (
-        <FlatList
-          style={{width: '100%'}}
-          showsVerticalScrollIndicator={false}
-          data={appears}
-          onEndReached={loadMoreItem}
-          keyExtractor={index => index.toString()}
-          ListFooterComponent={renderLoader}
-          onEndReachedThreshold={2.5}
-          renderItem={renderItem}
-        />
-      )}
+      <BenefactorsComponent
+        isFocused={isFocused}
+        navigation={navigation}
+        loadMoreItem={loadMoreItem}
+      />
     </View>
   );
 };

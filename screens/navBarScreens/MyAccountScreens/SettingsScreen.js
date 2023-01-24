@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,14 +8,17 @@ import {
   Modal,
   TouchableOpacity,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutUser, remove} from '../../../stores/user/userActions';
 import LinearGradient from 'react-native-linear-gradient';
+import SelectorLanguage from '../../../components/SelectorLanguage';
 
-const SettingsScreen = ({navigation}) => {
+const SettingsScreen = () => {
   const theme = useTheme();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const user = useSelector(state => state?.user);
   const [modalVisible, setModalVisible] = useState(false);
@@ -35,57 +38,10 @@ const SettingsScreen = ({navigation}) => {
       />
       <HeaderBackSearch serachFalse="false" />
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={{marginBottom: 20}}>{/* <MyaccountUsserInfor /> */}</View>
         <View style={styles.action}>
-          <Text style={styles.inputHeader}>Language</Text>
-          {/* <RNPickerSelect
-            placeholder={{label: '', value: 'Interesting Area 5'}}
-            useNativeAndroidPickerStyle={false}
-            style={{
-              ...pickerSelectStyles,
-              iconContainer: {
-                top: 10,
-                right: 20,
-              },
-            }}
-            onValueChange={value => console.log(value)}
-            items={[
-              {label: 'English', value: 'english'},
-              {label: 'Armenian', value: 'armenian'},
-            ]}
-            Icon={() => {
-              return (
-                <Icon
-                  name="chevron-down"
-                  size={18}
-                  color="#909090"
-                  style={styles.icon}
-                />
-              );
-            }}
-          /> */}
-          <Text style={styles.textInput}> English</Text>
+          <Text style={styles.inputHeader}>{t('language_title')}</Text>
+          <SelectorLanguage />
         </View>
-        {/* <View style={styles.action}>
-          <Text style={styles.inputHeader}>Password</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => console.log(val)}
-            placeholder="Change Password"
-          />
-        </View> */}
-        {/* <View style={styles.action}>
-          <Text style={styles.inputHeader}>About</Text>
-          <TextInput
-            placeholderTextColor="#666666"
-            style={styles.textInput}
-            autoCapitalize="none"
-            onChangeText={val => console.log(val)}
-            placeholder="About Us"
-          />
-        </View> */}
         <View style={styles.centeredView}>
           <Modal
             animationType="slide"
@@ -97,17 +53,23 @@ const SettingsScreen = ({navigation}) => {
             }}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <Text style={styles.modalText}>Are you sure?</Text>
+                <Text style={styles.modalText}>
+                  {t('delete_account_prompt')}
+                </Text>
                 <View style={styles.modalButtons}>
                   <TouchableOpacity
                     style={[styles.button, styles.buttonClose2]}
                     onPress={() => setModalVisible(!modalVisible)}>
-                    <Text style={styles.textStyle}>No</Text>
+                    <Text style={styles.textStyle}>
+                      {t('delete_account_no')}
+                    </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[styles.button, styles.buttonClose]}
                     onPress={removeUser}>
-                    <Text style={styles.textStyle2}>Yes</Text>
+                    <Text style={styles.textStyle2}>
+                      {t('delete_account_yes')}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -116,14 +78,14 @@ const SettingsScreen = ({navigation}) => {
         </View>
         <TouchableOpacity onPress={logOut} style={styles.action}>
           <LinearGradient colors={['#88673A', '#3C3835']} style={styles.signIn}>
-            <Text style={styles.textSign}>Log Out</Text>
+            <Text style={styles.textSign}>{t('sign_out')}</Text>
           </LinearGradient>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setModalVisible(true)}
           style={styles.action}>
           <LinearGradient colors={['#88673A', '#3C3835']} style={styles.signIn}>
-            <Text style={styles.textSign}>Delete Account</Text>
+            <Text style={styles.textSign}>{t('delete_account')}</Text>
           </LinearGradient>
         </TouchableOpacity>
       </ScrollView>

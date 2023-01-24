@@ -1,6 +1,13 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {TouchableOpacity, StyleSheet, Image, Platform} from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  Text,
+  Image,
+  ImageBackground,
+  Platform,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
@@ -17,6 +24,9 @@ import MediaPageScreen from './MediaScreens/MediaPageScreen';
 import MyAccountStackScreen from './MyAccountScreens/MyAccountStackScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
 import MesageScreen from './MesageScreen';
+import Chat from './Chat';
+import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 import {View} from 'react-native-animatable';
 import Status from './HomeScreens/Status';
 const Tab = createMaterialBottomTabNavigator();
@@ -24,15 +34,12 @@ const HomePage = createStackNavigator();
 const Mesage = createStackNavigator();
 
 const MainTabScreen = () => {
+  const navigation = useNavigation();
   return (
     <Tab.Navigator
       initialRouteName="Homes"
       activeColor="#A48A66"
-      barStyle={{
-        backgroundColor: 'transparent',
-        position: 'absolute',
-        bottom: 0,
-      }}
+      barStyle={{backgroundColor: '#C6B7A2'}}
       shifting={false}
       inactiveColor="#ffffff">
       <Tab.Screen

@@ -15,8 +15,9 @@ import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
+import {I18nextProvider} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Feather';
-
+import i18n from './i18n';
 Icon.loadFont();
 
 const App = () => {
@@ -71,7 +72,11 @@ const App = () => {
     );
   }
 
-  return <AuthContainer isAuth={isAuth} userId={user?.id} />;
+  return (
+    <I18nextProvider i18n={i18n}>
+      <AuthContainer isAuth={isAuth} userId={user?.id} />
+    </I18nextProvider>
+  );
 };
 
 export default App;
