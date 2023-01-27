@@ -1,4 +1,11 @@
 export default {
+
+  // language_title: 'Լեզու',
+  // delete_account_prompt: 'Համոզվա՞ծ էք որ ուզում էք հեռացնել ձեր հաշիվը:',
+  // delete_account_no: 'Ոչ',
+  // delete_account_yes: 'Այո',
+  // sign_out: 'Դուրս գալ',
+  // delete_account: 'Ջնջել հաշիվը',
   //Errors
   required_field_error: 'Այս դաշտը պարտադիր է լրացնել',
   min_length_1char_error: 'Մուտքագրեք նվազագույնը 1 նիշ',

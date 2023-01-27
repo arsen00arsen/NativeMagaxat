@@ -37,7 +37,9 @@ const SettingsScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch serachFalse="false" />
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        style={{width: '100%', paddingHorizontal: 5}}>
         <View style={styles.action}>
           <Text style={styles.inputHeader}>{t('language_title')}</Text>
           <SelectorLanguage />
@@ -48,7 +50,6 @@ const SettingsScreen = () => {
             transparent={true}
             visible={modalVisible}
             onRequestClose={() => {
-              alert('Modal has been closed.');
               setModalVisible(!modalVisible);
             }}>
             <View style={styles.centeredView}>
@@ -102,9 +103,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   textInput: {

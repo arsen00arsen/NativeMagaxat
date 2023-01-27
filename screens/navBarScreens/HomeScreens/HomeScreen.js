@@ -9,7 +9,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import LinearGradient from 'react-native-linear-gradient';
+import {useTranslation} from 'react-i18next';
 import {useDispatch, useSelector} from 'react-redux';
 import HeaderChatSearch from '../../../components/HeaderComponents/HeaderChatSearch';
 import PersonsData from '../../../components/PersonsData';
@@ -21,6 +21,7 @@ import {useIsFocused} from '@react-navigation/native';
 import {messagesCount} from '../../../stores/messages/messageActions';
 
 const HomeScreen = props => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const theme = useTheme();
   const isFocused = useIsFocused();
@@ -55,29 +56,31 @@ const HomeScreen = props => {
     wait(1500).then(() => setRefreshing(false));
   }, []);
   let content = (
-    <View>
-      <LinearGradient
-        style={styles.lastUsersContainer}
-        start={{x: 1, y: 0}}
-        end={{x: 1, y: 1}}
-        locations={[0.3, 0.8]}
-        colors={['#E4E3E1', '#cccccc']}>
+    <View style={styles.titleContainer}>
+      <View style={styles.lastUsersContainer}>
         <View style={styles.lastUsersContainercontent}>
-          <View style={styles.lastUsersContainerSmall} />
-          <TouchableOpacity
-            onPress={() => setSection('Users')}
-            style={[station === 'Users' ? styles.storPassive : styles.storAct]}>
-            <Text style={styles.lastUsersContainerText}>Last Users</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setSection('Stories')}
-            style={[
-              station === 'Stories' ? styles.storPassive : styles.storAct,
-            ]}>
-            <Text style={styles.lastUsersContainerTexta}>Last Stories</Text>
-          </TouchableOpacity>
+          <View style={{flex: 2}}>
+            <TouchableOpacity
+              style={[
+                styles.header__tab__style,
+                station === 'Users' && styles.tab__active__style,
+              ]}
+              onPress={() => setSection('Users')}>
+              <Text style={[styles.header__text__style]}>{t('newUsers')}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={{flex: 2}}>
+            <TouchableOpacity
+              style={[
+                styles.header__tab__style,
+                station === 'Stories' && styles.tab__active__style,
+              ]}
+              onPress={() => setSection('Stories')}>
+              <Text style={styles.header__text__style}>{t('newStories')}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </LinearGradient>
+      </View>
       {station === 'Users' ? <PersonsData /> : <Stories />}
     </View>
   );
@@ -98,7 +101,7 @@ const HomeScreen = props => {
               colors={['#E4E3E1']}
             />
           }
-          contentContainerStyle={{paddingHorizontal: 10}}
+          contentContainerStyle={{paddingHorizontal: 0}}
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}
           renderSectionHeader={({section}) => content}
@@ -141,32 +144,32 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 10,
+    paddingHorizontal: 0,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   lastUsersContainer: {
     display: 'flex',
     minWidth: '100%',
     height: 57,
-    borderRadius: 8,
+    //borderRadius: 8,
+    backgroundColor: '#fff',
     position: 'relative',
-    justifyContent: 'center',
-    marginTop: 20,
+    justifyContent: 'space-between',
+    // marginTop: 0,
   },
   lastUsersContainerSmall: {
-    height: 35,
-    width: 5,
-    borderBottomRightRadius: 8,
-    borderTopRightRadius: 8,
-    backgroundColor: '#ACA093',
-    marginRight: 10,
+    // height: 35,
+    // width: 5,
+    // borderBottomRightRadius: 8,
+    // borderTopRightRadius: 8,
+    // backgroundColor: '#ACA093',
   },
   lastUsersContainerText: {
     fontWeight: 'bold',
     fontSize: 16,
-    color: '#838383',
+    color: '#555',
     textAlign: 'center',
     // fontFamily: 'Roboto-Bold',
   },
@@ -174,7 +177,10 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    // justifyContent: 's',
+    height: '100%',
     width: '100%',
+    flex: 1,
   },
   usersProfile: {
     width: 72,
@@ -207,17 +213,19 @@ const styles = StyleSheet.create({
     height: 50,
   },
   storPassive: {
-    height: 30,
+    //height: 30,
     display: 'flex',
     justifyContent: 'center',
     width: '100%',
     paddingHorizontal: 5,
     minWidth: 150,
     borderRadius: 4,
-    borderWidth: 1,
-    borderColor: '#e8e8e8e8',
-    backgroundColor: '#cccccc',
+    // borderWidth: 1,
+    // borderColor: '#e8e8e8e8',
+    backgroundColor: '#413c362b',
+    paddingVertical: 8,
     shadowRadius: 3,
+    marginLeft: 15,
   },
   storAct: {
     height: 57,
@@ -227,5 +235,22 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     minWidth: 150,
     borderRadius: 4,
+  },
+  header__text__style: {
+    textAlign: 'center',
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#606163',
+  },
+  header__tab__style: {
+    width: '100%',
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderBottomWidth: 4,
+    borderBottomColor: 'rgba(255, 255, 255, 0)',
+  },
+  tab__active__style: {
+    borderBottomColor: '#838383',
   },
 });

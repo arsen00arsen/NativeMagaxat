@@ -12,8 +12,10 @@ import IconPlay from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import Pleyer from './Pleyer';
+import {useTranslation} from 'react-i18next';
 
 export default function GridVediosScreen(props) {
+  const {t} = useTranslation();
   let user = props.route.params.user;
   const navigation = useNavigation();
   const {medias} = useSelector(state => state.medias);
@@ -41,44 +43,55 @@ export default function GridVediosScreen(props) {
 
   return (
     <View style={styles.container}>
-      <HeaderBackSearch />
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{width: '100%', flex: 1}}>
-        <View style={styles.column}>
-          <Pleyer video_path={user.video_path} />
-        </View>
-        <View style={{paddingHorizontal: 15}}>
-          <View style={styles.userBody}>
-            <View style={styles.imgFrame}>
-              <Image
-                source={{uri: user?.user?.image}}
-                style={styles.userImage}
-              />
+      <HeaderBackSearch serachFalse="false" />
+      <View style={styles.column}>
+        <Pleyer video_path={user.video_path} />
+      </View>
+      <View tyle={{height: '70%'}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{width: '100%', height: '100%'}}>
+          <View>
+            <View style={styles.userBody}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.imgFrame}>
+                  <Image
+                    source={{uri: user?.user?.image}}
+                    style={styles.userImage}
+                  />
+                </View>
+                <View style={styles.flexcontent}>
+                  <Text style={styles.username}>{user?.user?.name} </Text>
+                  <Text style={styles.username}>{user?.user?.lastname}</Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                style={{
+                  paddingHorizontal: 30,
+                  backgroundColor: '#A48A66',
+                  paddingVertical: 10,
+                  marginRight: 10,
+                  borderRadius: 8,
+                }}>
+                <Text style={{color: 'white'}}>{t('subscribe')}</Text>
+              </TouchableOpacity>
             </View>
-            <View style={styles.flexColumn}>
-              <Text style={styles.username}>{user?.user?.name} </Text>
-              <Text style={styles.username}>{user?.user?.lastname}</Text>
-            </View>
+            <View style={styles.flexWrap}>{content}</View>
           </View>
-          <View style={styles.line} />
-          <View style={styles.flexWrap}>{content}</View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    // paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
-    height: '100%',
+    backgroundColor: '#f7f7f7',
   },
   row: {
     display: 'flex',
@@ -87,6 +100,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     width: '49%',
     borderRadius: 8,
+    paddingHorizontal: 5,
   },
   rowVideo: {
     width: '100%',
@@ -108,17 +122,13 @@ const styles = StyleSheet.create({
   },
   userBody: {
     width: '100%',
-    height: 107,
-    backgroundColor: '#EDEDED',
-    marginVertical: 20,
-    borderTopLeftRadius: 50,
-    borderBottomLeftRadius: 50,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
+    paddingVertical: 15,
+    backgroundColor: '#ccccccb5',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginVertical: 15,
   },
   imgFrame: {
     display: 'flex',
@@ -127,12 +137,13 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 4,
     borderColor: '#E6E6E6',
-    width: 107,
-    height: 107,
+    width: 57,
+    height: 57,
+    marginLeft: 10,
   },
   userImage: {
-    width: 103,
-    height: 103,
+    width: 53,
+    height: 53,
     borderRadius: 999,
     borderColor: '#E6E6E6',
     borderWidth: 3,
@@ -152,12 +163,6 @@ const styles = StyleSheet.create({
     height: 43,
     borderRadius: 5,
     marginHorizontal: 40,
-  },
-
-  subScribeText: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    fontWeight: '500',
   },
   userText: {
     fontSize: 16,

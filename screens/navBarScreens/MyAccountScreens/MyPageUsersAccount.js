@@ -19,8 +19,10 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import RadiusButton from '../../../components/RadiusButton';
+import {useTranslation} from 'react-i18next';
 
 const MyPageUsersAccount = props => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
@@ -52,7 +54,10 @@ const MyPageUsersAccount = props => {
         <Image source={{uri: user?.image}} style={styles.userImage} />
         <View style={styles.usernameIcon}>
           <View style={styles.names}>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>
+              {user?.name}
+              {'  '}
+            </Text>
             <Text style={styles.nameSurname}>{user?.lastname}</Text>
           </View>
           {isS === true || props.isSubscribers === true ? (
@@ -65,16 +70,16 @@ const MyPageUsersAccount = props => {
         <View style={styles.postSubscribeBody}>
           <View style={styles.postSubscribeCounts}>
             <View style={styles.post}>
-              <Text style={styles.postCount}>{user?.posts_count}</Text>
-              <Text style={styles.postText}>Posts</Text>
+              <Text style={styles.postCount}>{user?.posts.data.length}</Text>
+              <Text style={styles.postText}>{t('posts')}</Text>
             </View>
             <View style={styles.post}>
-              <Text style={styles.postCount}>{user?.subscribers_count}</Text>
-              <Text style={styles.postText}>Subscribers</Text>
+              <Text style={styles.postCount}>{user?.subscribers.length}</Text>
+              <Text style={styles.postText}>{t('followers')}</Text>
             </View>
             <View style={styles.post}>
-              <Text style={styles.postCount}>{user?.subscription_count}</Text>
-              <Text style={styles.postText}>Subscribing</Text>
+              <Text style={styles.postCount}>{user?.subscriptions.length}</Text>
+              <Text style={styles.postText}>{t('following')}</Text>
             </View>
           </View>
           <View style={styles.postSubscribeButtons}>
@@ -82,9 +87,13 @@ const MyPageUsersAccount = props => {
               style={styles.postSubscribeButton}
               onPress={subButton}>
               {isS === true ? (
-                <Text style={styles.postSubscribeButtonText}>Unsubscribe</Text>
+                <Text style={styles.postSubscribeButtonText}>
+                  {t('unSubscribe')}
+                </Text>
               ) : (
-                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+                <Text style={styles.postSubscribeButtonText}>
+                  {t('subscribe')}
+                </Text>
               )}
             </TouchableOpacity>
             <TouchableOpacity
@@ -96,9 +105,11 @@ const MyPageUsersAccount = props => {
                   name: user.name,
                 })
               }>
-              <Text style={styles.postSubscribeButtonText}>Message</Text>
+              <Text style={styles.postSubscribeButtonText}>
+                {t('messaging')}
+              </Text>
             </TouchableOpacity>
-            <View style={{marginBottom: -40}}>
+            <View>
               <RadiusButton types="user" id={id} />
             </View>
           </View>
@@ -150,34 +161,34 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
-    paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    paddingHorizontal: 5,
+    marginTop: 20,
+    marginBottom: 5,
     height: '100%',
   },
   userInfo: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   userImage: {
-    width: 170,
-    height: 170,
+    width: 140,
+    height: 140,
     borderRadius: 80,
-    marginVertical: 30,
+    // marginVertical: 30,
   },
   usernameIcon: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   nameSurname: {
     color: '#727272',
-    fontSize: 24,
-    textAlign: 'left',
-    marginRight: 10,
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 10,
   },
   idNumber: {
     color: '#000000',
@@ -186,7 +197,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    marginVertical: 30,
+    //marginVertical: 30,
   },
   text: {
     color: '#919191',
@@ -214,13 +225,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginBottom: 30,
+    marginBottom: 0,
   },
   postSubscribeCounts: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 30,
+    marginVertical: 10,
   },
   post: {
     display: 'flex',
@@ -241,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   postSubscribeButton: {
     display: 'flex',
@@ -260,7 +271,7 @@ const styles = StyleSheet.create({
   names: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginRight: 30,
+    justifyContent: 'center',
+    // marginRight: 30,
   },
 });

@@ -28,6 +28,7 @@ export const loginUser = (email, password) => async dispatch => {
     await AsyncStorage.setItem('token', data.token);
   } catch (error) {
     alert(error);
+    console.log(error.message)
     dispatch(loginError(error.message));
   }
 };

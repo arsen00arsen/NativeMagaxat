@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
   ImageBackground,
   ActivityIndicator,
+  Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {loadUsers} from '../stores/lastUsers/userAction';
+const userWidth = Dimensions.get('window').width;
 
 const PersonsData = () => {
   const dispatch = useDispatch();
@@ -49,8 +51,7 @@ const PersonsData = () => {
       <View style={styles.usersProfile}>
         {imgBG}
         <View style={styles.info}>
-          <Image style={styles.img} source={img} />
-          <Text style={styles.itemText} numberOfLines={1}>
+          <Text style={styles.itemText} numberOfLines={2}>
             {item.name}
           </Text>
         </View>
@@ -76,6 +77,7 @@ const PersonsData = () => {
   return (
     <>
       <FlatList
+        style={styles.lastUsersContainer}
         data={lastUsers}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
@@ -96,33 +98,23 @@ export default PersonsData;
 
 const styles = StyleSheet.create({
   lastUsersContainer: {
-    display: 'flex',
-    minWidth: '100%',
-    height: 57,
-    borderRadius: 8,
-    position: 'relative',
-    justifyContent: 'center',
-    marginTop: 20,
+    paddingHorizontal: 5,
   },
   usersProfile: {
-    width: 72,
-    height: 150,
+    width: (userWidth - 25) / 4,
+    height: 120,
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    borderRadius: 8,
-    marginTop: 15,
+    borderRadius: 4,
+    marginTop: 5,
+    overflow: 'hidden',
   },
   itemText: {
-    fontSize: 8,
-    width: 48,
-    color: '#464646',
-  },
-  img: {
-    height: 15,
-    width: 15,
-    borderRadius: 50,
-    marginHorizontal: 5,
+    fontSize: 12,
+    fontWeight: '500',
+    paddingHorizontal: 7,
+    color: '#606163',
   },
   usersProfileBGimage: {
     flex: 1,
@@ -132,7 +124,7 @@ const styles = StyleSheet.create({
   },
   info: {
     height: 30,
-    backgroundColor: '#DEDEDE',
+    backgroundColor: '#fff',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
@@ -141,12 +133,13 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 5,
   },
   seperator: {
-    width: 10,
+    width: 5,
     height: 50,
   },
   loaderStyle: {
     marginVertical: 16,
     alignItems: 'center',
+    justifyContent: 'center'
   },
   imageStyle: {
     borderTopRightRadius: 8,

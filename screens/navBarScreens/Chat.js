@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 3,
     backgroundColor: 'white',
-    marginTop: -20,
+    marginTop: -10,
   },
   photosend: {
     position: 'absolute',

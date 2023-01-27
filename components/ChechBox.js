@@ -3,8 +3,10 @@ import {RadioButton, Text} from 'react-native-paper';
 import {View, StyleSheet, TextInput} from 'react-native';
 import {useDispatch} from 'react-redux';
 import {Controller} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 
 const ChechBox = props => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const [value, setValue] = React.useState('Other');
   dispatch({type: 'REPORT_INFO', payload: value});
@@ -17,7 +19,7 @@ const ChechBox = props => {
           fontSize: 25,
           fontWeight: '700',
         }}>
-        Report sender ?
+        {t('reportSender')}
       </Text>
       <RadioButton.Group
         onValueChange={newValue => setValue(newValue)}
@@ -32,7 +34,7 @@ const ChechBox = props => {
                   color: 'silver',
                   paddingLeft: 10,
                 }}>
-                My friend's account might be compromised or hacked
+                {t('reportHaked')}
               </Text>
               <View style={styles.onlyIos}>
                 <RadioButton value="My friend's account might be compromised or hacked" />
@@ -40,7 +42,7 @@ const ChechBox = props => {
             </View>
             <View style={styles.container}>
               <Text style={{color: 'silver', paddingLeft: 10}}>
-                Violence or harmful behavior
+                {t('reportHamful')}
               </Text>
               <View style={styles.onlyIos}>
                 <RadioButton value="Violence or harmful behavior" />
@@ -48,7 +50,7 @@ const ChechBox = props => {
             </View>
             <View style={styles.container}>
               <Text style={{color: 'silver', paddingLeft: 10}}>
-                Hate speech
+                {t('reportHateSpeach')}
               </Text>
               <View style={styles.onlyIos}>
                 <RadioButton value="Hate speech" />
@@ -56,7 +58,7 @@ const ChechBox = props => {
             </View>
             <View style={styles.container}>
               <Text style={{color: 'silver', paddingLeft: 10}}>
-                Sexually explicit content
+                {t('reportSexualiContent')}
               </Text>
               <View style={styles.onlyIos}>
                 <RadioButton value="Sexually explicit content" />
@@ -65,7 +67,9 @@ const ChechBox = props => {
           </>
         )}
         <View style={styles.container}>
-          <Text style={{color: 'silver', paddingLeft: 10}}>Other</Text>
+          <Text style={{color: 'silver', paddingLeft: 10}}>
+            {t('reportOther')}
+          </Text>
           <View style={styles.onlyIos}>
             <RadioButton value="Other" />
           </View>

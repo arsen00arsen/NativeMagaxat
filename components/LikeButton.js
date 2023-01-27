@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animated from 'react-native-animatable';
 import {PostLike} from '../http/isLiked/isLiked';
 
@@ -25,14 +26,16 @@ const LikeButton = ({id, likeCounts, authLiked}) => {
             StyleSheet.absoluteFillObject,
             {transform: [{scale: liked ? 0 : 1}]},
           ]}>
-          <Icon name={'heart-outline'} size={24} color={'#8A8A8A'} />
+          {/* <Icon name={'heart-outline'} size={24} color={'#8A8A8A'} /> */}
+          <Ionicons name="ios-heart-sharp" size={22} color={'#c5c3c3'} />
         </Animated.View>
 
         <Animated.View style={[{transform: [{scale: liked ? 1 : 0}]}]}>
-          <Icon name={'heart'} size={24} color={'red'} />
+          <Ionicons name="ios-heart-sharp" size={22} color={'red'} />
+          {/* <Icon name={'heart'} size={24} color={'red'} /> */}
         </Animated.View>
       </Pressable>
-      <Text style={styles.counts}>{count}</Text>
+      <Text style={styles.counts}>{count > 0 && count}</Text>
     </View>
   );
 };
@@ -42,11 +45,14 @@ export default LikeButton;
 const styles = StyleSheet.create({
   container: {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   counts: {
+    marginLeft: 5,
+    fontWeight: '700',
+    fontSize: 16,
     color: '#727272',
   },
 });

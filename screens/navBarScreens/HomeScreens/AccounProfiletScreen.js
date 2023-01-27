@@ -9,19 +9,22 @@ import {
   SectionList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import {loadPostsUser} from '../../../stores/post/postActions';
+import {useTranslation} from 'react-i18next';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import RadiusButton from '../../../components/RadiusButton';
-
+import {} from '@react-navigation/native';
 const AccounProfiletScreen = props => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
+  const isFocused = useIsFocused();
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params?.id;
@@ -31,7 +34,9 @@ const AccounProfiletScreen = props => {
   let user = options.data;
   let isS = options.subscribed;
   useEffect(() => {
-    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+    if (isFocused) {
+      dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+    }
   }, []);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
@@ -51,9 +56,8 @@ const AccounProfiletScreen = props => {
       <View style={styles.userInfo}>
         <Image source={{uri: user?.image}} style={styles.userImage} />
         <View style={styles.usernameIcon}>
-
           <View style={[styles.names]}>
-            <Text style={styles.nameSurname}>{user?.name}</Text>
+            <Text style={styles.nameSurname}>{user?.name} </Text>
             <Text style={styles.nameSurname}>{user?.lastname}</Text>
           </View>
           {isS === true ? (
@@ -67,15 +71,15 @@ const AccounProfiletScreen = props => {
           <View style={styles.postSubscribeCounts}>
             <View style={styles.post}>
               <Text style={styles.postCount}>{user?.posts.data.length}</Text>
-              <Text style={styles.postText}>Posts</Text>
+              <Text style={styles.postText}>{t('posts')}</Text>
             </View>
             <View style={styles.post}>
               <Text style={styles.postCount}>{user?.subscribers.length}</Text>
-              <Text style={styles.postText}>Subscribers</Text>
+              <Text style={styles.postText}>{t('followers')}</Text>
             </View>
             <View style={styles.post}>
               <Text style={styles.postCount}>{user?.subscriptions.length}</Text>
-              <Text style={styles.postText}>Subscribing</Text>
+              <Text style={styles.postText}>{t('following')}</Text>
             </View>
           </View>
           <View style={styles.postSubscribeButtons}>
@@ -83,9 +87,13 @@ const AccounProfiletScreen = props => {
               style={styles.postSubscribeButton}
               onPress={subButton}>
               {isS === true ? (
-                <Text style={styles.postSubscribeButtonText}>Unsubscribe</Text>
+                <Text style={styles.postSubscribeButtonText}>
+                  {t('unSubscribe')}
+                </Text>
               ) : (
-                <Text style={styles.postSubscribeButtonText}>Subscribe</Text>
+                <Text style={styles.postSubscribeButtonText}>
+                  {t('subscribe')}
+                </Text>
               )}
             </TouchableOpacity>
             <TouchableOpacity
@@ -98,9 +106,9 @@ const AccounProfiletScreen = props => {
                   isBlocket: false,
                 })
               }>
-              <Text style={styles.postSubscribeButtonText}>Message</Text>
+              <Text style={styles.postSubscribeButtonText}>{t('messaging')}</Text>
             </TouchableOpacity>
-            <View style={{marginBottom: -40}}>
+            <View style={{zIndex: 1}}>
               <RadiusButton types="user" id={id} />
             </View>
           </View>
@@ -117,8 +125,8 @@ const AccounProfiletScreen = props => {
       />
       <HeaderBackSearch serachFalse="false" />
       <SectionList
+        contentContainerStyle={{flexGrow: 1}}
         style={{width: '100%'}}
-        contentContainerStyle={{paddingHorizontal: 10}}
         stickySectionHeadersEnabled={false}
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
@@ -153,34 +161,34 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
-    paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    paddingHorizontal: 5,
+    marginTop: 20,
+    marginBottom: 5,
     height: '100%',
   },
   userInfo: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   userImage: {
-    width: 170,
-    height: 170,
+    width: 140,
+    height: 140,
     borderRadius: 80,
-    marginVertical: 30,
+    // marginVertical: 30,
   },
   usernameIcon: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
   },
   nameSurname: {
     color: '#727272',
-    fontSize: 24,
-    textAlign: 'left',
-    marginRight: 10,
+    fontSize: 20,
+    textAlign: 'center',
+    marginTop: 10,
   },
   idNumber: {
     color: '#000000',
@@ -189,7 +197,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    marginVertical: 30,
+    //marginVertical: 30,
   },
   text: {
     color: '#919191',
@@ -217,13 +225,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    marginBottom: 30,
+    marginBottom: 0,
   },
   postSubscribeCounts: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginVertical: 30,
+    marginVertical: 10,
   },
   post: {
     display: 'flex',
@@ -244,7 +252,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 30,
+    marginBottom: 10,
   },
   postSubscribeButton: {
     display: 'flex',
@@ -263,7 +271,7 @@ const styles = StyleSheet.create({
   names: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginRight: 30,
+    justifyContent: 'center',
+    // marginRight: 30,
   },
 });

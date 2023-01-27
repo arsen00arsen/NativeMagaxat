@@ -20,7 +20,7 @@ const HeaderBackSearchSecond = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.9]}
-        colors={['#cccccc', '#c4c4c4']}>
+        colors={['#fff', '#fff']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}>
@@ -37,7 +37,7 @@ const HeaderBackSearchSecond = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.3]}
-        colors={['#cccccc', '#c4c4c4']}>
+        colors={['#fff', '#fff']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate(`${pageTo}`, searchFor)}>
@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     minHeight: 40,
+    paddingHorizontal: 5,
     marginVertical: 10,
     marginTop: Platform.OS === 'ios' ? 33 : 0,
   },

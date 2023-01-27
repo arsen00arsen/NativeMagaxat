@@ -13,9 +13,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 import {MessageService} from '../../http/messageService/messageService';
 import {loadMessages, setMessages} from '../../stores/messages/messageActions';
+import {useTranslation} from 'react-i18next';
 
 const MesageScreen = () => {
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const chatUsers = useSelector(state => state.chatUsers);
   const newMessage = useSelector(state => state?.messages.allNewMessages);
@@ -105,9 +107,7 @@ const MesageScreen = () => {
       <View style={styles.messageBody}>
         {chatUsers.chatUsers.length < 1 ? (
           <View style={styles.usersEmpoty}>
-            <Text style={styles.textEmpoty}>
-              You havn`t any Users for messageing
-            </Text>
+            <Text style={styles.textEmpoty}>{t('havntAnyMessage')}</Text>
           </View>
         ) : (
           <FlatList

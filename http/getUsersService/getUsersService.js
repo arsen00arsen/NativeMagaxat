@@ -7,7 +7,7 @@ export class GetBenefactorsService {
 }
 
 export class AppearsService {
-  static getAppers() {
-    return $authHost.get('/appeals_api');
+  static getAppers(currentPage) {
+    return $authHost.get(`/appeals_api?page=${currentPage}`);
   }
 }

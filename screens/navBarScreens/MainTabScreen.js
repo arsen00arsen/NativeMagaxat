@@ -1,15 +1,8 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {
-  TouchableOpacity,
-  StyleSheet,
-  Text,
-  Image,
-  ImageBackground,
-  Platform,
-} from 'react-native';
+import {TouchableOpacity, StyleSheet, Image, Platform} from 'react-native';
+import { useTranslation } from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
-import IconSearch from 'react-native-vector-icons/Feather';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -24,28 +17,29 @@ import MediaPageScreen from './MediaScreens/MediaPageScreen';
 import MyAccountStackScreen from './MyAccountScreens/MyAccountStackScreen';
 import IconSec from 'react-native-vector-icons/FontAwesome5';
 import MesageScreen from './MesageScreen';
-import Chat from './Chat';
-import {useNavigation} from '@react-navigation/native';
-import moment from 'moment';
 import {View} from 'react-native-animatable';
 import Status from './HomeScreens/Status';
+
+
 const Tab = createMaterialBottomTabNavigator();
 const HomePage = createStackNavigator();
 const Mesage = createStackNavigator();
 
 const MainTabScreen = () => {
-  const navigation = useNavigation();
+  const {t} = useTranslation();
+
   return (
     <Tab.Navigator
       initialRouteName="Homes"
-      activeColor="#A48A66"
-      barStyle={{backgroundColor: '#C6B7A2'}}
+      activeColor="#a48a66"
+      barStyle={{backgroundColor: '#ccccccb5'}}
       shifting={false}
       inactiveColor="#ffffff">
       <Tab.Screen
         name="Home"
         component={HomeScreens}
         options={{
+          tabBarLabel: t('main'),
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
             <MaterialIcons name="home" color={color} size={26} />
@@ -57,6 +51,7 @@ const MainTabScreen = () => {
         component={MediaPageScreen}
         tabBarOptions={{style: {borderTopColor: '#ffffff', height: 5}}}
         options={{
+          tabBarLabel: t('media'),
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
             <MaterialIcons name="perm-media" color={color} size={26} />
@@ -67,6 +62,7 @@ const MainTabScreen = () => {
         name="Appeals"
         component={BensScreens}
         options={{
+          tabBarLabel: t('sponsors'),
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
             <IconSec name="hand-holding-usd" color={color} size={26} />
@@ -77,7 +73,7 @@ const MainTabScreen = () => {
         name="Accounts"
         component={Accounts}
         options={{
-          tabBarLabel: 'Accounts',
+          tabBarLabel: t('profils'),
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
@@ -92,7 +88,7 @@ const MainTabScreen = () => {
         name="My account"
         component={MyAccountStackScreen}
         options={{
-          tabBarLabel: 'My account',
+          tabBarLabel: t('myProfile'),
           tabBarColor: '#C6B7A2',
           tabBarIcon: ({color}) => (
             <MaterialCommunityIcons
@@ -145,13 +141,14 @@ const MessageStack = ({navigation}) => (
       },
       headerLeft: () => {
         return (
+
           <View style={styles.leftCont}>
             <LinearGradient
               style={styles.badgedIcon}
               start={{x: 0, y: 0}}
               end={{x: 1, y: 1}}
               locations={[0.0, 0.9]}
-              colors={['#D1C7B9', '#D2C8B9']}>
+              colors={['#cccccc', '#c4c4c4']}>
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => navigation.goBack()}>

@@ -4,13 +4,12 @@ import {
   Text,
   View,
   Modal,
-  ScrollView,
   TouchableOpacity,
   Alert,
   TextInput,
 } from 'react-native';
 import {useForm} from 'react-hook-form';
-import Entypo from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import ChechBox from './ChechBox';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
@@ -18,8 +17,10 @@ import UserService from '../http/authService/authService';
 import {loadPosts} from '../stores/post/postActions';
 import {loadStori} from '../stores/stories/storiesAction';
 import {Controller} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 
 const RadiusButton = ({id, types, chat}) => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
@@ -42,15 +43,13 @@ const RadiusButton = ({id, types, chat}) => {
         }
       })
       .catch(error => console.log(error, 'erroir'));
-    Alert.alert('Thank you, your report has been sent. ');
-    navigation.navigate('HomeScreen')
+    Alert.alert(`${t('reportSend')}`);
+    navigation.navigate('HomeScreen');
   });
   return (
     <View style={styles.mainDiv}>
       <TouchableOpacity onPress={() => setIsShow(!isShow)} delayPressIn={150}>
-        <View style={styles.button1}>
-          <Entypo name="dots-three-vertical" color="#8A8A8A" size={10} />
-        </View>
+        <Ionicons name="md-ellipsis-vertical" color="#c5c3c3" size={20} />
       </TouchableOpacity>
       {isShow === true ? (
         <View style={styles.button2}>
@@ -60,21 +59,21 @@ const RadiusButton = ({id, types, chat}) => {
               onPress={() => {
                 setModalVisible(!modalVisible), setBlock('block');
               }}>
-              <Text style={styles.reportButtonText}>Block</Text>
+              <Text style={styles.reportButtonText}>{t('block')}</Text>
             </TouchableOpacity>
           ) : (
             <>
               <TouchableOpacity
                 style={styles.reportButton}
                 onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.reportButtonText}>Report</Text>
+                <Text style={styles.reportButtonText}>{t('report')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.reportButton, {borderTopWidth: 0}]}
                 onPress={() => {
                   setModalVisible(!modalVisible), setBlock('block');
                 }}>
-                <Text style={styles.reportButtonText}>Block</Text>
+                <Text style={styles.reportButtonText}>{t('block')}</Text>
               </TouchableOpacity>
             </>
           )}
@@ -86,7 +85,6 @@ const RadiusButton = ({id, types, chat}) => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
@@ -101,7 +99,7 @@ const RadiusButton = ({id, types, chat}) => {
                       fontSize: 25,
                       fontWeight: '700',
                     }}>
-                    Are you suer for block this user?
+                    {t('areYouSureForBlockUser')}
                   </Text>
                 ) : (
                   <Text
@@ -111,7 +109,7 @@ const RadiusButton = ({id, types, chat}) => {
                       fontSize: 25,
                       fontWeight: '700',
                     }}>
-                    Are you suer for block content?
+                    {t('areYouSureForBlockContent')}
                   </Text>
                 )}
               </View>
@@ -141,7 +139,7 @@ const RadiusButton = ({id, types, chat}) => {
                               fontSize: 25,
                               fontWeight: '700',
                             }}>
-                            Block messages ?
+                            {t('blockMessages')}
                           </Text>
                           <Text
                             style={{
@@ -149,10 +147,10 @@ const RadiusButton = ({id, types, chat}) => {
                               textAlign: 'center',
                               fontSize: 12,
                             }}>
-                            The conversation will stay in Chats.
+                            {t('conversetionInChat')}
                           </Text>
                           <TextInput
-                            placeholder="Reason for block .."
+                            placeholder={t('reasonForBlock')}
                             style={styles.textInput}
                             value={value}
                             onChangeText={onChange}
@@ -197,9 +195,13 @@ const RadiusButton = ({id, types, chat}) => {
                 onPress={submitFormHandler}
                 style={[styles.button, styles.buttonClose2]}>
                 {block === 'block' ? (
-                  <Text style={styles.textStyle2}>Yes</Text>
+                  <Text style={styles.textStyle2}>
+                    {t('delete_account_yes')}
+                  </Text>
                 ) : (
-                  <Text style={styles.textStyle2}>Submit</Text>
+                  <Text style={styles.textStyle2}>
+                    {t('delete_account_no')}
+                  </Text>
                 )}
                 {/* <Text style={styles.textStyle2}>Submit</Text> */}
               </TouchableOpacity>
@@ -209,9 +211,9 @@ const RadiusButton = ({id, types, chat}) => {
                   setModalVisible(false), setBlock();
                 }}>
                 {block === 'block' ? (
-                  <Text style={styles.textStyle}>No</Text>
+                  <Text style={styles.textStyle}>{t('delete_account_no')}</Text>
                 ) : (
-                  <Text style={styles.textStyle}>Close</Text>
+                  <Text style={styles.textStyle}>{t('colse')}</Text>
                 )}
               </TouchableOpacity>
             </View>
@@ -289,9 +291,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'space-around',
   },
 
   centeredView: {
@@ -328,7 +327,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   mainDiv: {
-    height: 60,
+    // height: 60,
     backgroundColor: 'transparent',
   },
 });

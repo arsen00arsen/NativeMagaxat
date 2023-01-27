@@ -99,7 +99,8 @@ const Status = ({route, navigation}) => {
             <Icon name="delete-circle-outline" color="red" size={32} />
           </TouchableOpacity>
         ) : (
-          <RadiusButton types="story" id={id} />
+          // <RadiusButton types="story" id={id} />
+          <></>
         )}
       </View>
     </View>

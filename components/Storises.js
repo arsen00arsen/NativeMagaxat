@@ -14,7 +14,9 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadStori, setSingleStori} from '../stores/stories/storiesAction';
 import {baseUrl2} from '../http';
+import { useTranslation } from 'react-i18next';
 const Stories = () => {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const {stori} = useSelector(state => state.stori);
@@ -72,7 +74,7 @@ const Stories = () => {
         postStory(res.assets[0]);
       }
     } catch (err) {
-      alert('Max size of video mast be 10mb for image 2mb');
+      alert(`${t('maksSizeOfVideo')}`);
     }
   };
   let content = stori.map((data, index) => {

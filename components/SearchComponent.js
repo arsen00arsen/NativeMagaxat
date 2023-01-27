@@ -3,9 +3,11 @@ import {Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
 import * as Animatable from 'react-native-animatable';
+import { useTranslation } from 'react-i18next';
 // import TestSerachBar from './TestSerachBar';
 
 const SearchComponent = props => {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const [openSearch, setopenSearch] = useState(false);
 
@@ -33,7 +35,7 @@ const SearchComponent = props => {
         underlineColorAndroid="white"
       />
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.text}>Cancel</Text>
+        <Text style={styles.text}>{t('cancle')}</Text>
       </TouchableOpacity>
     </Animatable.View>
   );

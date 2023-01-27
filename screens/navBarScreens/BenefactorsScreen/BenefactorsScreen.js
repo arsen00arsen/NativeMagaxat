@@ -17,57 +17,12 @@ const BenefactorsScreen = () => {
     setCurrentPage(currentPage + 1);
     dispatch(loadAppears(currentPage + 1));
   };
+
   useEffect(() => {
     if (isFocused) {
       dispatch(loadAppears(1));
     }
-  }, []);
-  // const loadMoreItem = () => {
-  //   setCurrentPages(currentPages + 1);
-  //   dispatch(loadAppears(currentPages + 1));
-  // };
-
-  // const loadMoreItem = () => {
-  //   setCurrentPages(currentPages);
-  // };
-  // useEffect(() => {
-  //   dispatch(loadAppears(currentPages));
-  // }, [currentPages]);
-  // let userProfilePage = item => {
-  //   navigation.navigate('BenefactorUserPageScreen', {
-  //     id: item.id,
-  //   });
-  // };
-
-  // const renderLoader = () => {
-  //   return isLoading ? (
-  //     <View style={styles.loaderStyle}>
-  //       <ActivityIndicator size="large" color="#aaa" />
-  //     </View>
-  //   ) : null;
-  // };
-
-  // const renderItem = ({item, index}) => {
-  //   return (
-  //     <View key={index}>
-  //       <View style={[styles.button, styles.shadowProp]}>
-  //         <View style={styles.imgFrame}>
-  //           <Image source={{uri: item.image}} style={styles.userImage} />
-  //         </View>
-  //         <View style={styles.descriptionContent}>
-  //           <Text style={styles.title} numberOfLines={2}>
-  //             {item.description}
-  //           </Text>
-  //           <TouchableOpacity
-  //             onPress={() => userProfilePage(item)}
-  //             style={styles.view}>
-  //             <Text style={styles.viewText}>View</Text>
-  //           </TouchableOpacity>
-  //         </View>
-  //       </View>
-  //     </View>
-  //   );
-  // };
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -94,9 +49,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 5,
     paddingTop: 15,
-    backgroundColor: '#FFF',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   users: {

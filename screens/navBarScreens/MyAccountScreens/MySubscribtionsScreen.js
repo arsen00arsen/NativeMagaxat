@@ -15,8 +15,10 @@ import {useIsFocused} from '@react-navigation/native';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
+import {useTranslation} from 'react-i18next';
 
 const MySubscribtionsScreen = props => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
@@ -68,9 +70,7 @@ const MySubscribtionsScreen = props => {
           </View>
           {users?.length < 1 ? (
             <View style={styles.users}>
-              <Text style={styles.textEmpoty}>
-                You havn`t any subscribtions yet
-              </Text>
+              <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
             </View>
           ) : (
             content
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   users: {
     width: '100%',
     marginBottom: 10,
+    paddingHorizontal: 5,
   },
   usersNull: {
     width: '100%',

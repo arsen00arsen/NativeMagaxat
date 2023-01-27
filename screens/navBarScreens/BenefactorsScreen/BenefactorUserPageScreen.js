@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
   Share,
   StyleSheet,
   StatusBar,
@@ -13,15 +12,21 @@ import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
 import VideoPlayer from 'react-native-video-player';
 import ImageModal from 'react-native-image-modal';
-import Icon from 'react-native-vector-icons/Foundation';
 import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import ShareButton from '../../../components/ShareButton';
+import 'moment/locale/hy-am';
+import {useTranslation} from 'react-i18next';
+import armLocale from 'moment/locale/hy-am';
+import ruLocale from 'moment/locale/ru';
+import enLocale from 'moment/locale/en-in';
+import i18next from 'i18next';
 
 const BenefactorUserPageScreen = props => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
@@ -51,15 +56,24 @@ const BenefactorUserPageScreen = props => {
       },
     );
   };
+  const lang = i18next.language;
 
+  if (lang === 'ru') {
+    moment.locale('ru', [ruLocale]);
+  } else if (lang === 'hy') {
+    moment.locale('hy-am', [armLocale]);
+  } else {
+    moment.locale('en-in', [enLocale]);
+  }
+  moment.locale('hy-am');
+  const time = moment(user?.created_at).fromNow();
+  console.log();
   let content = (
     <>
       <View style={styles.userInfo}>
         <View style={styles.names}>
           <Image source={{uri: user?.image_path}} style={styles.userImage} />
-          <Text style={styles.nameSurname}>
-            {moment().startOf(user?.created_at).format('LL')}
-          </Text>
+          <Text style={styles.nameSurname}>{time}</Text>
           <View style={styles.userInfo2}>
             <Text style={styles.nameSurname}>{user?.description}</Text>
           </View>
@@ -94,9 +108,9 @@ const BenefactorUserPageScreen = props => {
           <Text
             style={{fontSize: 20, paddingRight: 10, color: 'silver'}}
             onPress={() => _share()}>
-            Share
+            {t('share')}
           </Text>
-          <ShareButton size={18} />
+          <ShareButton size={30} />
         </View>
       </View>
     </>
@@ -111,7 +125,6 @@ const BenefactorUserPageScreen = props => {
       <HeaderBackSearch serachFalse="false" />
       <SectionList
         style={{width: '100%'}}
-        contentContainerStyle={{paddingHorizontal: 10}}
         stickySectionHeadersEnabled={false}
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
@@ -146,7 +159,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
@@ -162,7 +175,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-//    paddingLeft: 10,
+    //    paddingLeft: 10,
     maxWidth: '100%',
   },
   userImage: {

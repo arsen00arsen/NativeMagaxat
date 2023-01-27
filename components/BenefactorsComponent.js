@@ -1,21 +1,19 @@
-import React, {useEffect} from 'react';
+import React, {useState} from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
   Image,
   StyleSheet,
-  StatusBar,
   FlatList,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {loadAppears} from '../stores/appears/appearAction';
+import {useSelector} from 'react-redux';
 
-const BenefactorsComponent = ({isFocused, navigation, loadMoreItem}) => {
-  const dispatch = useDispatch();
+const BenefactorsComponent = ({navigation, loadMoreItem}) => {
+  const {t} = useTranslation();
   const {isLoading, appears} = useSelector(state => state.appears);
-
   const renderLoader = () => {
     return isLoading ? (
       <View style={styles.loaderStyle}>
@@ -30,7 +28,7 @@ const BenefactorsComponent = ({isFocused, navigation, loadMoreItem}) => {
   };
   const renderItem = ({item, index}) => {
     return (
-      <View key={index}>
+      <View key={index} style={{paddingHorizontal: 5}}>
         <View style={[styles.button, styles.shadowProp]}>
           <View style={styles.imgFrame}>
             <Image source={{uri: item.image}} style={styles.userImage} />
@@ -42,39 +40,30 @@ const BenefactorsComponent = ({isFocused, navigation, loadMoreItem}) => {
             <TouchableOpacity
               onPress={() => userProfilePage(item)}
               style={styles.view}>
-              <Text style={styles.viewText}>View</Text>
+              <Text style={styles.viewText}>{t('view')}</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
     );
   };
-
   return (
     <>
       {appears?.length < 1 ? (
         <View style={styles.usersEmpoty}>
-          <Text style={styles.textEmpoty}>You havn`t any Appears yet</Text>
+          <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
         </View>
       ) : (
         <FlatList
+          contentContainerStyle={{flexGrow: 1, }}
           style={{width: '100%'}}
           showsVerticalScrollIndicator={false}
-          //   onEndReached={() => loadMoreItem()}
-          onEndReached={() => {
-            if (!this.onEndReachedCalledDuringMomentum) {
-              () => loadMoreItem();
-              this.onEndReachedCalledDuringMomentum = true;
-            }
-          }}
+          onEndReached={loadMoreItem}
           data={appears}
-          keyExtractor={(item, index) => item.id}
-          ListFooterComponent={renderLoader}
-          onMomentumScrollBegin={() => {
-            this.onEndReachedCalledDuringMomentum = false;
-          }}
-          onEndReachedThreshold={0.5}
           renderItem={renderItem}
+          keyExtractor={item => item.id}
+          ListFooterComponent={renderLoader}
+          onEndReachedThreshold={0.5}
         />
       )}
     </>

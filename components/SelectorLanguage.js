@@ -34,10 +34,25 @@ const LANGUAGES = [
       />
     ),
   },
+  {
+    code: 'ru',
+    label: 'Русский',
+    icon: (
+      <Image
+        source={require('.././assets/rus.png')}
+        style={{
+          width: 32,
+          height: 32,
+          backgroundColor: 'white',
+          borderRadius: 50,
+        }}
+      />
+    ),
+  },
 ];
 
 const SelectorLanguage = () => {
-  const {t, i18n} = useTranslation();
+  const {i18n} = useTranslation();
   const selectedLanguageCode = i18n.language;
   const [check, setCheck] = useState(selectedLanguageCode);
   const setLanguage = code => {

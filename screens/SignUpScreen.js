@@ -1,34 +1,29 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {Controller, useForm} from 'react-hook-form';
-import moment from 'moment';
+import {useForm} from 'react-hook-form';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
-  Linking,
   Modal,
-  useWindowDimensions,
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import DatePicker from 'react-native-date-picker';
 import Icon1 from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/Feather';
 import CustomInput from '../components/loginComponents/CustomInput';
-import { registerUser } from '../stores/user/userActions';
+import {registerUser} from '../stores/user/userActions';
+import {useTranslation} from 'react-i18next';
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const SignUpScreen = ({navigation}) => {
-  const [open, setOpen] = useState(false);
+  const {t} = useTranslation();
   const [check, setCheck] = useState(true);
   const [modalVisible, setModalVisible] = useState(false);
-  const {width} = useWindowDimensions();
-  const [date, setDate] = useState(new Date());
   const {control, handleSubmit, watch} = useForm({
     // defaultValues: {
     //   date_of_birth: new Date(),
@@ -223,7 +218,7 @@ const SignUpScreen = ({navigation}) => {
               <Icon name="chevron-left" color={'#FFFFFF'} size={45} />
             </TouchableOpacity>
             <View style={styles.titlecontent}>
-              <Text style={styles.text}>Create Your Profile</Text>
+              <Text style={styles.text}>{t('createPrifile')}</Text>
               <Animatable.Image
                 animation="fadeInUpBig"
                 duraton="1500"
@@ -239,7 +234,7 @@ const SignUpScreen = ({navigation}) => {
               style={styles.nameInput}
               name="name"
               control={control}
-              title="First Name"
+              title={t('name')}
               rules={{
                 required: 'Name required',
                 minLength: {
@@ -251,7 +246,7 @@ const SignUpScreen = ({navigation}) => {
             <CustomInput
               name="lastname"
               control={control}
-              title="Last Name"
+              title={t('lastName')}
               rules={{
                 required: 'Last Name required',
                 minLength: {
@@ -263,25 +258,12 @@ const SignUpScreen = ({navigation}) => {
             <CustomInput
               name="email"
               control={control}
-              title="Email"
+              title={t('email')}
               rules={{
                 required: 'Email is required',
                 pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
               }}
             />
-            {/* <CustomInput
-              name="phone_number"
-              control={control}
-              type="number"
-              title="Phone"
-              rules={{
-                required: 'Phone Number is required',
-                minLength: {
-                  value: 5,
-                  message: 'Phone Number should be at least 3 characters long',
-                },
-              }}
-            /> */}
             <CustomInput
               name="password"
               control={control}
@@ -294,7 +276,7 @@ const SignUpScreen = ({navigation}) => {
                   message: 'Password should be at least 8 characters',
                 },
               }}
-              title="Password"
+              title={t('password')}
             />
             <CustomInput
               name="confirmPassword"
@@ -305,43 +287,8 @@ const SignUpScreen = ({navigation}) => {
                 validate: value =>
                   value === pwd || 'The passwords do not match',
               }}
-              title="Confirm Your Password"
+              title={t('confirmPassword')}
             />
-
-            {/* <View>
-              <TouchableOpacity
-                style={styles.action}
-                onPress={() => setOpen(true)}>
-                <View>
-                  <Text style={styles.inputHeader}>Date</Text>
-                  <Text style={styles.dateText}>
-                    <Text style={styles.dateBT}>
-                      {moment(date).format('DD.MM.YYYY')}
-                    </Text>
-                  </Text>
-                </View>
-              </TouchableOpacity>
-              <Controller
-                control={control}
-                name="date_of_birth"
-                render={({field: {value, onChange}}) => {
-                  return (
-                    <DatePicker
-                      title="Select date"
-                      mode="date"
-                      modal
-                      open={open}
-                      date={value}
-                      onConfirm={date => {
-                        setDate(date);
-                        setOpen(false);
-                      }}
-                      onCancel={() => setOpen(false)}
-                    />
-                  );
-                }}
-              />
-            </View> */}
           </View>
           <View style={styles.chackContainer}>
             <TouchableOpacity onPress={() => setModalVisible(true)}>
@@ -352,7 +299,7 @@ const SignUpScreen = ({navigation}) => {
                   marginTop: -6,
                   textDecorationLine: 'underline',
                 }}>
-                I agree with terms conditions and privacy policy
+                {t('privacePoliceText')}
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -396,8 +343,7 @@ const SignUpScreen = ({navigation}) => {
               style={styles.button}
               onPress={submitFormHandler}
               disabled={!check}>
-              <Text style={styles.textSign}>Login</Text>
-              {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
+              <Text style={styles.textSign}>{t('signIn')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -3,6 +3,7 @@ import i18n from 'i18next';
 import {initReactI18next} from 'react-i18next';
 import en from './constants/translations/en/common';
 import hy from './constants/translations/hy/common';
+import ru from './constants/translations/ru/common';
 const LANGUAGE_DETECTOR = {
   type: 'languageDetector',
   async: true,
@@ -39,6 +40,9 @@ i18n
       },
       hy: {
         translation: hy,
+      },
+      ru: {
+        translation: ru,
       },
     },
     fallbackLng: 'en',
