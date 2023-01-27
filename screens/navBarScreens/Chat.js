@@ -97,7 +97,7 @@ export default function ChatScreen({route}) {
   const renderToolbar = props => {
     return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
   };
-console.log(recvMessages[0], 'mmmmm')
+
   return (
     <View style={{flex: 1, backgroundColor: '#f5f5f5'}}>
       <ChatHeader
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingTop: 3,
     backgroundColor: 'white',
-    marginTop: -20,
+    marginTop: -10,
   },
   photosend: {
     position: 'absolute',

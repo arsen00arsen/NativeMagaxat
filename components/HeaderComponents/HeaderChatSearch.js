@@ -28,14 +28,14 @@ const HeaderChatSearch = props => {
       />
       <LinearGradient
         style={styles.badgedIcon}
-        start={{x: 0, y: 0}}
+        start={{x: 1, y: 0}}
         end={{x: 1, y: 1}}
-        locations={[0.0, 0.9]}
-        colors={['#D1C7B9', '#D2C8B9']}>
+        locations={[0.3, 0.8]}
+        colors={['#fff', '#fff']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('MessageStack')}>
-          <Icon name="message-circle" size={24} color="#FFFFFF" />
+          <Icon name="message-circle" size={24} color="#606163" />
           {count === 0 ? null : (
             <View style={styles.titlebg}>
               <Text style={styles.text}>{count}</Text>
@@ -49,14 +49,14 @@ const HeaderChatSearch = props => {
       />
       <LinearGradient
         style={styles.searchIcon}
-        start={{x: 0, y: 0}}
+        start={{x: 1, y: 0}}
         end={{x: 1, y: 1}}
-        locations={[0.0, 0.3]}
-        colors={['#cccccc', '#c4c4c4']}>
+        locations={[0.3, 0.8]}
+        colors={['#fff', '#fff']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate('PostSearch')}>
-          <IconSearch name="search" size={24} color="black" />
+          <IconSearch name="search" size={24} color="#606163" />
         </TouchableOpacity>
       </LinearGradient>
     </View>
@@ -70,13 +70,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
-    marginVertical: 10,
+    marginBottom: 10,
+    paddingHorizontal: 5,
     marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
-    width: 156,
+    width: 150,
     height: 37,
     marginHorizontal: 45,
   },
@@ -86,6 +87,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 47,
     height: 47,
+    backgroundColor: '#fff',
     borderRadius: 5,
   },
   searchIcon: {
@@ -95,6 +97,7 @@ const styles = StyleSheet.create({
     width: 47,
     height: 47,
     borderRadius: 5,
+    backgroundColor: '#fff',
   },
   button: {
     display: 'flex',

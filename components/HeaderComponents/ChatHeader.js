@@ -7,7 +7,6 @@ import {
   Text,
   Modal,
   ScrollView,
-  Alert,
   Platform,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -28,7 +27,7 @@ const ChatHeader = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.9]}
-        colors={['#D1C7B9', '#D2C8B9']}>
+        colors={['#cccccc', '#c4c4c4']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}>
@@ -78,7 +77,6 @@ const ChatHeader = props => {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          alert('Modal has been closed.');
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
@@ -133,6 +131,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: Platform.OS === 'ios' ? 1 : 0,
     borderBottomColor: Platform.OS === 'ios' ? 'silver' : 'white',
     paddingBottom: Platform.OS === 'ios' ? 18 : 0,
+    paddingHorizontal: 5,
   },
   button: {
     display: 'flex',
@@ -193,14 +192,6 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     padding: 15,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
     height: 250,
   },
 

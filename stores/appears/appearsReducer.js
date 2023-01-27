@@ -1,4 +1,9 @@
-import {LOAD_APPEARS, LOAD_APPEARS_ERROR, LOAD_APPEARS_SUCCESS} from './type';
+import {
+  LOAD_APPEARS,
+  LOAD_APPEARS_ERROR,
+  LOAD_APPEARS_SUCCESS,
+  LOAD_APPEARS_INITIAL_SUCCESS,
+} from './type';
 
 const initialState = {
   appears: [],
@@ -14,10 +19,16 @@ export const appearsReducer = (state = initialState, action) => {
         ...state,
         isLoading: payload,
       };
-    case LOAD_APPEARS_SUCCESS:
+    case LOAD_APPEARS_INITIAL_SUCCESS:
       return {
         ...state,
         appears: [...state.appears, ...payload],
+        isLoading: false,
+      };
+    case LOAD_APPEARS_SUCCESS:
+      return {
+        ...state,
+        appears: payload,
         isLoading: false,
       };
     case LOAD_APPEARS_ERROR:

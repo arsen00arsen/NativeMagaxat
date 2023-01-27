@@ -7,13 +7,13 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
 import {useGetUsers} from '../../../components/hooks/useGetUsers';
 
 const AccountBenefactors = () => {
-  const theme = useTheme();
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const {options} = useGetUsers();
 
@@ -58,9 +58,7 @@ const AccountBenefactors = () => {
       <View style={styles.flexWraps}>
         {options.data?.length < 1 ? (
           <View style={styles.usersEmpoty}>
-            <Text style={styles.textEmpoty}>
-              You havn`t any Benefactors yet
-            </Text>
+            <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
           </View>
         ) : (
           content

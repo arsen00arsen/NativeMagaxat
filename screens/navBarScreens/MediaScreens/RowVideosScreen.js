@@ -1,47 +1,96 @@
 import * as React from 'react';
-import {View, StyleSheet, ScrollView, Image, Text} from 'react-native';
-import VideoPlayer from 'react-native-video-player';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Image,
+  Text,
+  TouchableOpacity,
+  ImageBackground,
+} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import IconPlay from 'react-native-vector-icons/AntDesign';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
 import Pleyer from './Pleyer';
+import { useTranslation } from 'react-i18next';
 
 export default function RowVideosScreen(props) {
+  const {t} = useTranslation();
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
+  const navigation = useNavigation();
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
-        <VideoPlayer
-          video={{uri: elem.video_path}}
-          autoplay={false}
-          defaultMuted={true}
-          thumbnail={{uri: elem.video_name}}
-          style={styles.columnVideo}
-        />
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate('RowVideosScreen', {
+              user: elem,
+            })
+          }>
+          <View style={styles.post__content__media}>
+            <ImageBackground source={{uri: elem.video_name}} blurRadius={90}>
+              <Image
+                source={{uri: elem.video_name}}
+                style={styles.rowVideo}
+                resizeMode={'contain'}
+              />
+            </ImageBackground>
+          </View>
+          <IconPlay
+            name="play"
+            size={45}
+            color="gray"
+            style={styles.icPlayRow}
+          />
+        </TouchableOpacity>
       </View>
     );
   });
   return (
     <View style={styles.container}>
-      <HeaderBackSearch />
-      <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
-        <View style={styles.column}>
-          <Pleyer video_path={user.video_path} />
+      <HeaderBackSearch serachFalse="false" />
+      <View>
+        <View style={[styles.column]}>
+          <Pleyer video_path={user.video_path} video_Image={user.video_name} />
         </View>
-        <View style={styles.userBody}>
-          <View style={styles.imgFrame}>
-            <Image source={{uri: user?.user?.image}} style={styles.userImage} />
-          </View>
-          <View style={styles.flexcontent}>
-            <Text style={styles.username}>
-              {user?.user?.name} {'  '}
-            </Text>
-            <Text style={styles.username}>{user?.user?.lastname}</Text>
-          </View>
+        <View style={{height: '70%'}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={{width: '100%', height: '100%'}}>
+            <View style={styles.userBody}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                }}>
+                <View style={styles.imgFrame}>
+                  <Image
+                    source={{uri: user?.user?.image}}
+                    style={styles.userImage}
+                  />
+                </View>
+                <View style={styles.flexcontent}>
+                  <Text style={styles.username}>{user?.user?.name} </Text>
+                  <Text style={styles.username}>{user?.user?.lastname}</Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                style={{
+                  paddingHorizontal: 30,
+                  backgroundColor: '#A48A66',
+                  paddingVertical: 10,
+                  marginRight: 10,
+                  borderRadius: 8,
+                }}>
+                <Text style={{color: 'white'}}>{t('subscribe')}</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.contentContainer}>{content}</View>
+          </ScrollView>
         </View>
-        <View style={styles.line} />
-        <View style={styles.contentContainer}>{content}</View>
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -49,39 +98,35 @@ export default function RowVideosScreen(props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
-    height: '100%',
+    backgroundColor: '#f7f7f7',
   },
   column: {
-    display: 'flex',
+    // height: '30%',
     flexDirection: 'column',
-    borderRadius: 8,
-    marginBottom: 40,
   },
   rowVideo: {
     width: '100%',
-    height: 100,
+    height: 150,
     borderRadius: 8,
+  },
+  post__content__media: {
+    overflow: 'hidden',
+    borderTopColor: '#606163',
+    borderTopWidth: 1,
+    borderBottomColor: '#606163',
+    borderBottomWidth: 1,
+    marginBottom: 5,
   },
   userBody: {
     width: '100%',
-    height: 107,
-    backgroundColor: '#EDEDED',
-    marginVertical: 20,
-    borderTopLeftRadius: 50,
-    borderBottomLeftRadius: 50,
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
+    paddingVertical: 15,
+    backgroundColor: '#ccccccb5',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    marginVertical: 15,
   },
   imgFrame: {
     display: 'flex',
@@ -90,12 +135,13 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 4,
     borderColor: '#E6E6E6',
-    width: 107,
-    height: 107,
+    width: 57,
+    height: 57,
+    marginLeft: 10,
   },
   userImage: {
-    width: 103,
-    height: 103,
+    width: 53,
+    height: 53,
     borderRadius: 999,
     borderColor: '#E6E6E6',
     borderWidth: 3,
@@ -141,8 +187,16 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     marginBottom: 40,
+    height: '100%',
   },
   mediaVideo: {
     borderRadius: 8,
+  },
+  icPlayRow: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    left: '45%',
+    top: '38%',
+    position: 'absolute',
   },
 });

@@ -9,11 +9,12 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const AccountUsers = () => {
   const navigation = useNavigation();
   const accounts = useSelector(state => state.users);
-
+  const {t} = useTranslation();
   const userProfilePage = elem => {
     navigation.navigate('AccountScreen', {
       user: elem,
@@ -29,9 +30,10 @@ const AccountUsers = () => {
             <View style={styles.imgFrame}>
               <Image source={{uri: elem.image}} style={styles.userImage} />
             </View>
-            <Text style={styles.userName}>
-              {elem.lastname} {elem.name}
-            </Text>
+            <View>
+              <Text style={styles.userName}>{elem.lastname}</Text>
+              <Text style={styles.userName}>{elem.name}</Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -43,7 +45,7 @@ const AccountUsers = () => {
       <View style={styles.wrapStyle}>
         {accounts?.lastUsers?.length < 1 ? (
           <View style={styles.usersEmpoty}>
-            <Text style={styles.textEmpoty}>You havn`t any Users yet</Text>
+            <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
           </View>
         ) : (
           content

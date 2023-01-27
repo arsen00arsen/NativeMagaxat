@@ -15,8 +15,10 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {baseUrl2} from '../../../http/index';
 import SearchComponent from '../../../components/SearchComponent';
+import { useTranslation } from 'react-i18next';
 
 const PostSearch = () => {
+  const {t} = useTranslation();
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -87,7 +89,7 @@ const PostSearch = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>
-        <SearchComponent setText={setData} searchText={'Search users  ...'} />
+        <SearchComponent setText={setData} searchText={t('searchUsers')} />
       </View>
       <FlatList
         style={styles.flatlist}
@@ -121,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
     marginTop: Platform.OS === 'ios' ? 23 : 0,
   },

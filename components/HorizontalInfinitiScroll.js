@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
   Text,
@@ -6,12 +7,12 @@ import {
   FlatList,
   ActivityIndicator,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import {useSelector} from 'react-redux';
 import VideoComponent from './../components/VideoComponent';
 import ImgComponentpost from './ImgComponentpost';
 
 const HorizontalInfinitiScroll = props => {
+  const {t} = useTranslation();
   const {isLoading, posts, loadMoreItem, from} = props;
   const {user} = useSelector(state => state.user);
   const renderItem = ({item}) => {
@@ -44,19 +45,21 @@ const HorizontalInfinitiScroll = props => {
   };
 
   return (
-    <>
+    <View style={styles.mainContainer}>
       {from === 'Account' ? null : (
-        <LinearGradient
+        <View
           style={styles.lastUsersContainer}
-          start={{x: 1, y: 0}}
-          end={{x: 1, y: 1}}
-          locations={[0.3, 0.8]}
-          colors={['#E0D0BA', '#E4E3E1']}>
+          // start={{x: 1, y: 0}}
+          // end={{x: 1, y: 1}}
+          // locations={[0.3, 0.8]}
+          // colors={['rgba(228, 227, 225, 0.26)', 'rgba(65, 60, 54, 0.17)']}
+        >
           <View style={styles.lastUsersContainercontent}>
-            <View style={styles.lastUsersContainerSmall} />
-            <Text style={styles.lastUsersContainerText}>Popular Posts</Text>
+            <Text style={styles.lastUsersContainerText}>
+              {t('popularPosts')}
+            </Text>
           </View>
-        </LinearGradient>
+        </View>
       )}
       <FlatList
         style={{width: '100%'}}
@@ -68,7 +71,7 @@ const HorizontalInfinitiScroll = props => {
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
       />
-    </>
+    </View>
   );
 };
 
@@ -79,29 +82,24 @@ const styles = StyleSheet.create({
     display: 'flex',
     minWidth: '100%',
     height: 57,
-    borderRadius: 8,
+    //borderRadius: 8,
     position: 'relative',
     justifyContent: 'center',
-    marginTop: 20,
+    marginTop: 5,
+    backgroundColor: '#fff',
   },
-  lastUsersContainerSmall: {
-    height: 30,
-    width: 8,
-    borderBottomRightRadius: 5,
-    borderTopRightRadius: 5,
-    backgroundColor: '#ACA093',
-    marginRight: 10,
-  },
+
   lastUsersContainerText: {
-    fontWeight: 'bold',
-    fontSize: 16,
-    color: '#838383',
-    // fontFamily: 'Roboto-Bold',
+    color: '#606163',
+    marginLeft: 15,
+    fontSize: 15,
+    fontWeight: '800',
   },
   lastUsersContainercontent: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    height: '100%',
   },
   info: {
     height: 30,

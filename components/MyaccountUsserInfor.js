@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
   },
   userProfile: {
     width: '100%',

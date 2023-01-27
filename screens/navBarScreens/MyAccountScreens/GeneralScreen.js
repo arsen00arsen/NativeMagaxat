@@ -9,10 +9,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import moment from 'moment';
-import {useTheme, useIsFocused} from '@react-navigation/native';
+import {useTheme} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import RNPickerSelect from 'react-native-picker-select';
-import Icon from 'react-native-vector-icons/Feather';
 import DatePicker from 'react-native-date-picker';
 import {Controller, useForm} from 'react-hook-form';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
@@ -21,20 +20,20 @@ import MultiSelectComponent from '../../../components/MultiSelectComponent';
 import {UploadUserService} from '../../../http/uploadService/uploadService';
 import {getMe} from '../../../stores/user/userActions';
 
-const GeneralScreen = ({navigation}) => {
+const GeneralScreen = () => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const theme = useTheme();
-  const isFocused = useIsFocused();
-  const [date, setDate] = useState(new Date());
+  //const [date, setDate] = useState(new Date());
   const user = useSelector(state => state?.user);
   const [open, setOpen] = useState(false);
-  const [valuesSelect, setValuesSelect] = useState([]);
+  //const [valuesSelect, setValuesSelect] = useState([]);
   // useEffect(() => {
   //   if (isFocused) {
   //   }
   // }, [isFocused]);
   const dt = user?.user?.date_of_birth ? user?.user?.date_of_birth : new Date();
-  const {control, handleSubmit, getValues, setValue} = useForm({
+  const {control, handleSubmit, getValues} = useForm({
     defaultValues: {
       date_of_birth: moment(dt).toDate(),
       name: user.user?.name,
@@ -44,14 +43,13 @@ const GeneralScreen = ({navigation}) => {
       // interesting_type: user.user?.interesting_type,
     },
   });
-
-  useEffect(() => {
-    const vals = getValues('interesting_type');
-    if (vals?.length) {
-      const mappedVals = vals.map(el => el?.id);
-      setValuesSelect(mappedVals);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const vals = getValues('interesting_type');
+  //   if (vals?.length) {
+  //     const mappedVals = vals.map(el => el?.id);
+  //     setValuesSelect(mappedVals);
+  //   }
+  // }, []);
 
   const submitFormHandler = handleSubmit(async data => {
     Object.keys(data).map(function (key) {
@@ -63,16 +61,12 @@ const GeneralScreen = ({navigation}) => {
     try {
       await UploadUserService.uploadUser(data);
       dispatch(getMe());
-      alert('Your data succesfully changed');
+      alert(`${t('infoChangeSaved')}`);
     } catch {
       console.log('error');
     } finally {
     }
   });
-
-  // if (!Object.values(user?.user).length) {
-  //   return null;
-  // }
 
   return (
     <View style={styles.container}>
@@ -84,7 +78,7 @@ const GeneralScreen = ({navigation}) => {
       <ScrollView showsVerticalScrollIndicator={false} style={{width: '100%'}}>
         <MyaccountUsserInforAvatar />
         <View style={styles.action}>
-          <Text style={styles.inputHeader}>Name</Text>
+          <Text style={styles.inputHeader}>{t('name')}</Text>
           <Controller
             control={control}
             name="name"
@@ -102,7 +96,7 @@ const GeneralScreen = ({navigation}) => {
           />
         </View>
         <View style={styles.action}>
-          <Text style={styles.inputHeader}>Last Name</Text>
+          <Text style={styles.inputHeader}>{t('lastName')}</Text>
           <Controller
             control={control}
             name="lastname"
@@ -122,7 +116,7 @@ const GeneralScreen = ({navigation}) => {
         <View>
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
-              <Text style={styles.inputHeader}>Date</Text>
+              <Text style={styles.inputHeader}>{t('date')}</Text>
               {}
               <Text style={styles.dateText}>
                 {moment(dt).format('YYYY-MM-DD')}
@@ -170,7 +164,7 @@ const GeneralScreen = ({navigation}) => {
           />
         </View>
         <View style={styles.action}>
-          <Text style={styles.inputHeader}>Phone Number</Text>
+          <Text style={styles.inputHeader}>{t('phoneNumber')}</Text>
           <Controller
             control={control}
             name="phone_number"
@@ -188,11 +182,11 @@ const GeneralScreen = ({navigation}) => {
           />
         </View>
 
-        <View style={styles.selectAction}>
+        {/* <View style={styles.selectAction}>
           <MultiSelectComponent interested={valuesSelect} setValue={setValue} />
-        </View>
+        </View> */}
         <TouchableOpacity style={styles.button} onPress={submitFormHandler}>
-          <Text style={styles.buttonText}>Save</Text>
+          <Text style={styles.buttonText}>{t('save')}</Text>
         </TouchableOpacity>
       </ScrollView>
     </View>
@@ -208,7 +202,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',

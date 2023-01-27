@@ -10,6 +10,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import {useForm} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import CustomInput from '../components/loginComponents/CustomInput';
 import {loginUser} from '../stores/user/userActions';
@@ -18,6 +19,7 @@ const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const SignInScreen = ({navigation}) => {
+  const {t} = useTranslation();
   const {control, handleSubmit} = useForm();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ const SignInScreen = ({navigation}) => {
       style={styles.linearGradient}>
       <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
       <View style={styles.content}>
-        <Text style={styles.text}>Log In</Text>
+        <Text style={styles.text}>{t('login')}</Text>
         <Animatable.Image
           animation="fadeInUpBig"
           duraton="1500"
@@ -49,7 +51,7 @@ const SignInScreen = ({navigation}) => {
           <CustomInput
             name="email"
             control={control}
-            title="Email"
+            title={t('email')}
             rules={{
               required: 'Email is required',
               pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
@@ -66,7 +68,7 @@ const SignInScreen = ({navigation}) => {
                 message: 'Password should be at least 8 characters long',
               },
             }}
-            title="Password"
+            title={t('password')}
           />
         </View>
         <View>
@@ -74,13 +76,13 @@ const SignInScreen = ({navigation}) => {
             <LinearGradient
               colors={['#88673A', '#3C3835']}
               style={styles.signIn}>
-              <Text style={styles.textSign}>Sign In</Text>
+              <Text style={styles.textSign}>{t('signIn')}</Text>
             </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate('SignUpScreen')}>
-            <Text style={styles.textSign}>Register</Text>
+            <Text style={styles.textSign}>{t('registracion')}</Text>
           </TouchableOpacity>
         </View>
       </View>

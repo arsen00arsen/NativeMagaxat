@@ -11,24 +11,27 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@react-navigation/native';
-import IconPlay from 'react-native-vector-icons/AntDesign';
 import {baseUrl2} from '../../../http/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
-import VideoPlayer from 'react-native-video-player';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
-import {renderPosts} from '../../../stores/post/postActions';
+import {useTranslation} from 'react-i18next';
 
-const MediaSearch = () => {
+const MediaSearch = props => {
+  const {t} = useTranslation();
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
-  const navigation = useNavigation();
   const theme = useTheme();
-  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  let searchContent = props?.route.params;
+  let url;
+  if (searchContent === 'Users') {
+    url = baseUrl2 + '/users/list?name=' + data;
+  } else {
+    url = baseUrl2 + '/users/list?name' + data;
+  }
 
   useEffect(() => {
-    const url = baseUrl2 + '/videos_api?title=' + data;
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -39,54 +42,36 @@ const MediaSearch = () => {
         });
         const json = await response.json();
         setList(json);
-        dispatch(renderPosts());
       } catch (error) {
         'error', error;
       }
     };
     fetchData();
   }, [data]);
-  let userProfilePage = item => {
-    navigation.navigate('RowVideosScreen', {
-      user: item,
-    });
-  };
+
   const ItemRender = item => {
+    let img;
+    if (item.userImage !== undefined) {
+      img = {uri: item.userImage};
+    } else {
+      img = require('../../../assets/defoult.png');
+    }
     return (
       <View style={styles.usersProfile}>
         <View style={styles.info}>
-          <View style={styles.usserdatarow}>
-            <Image
-              source={{uri: item.user.image}}
-              style={styles.usersProfilemage}
-            />
-            <View style={styles.infoContainer}>
-              <View style={styles.usserdata}>
-                <View style={styles.usserNames}>
-                  <Text style={styles.itemText}>{item.user.name}</Text>
-                  <Text style={styles.itemText}>{item.user.lastname}</Text>
-                </View>
-                <Text style={styles.itemText} numberOfLines={2}>
-                  {item.vedioTitle}
-                </Text>
-              </View>
-            </View>
+          <Image source={img} style={styles.usersProfilemage} />
+          <View style={styles.usserdata}>
+            <Text style={styles.itemText} numberOfLines={1}>
+              {item.name}
+            </Text>
+            <Text style={styles.itemText}>{item.lastName}</Text>
           </View>
-          <View style={styles.postContainer}>
-            <Image style={styles.rowVideo} source={{uri: item.video_name}} />
-            <IconPlay
-              name="play"
-              size={25}
-              color="gray"
-              style={styles.icPlayRow}
-            />
-            <MaterialCommunityIcons
-              name="account-arrow-right"
-              size={35}
-              color="#BB9E79"
-              style={styles.itemIcon}
-            />
-          </View>
+          <MaterialCommunityIcons
+            name="account-arrow-right"
+            size={35}
+            color="#BB9E79"
+            style={styles.itemIcon}
+          />
         </View>
       </View>
     );
@@ -95,6 +80,12 @@ const MediaSearch = () => {
   const Separator = () => {
     return <View style={styles.seperator} />;
   };
+
+  let userProfilePage = item => {
+    navigation.navigate('AccountScreen', {
+      user: item,
+    });
+  };
   return (
     <View style={styles.container}>
       <StatusBar
@@ -102,23 +93,17 @@ const MediaSearch = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>
-        <SearchComponent
-          setText={setData}
-          searchText="Search Media by title ..."
-          underlineColorAndroid="white"
-        />
+        <SearchComponent setText={setData} searchText={t('searchUsers')} />
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list?.data?.data}
+        data={list.data}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender
-              name={item.user_name}
-              lastName={item.user_lastname}
-              userVedio={item.video_path}
-              vedioTitle={item.video_title}
-              user={item.user}
+              name={item.name}
+              lastName={item.last_name}
+              userImage={item.image}
             />
           </TouchableOpacity>
         )}
@@ -138,13 +123,19 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
-    marginTop: Platform.OS === 'ios' ? 25 : 0,
+  },
+  usersProfilemage: {
+    width: 50,
+    height: 50,
+    borderRadius: 50,
+    marginRight: 30,
   },
   info: {
     display: 'flex',
@@ -153,23 +144,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingHorizontal: 10,
   },
-  itemTextTitle: {
-    fontSize: 16,
-    marginRight: 'auto',
-    fontWeight: '500',
-    color: '#727272',
-    paddingLeft: 5,
-    maxWidth: 40,
-  },
   itemText: {
-    fontSize: 16,
+    fontSize: 18,
     marginRight: 'auto',
     fontWeight: '500',
-    color: '#727272',
-    paddingLeft: 5,
   },
   flatlist: {
-    // paddingHorizontal: 15,
+    paddingHorizontal: 15,
     width: '100%',
   },
   usersProfile: {
@@ -183,63 +164,17 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingLeft: 20,
+    maxWidth: '60%',
+    overflow: 'hidden',
+    flex: 1,
   },
   itemIcon: {
     marginLeft: 'auto',
-    marginBottom: 'auto',
   },
   serachContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-  },
-  searchVideo: {
-    maxWidth: 100,
-    height: 65,
-    borderRadius: 8,
-  },
-
-  usserdatarow: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    width: '55%',
-  },
-  paddingName: {
-    paddingRight: 5,
-  },
-  usersProfilemage: {
-    width: 40,
-    height: 40,
-    borderRadius: 50,
-    // marginRight: 10,
-  },
-  infoContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  usserNames: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-  },
-  postContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    width: '45%',
-  },
-  icPlayRow: {
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    left: '45%',
-    top: 20,
-    position: 'absolute',
   },
 });

@@ -22,11 +22,11 @@ const HeaderBackSearch = props => {
         start={{x: 0, y: 0}}
         end={{x: 1, y: 1}}
         locations={[0.0, 0.9]}
-        colors={['#D1C7B9', '#D2C8B9']}>
+        colors={['#fff', '#fff']}>
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={24} color="black" />
+          <Icon name="chevron-left" size={24} color="#606163" />
         </TouchableOpacity>
       </LinearGradient>
       <Image
@@ -41,8 +41,8 @@ const HeaderBackSearch = props => {
           start={{x: 0, y: 0}}
           end={{x: 1, y: 1}}
           locations={[0.0, 0.3]}
-          colors={['#cccccc', '#c4c4c4']}>
-          <IconSearch name="search" size={24} color="black" />
+          colors={['#fff', '#fff']}>
+          <IconSearch name="search" size={24} color="#606163" />
         </LinearGradient>
       )}
     </View>
@@ -56,12 +56,14 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     width: '100%',
-    marginVertical: Platform.OS === 'ios' ? 33 : 10,
+    marginBottom: 10,
+    paddingHorizontal: 5,
+    marginTop: Platform.OS === 'ios' ? 33 : 0,
   },
   logo: {
-    width: 156,
+    width: 150,
     height: 37,
     marginHorizontal: 45,
   },

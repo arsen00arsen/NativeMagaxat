@@ -12,8 +12,10 @@ import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderB
 
 import AccountUsers from './AccountUsers';
 import AccountBenefactors from './AccountBenefactors';
+import { useTranslation } from 'react-i18next';
 
 const AccountsScreen = () => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const [select, isSelect] = useState('Users');
 
@@ -35,16 +37,14 @@ const AccountsScreen = () => {
               select === 'Users' ? styles.buttons : styles.isSelectedButton,
             ]}
             onPress={() => selectedType('Users')}>
-            <Text style={styles.buttonText}>Users</Text>
+            <Text style={styles.buttonText}>{t('users')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[
-              select === 'Benefactors'
-                ? styles.buttons
-                : styles.isSelectedButton,
+              select === 'Sponsor' ? styles.buttons : styles.isSelectedButton,
             ]}
-            onPress={() => selectedType('Benefactors')}>
-            <Text style={styles.buttonText}>Benefactors</Text>
+            onPress={() => selectedType('Sponsor')}>
+            <Text style={styles.buttonText}>{t('sponsors')}</Text>
           </TouchableOpacity>
         </View>
         {select === 'Users' ? <AccountUsers /> : <AccountBenefactors />}
@@ -62,9 +62,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
 

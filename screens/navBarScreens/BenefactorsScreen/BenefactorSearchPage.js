@@ -14,8 +14,10 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {baseUrl2} from '../../../http/index';
 import SearchComponent from '../../../components/SearchComponent';
+import {useTranslation} from 'react-i18next';
 
 const BenefactorSearchPage = () => {
+  const {t} = useTranslation();
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
@@ -52,7 +54,9 @@ const BenefactorSearchPage = () => {
         <View style={styles.info}>
           <Image source={img} style={styles.usersProfilemage} />
           <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.name}</Text>
+            <Text style={styles.itemText} numberOfLines={1}>
+              {item.name}
+            </Text>
             <Text style={styles.itemText}>{item.lastName}</Text>
           </View>
           <MaterialCommunityIcons
@@ -81,10 +85,7 @@ const BenefactorSearchPage = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>
-        <SearchComponent
-          setText={setData}
-          searchText="Search Your Benefactors ..."
-        />
+        <SearchComponent setText={setData} searchText={t('searchUsers')} />
       </View>
       <FlatList
         style={styles.flatlist}
@@ -116,16 +117,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 5,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   usersProfilemage: {
     width: 50,
     height: 50,
     borderRadius: 50,
-    marginRight: 30,
+    marginRight: 10,
   },
   info: {
     display: 'flex',
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   usersProfile: {
-    marginBottom: 20,
+    marginBottom: 10,
     borderBottomWidth: 1,
     paddingBottom: 10,
     borderBottomColor: '#E0D0BA',
@@ -154,6 +155,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
+    maxWidth: '60%',
+    overflow: 'hidden',
+    flex: 1,
   },
   itemIcon: {
     marginLeft: 'auto',

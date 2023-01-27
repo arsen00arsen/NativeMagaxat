@@ -17,6 +17,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import VideoPlayer from 'react-native-video-player';
+import {useTranslation} from 'react-i18next';
 import PostIcons from 'react-native-vector-icons/MaterialIcons';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';
 import MediaContent from '../../../components/MediaContent';
@@ -24,6 +25,7 @@ import {setSinglePost} from '../../../stores/post/postActions';
 import {baseUrl2} from '../../../http';
 
 const MediaScreen = () => {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -91,14 +93,12 @@ const MediaScreen = () => {
         setSingleFile(res.assets[0]);
         setImage({uri: res.assets[0].uri, type: 'image'});
       } else {
-        alert('Max size of image must be 2 mb');
+        alert(`${t('maksSizeOfImage')}`);
         setSelected(false);
       }
     } catch (err) {
       setSingleFile(null);
       setSelected(false);
-      alert('Max size of video mast be 2 mb');
-      // setSingleFile(null);
     }
   };
 
@@ -111,12 +111,11 @@ const MediaScreen = () => {
         setSingleFile(res.assets[0]);
         setImage({uri: res.assets[0].uri, type: 'video'});
       } else {
-        alert('Max size of video mast be 10 mb');
+        alert(`${t('maksSizeOfVideo')}`);
         setSelected(false);
       }
     } catch (err) {
       setSelected(false);
-      //alert('Max size of video mast be 10 mb ssssssss');
       setSingleFile(null);
     }
   };
@@ -141,7 +140,7 @@ const MediaScreen = () => {
                 render={({field: {onChange, value, onBlur}}) => {
                   return (
                     <TextInput
-                      placeholder="Add Your post ..."
+                      placeholder={t('addPost')}
                       value={value}
                       style={styles.textInput}
                       multiline
@@ -182,14 +181,14 @@ const MediaScreen = () => {
                   <TouchableOpacity
                     style={styles.postImg}
                     onPress={submitFormHandler}>
-                    <PostIcons name="post-add" size={24} color="#B9B9B9" />
-                    <Text style={styles.textAdd}>Add your Post</Text>
+                    <PostIcons name="post-add" size={24} color="#1f1f1f" />
+                    <Text style={styles.textAdd}>{t('addPost')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.postVedio}
-                    onPress={() => setSelected(!selected)}>
-                    <PostIcons name="cancel" size={24} color="#B9B9B9" />
-                    <Text style={styles.textAdd}>Cancel</Text>
+                    onPress={() => setSelected(false)}>
+                    <PostIcons name="cancel" size={24} color="#1f1f1f" />
+                    <Text style={styles.textAdd}>{t('cancel')}</Text>
                   </TouchableOpacity>
                 </View>
               </>
@@ -198,14 +197,14 @@ const MediaScreen = () => {
                 <TouchableOpacity
                   style={styles.postImg}
                   onPress={() => selectFile()}>
-                  <Icon name="camera" size={24} color="#B9B9B9" />
-                  <Text style={styles.textAdd}>Add Photo</Text>
+                  <Icon name="camera" size={24} color="#1f1f1f" />
+                  <Text style={styles.textAdd}>{t('addImage')}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.postVedio}
                   onPress={selectFileVideo}>
-                  <Icon name="video-camera" size={24} color="#B9B9B9" />
-                  <Text style={styles.textAdd}>Add Vedio</Text>
+                  <Icon name="video-camera" size={24} color="#1f1f1f" />
+                  <Text style={styles.textAdd}>{t('addVideo')}</Text>
                 </TouchableOpacity>
               </View>
             )}
@@ -226,27 +225,28 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: -5,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   postContainer: {
     width: '100%',
-    height: '90%',
+    height: '100%',
   },
   postBody: {
     width: '100%',
-    height: 200,
-    minHeight: 175,
+    height: 100,
+    minHeight: 170,
     backgroundColor: '#E8E5E1',
     borderRadius: 8,
   },
   postUnheight: {
     width: '100%',
-    height: 370,
+    height: 360,
     backgroundColor: '#E8E5E1',
     borderRadius: 8,
+    marginBottom: 20,
   },
   addPost: {
     padding: 18,
@@ -286,7 +286,7 @@ const styles = StyleSheet.create({
     height: '35%',
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     justifyContent: 'space-between',
     marginTop: 'auto',
   },
@@ -300,12 +300,12 @@ const styles = StyleSheet.create({
   },
   postImg: {
     width: '50%',
-    height: '100%',
-    backgroundColor: '#DEDCDC',
+    height: '80%',
+    backgroundColor: '#cccccc',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     borderRightWidth: 2,
     borderColor: 'silver',
     borderBottomLeftRadius: 8,
@@ -313,20 +313,21 @@ const styles = StyleSheet.create({
   },
   postVedio: {
     width: '50%',
-    height: '100%',
-    backgroundColor: '#DEDCDC',
+    height: '80%',
+    backgroundColor: '#cccccc',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     borderBottomRightRadius: 8,
     paddingLeft: 10,
   },
   textAdd: {
-    color: '#B9B9B9',
-    fontSize: 10,
+    color: '#1f1f1f',
+    fontSize: 12,
     fontWeight: 'bold',
-    paddingLeft: 20,
+    paddingLeft: 8,
+    textTransform: 'uppercase',
   },
   vedioImg: {
     width: 160,

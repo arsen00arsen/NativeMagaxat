@@ -15,7 +15,9 @@ import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSea
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 import {useIsFocused} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 const MySubscribersScreen = () => {
+  const {t} = useTranslation();
   const isFocused = useIsFocused();
   const theme = useTheme();
   const navigation = useNavigation();
@@ -67,9 +69,7 @@ const MySubscribersScreen = () => {
           </View>
           {users?.length < 1 ? (
             <View style={styles.users}>
-              <Text style={styles.textEmpoty}>
-                You havn`t any subscribers yet
-              </Text>
+              <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
             </View>
           ) : (
             content
@@ -89,14 +89,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   users: {
     width: '100%',
     marginBottom: 10,
+    paddingHorizontal: 5,
   },
   userProfile: {
     width: '100%',

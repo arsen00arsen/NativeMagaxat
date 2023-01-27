@@ -7,6 +7,7 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
+  
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,8 +15,10 @@ import {useNavigation} from '@react-navigation/native';
 import {baseUrl2} from '../../../http/index';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SearchComponent from '../../../components/SearchComponent';
+import {useTranslation} from 'react-i18next';
 
 const AccountSearch = props => {
+  const {t} = useTranslation();
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
   const theme = useTheme();
@@ -58,7 +61,9 @@ const AccountSearch = props => {
         <View style={styles.info}>
           <Image source={img} style={styles.usersProfilemage} />
           <View style={styles.usserdata}>
-            <Text style={styles.itemText}>{item.name}</Text>
+            <Text style={styles.itemText} numberOfLines={1}>
+              {item.name}
+            </Text>
             <Text style={styles.itemText}>{item.lastName}</Text>
           </View>
           <MaterialCommunityIcons
@@ -88,10 +93,7 @@ const AccountSearch = props => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <View style={styles.serachContainer}>
-        <SearchComponent
-          setText={setData}
-          searchText={`Search Your ${searchContent} ...`}
-        />
+        <SearchComponent setText={setData} searchText={t('searchUsers')} />
       </View>
       <FlatList
         style={styles.flatlist}
@@ -121,9 +123,10 @@ const styles = StyleSheet.create({
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
+
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
@@ -161,6 +164,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
+    maxWidth: '60%',
+    overflow: 'hidden',
+    flex: 1,
   },
   itemIcon: {
     marginLeft: 'auto',

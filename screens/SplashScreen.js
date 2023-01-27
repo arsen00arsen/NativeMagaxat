@@ -1,7 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-import Icon from 'react-native-vector-icons/Feather';
 import {
   View,
   StyleSheet,
@@ -9,8 +8,10 @@ import {
   StatusBar,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const SplashScreen = ({navigation}) => {
+  const {t} = useTranslation();
   const goToFoo = () => {
     navigation.navigate('SignInScreen');
   };
@@ -22,7 +23,7 @@ const SplashScreen = ({navigation}) => {
       style={styles.linearGradien}>
       <StatusBar backgroundColor="#cbb085" barStyle="light-content" />
       <View style={styles.content}>
-        <Text style={styles.text}>Welcome to</Text>
+        <Text style={styles.text}>{t('xelcomTo')}</Text>
         <Animatable.Image
           animation="fadeInUpBig"
           duraton="1500"
@@ -31,7 +32,7 @@ const SplashScreen = ({navigation}) => {
           resizeMode="stretch"
         />
         <TouchableOpacity style={styles.button} onPress={() => goToFoo()}>
-          <Text style={styles.textSign}>Next</Text>
+          <Text style={styles.textSign}>{t('next')}</Text>
           {/* <Icon name="arrow-right" color={'#FFFFFF'} size={25} /> */}
         </TouchableOpacity>
       </View>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from 'react-native-vector-icons/Entypo';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {TouchableOpacity} from 'react-native';
 import {Share} from 'react-native';
 const ShareButton = props => {
@@ -20,7 +21,12 @@ const ShareButton = props => {
           },
         )
       }>
-      <Icon name={'share-alternative'} size={props.size} color={'#8A8A8A'} />
+      <Ionicons
+        name={'md-arrow-redo-circle'}
+        size={props.size}
+        color={'#c5c3c3'}
+      />
+      {/* <Icon name={'share-alternative'} size={props.size} color={'#8A8A8A'} /> */}
     </TouchableOpacity>
   );
 };

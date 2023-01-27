@@ -21,8 +21,10 @@ import {sendComment} from '../../../stores/post/postActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useNavigation} from '@react-navigation/native';
 import RadiusButton from '../../../components/RadiusButton';
+import { useTranslation } from 'react-i18next';
 
 const CommentScreen = props => {
+  const {t} = useTranslation();
   const navigation = useNavigation();
   const scrollViewRef = useRef();
   const dispatch = useDispatch();
@@ -142,7 +144,7 @@ const CommentScreen = props => {
               render={({field: {onChange, value, onBlur}}) => {
                 return (
                   <TextInput
-                    placeholder="Add Your Comment ..."
+                    placeholder={t('addComment')}
                     value={value}
                     style={styles.textInput}
                     multiline
@@ -176,9 +178,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-end',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   vedioContent: {

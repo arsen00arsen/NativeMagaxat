@@ -1,3 +1,4 @@
+import {useIsFocused} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
 import {
   GetBenUserService,
@@ -6,17 +7,19 @@ import {
 
 export const useAccountProfHome = props => {
   const [options, setOptions] = useState([]);
-
+  const isFocused = useIsFocused();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const {data} = await GetUserService.getUserId(props.id);
-        setOptions(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
+    if (isFocused) {
+      const fetchData = async () => {
+        try {
+          const {data} = await GetUserService.getUserId(props.id);
+          setOptions(data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchData();
+    }
   }, [props.isSub]);
 
   return {options};

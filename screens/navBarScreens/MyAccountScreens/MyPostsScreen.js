@@ -7,8 +7,10 @@ import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+import {useTranslation} from 'react-i18next';
 
 const MyPostsScreen = props => {
+  const {t} = useTranslation();
   const theme = useTheme();
   const dispatch = useDispatch();
   const {user} = useSelector(state => state?.user);
@@ -44,7 +46,7 @@ const MyPostsScreen = props => {
       <MyaccountUsserInfor />
       {myPosts.posts.data.length === 0 ? (
         <View style={styles.usersEmpoty}>
-          <Text style={styles.textEmpoty}>You havn`t any Post yet</Text>
+          <Text style={styles.textEmpoty}>{t('havntAnyPosts')}</Text>
         </View>
       ) : (
         <FlatList
@@ -68,9 +70,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     paddingTop: 15,
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#f7f7f7',
     height: '100%',
   },
   delete: {
