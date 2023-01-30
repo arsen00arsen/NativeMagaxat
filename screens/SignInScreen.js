@@ -53,8 +53,8 @@ const SignInScreen = ({navigation}) => {
             control={control}
             title={t('email')}
             rules={{
-              required: 'Email is required',
-              pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+              required: t('inputRequired'),
+              pattern: {value: EMAIL_REGEX, message: t('inValidEmail')},
             }}
           />
           <CustomInput
@@ -62,10 +62,10 @@ const SignInScreen = ({navigation}) => {
             control={control}
             secureTextEntry
             rules={{
-              required: 'Password is required',
+              required: t('inputRequired'),
               minLength: {
                 value: 8,
-                message: 'Password should be at least 8 characters long',
+                message: t('passwordLenght'),
               },
             }}
             title={t('password')}

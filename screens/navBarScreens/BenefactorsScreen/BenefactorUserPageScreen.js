@@ -20,10 +20,7 @@ import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScro
 import ShareButton from '../../../components/ShareButton';
 import 'moment/locale/hy-am';
 import {useTranslation} from 'react-i18next';
-import armLocale from 'moment/locale/hy-am';
-import ruLocale from 'moment/locale/ru';
-import enLocale from 'moment/locale/en-in';
-import i18next from 'i18next';
+
 
 const BenefactorUserPageScreen = props => {
   const {t} = useTranslation();
@@ -56,18 +53,9 @@ const BenefactorUserPageScreen = props => {
       },
     );
   };
-  const lang = i18next.language;
 
-  if (lang === 'ru') {
-    moment.locale('ru', [ruLocale]);
-  } else if (lang === 'hy') {
-    moment.locale('hy-am', [armLocale]);
-  } else {
-    moment.locale('en-in', [enLocale]);
-  }
-  moment.locale('hy-am');
   const time = moment(user?.created_at).fromNow();
-  console.log();
+
   let content = (
     <>
       <View style={styles.userInfo}>

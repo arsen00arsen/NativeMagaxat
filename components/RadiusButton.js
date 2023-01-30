@@ -120,10 +120,10 @@ const RadiusButton = ({id, types, chat}) => {
                     control={control}
                     name="message"
                     rules={{
-                      required: 'Please write a message',
+                      required: t('writeResonMessage'),
                       minLength: {
                         value: 1,
-                        message: 'Please write a message',
+                        message: t('writeResonMessage'),
                       },
                     }}
                     render={({
@@ -179,10 +179,10 @@ const RadiusButton = ({id, types, chat}) => {
                     number="first"
                     control={control}
                     rules={{
-                      required: 'Please write a message',
+                      required: t('writeResonMessage'),
                       minLength: {
                         value: 1,
-                        message: 'Please write a message',
+                        message: t('writeResonMessage'),
                       },
                     }}
                   />
@@ -200,7 +200,7 @@ const RadiusButton = ({id, types, chat}) => {
                   </Text>
                 ) : (
                   <Text style={styles.textStyle2}>
-                    {t('delete_account_no')}
+                    {t('delete_account_yes')}
                   </Text>
                 )}
                 {/* <Text style={styles.textStyle2}>Submit</Text> */}
@@ -247,8 +247,9 @@ const styles = StyleSheet.create({
     // width: 80,
   },
   reportButton: {
-    width: 120,
-    padding: 10,
+    width: 140,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
     display: 'flex',
     justifyContent: 'center',
   },

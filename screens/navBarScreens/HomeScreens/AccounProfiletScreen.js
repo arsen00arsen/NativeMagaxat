@@ -106,10 +106,12 @@ const AccounProfiletScreen = props => {
                   isBlocket: false,
                 })
               }>
-              <Text style={styles.postSubscribeButtonText}>{t('messaging')}</Text>
+              <Text style={styles.postSubscribeButtonText}>
+                {t('messaging')}
+              </Text>
             </TouchableOpacity>
             <View style={{zIndex: 1}}>
-              <RadiusButton types="user" id={id} />
+              <RadiusButton types="user" id={id} chat />
             </View>
           </View>
         </View>
@@ -197,7 +199,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    //marginVertical: 30,
+    marginBottom: 32,
   },
   text: {
     color: '#919191',
@@ -252,7 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   postSubscribeButton: {
     display: 'flex',

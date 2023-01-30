@@ -136,7 +136,7 @@ const GeneralScreen = () => {
                   open={open}
                   date={value}
                   onConfirm={date => {
-                    setDate(date);
+                    //setDate(date);
                     setOpen(false);
                   }}
                   onCancel={() => setOpen(false)}
@@ -146,7 +146,7 @@ const GeneralScreen = () => {
           />
         </View>
         <View style={styles.action}>
-          <Text style={styles.inputHeader}>E-mail</Text>
+          <Text style={styles.inputHeader}>{t('email')}</Text>
           <Controller
             control={control}
             name="email"

@@ -35,7 +35,7 @@ const SearchComponent = props => {
         underlineColorAndroid="white"
       />
       <TouchableOpacity onPress={() => navigation.goBack()}>
-        <Text style={styles.text}>{t('cancle')}</Text>
+        <Text style={styles.text}>{t('cancel')}</Text>
       </TouchableOpacity>
     </Animatable.View>
   );
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#BB9E79',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '500',
   },
 });

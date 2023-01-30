@@ -17,6 +17,11 @@ import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
 import {I18nextProvider} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Feather';
+import moment from 'moment';
+import armLocale from 'moment/locale/hy-am';
+import ruLocale from 'moment/locale/ru';
+import enLocale from 'moment/locale/en-in';
+import i18next from 'i18next';
 import i18n from './i18n';
 Icon.loadFont();
 
@@ -46,7 +51,15 @@ const App = () => {
       channelName: 'Test Channel',
     });
   };
+  const lang = i18next.language;
 
+  if (lang === 'ru') {
+    moment.locale('ru', [ruLocale]);
+  } else if (lang === 'hy') {
+    moment.locale('hy-am', [armLocale]);
+  } else {
+    moment.locale('en-in', [enLocale]);
+  }
   if (loading) {
     return (
       <LinearGradient
