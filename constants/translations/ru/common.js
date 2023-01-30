@@ -72,4 +72,9 @@ export default {
   main: 'Главный',
   profils: 'Профили',
   media: 'Mедиа',
+  writeResonMessage: 'Пожалуйста, напишите сообщение',
+  inputRequired: 'Это поле обязательно к заполнению',
+  inValidEmail: 'Электронная почта недействительна',
+  passwordLenght: 'Пароль должен быть не менее 8 символов',
+  passwordMatch: 'Пароли не совпадают',
 };

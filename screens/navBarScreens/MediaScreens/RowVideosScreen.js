@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -13,13 +13,27 @@ import IconPlay from 'react-native-vector-icons/AntDesign';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useSelector} from 'react-redux';
 import Pleyer from './Pleyer';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
+import {UserSubscribe} from '../../../http/isLiked/isLiked';
 
 export default function RowVideosScreen(props) {
   const {t} = useTranslation();
   let user = props?.route.params.user;
   const {medias} = useSelector(state => state?.medias);
   const navigation = useNavigation();
+  const isSub = user?.user.subscribed;
+  const [isSubscribe, setIssub] = useState(isSub);
+  const myUser = useSelector(state => state?.user);
+  const subButton = async () => {
+    try {
+      const {data} = await UserSubscribe.isSubscribe(user?.user?.id);
+      console.log(data);
+      setIssub(data.subscribed);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
@@ -48,6 +62,7 @@ export default function RowVideosScreen(props) {
       </View>
     );
   });
+  console.log(isSubscribe, 'ooo');
   return (
     <View style={styles.container}>
       <HeaderBackSearch serachFalse="false" />
@@ -65,27 +80,39 @@ export default function RowVideosScreen(props) {
                   flexDirection: 'row',
                   alignItems: 'center',
                 }}>
-                <View style={styles.imgFrame}>
-                  <Image
-                    source={{uri: user?.user?.image}}
-                    style={styles.userImage}
-                  />
-                </View>
+                <TouchableOpacity
+                  onPress={() =>
+                    navigation.navigate('AccounProfiletScreen', {
+                      id: user?.user?.id,
+                    })
+                  }>
+                  <View style={styles.imgFrame}>
+                    <Image
+                      source={{uri: user?.user?.image}}
+                      style={styles.userImage}
+                    />
+                  </View>
+                </TouchableOpacity>
                 <View style={styles.flexcontent}>
                   <Text style={styles.username}>{user?.user?.name} </Text>
                   <Text style={styles.username}>{user?.user?.lastname}</Text>
                 </View>
               </View>
-              <TouchableOpacity
-                style={{
-                  paddingHorizontal: 30,
-                  backgroundColor: '#A48A66',
-                  paddingVertical: 10,
-                  marginRight: 10,
-                  borderRadius: 8,
-                }}>
-                <Text style={{color: 'white'}}>{t('subscribe')}</Text>
-              </TouchableOpacity>
+              {myUser?.user?.id !== user?.user?.id ? (
+                <TouchableOpacity
+                  onPress={subButton}
+                  style={{
+                    paddingHorizontal: 30,
+                    backgroundColor: '#A48A66',
+                    paddingVertical: 10,
+                    marginRight: 10,
+                    borderRadius: 8,
+                  }}>
+                  <Text style={{color: 'white'}}>
+                    {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
+                  </Text>
+                </TouchableOpacity>
+              ) : null}
             </View>
             <View style={styles.contentContainer}>{content}</View>
           </ScrollView>

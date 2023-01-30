@@ -236,10 +236,10 @@ const SignUpScreen = ({navigation}) => {
               control={control}
               title={t('name')}
               rules={{
-                required: 'Name required',
+                required: t('inputRequired'),
                 minLength: {
                   value: 1,
-                  message: 'Name cannot be empoty',
+                  message: t('inputRequired'),
                 },
               }}
             />
@@ -248,10 +248,10 @@ const SignUpScreen = ({navigation}) => {
               control={control}
               title={t('lastName')}
               rules={{
-                required: 'Last Name required',
+                required: t('inputRequired'),
                 minLength: {
                   value: 1,
-                  message: 'Last Name cannot be empoty',
+                  message: t('inputRequired'),
                 },
               }}
             />
@@ -260,8 +260,8 @@ const SignUpScreen = ({navigation}) => {
               control={control}
               title={t('email')}
               rules={{
-                required: 'Email is required',
-                pattern: {value: EMAIL_REGEX, message: 'Email is invalid'},
+                required: t('inputRequired'),
+                pattern: {value: EMAIL_REGEX, message: t('inValidEmail')},
               }}
             />
             <CustomInput
@@ -270,10 +270,10 @@ const SignUpScreen = ({navigation}) => {
               style={styles.nameInput}
               secureTextEntry
               rules={{
-                required: 'Password is required',
+                required: t('inputRequired'),
                 minLength: {
                   value: 8,
-                  message: 'Password should be at least 8 characters',
+                  message: t('passwordLenght'),
                 },
               }}
               title={t('password')}
@@ -284,8 +284,7 @@ const SignUpScreen = ({navigation}) => {
               style={styles.nameInput}
               secureTextEntry
               rules={{
-                validate: value =>
-                  value === pwd || 'The passwords do not match',
+                validate: value => value === pwd || t('passwordMatch'),
               }}
               title={t('confirmPassword')}
             />

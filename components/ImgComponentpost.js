@@ -19,10 +19,6 @@ import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
 import RadiusButton from './RadiusButton';
 import {useTranslation} from 'react-i18next';
-import armLocale from 'moment/locale/hy-am';
-import ruLocale from 'moment/locale/ru';
-import enLocale from 'moment/locale/en-in';
-import i18next from 'i18next';
 
 const ImgComponentpost = props => {
   const {t} = useTranslation();
@@ -35,15 +31,6 @@ const ImgComponentpost = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
-  const lang = i18next.language;
-
-  if (lang === 'ru') {
-    moment.locale('ru', [ruLocale]);
-  } else if (lang === 'hy') {
-    moment.locale('hy-am', [armLocale]);
-  } else {
-    moment.locale('en-in', [enLocale]);
-  }
 
   let imgBG = (
     <ImageModal
@@ -116,13 +103,15 @@ const ImgComponentpost = props => {
             <Icon name="delete-circle-outline" color="red" size={32} />
           </TouchableOpacity>
         ) : null}
-        <View style={styles.post__date__view}>
-          <View style={styles.post__report}>
-            {props?.isMyne === true ? null : (
-              <RadiusButton id={post.id} types="post" />
-            )}
+        {props.post !== 'post' ? (
+          <View style={styles.post__date__view}>
+            <View style={styles.post__report}>
+              {props?.isMyne === true ? null : (
+                <RadiusButton id={post.id} types="post" />
+              )}
+            </View>
           </View>
-        </View>
+        ) : null}
       </View>
       <View style={[styles.post__content, {zIndex: -1}]}>
         {post?.title !== 'undefined' && (

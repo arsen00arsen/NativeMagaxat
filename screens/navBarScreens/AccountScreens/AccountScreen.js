@@ -112,7 +112,7 @@ const AccountScreen = props => {
               </Text>
             </TouchableOpacity>
             <View>
-              <RadiusButton types="user" id={id} />
+              <RadiusButton types="user" id={id} chat />
             </View>
           </View>
         </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    //marginVertical: 30,
+    marginVertical: 32,
   },
   text: {
     color: '#919191',
