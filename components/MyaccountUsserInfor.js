@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 const MyaccountUsserInfor = () => {
   const user = useSelector(state => state?.user);
+  const time = moment(user?.user?.date_of_birth).format('ll');
 
   return (
     <View style={styles.container}>
@@ -16,7 +18,9 @@ const MyaccountUsserInfor = () => {
             <Text style={styles.userName}>{user?.user?.name} </Text>
             <Text style={styles.userName}>{user?.user?.lastname} </Text>
           </View>
-          <Text style={styles.userDate}>{user?.user?.date_of_birth}</Text>
+          <Text style={styles.userDate}>
+            {user?.user?.date_of_birth && time}
+          </Text>
         </View>
       </View>
     </View>
@@ -82,7 +86,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   userDate: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
     color: '#4A4A4A',
   },

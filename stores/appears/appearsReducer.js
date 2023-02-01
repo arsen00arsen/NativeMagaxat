@@ -3,12 +3,15 @@ import {
   LOAD_APPEARS_ERROR,
   LOAD_APPEARS_SUCCESS,
   LOAD_APPEARS_INITIAL_SUCCESS,
+  LOAD_SPONSORS_INITIAL_SUCCESS,
+  LOAD_SPONSORS_SUCCESS,
 } from './type';
 
 const initialState = {
   appears: [],
   isLoading: false,
   error: '',
+  sponsors: [],
 };
 
 export const appearsReducer = (state = initialState, action) => {
@@ -29,6 +32,18 @@ export const appearsReducer = (state = initialState, action) => {
       return {
         ...state,
         appears: payload,
+        isLoading: false,
+      };
+    case LOAD_SPONSORS_INITIAL_SUCCESS:
+      return {
+        ...state,
+        sponsors: [...state.sponsors, ...payload],
+        isLoading: false,
+      };
+    case LOAD_SPONSORS_SUCCESS:
+      return {
+        ...state,
+        sponsors: payload,
         isLoading: false,
       };
     case LOAD_APPEARS_ERROR:

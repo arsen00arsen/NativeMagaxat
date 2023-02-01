@@ -1,4 +1,9 @@
-import {LOAD_USERS, LOAD_USERS_ERROR, LOAD_USERS_SUCCESS} from './type';
+import {
+  LOAD_USERS,
+  LOAD_USERS_ERROR,
+  LOAD_USERS_SUCCESS,
+  LOAD_USERS_INITIAL_SUCCESS,
+} from './type';
 
 const initialState = {
   lastUsers: [],
@@ -18,6 +23,12 @@ export const lastUserReducer = (state = initialState, action) => {
       return {
         ...state,
         lastUsers: payload,
+        isLoading: false,
+      };
+    case LOAD_USERS_INITIAL_SUCCESS:
+      return {
+        ...state,
+        lastUsers: [...state.lastUsers, ...payload],
         isLoading: false,
       };
     case LOAD_USERS_ERROR:

@@ -1,8 +1,13 @@
 import React from 'react';
-import {Image, StyleSheet, TouchableOpacity, Platform} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Platform,
+  View,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {useNavigation} from '@react-navigation/native';
-import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/Feather';
 import IconSearch from 'react-native-vector-icons/Feather';
 // import TestSerachBar from './TestSerachBar';
@@ -11,10 +16,7 @@ const HeaderBackSearchSecond = props => {
   const navigation = useNavigation();
   const {pageTo, searchFor} = props;
   let content = (
-    <Animatable.View
-      animation="slideInDown"
-      duraton="500"
-      style={styles.container}>
+    <View style={styles.container}>
       <LinearGradient
         style={styles.badgedIcon}
         start={{x: 0, y: 0}}
@@ -24,7 +26,7 @@ const HeaderBackSearchSecond = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.goBack()}>
-          <Icon name="chevron-left" size={24} color="#151515" />
+          <Icon name="chevron-left" size={24} color="#606163" />
         </TouchableOpacity>
       </LinearGradient>
       <Image
@@ -41,10 +43,10 @@ const HeaderBackSearchSecond = props => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => navigation.navigate(`${pageTo}`, searchFor)}>
-          <IconSearch name="search" size={24} color="#151515" />
+          <IconSearch name="search" size={24} color="#606163" />
         </TouchableOpacity>
       </LinearGradient>
-    </Animatable.View>
+    </View>
   );
 
   return <>{content}</>;

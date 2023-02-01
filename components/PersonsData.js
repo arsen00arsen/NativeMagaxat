@@ -11,7 +11,7 @@ import {
   Dimensions,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {loadUsers} from '../stores/lastUsers/userAction';
 const userWidth = Dimensions.get('window').width;
 
@@ -19,8 +19,9 @@ const PersonsData = () => {
   const dispatch = useDispatch();
   const {isLoading, lastUsers} = useSelector(state => state.users);
   const navigation = useNavigation();
+  const isFocused = useIsFocused();
   useEffect(() => {
-    dispatch(loadUsers());
+    dispatch(loadUsers(1));
   }, []);
 
   const ItemRender = item => {
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   loaderStyle: {
     marginVertical: 16,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   imageStyle: {
     borderTopRightRadius: 8,

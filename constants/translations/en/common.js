@@ -77,4 +77,6 @@ export default {
   inValidEmail: 'Email is invalid',
   passwordLenght: 'Password must be at least 8 characters',
   passwordMatch: 'The passwords do not match',
+  postShared: 'Post shared successfully',
+  sposnorTitle: 'Sponsor',
 };

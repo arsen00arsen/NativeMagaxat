@@ -27,13 +27,11 @@ export default function RowVideosScreen(props) {
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(user?.user?.id);
-      console.log(data);
       setIssub(data.subscribed);
     } catch (error) {
       console.log(error);
     }
   };
-
   let content = medias.map(elem => {
     return (
       <View key={elem.id} style={styles.column}>
@@ -45,6 +43,56 @@ export default function RowVideosScreen(props) {
           }>
           <View style={styles.post__content__media}>
             <ImageBackground source={{uri: elem.video_name}} blurRadius={90}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  backgroundColor: 'transparent',
+                  position: 'absolute',
+                  paddingVertical: 10,
+                  paddingHorizontal: 15,
+                  width: '100%',
+                  zIndex: 5,
+                }}>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Image
+                    source={{uri: elem?.user?.image}}
+                    style={[styles.userImage, {width: 20, height: 20}]}
+                  />
+                  <View style={{flexDirection: 'row'}}>
+                    <Text
+                      style={[styles.username, {color: 'black', fontSize: 10}]}>
+                      {' '}
+                      {elem.user.name}{' '}
+                    </Text>
+                    <Text
+                      style={[styles.username, {color: 'black', fontSize: 10}]}>
+                      {' '}
+                      {elem.user.lastname}
+                    </Text>
+                  </View>
+                </View>
+                <View>
+                  {myUser?.user?.id !== elem?.user?.id ? (
+                    <TouchableOpacity
+                      onPress={subButton}
+                      style={{
+                        paddingHorizontal: 10,
+                        backgroundColor: '#A48A66',
+                        paddingVertical: 3,
+                        marginRight: 10,
+                        borderRadius: 8,
+                        marginLight: 0,
+                      }}>
+                      <Text style={{color: 'white', fontSize: 12}}>
+                        {isSubscribe === false
+                          ? t('subscribe')
+                          : t('unSubscribe')}
+                      </Text>
+                    </TouchableOpacity>
+                  ) : null}
+                </View>
+              </View>
               <Image
                 source={{uri: elem.video_name}}
                 style={styles.rowVideo}
@@ -62,58 +110,57 @@ export default function RowVideosScreen(props) {
       </View>
     );
   });
-  console.log(isSubscribe, 'ooo');
+
   return (
     <View style={styles.container}>
       <HeaderBackSearch serachFalse="false" />
       <View>
         <View style={[styles.column]}>
           <Pleyer video_path={user.video_path} video_Image={user.video_name} />
+          <View style={styles.userBody}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 5,
+              }}>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('AccounProfiletScreen', {
+                    id: user?.user?.id,
+                  })
+                }>
+                <Image
+                  source={{uri: user?.user?.image}}
+                  style={styles.userImage}
+                />
+              </TouchableOpacity>
+              <View style={styles.flexcontent}>
+                <Text style={styles.username}>{user?.user?.name} </Text>
+                <Text style={styles.username}>{user?.user?.lastname}</Text>
+              </View>
+            </View>
+            {myUser?.user?.id !== user?.user?.id ? (
+              <TouchableOpacity
+                onPress={subButton}
+                style={{
+                  paddingHorizontal: 30,
+                  backgroundColor: '#A48A66',
+                  paddingVertical: 10,
+                  marginRight: 10,
+                  borderRadius: 8,
+                }}>
+                <Text style={{color: 'white'}}>
+                  {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
+                </Text>
+              </TouchableOpacity>
+            ) : null}
+          </View>
         </View>
         <View style={{height: '70%'}}>
           <ScrollView
             showsVerticalScrollIndicator={false}
             style={{width: '100%', height: '100%'}}>
-            <View style={styles.userBody}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('AccounProfiletScreen', {
-                      id: user?.user?.id,
-                    })
-                  }>
-                  <View style={styles.imgFrame}>
-                    <Image
-                      source={{uri: user?.user?.image}}
-                      style={styles.userImage}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.flexcontent}>
-                  <Text style={styles.username}>{user?.user?.name} </Text>
-                  <Text style={styles.username}>{user?.user?.lastname}</Text>
-                </View>
-              </View>
-              {myUser?.user?.id !== user?.user?.id ? (
-                <TouchableOpacity
-                  onPress={subButton}
-                  style={{
-                    paddingHorizontal: 30,
-                    backgroundColor: '#A48A66',
-                    paddingVertical: 10,
-                    marginRight: 10,
-                    borderRadius: 8,
-                  }}>
-                  <Text style={{color: 'white'}}>
-                    {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
             <View style={styles.contentContainer}>{content}</View>
           </ScrollView>
         </View>
@@ -139,21 +186,21 @@ const styles = StyleSheet.create({
   },
   post__content__media: {
     overflow: 'hidden',
-    borderTopColor: '#606163',
-    borderTopWidth: 1,
+    // borderTopColor: '#606163',
+    // borderTopWidth: 1,
     borderBottomColor: '#606163',
     borderBottomWidth: 1,
     marginBottom: 5,
   },
   userBody: {
     width: '100%',
-    paddingVertical: 15,
+    // paddingVertical: 15,
     backgroundColor: '#ccccccb5',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 15,
+    marginBottom: 2,
   },
   imgFrame: {
     display: 'flex',
@@ -170,8 +217,8 @@ const styles = StyleSheet.create({
     width: 53,
     height: 53,
     borderRadius: 999,
-    borderColor: '#E6E6E6',
-    borderWidth: 3,
+    // borderColor: '#E6E6E6',
+    // borderWidth: 3,
   },
   username: {
     color: '#727272',
@@ -213,7 +260,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   contentContainer: {
-    marginBottom: 40,
+    marginBottom: 200,
     height: '100%',
   },
   mediaVideo: {

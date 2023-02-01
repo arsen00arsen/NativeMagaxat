@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,16 +6,30 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
-import {useNavigation} from '@react-navigation/native';
-import {useGetUsers} from '../../../components/hooks/useGetUsers';
-
+import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {loadSponsors} from '../../../stores/appears/appearAction';
 const AccountBenefactors = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();
-  const {options} = useGetUsers();
+  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const {sponsors} = useSelector(state => state.appears);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadSponsors(1));
+    }
+  }, [isFocused]);
+
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadSponsors(currentPage + 1));
+  };
 
   let userProfilePage = item => {
     navigation.navigate('AccountScreen', {
@@ -23,12 +37,12 @@ const AccountBenefactors = () => {
     });
   };
 
-  let content = options.data?.map((elem, index) => {
+  const renderItem = ({item, index}) => {
     return (
-      <View key={elem.id} style={styles.users}>
+      <View key={item.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => userProfilePage(elem)}>
+          onPress={() => userProfilePage(item)}>
           <LinearGradient
             style={styles.userProfile}
             start={{x: 0, y: 0}}
@@ -36,7 +50,7 @@ const AccountBenefactors = () => {
             locations={[0.0, 0.9]}
             colors={['#AFAFAF', '#E8E8E8']}>
             <View style={styles.imgFrame}>
-              <Image source={{uri: elem.image}} style={styles.userImage} />
+              <Image source={{uri: item.image}} style={styles.userImage} />
             </View>
             <View
               style={{
@@ -44,27 +58,36 @@ const AccountBenefactors = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
               }}>
-              <Text style={styles.userName}>{elem.name}</Text>
-              <Text style={styles.userName}>{elem.last_name}</Text>
+              <Text style={styles.userName}>{item.name}</Text>
+              <Text style={styles.userName}>{item.lastname}</Text>
             </View>
           </LinearGradient>
         </TouchableOpacity>
       </View>
     );
-  });
+  };
 
   return (
-    <ScrollView style={styles.scroll} showsVerticalScrollIndicator={false}>
+    <View style={styles.scroll}>
       <View style={styles.flexWraps}>
-        {options.data?.length < 1 ? (
+        {sponsors.length < 1 ? (
           <View style={styles.usersEmpoty}>
             <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
           </View>
         ) : (
-          content
+          <FlatList
+            contentContainerStyle={{flexGrow: 1}}
+            style={{width: '100%'}}
+            showsVerticalScrollIndicator={false}
+            onEndReached={loadMoreItem}
+            data={sponsors}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            onEndReachedThreshold={0.5}
+          />
         )}
       </View>
-    </ScrollView>
+    </View>
   );
 };
 

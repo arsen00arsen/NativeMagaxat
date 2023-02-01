@@ -12,7 +12,7 @@ import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderB
 
 import AccountUsers from './AccountUsers';
 import AccountBenefactors from './AccountBenefactors';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const AccountsScreen = () => {
   const {t} = useTranslation();
@@ -30,7 +30,7 @@ const AccountsScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearchSecond pageTo={'AccountSearch'} searchFor={select} />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
+      <View style={{width: '100%', paddingHorizontal: 5}}>
         <View style={styles.titleButtons}>
           <TouchableOpacity
             style={[
@@ -44,11 +44,11 @@ const AccountsScreen = () => {
               select === 'Sponsor' ? styles.buttons : styles.isSelectedButton,
             ]}
             onPress={() => selectedType('Sponsor')}>
-            <Text style={styles.buttonText}>{t('sponsors')}</Text>
+            <Text style={styles.buttonText}>{t('sposnorTitle')}</Text>
           </TouchableOpacity>
         </View>
         {select === 'Users' ? <AccountUsers /> : <AccountBenefactors />}
-      </ScrollView>
+      </View>
     </View>
   );
 };
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 5,
+    //paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#f7f7f7',
     height: '100%',

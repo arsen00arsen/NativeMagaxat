@@ -68,7 +68,7 @@ export default {
   createPrifile: 'Ստեղծեք ձեր հաշիվը',
   confirmPassword: 'Հաստատել գաղտնաբառը',
   privacePoliceText: 'Ես համաձայն եմ օգտագործման պայմանների հետ',
-  sponsors: 'Հովանավոր',
+  sponsors: 'Կարիք',
   main: 'Գլխավոր',
   profils: 'Օգտվող',
   media: 'Մեդիա',
@@ -77,4 +77,6 @@ export default {
   inValidEmail: 'Էլփոստն անվավեր է',
   passwordLenght: 'Գաղտնաբառը պետք է լինի առնվազն 8 նիշ',
   passwordMatch: 'Գաղտնաբառերը չեն համընկնում',
+  postShared: 'Գրառումը հաջողությամբ տարածվեց',
+  sposnorTitle: 'Բարերար',
 };

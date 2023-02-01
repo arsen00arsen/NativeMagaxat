@@ -7,6 +7,7 @@ import {
   StyleSheet,
   StatusBar,
   SectionList,
+  Dimensions,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import moment from 'moment';
@@ -21,7 +22,7 @@ import ShareButton from '../../../components/ShareButton';
 import 'moment/locale/hy-am';
 import {useTranslation} from 'react-i18next';
 
-
+const videoWidt = Dimensions.get('window').width;
 const BenefactorUserPageScreen = props => {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -29,7 +30,7 @@ const BenefactorUserPageScreen = props => {
   const [isSub, setIssub] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   let id = props.route?.params?.id;
-  const {isLoading, posts} = useSelector(state => state.post);
+  const {isLoading, usersPosts} = useSelector(state => state.post);
   const {options} = useAccountProfHome({id, isSub});
   let user = options?.data?.appeals[0];
   useEffect(() => {
@@ -71,23 +72,21 @@ const BenefactorUserPageScreen = props => {
       <View style={styles.textBody}>
         <Text style={styles.text}>{user?.title}</Text>
         <View style={styles.contentVideo}>
-          <View style={{borderRadius: 10, width: '48%'}}>
+          <View style={{borderRadius: 10, paddingRight: 2}}>
             <VideoPlayer
               video={{uri: user?.video_path}}
               autoplay={false}
+              thumbnail={{uri: user?.video_name}}
               defaultMuted={false}
               style={styles.mediaVideo}
               fullscreen={true}
             />
           </View>
-          <View style={{borderRadius: 10, width: '48%'}}>
+          <View style={{borderRadius: 10, paddingLeft: 2}}>
             <ImageModal
-              resizeMode="contain"
+              resizeMode="cover"
               imageBackgroundColor="#000000"
               style={styles.usersProfileBGimage}
-              // modalImageStyle={{
-              //   borderTopRightRadius: 10,
-              // }}
               source={{uri: user?.image_path}}
             />
           </View>
@@ -114,12 +113,13 @@ const BenefactorUserPageScreen = props => {
       <SectionList
         style={{width: '100%'}}
         stickySectionHeadersEnabled={false}
+        contentContainerStyle={{paddingHorizontal: 5}}
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={posts}
+            posts={usersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 5,
+    // paddingHorizontal: 5,
     paddingTop: 15,
     backgroundColor: '#F2F2F2',
     height: '100%',
@@ -175,10 +175,12 @@ const styles = StyleSheet.create({
   mediaVideo: {
     // width: '100%',
     height: 89,
+    width: videoWidt / 2 - 10,
+    backgroundColor: 'silver',
   },
   usersProfileBGimage: {
-    width: '100%',
-    minWidth: 150,
+    // width: '100%',
+    width: videoWidt / 2 - 10,
     height: 88,
   },
   nameSurname: {
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
   contentVideo: {
     width: '100%',
     display: 'flex',
-    flexWrap: 'wrap',
+    // flexWrap: 'wrap',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,14 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
-import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+import {loadMuSubrcribers} from '../../../stores/profileMe/profileMeActions';
 import {useIsFocused} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 const MySubscribersScreen = () => {
@@ -22,39 +22,44 @@ const MySubscribersScreen = () => {
   const theme = useTheme();
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const users = useSelector(state => state?.myPosts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const {subscribers} = useSelector(state => state?.myPosts);
 
   useEffect(() => {
     if (isFocused) {
-      dispatch(loadMyPosts());
+      dispatch(loadMuSubrcribers(1));
     }
   }, [isFocused]);
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadMuSubrcribers(currentPage + 1));
+  };
 
-  let content = users?.myPosts.subscribers?.map(elem => {
+  const renderItem = ({item, index}) => {
     return (
-      <View key={elem.id} style={styles.users}>
+      <View key={item.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
             navigation.navigate('MyPageUsersAccount', {
-              user: elem.subscriber,
+              user: item.subscriber,
             })
           }>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
               <Image
-                source={{uri: elem?.subscriber.image}}
+                source={{uri: item?.subscriber.image}}
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>{elem?.subscriber.name}</Text>
-            <Text style={styles.userName}>{elem?.subscriber.lastname}</Text>
+            <Text style={styles.userName}>{item?.subscriber.name}</Text>
+            <Text style={styles.userName}>{item?.subscriber.lastname}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-  });
-
+  };
+  console.log(subscribers, 'oooooiioiii');
   return (
     <View style={styles.container}>
       <StatusBar
@@ -62,20 +67,27 @@ const MySubscribersScreen = () => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch serachFalse="false" />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.wrapStyle}>
-          <View style={{marginBottom: 20}}>
-            <MyaccountUsserInfor />
-          </View>
-          {users?.length < 1 ? (
-            <View style={styles.users}>
-              <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
-            </View>
-          ) : (
-            content
-          )}
+      {subscribers?.length < 1 ? (
+        <View style={styles.users}>
+          <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
         </View>
-      </ScrollView>
+      ) : (
+        <FlatList
+          ListHeaderComponent={() => (
+            <View style={{marginBottom: 20, paddingHorizontal: 5}}>
+              <MyaccountUsserInfor />
+            </View>
+          )}
+          contentContainerStyle={{flexGrow: 1}}
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+          onEndReached={loadMoreItem}
+          data={subscribers}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </View>
   );
 };

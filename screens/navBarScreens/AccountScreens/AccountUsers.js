@@ -1,57 +1,69 @@
-import React, {memo} from 'react';
+import React, {memo, useState, useEffect} from 'react';
 import {
   View,
   Text,
   Image,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
+  FlatList,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {useTranslation} from 'react-i18next';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {useSelector, useDispatch} from 'react-redux';
+import {loadUsers} from '../../../stores/lastUsers/userAction';
 
 const AccountUsers = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const accounts = useSelector(state => state.users);
-  const {t} = useTranslation();
+  const isFocused = useIsFocused();
+  const [currentPage, setCurrentPage] = useState(1);
   const userProfilePage = elem => {
     navigation.navigate('AccountScreen', {
       user: elem,
     });
   };
-  let content = accounts?.lastUsers?.map(elem => {
+  useEffect(() => {
+    if (isFocused) {
+      dispatch(loadUsers(1));
+    }
+  }, [isFocused]);
+
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadUsers(currentPage + 1));
+  };
+
+  const renderItem = ({item, index}) => {
     return (
-      <View key={elem.id} style={styles.users}>
+      <View key={item.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => userProfilePage(elem)}>
+          onPress={() => userProfilePage(item)}>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
-              <Image source={{uri: elem.image}} style={styles.userImage} />
+              <Image source={{uri: item.image}} style={styles.userImage} />
             </View>
             <View>
-              <Text style={styles.userName}>{elem.lastname}</Text>
-              <Text style={styles.userName}>{elem.name}</Text>
+              <Text style={styles.userName}>{item.lastname}</Text>
+              <Text style={styles.userName}>{item.name}</Text>
             </View>
           </View>
         </TouchableOpacity>
       </View>
     );
-  });
+  };
 
   return (
-    <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-      <View style={styles.wrapStyle}>
-        {accounts?.lastUsers?.length < 1 ? (
-          <View style={styles.usersEmpoty}>
-            <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
-          </View>
-        ) : (
-          content
-        )}
-      </View>
-    </ScrollView>
+    <FlatList
+      contentContainerStyle={{flexGrow: 1}}
+      style={{width: '100%'}}
+      showsVerticalScrollIndicator={false}
+      onEndReached={loadMoreItem}
+      data={accounts?.lastUsers}
+      renderItem={renderItem}
+      keyExtractor={item => item.id}
+      onEndReachedThreshold={0.5}
+    />
   );
 };
 
