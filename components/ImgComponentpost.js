@@ -1,4 +1,4 @@
-import React, {useState, memo} from 'react';
+import React, {useState, memo, useEffect} from 'react';
 import {
   View,
   Image,
@@ -6,22 +6,25 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  Dimensions,
 } from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import {useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
 import LikeButton from './LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
 import RadiusButton from './RadiusButton';
 import {useTranslation} from 'react-i18next';
+import {PostService} from '../http/postService/postService';
 
 const ImgComponentpost = props => {
   const {t} = useTranslation();
+  const isFocused = useIsFocused();
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [longDis, setLongDis] = useState(false);
@@ -31,15 +34,35 @@ const ImgComponentpost = props => {
   let isLongDs = () => {
     setLongDis(!longDis);
   };
+  const [width, setWidth] = useState(380);
+  const [height, setHeight] = useState(380);
 
+  useEffect(() => {
+    Image.getSize(
+      props?.uri?.image_path || props?.uri?.image,
+      (width, height) => {
+        const screenWidth = Dimensions.get('window').width;
+        const scaleFactor = width / screenWidth;
+        const imageHeight = height / scaleFactor;
+        setWidth(screenWidth);
+        setHeight(imageHeight);
+      },
+    );
+  }, []);
   let imgBG = (
-    <ImageModal
-      resizeMode="contain"
-      style={styles.post__media}
-      modalImageStyle={{
-        borderTopRightRadius: 10,
+    <Image
+      resizeMode="cover"
+      // style={styles.post__media}
+      style={{
+        width: width + 20,
+        height: height,
+        marginHorizontal: -10,
       }}
-      source={{uri: props?.uri.image_path || props?.uri.image}}
+      // swipeToDismiss={false}
+      // modalImageStyle={{
+      //   borderTopRightRadius: 10,
+      // }}
+      source={{uri: props?.uri?.image_path || props?.uri?.image}}
     />
   );
   let userTitle;
@@ -78,6 +101,14 @@ const ImgComponentpost = props => {
       'YYYY-MM-DD HH:mm:ss',
     ),
   ).fromNow();
+  const sharePost = async () => {
+    const {data} = await PostService.sharePost(props?.uri?.id);
+    try {
+      alert(t('postShared'));
+    } catch (error) {
+      alert('Reposted Error');
+    }
+  };
 
   return (
     <View style={styles.post__container}>
@@ -100,7 +131,7 @@ const ImgComponentpost = props => {
         </View>
         {props.post === 'post' ? (
           <TouchableOpacity style={styles.delete} onPress={deletePost}>
-            <Icon name="delete-circle-outline" color="red" size={32} />
+            <Icon name="delete-circle-outline" color="#c5c3c3" size={32} />
           </TouchableOpacity>
         ) : null}
         {props.post !== 'post' ? (
@@ -118,12 +149,7 @@ const ImgComponentpost = props => {
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         )}
         <View style={styles.post__content__media__view}>
-          <ImageBackground
-            style={styles.post__content__media}
-            source={{uri: props?.uri.image_path || props?.uri.image}}
-            blurRadius={90}>
-            <View style={styles.post__media__view}>{imgBG}</View>
-          </ImageBackground>
+          <View style={styles.post__media__view}>{imgBG}</View>
         </View>
       </View>
       {props.post === 'post' ? null : (
@@ -158,6 +184,11 @@ const ImgComponentpost = props => {
             <Text style={styles.comments__count}>
               {postCounts !== 0 ? postCounts : null}{' '}
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() => sharePost()}>
+            <Ionicons name={'share-social'} size={20} color={'#c5c3c3'} />
           </TouchableOpacity>
           <View style={styles.shareButton}>
             <ShareButton size={24} />
@@ -228,18 +259,10 @@ const styles = StyleSheet.create({
     height: 200,
   },
   post__media__view: {
-    borderRadius: 8,
     overflow: 'hidden',
   },
-  post__media: {
-    minWidth: '100%',
-    height: 200,
-    //marginTop: 10,
-    borderRadius: 8,
-  },
+
   post__actions: {
-    // marginTop: 10,
-    // paddingHorizontal: 10,
     height: 50,
     flexDirection: 'row',
     alignItems: 'center',

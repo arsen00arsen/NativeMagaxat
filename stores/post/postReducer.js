@@ -5,12 +5,15 @@ import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_INITIAL_SUCCESS,
   SET_SINGLE_POSTS,
+  LOAD_USER_POSTS_INITIAL_SUCCESS,
+  LOAD_USER_POSTS_SUCCESS,
 } from './types';
 
 const initialState = {
   posts: [],
   isLoading: false,
   error: '',
+  usersPosts: [],
 };
 
 export const postReducer = (state = initialState, action) => {
@@ -31,6 +34,18 @@ export const postReducer = (state = initialState, action) => {
       return {
         ...state,
         posts: payload,
+        isLoading: false,
+      };
+    case LOAD_USER_POSTS_SUCCESS:
+      return {
+        ...state,
+        usersPosts: [...state.usersPosts, ...payload],
+        isLoading: false,
+      };
+    case LOAD_USER_POSTS_INITIAL_SUCCESS:
+      return {
+        ...state,
+        usersPosts: payload,
         isLoading: false,
       };
     case SET_COMMENTS:

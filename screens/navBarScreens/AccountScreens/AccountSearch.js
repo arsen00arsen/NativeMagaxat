@@ -7,7 +7,6 @@ import {
   StatusBar,
   TouchableOpacity,
   FlatList,
-  
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,15 +22,14 @@ const AccountSearch = props => {
   const [list, setList] = useState([]);
   const theme = useTheme();
   const navigation = useNavigation();
-  let searchContent = props?.route.params;
-  let url;
-  if (searchContent === 'Users') {
-    url = baseUrl2 + '/users/list?name=' + data;
-  } else {
-    url = baseUrl2 + '/users/list?name' + data;
-  }
-
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
+    let url;
+    if (data === '') {
+      url = `${baseUrl2}/users/list?page=${currentPage}&name=${data}`;
+    } else {
+      url = baseUrl2 + '/users/list?name=' + data;
+    }
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -41,14 +39,20 @@ const AccountSearch = props => {
           },
         });
         const json = await response.json();
-        setList(json);
+        if (data === '') {
+          setList([...list, ...json.data.data]);
+        } else {
+          setList(json.data.data);
+        }
       } catch (error) {
         'error', error;
       }
     };
     fetchData();
-  }, [data]);
-
+  }, [data, currentPage]);
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+  };
   const ItemRender = item => {
     let img;
     if (item.userImage !== undefined) {
@@ -97,7 +101,8 @@ const AccountSearch = props => {
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list.data}
+        contentContainerStyle={{flexGrow: 1}}
+        data={list}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender
@@ -110,7 +115,9 @@ const AccountSearch = props => {
         keyExtractor={item => item.id}
         ItemSeparatorComponent={Separator}
         vertical={true}
+        onEndReached={loadMoreItem}
         showsVerticalScrollIndicator={false}
+        onEndReachedThreshold={0.2}
       />
     </View>
   );

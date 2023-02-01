@@ -117,6 +117,7 @@ const MyPageUsersAccount = props => {
       </View>
     </>
   );
+  console.log(posts)
   return (
     <View style={styles.container}>
       <StatusBar
@@ -197,7 +198,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    marginVertical: 32,
+    marginBottom: 32,
   },
   text: {
     color: '#919191',
@@ -252,7 +253,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   postSubscribeButton: {
     display: 'flex',

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -7,12 +7,13 @@ import {
   StatusBar,
   TouchableOpacity,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
-import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+import {loadMuSubrcribtions} from '../../../stores/profileMe/profileMeActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import {useTranslation} from 'react-i18next';
@@ -23,39 +24,43 @@ const MySubscribtionsScreen = props => {
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const navigation = useNavigation();
-  const users = useSelector(state => state?.myPosts);
+  const [currentPage, setCurrentPage] = useState(1);
+  const {subscriptions} = useSelector(state => state?.myPosts);
 
   useEffect(() => {
     if (isFocused) {
-      dispatch(loadMyPosts());
+      dispatch(loadMuSubrcribtions(1));
     }
   }, [isFocused]);
-
-  let content = users?.myPosts.subscriptions.map(elem => {
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadMuSubrcribtions(currentPage + 1));
+  };
+  const renderItem = ({item, index}) => {
     return (
-      <View key={elem.id} style={styles.users}>
+      <View key={item.id} style={styles.users}>
         <TouchableOpacity
           style={styles.button}
           onPress={() =>
             navigation.navigate('MyPageUsersAccount', {
-              user: elem.subscription,
+              user: item.subscription,
             })
           }>
           <View style={[styles.userProfile, styles.shadowProp]}>
             <View style={styles.imgFrame}>
               <Image
-                source={{uri: elem?.subscription.image}}
+                source={{uri: item?.subscription.image}}
                 style={styles.userImage}
               />
             </View>
-            <Text style={styles.userName}>{elem?.subscription.name}</Text>
-            <Text style={styles.userName}>{elem?.subscription.lastname}</Text>
+            <Text style={styles.userName}>{item?.subscription.name}</Text>
+            <Text style={styles.userName}>{item?.subscription.lastname}</Text>
           </View>
         </TouchableOpacity>
       </View>
     );
-  });
-
+  };
+  console.log(subscriptions, 'subscriptionssubscriptionssubscriptions');
   return (
     <View style={styles.container}>
       <StatusBar
@@ -63,20 +68,27 @@ const MySubscribtionsScreen = props => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch serachFalse="false" />
-      <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-        <View style={styles.wrapStyle}>
-          <View style={{marginBottom: 20}}>
-            <MyaccountUsserInfor />
-          </View>
-          {users?.length < 1 ? (
-            <View style={styles.users}>
-              <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
-            </View>
-          ) : (
-            content
-          )}
+      {subscriptions?.length < 1 ? (
+        <View style={styles.users}>
+          <Text style={styles.textEmpoty}>{t('youHavntUsers')}</Text>
         </View>
-      </ScrollView>
+      ) : (
+        <FlatList
+          ListHeaderComponent={() => (
+            <View style={{marginBottom: 20, paddingHorizontal: 5}}>
+              <MyaccountUsserInfor />
+            </View>
+          )}
+          contentContainerStyle={{flexGrow: 1}}
+          style={{width: '100%'}}
+          showsVerticalScrollIndicator={false}
+          onEndReached={loadMoreItem}
+          data={subscriptions}
+          renderItem={renderItem}
+          keyExtractor={item => item.id}
+          onEndReachedThreshold={0.5}
+        />
+      )}
     </View>
   );
 };
@@ -141,6 +153,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
   },
   wrapStyle: {
+    marginBottom: 60,
     display: 'flex',
     flexDirection: 'row',
     flexWrap: 'wrap',

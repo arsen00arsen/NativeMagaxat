@@ -28,7 +28,6 @@ export default function GridVediosScreen(props) {
   const subButton = async () => {
     try {
       const {data} = await UserSubscribe.isSubscribe(user?.user?.id);
-      console.log(data);
       setIssub(data.subscribed);
     } catch (error) {
       console.log(error);
@@ -60,52 +59,51 @@ export default function GridVediosScreen(props) {
       <HeaderBackSearch serachFalse="false" />
       <View style={styles.column}>
         <Pleyer video_path={user.video_path} />
+        <View style={styles.userBody}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              padding: 5,
+            }}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate('AccounProfiletScreen', {
+                  id: user?.user?.id,
+                })
+              }>
+              <Image
+                source={{uri: user?.user?.image}}
+                style={styles.userImage}
+              />
+            </TouchableOpacity>
+            <View style={styles.flexcontent}>
+              <Text style={styles.username}>{user?.user?.name} </Text>
+              <Text style={styles.username}>{user?.user?.lastname}</Text>
+            </View>
+          </View>
+          {myUser?.user?.id !== user?.user?.id ? (
+            <TouchableOpacity
+              onPress={subButton}
+              style={{
+                paddingHorizontal: 30,
+                backgroundColor: '#A48A66',
+                paddingVertical: 10,
+                marginRight: 10,
+                borderRadius: 8,
+              }}>
+              <Text style={{color: 'white'}}>
+                {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
       <View tyle={{height: '70%'}}>
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{width: '100%', height: '100%'}}>
           <View>
-            <View style={styles.userBody}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate('AccounProfiletScreen', {
-                      id: user?.user?.id,
-                    })
-                  }>
-                  <View style={styles.imgFrame}>
-                    <Image
-                      source={{uri: user?.user?.image}}
-                      style={styles.userImage}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <View style={styles.flexcontent}>
-                  <Text style={styles.username}>{user?.user?.name} </Text>
-                  <Text style={styles.username}>{user?.user?.lastname}</Text>
-                </View>
-              </View>
-              {myUser?.user?.id !== user?.user?.id ? (
-                <TouchableOpacity
-                  onPress={subButton}
-                  style={{
-                    paddingHorizontal: 30,
-                    backgroundColor: '#A48A66',
-                    paddingVertical: 10,
-                    marginRight: 10,
-                    borderRadius: 8,
-                  }}>
-                  <Text style={{color: 'white'}}>
-                    {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
-                  </Text>
-                </TouchableOpacity>
-              ) : null}
-            </View>
             <View style={styles.flexWrap}>{content}</View>
           </View>
         </ScrollView>
@@ -148,13 +146,13 @@ const styles = StyleSheet.create({
   },
   userBody: {
     width: '100%',
-    paddingVertical: 15,
+    // paddingVertical: 15,
     backgroundColor: '#ccccccb5',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 15,
+    marginBottom: 3,
   },
   imgFrame: {
     display: 'flex',
@@ -167,12 +165,15 @@ const styles = StyleSheet.create({
     height: 57,
     marginLeft: 10,
   },
+  flexcontent: {
+    paddingLeft: 5,
+  },
   userImage: {
     width: 53,
     height: 53,
     borderRadius: 999,
-    borderColor: '#E6E6E6',
-    borderWidth: 3,
+    // borderColor: '#E6E6E6',
+    // borderWidth: 3,
   },
   username: {
     color: '#727272',

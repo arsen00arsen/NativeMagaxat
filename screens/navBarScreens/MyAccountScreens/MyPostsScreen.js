@@ -1,10 +1,11 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, FlatList, StyleSheet, StatusBar} from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import MyaccountUsserInfor from '../../../components/MyaccountUsserInfor';
 import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
+import {useIsFocused} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
 import {useTranslation} from 'react-i18next';
@@ -12,12 +13,21 @@ import {useTranslation} from 'react-i18next';
 const MyPostsScreen = props => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const {user} = useSelector(state => state?.user);
   const {myPosts} = useSelector(state => state?.myPosts);
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
-    dispatch(loadMyPosts());
-  }, []);
+    if (isFocused) {
+      dispatch(loadMyPosts());
+    }
+  }, [isFocused]);
+
+  const loadMoreItem = () => {
+    setCurrentPage(currentPage + 1);
+    dispatch(loadMyPosts(currentPage + 1));
+  };
 
   const renderItem = ({item}) => {
     if (item.image) {
@@ -35,7 +45,7 @@ const MyPostsScreen = props => {
       />
     );
   };
-
+  //console.log(myPosts?.posts?.data, 'myPosts?.posts?.data');
   return (
     <View style={styles.container}>
       <StatusBar
@@ -43,18 +53,23 @@ const MyPostsScreen = props => {
         barStyle={theme.dark ? 'light-content' : 'dark-content'}
       />
       <HeaderBackSearch serachFalse="false" />
-      <MyaccountUsserInfor />
-      {myPosts.posts.data.length === 0 ? (
+      <View style={{paddingHorizontal: 5}}>
+        <MyaccountUsserInfor />
+      </View>
+      {myPosts?.posts?.data.length === 0 ? (
         <View style={styles.usersEmpoty}>
           <Text style={styles.textEmpoty}>{t('havntAnyPosts')}</Text>
         </View>
       ) : (
         <FlatList
+          contentContainerStyle={{flexGrow: 1}}
           style={{width: '100%'}}
           showsVerticalScrollIndicator={false}
-          data={myPosts.posts.data}
-          keyExtractor={(items, index) => index.toString()}
+          onEndReached={loadMoreItem}
+          data={myPosts}
           renderItem={renderItem}
+          keyExtractor={item => item.id}
+          onEndReachedThreshold={0.5}
         />
       )}
     </View>
@@ -87,7 +102,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'flex-end',
+    alignItems: 'center',
   },
   textEmpoty: {
     fontSize: 20,

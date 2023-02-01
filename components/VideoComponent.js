@@ -1,24 +1,27 @@
-import React, {useState, memo, useRef} from 'react';
+import React, {useState, memo, useRef, useEffect} from 'react';
 import {
   View,
   Image,
   Text,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
+  Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import VideoPlayer from 'react-native-video-player';
+import Video from 'react-native-video';
 import LikeButton from '../components/LikeButton';
 import ShareButton from './ShareButton';
 import {removeMyPosts} from '../stores/profileMe/profileMeActions';
 import {useDispatch} from 'react-redux';
 import RadiusButton from './RadiusButton';
 import {useTranslation} from 'react-i18next';
+import {PostService} from '../http/postService/postService';
+
+const windowDimensions = Dimensions.get('window').width;
 
 const VideoComponent = props => {
   const {t} = useTranslation();
@@ -30,7 +33,8 @@ const VideoComponent = props => {
   let post = props?.uri;
   let likeCounts = post?.likes?.length + 1;
   let postCounts = post.comments?.length;
-
+  const [videoWidth, setVideotWidth] = useState(windowDimensions);
+  const [videoHeight, setVideoHeight] = useState(windowDimensions);
   let isLongDs = () => {
     setLongDis(!longDis);
   };
@@ -63,6 +67,15 @@ const VideoComponent = props => {
       'YYYY-MM-DD HH:mm:ss',
     ),
   ).fromNow();
+  const sharePost = async () => {
+    const {data} = await PostService.sharePost(props?.uri?.id);
+    try {
+      alert(t('postShared'));
+    } catch (error) {
+      console.log(error);
+      alert('Reposted Error');
+    }
+  };
   return (
     <View style={styles.post__container}>
       <View style={styles.post__header}>
@@ -87,7 +100,7 @@ const VideoComponent = props => {
         </View>
         {props.post === 'post' ? (
           <TouchableOpacity style={styles.delete} onPress={deletePost}>
-            <Icon name="delete-circle-outline" color="red" size={32} />
+            <Icon name="delete-circle-outline" color="#c5c3c3" size={32} />
           </TouchableOpacity>
         ) : null}
         {props.post !== 'post' ? (
@@ -101,31 +114,43 @@ const VideoComponent = props => {
         ) : null}
       </View>
       <View style={[styles.post__content, {zIndex: -1}]}>
-        {post?.title && (
+        {post?.title !== 'undefined' && (
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         )}
-        <View style={styles.post__content__media__view}>
+        {/* <View style={styles.post__content__media__view}>
           <ImageBackground
-            style={styles.post__content__media}
-            source={{uri: props?.uri.image_path || props?.uri.image}}
-            blurRadius={90}>
-            <View style={styles.post__media__view}>
-              <VideoPlayer
-                resizeMode={'contain'}
-                ref={videoRef}
-                video={{uri: props?.uri?.video}}
-                autoplay={false}
-                defaultMuted={false}
-                thumbnail={{uri: props?.uri?.video_name}}
-                style={styles.post__media}
-                fullscreen={true}
-                videoWidth={100}
-                // controls={true}
-                // resizeMode="contain"
-              />
-            </View>
-          </ImageBackground>
-        </View>
+            style={[styles.post__content__media]}
+            source={{uri: props?.uri.video_name || props?.uri.image}}
+            blurRadius={90}> */}
+        {/* <View style={styles.post__media__view}> */}
+        {props?.uri?.video_name ? (
+          <Video
+            resizeMode={'cover'}
+            ref={videoRef}
+            source={{uri: props?.uri?.video}}
+            controls={true}
+            repeat={true}
+            onLoad={response => {
+              const {width, height} = response.naturalSize;
+              setVideotWidth(width);
+              setVideoHeight(height);
+            }}
+            // defaultMuted={false}
+            thumbnail={{uri: props?.uri?.video_name}}
+            style={[
+              styles.post__media,
+              {
+                width: windowDimensions + 10,
+                height: (windowDimensions / videoWidth) * videoHeight,
+              },
+            ]}
+            pictureInPicture={true}
+          />
+        ) : null}
+
+        {/* </View> */}
+        {/* </ImageBackground>
+        </View> */}
       </View>
       {props.post === 'post' ? null : (
         <LinearGradient
@@ -148,7 +173,7 @@ const VideoComponent = props => {
                 user: user,
                 image: user.image,
                 id: post.id,
-                img: props?.uri.image_path || props?.uri.image,
+                img: props?.uri?.video_name,
               })
             }>
             <Ionicons
@@ -159,6 +184,11 @@ const VideoComponent = props => {
             <Text style={styles.comments__count}>
               {postCounts !== 0 ? postCounts : null}{' '}
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() => sharePost()}>
+            <Ionicons name={'share-social'} size={20} color={'#c5c3c3'} />
           </TouchableOpacity>
           <View style={styles.shareButton}>
             <ShareButton size={24} />
@@ -225,16 +255,17 @@ const styles = StyleSheet.create({
   },
   post__content__media: {
     width: '100%',
-    height: 200,
+    // height: 200,
   },
   post__media__view: {
     //borderRadius: 8,
     overflow: 'hidden',
   },
   post__media: {
-    minWidth: '100%',
-    height: 200,
-    backgroundColor: 'transparent',
+    width: 100,
+    height: 100,
+    // backgroundColor: 'transparent',
+    marginHorizontal: -15,
   },
   post__actions: {
     height: 50,

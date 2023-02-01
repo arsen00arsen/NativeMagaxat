@@ -34,7 +34,7 @@ const BenefactorSearchPage = () => {
           },
         });
         const json = await response.json();
-        setList(json);
+        setList(json.data.data);
       } catch (error) {
         console.log('error', error);
       }
@@ -89,7 +89,7 @@ const BenefactorSearchPage = () => {
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list.data}
+        data={list}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender

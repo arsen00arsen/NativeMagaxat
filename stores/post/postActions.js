@@ -7,6 +7,8 @@ import {
   LOAD_POSTS_SUCCESS,
   LOAD_POSTS_INITIAL_SUCCESS,
   SET_SINGLE_POSTS,
+  LOAD_USER_POSTS_INITIAL_SUCCESS,
+  LOAD_USER_POSTS_SUCCESS,
 } from './types';
 
 export const startLoadPosts = payload => ({
@@ -23,7 +25,15 @@ export const setPostsInitial = posts => ({
   type: LOAD_POSTS_INITIAL_SUCCESS,
   payload: posts,
 });
+export const setUserPosts = posts => ({
+  type: LOAD_USER_POSTS_SUCCESS,
+  payload: posts,
+});
 
+export const setUserPostsInitial = posts => ({
+  type: LOAD_USER_POSTS_INITIAL_SUCCESS,
+  payload: posts,
+});
 export const setSinglePost = payload => ({
   type: SET_SINGLE_POSTS,
   payload,
@@ -40,12 +50,12 @@ export const setComments = data => ({
 });
 
 export const loadPosts =
-  (currentpage = 1) =>
+  (currentpageIs = 1) =>
   async dispatch => {
     try {
       dispatch(startLoadPosts(true));
-      const {data} = await PostService.loadPosts(currentpage);
-      if (currentpage === 1) {
+      const {data} = await PostService.loadPosts(currentpageIs);
+      if (currentpageIs === 1) {
         dispatch(setPostsInitial(data.data.data));
       } else {
         dispatch(setPosts(data.data.data));
@@ -63,9 +73,11 @@ export const loadPostsUser =
       dispatch(startLoadPosts(true));
       const {data} = await PostService.loadPostsUser({currentpage, id});
       if (currentpage === 1) {
-        dispatch(setPostsInitial(data.data.data));
+        console.log(data.data.data, 'lll');
+        dispatch(setUserPostsInitial(data.data.data));
       } else {
-        dispatch(setPosts(data.data.data));
+        console.log(data.data, 'kkk');
+        dispatch(setUserPosts(data.data.data));
       }
     } catch (error) {
       dispatch(setPostsError(error));

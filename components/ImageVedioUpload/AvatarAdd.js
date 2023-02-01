@@ -6,6 +6,7 @@ import {
   View,
   ActivityIndicator,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -14,7 +15,7 @@ import {userPhotoChange} from '../../stores/user/userActions';
 import {baseUrl2} from '../../http';
 
 export const AvatarAdd = props => {
-  // const navigation = useNavigationn();
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
   const [selected, setSelected] = useState(false);
@@ -34,7 +35,7 @@ export const AvatarAdd = props => {
     setLoading(true);
     setImage(image.assets[0].uri);
     if (image.assets[0].fileSize > 20000) {
-      return alert('Max size of image must be 2 mb'), setLoading(false);
+      return alert(t('maksSizeOfImage')), setLoading(false);
     }
     const fileToUpload = image.assets[0];
     const fdata = new FormData();

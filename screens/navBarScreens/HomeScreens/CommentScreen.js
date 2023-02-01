@@ -21,7 +21,7 @@ import {sendComment} from '../../../stores/post/postActions';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useNavigation} from '@react-navigation/native';
 import RadiusButton from '../../../components/RadiusButton';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const CommentScreen = props => {
   const {t} = useTranslation();
@@ -57,13 +57,12 @@ const CommentScreen = props => {
       imgComment = require('../../../assets/defoult.png');
     }
     return (
-      <View key={elem.id}>
+      <View key={elem.id} style={{flex: 1, flexDirection: 'column'}}>
         <View style={styles.userProfile}>
-          <View style={{display: 'flex', flexDirection: 'row'}}>
+          <View
+            style={{alignItems: 'center', flexDirection: 'row', width: 100}}>
             <View style={styles.imgFrame}>
-              <TouchableOpacity onPress={userProfilePage}>
-                <Image source={imgComment} style={styles.userImage} />
-              </TouchableOpacity>
+              <Image source={imgComment} style={styles.userImage} />
             </View>
             <View>
               <Text>{elem.name} </Text>
@@ -106,20 +105,16 @@ const CommentScreen = props => {
     );
   }
   return (
-    <KeyboardAvoidingView behavior="height" style={styles.container}>
+    <KeyboardAvoidingView behavior="height" style={{flex: 1}}>
       {/* <KeyboardAvoidingView behavior="height" > */}
-      <View>
-        <HeaderBackSearch />
+      <View style={styles.container}>
+        <HeaderBackSearch serachFalse="false" />
         <ScrollView
           showsVerticalScrollIndicator={false}
           horizontal={false}
-          ref={scrollViewRef}
-          onContentSizeChange={() =>
-            scrollViewRef.current.scrollToEnd({animated: true})
-          }
-          style={styles.scroll}>
+          ref={scrollViewRef}>
           <View style={styles.vedioContent}>
-            <View style={styles.userProfile}>
+            <View style={[styles.userProfile, {marginBottom: 10}]}>
               <View style={styles.imgFrame}>
                 <Image source={{uri: user?.image}} style={styles.userImage} />
               </View>
@@ -173,14 +168,23 @@ const CommentScreen = props => {
 export default CommentScreen;
 const styles = StyleSheet.create({
   container: {
+    // flex: 1,
+    // display: 'flex',
+    // flexDirection: 'column',
+    // alignItems: 'flex-end',
+    // justifyContent: 'flex-start',
+    // //paddingHorizontal: ,
+    // paddingTop: 15,
+    // backgroundColor: '#f7f7f7',
+    // height: '100%',
     flex: 1,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingHorizontal: 10,
-    paddingTop: 15,
-    backgroundColor: '#f7f7f7',
+    //paddingHorizontal: 5,
+    marginTop: 20,
+    marginBottom: 5,
     height: '100%',
   },
   vedioContent: {
@@ -204,13 +208,13 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   userProfile: {
-    width: '100%',
-    display: 'flex',
+    // width: '100%',
+    // display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 15,
-    paddingLeft: 5,
+    // marginBottom: 15,
+    // paddingLeft: 5,
   },
   imgFrame: {
     display: 'flex',

@@ -1,8 +1,8 @@
 import {$authHost} from '..';
 
 export default class LastUsers {
-  static loadLastUsers() {
-    return $authHost.get('/users/list');
+  static loadLastUsers(page) {
+    return $authHost.get(`/users/list?page=${page}`);
   }
   static loadChatUsers() {
     return $authHost.get('/contacts');

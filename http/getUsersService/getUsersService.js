@@ -1,8 +1,9 @@
 import {$authHost} from '..';
 
 export class GetBenefactorsService {
-  static getBenefactors() {
-    return $authHost.get('/benefactors_api');
+  static getBenefactors(currentPage) {
+    console.log(currentPage);
+    return $authHost.get(`/benefactors_api?page=${currentPage}`);
   }
 }
 

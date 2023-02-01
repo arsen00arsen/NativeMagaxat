@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { useTranslation } from 'react-i18next';
+import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   View,
   Text,
@@ -55,7 +55,7 @@ const BenefactorsComponent = ({navigation, loadMoreItem}) => {
         </View>
       ) : (
         <FlatList
-          contentContainerStyle={{flexGrow: 1, }}
+          contentContainerStyle={{flexGrow: 1}}
           style={{width: '100%'}}
           showsVerticalScrollIndicator={false}
           onEndReached={loadMoreItem}

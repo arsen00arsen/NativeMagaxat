@@ -2,9 +2,11 @@ import React from 'react';
 import {View, StyleSheet, Text, Image} from 'react-native';
 import {AvatarAdd} from './ImageVedioUpload/AvatarAdd';
 import {useSelector} from 'react-redux';
+import moment from 'moment';
 
 const MyaccountUsserInforAvatar = () => {
   const user = useSelector(state => state?.user);
+  const time = moment(user?.user?.date_of_birth).format('ll');
   return (
     <View style={styles.container}>
       <View style={styles.userProfile}>
@@ -14,7 +16,9 @@ const MyaccountUsserInforAvatar = () => {
         <View style={styles.userInfo}>
           <Text style={styles.userName}>{user?.user?.name} </Text>
           <Text style={styles.userName}>{user?.user?.lastname} </Text>
-          <Text style={styles.userDate}>{user?.user?.date_of_birth}</Text>
+          <Text style={styles.userDate}>
+            {user?.user?.date_of_birth && time}
+          </Text>
         </View>
       </View>
     </View>
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     color: '#727272',
   },
   userDate: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
     color: '#4A4A4A',
   },

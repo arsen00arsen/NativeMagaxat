@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -16,7 +16,6 @@ import DatePicker from 'react-native-date-picker';
 import {Controller, useForm} from 'react-hook-form';
 import MyaccountUsserInforAvatar from '../../../components/MyaccountUsserInforAvatar';
 import {useSelector, useDispatch} from 'react-redux';
-import MultiSelectComponent from '../../../components/MultiSelectComponent';
 import {UploadUserService} from '../../../http/uploadService/uploadService';
 import {getMe} from '../../../stores/user/userActions';
 
@@ -24,23 +23,17 @@ const GeneralScreen = () => {
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const theme = useTheme();
-  //const [date, setDate] = useState(new Date());
   const user = useSelector(state => state?.user);
   const [open, setOpen] = useState(false);
-  //const [valuesSelect, setValuesSelect] = useState([]);
-  // useEffect(() => {
-  //   if (isFocused) {
-  //   }
-  // }, [isFocused]);
   const dt = user?.user?.date_of_birth ? user?.user?.date_of_birth : new Date();
-  const {control, handleSubmit, getValues} = useForm({
+  const [dates, setDates] = useState(dt);
+  const {control, handleSubmit, setValue} = useForm({
     defaultValues: {
       date_of_birth: moment(dt).toDate(),
       name: user.user?.name,
       lastname: user.user?.lastname,
       email: user.user?.email,
       phone_number: user.user?.phone_number,
-      // interesting_type: user.user?.interesting_type,
     },
   });
   // useEffect(() => {
@@ -117,10 +110,7 @@ const GeneralScreen = () => {
           <TouchableOpacity style={styles.action} onPress={() => setOpen(true)}>
             <View>
               <Text style={styles.inputHeader}>{t('date')}</Text>
-              {}
-              <Text style={styles.dateText}>
-                {moment(dt).format('YYYY-MM-DD')}
-              </Text>
+              <Text style={styles.dateText}>{moment(dates).format('ll')}</Text>
             </View>
           </TouchableOpacity>
           <Controller
@@ -136,7 +126,8 @@ const GeneralScreen = () => {
                   open={open}
                   date={value}
                   onConfirm={date => {
-                    //setDate(date);
+                    setValue('date_of_birth', date);
+                    setDates(date);
                     setOpen(false);
                   }}
                   onCancel={() => setOpen(false)}
@@ -257,8 +248,9 @@ const styles = StyleSheet.create({
   },
   dateText: {
     paddingHorizontal: 13,
-    paddingVertical: 25,
+    paddingVertical: 15,
     color: 'black',
+    fontWeight: '800',
   },
   selectAction: {
     marginTop: 10,

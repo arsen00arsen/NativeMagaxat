@@ -15,7 +15,7 @@ import {useNavigation} from '@react-navigation/native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {baseUrl2} from '../../../http/index';
 import SearchComponent from '../../../components/SearchComponent';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 
 const PostSearch = () => {
   const {t} = useTranslation();
@@ -24,9 +24,13 @@ const PostSearch = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const theme = useTheme();
   const navigation = useNavigation();
-
   useEffect(() => {
-    const url = baseUrl2 + '/users/list?name' + data;
+    let url;
+    if (data === '') {
+      url = `${baseUrl2}/users/list?page=${currentPage}&name=${data}`;
+    } else {
+      url = baseUrl2 + '/users/list?name=' + data;
+    }
     const fetchData = async () => {
       try {
         const token = await AsyncStorage.getItem('token');
@@ -36,16 +40,21 @@ const PostSearch = () => {
           },
         });
         const json = await response.json();
-        setList(json);
+        if (data === '') {
+          setList([...list, ...json.data.data]);
+        } else {
+          setList(json.data.data);
+        }
       } catch (error) {
         'error', error;
       }
     };
     fetchData();
-  }, [data]);
+  }, [data, currentPage]);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
   };
+
   const ItemRender = item => {
     let img;
     if (item.userImage !== undefined) {
@@ -93,7 +102,10 @@ const PostSearch = () => {
       </View>
       <FlatList
         style={styles.flatlist}
-        data={list.data}
+        data={list}
+        contentContainerStyle={{flexGrow: 1}}
+        showsVerticalScrollIndicator={false}
+        onEndReached={loadMoreItem}
         renderItem={({item}) => (
           <TouchableOpacity onPress={() => userProfilePage(item)}>
             <ItemRender
@@ -106,7 +118,7 @@ const PostSearch = () => {
         keyExtractor={item => item.id}
         ItemSeparatorComponent={Separator}
         vertical={true}
-        showsVerticalScrollIndicator={false}
+        onEndReachedThreshold={0.5}
       />
     </View>
   );
@@ -148,7 +160,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
   },
   flatlist: {
-    paddingHorizontal: 15,
+    // paddingHorizontal: 15,
     width: '100%',
   },
   usersProfile: {

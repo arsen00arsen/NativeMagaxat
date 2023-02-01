@@ -77,4 +77,6 @@ export default {
   inValidEmail: 'Электронная почта недействительна',
   passwordLenght: 'Пароль должен быть не менее 8 символов',
   passwordMatch: 'Пароли не совпадают',
+  postShared: 'Публикация успешно опубликована',
+  sposnorTitle: 'Спонсор',
 };

@@ -30,7 +30,7 @@ const AccountScreen = props => {
   const navigation = useNavigation();
   let id = props.route?.params.user.id;
   const {options} = useAccountProfHome({id, isSub});
-  const {isLoading, posts} = useSelector(state => state.post);
+  const {isLoading, usersPosts} = useSelector(state => state.post);
   let user = options.data;
   let isS = options.subscribed;
   useEffect(() => {
@@ -128,14 +128,14 @@ const AccountScreen = props => {
       <HeaderBackSearch serachFalse="false" />
       <SectionList
         style={{width: '100%'}}
-        // contentContainerStyle={{paddingHorizontal: 10}}
+        contentContainerStyle={{paddingHorizontal: 5}}
         stickySectionHeadersEnabled={false}
         sections={SECTIONS}
         renderSectionHeader={({section}) => content}
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={posts}
+            posts={usersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   textBody: {
     width: '100%',
-    marginVertical: 32,
+    marginBottom: 32,
   },
   text: {
     color: '#919191',
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   postSubscribeButton: {
     display: 'flex',
