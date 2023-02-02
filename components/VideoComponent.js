@@ -124,28 +124,29 @@ const VideoComponent = props => {
             blurRadius={90}> */}
         {/* <View style={styles.post__media__view}> */}
         {props?.uri?.video_name ? (
-          <Video
-            resizeMode={'cover'}
-            ref={videoRef}
-            source={{uri: props?.uri?.video}}
-            controls={true}
-            repeat={true}
-            onLoad={response => {
-              const {width, height} = response.naturalSize;
-              setVideotWidth(width);
-              setVideoHeight(height);
-            }}
-            // defaultMuted={false}
-            thumbnail={{uri: props?.uri?.video_name}}
-            style={[
-              styles.post__media,
-              {
-                width: windowDimensions + 10,
-                height: (windowDimensions / videoWidth) * videoHeight,
-              },
-            ]}
-            pictureInPicture={true}
-          />
+          // <Video
+          //   resizeMode={'cover'}
+          //   ref={videoRef}
+          //   source={{uri: props?.uri?.video}}
+          //   controls={true}
+          //   repeat={true}
+          //   onLoad={response => {
+          //     const {width, height} = response.naturalSize;
+          //     setVideotWidth(width);
+          //     setVideoHeight(height);
+          //   }}
+          //   // defaultMuted={false}
+          //   thumbnail={{uri: props?.uri?.video_name}}
+          //   style={[
+          //     styles.post__media,
+          //     {
+          //       width: windowDimensions + 10,
+          //       height: (windowDimensions / videoWidth) * videoHeight,
+          //     },
+          //   ]}
+          //   pictureInPicture={true}
+          // />
+          <></>
         ) : null}
 
         {/* </View> */}
@@ -188,7 +189,7 @@ const VideoComponent = props => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center'}}
             onPress={() => sharePost()}>
-            <Ionicons name={'share-social'} size={20} color={'#c5c3c3'} />
+            <Ionicons name={'duplicate'} size={20} color={'#c5c3c3'} />
           </TouchableOpacity>
           <View style={styles.shareButton}>
             <ShareButton size={24} />

@@ -10,35 +10,49 @@ import {
   SectionList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {loadPostsUser} from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import RadiusButton from '../../../components/RadiusButton';
 import {useTranslation} from 'react-i18next';
+import {
+  loadmyAccountUserPosts,
+  setUserAccountPostsInitial,
+  setUserAccountPosts,
+} from '../../../stores/userPosts/myAccountUserPost/myAccountUsserPostAction';
 
 const MyPageUsersAccount = props => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route.params?.user.id;
   const {options} = useAccountProfHome({id, isSub});
-  const {isLoading, posts} = useSelector(state => state.post);
+  const {isLoading, accountUsersPosts} = useSelector(
+    state => state.myAccountUserPosts,
+  );
   let user = options.data;
   let isS = options.subscribed;
+
   useEffect(() => {
-    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
-  }, []);
+    if (isFocused) {
+      dispatch(loadmyAccountUserPosts({currentPage: currentPage, id: id}));
+    }
+    return () => {
+      dispatch(setUserAccountPostsInitial([]));
+      dispatch(setUserAccountPosts([]));
+    };
+  }, [isFocused]);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+    dispatch(loadmyAccountUserPosts({currentPage: currentPage + 1, id: id}));
   };
   const subButton = async () => {
     try {
@@ -117,7 +131,7 @@ const MyPageUsersAccount = props => {
       </View>
     </>
   );
-  console.log(posts)
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -134,7 +148,7 @@ const MyPageUsersAccount = props => {
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={posts}
+            posts={accountUsersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />

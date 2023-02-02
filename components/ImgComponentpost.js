@@ -48,6 +48,9 @@ const ImgComponentpost = props => {
         setHeight(imageHeight);
       },
     );
+    return () => {
+      setWidth(0), setHeight(0);
+    };
   }, []);
   let imgBG = (
     <Image
@@ -188,7 +191,7 @@ const ImgComponentpost = props => {
           <TouchableOpacity
             style={{flexDirection: 'row', alignItems: 'center'}}
             onPress={() => sharePost()}>
-            <Ionicons name={'share-social'} size={20} color={'#c5c3c3'} />
+            <Ionicons name={'duplicate'} size={20} color={'#c5c3c3'} />
           </TouchableOpacity>
           <View style={styles.shareButton}>
             <ShareButton size={24} />

@@ -39,7 +39,7 @@ const MyPostsScreen = props => {
       <VideoComponent
         uri={item}
         key={item?.id}
-        img={myPosts?.posts.image}
+        img={myPosts?.posts?.image}
         user={user}
         post="post"
       />

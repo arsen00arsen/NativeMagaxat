@@ -11,10 +11,9 @@ export class PostService {
     return $authHost.get(`profile/subscriptions?page=${currentPage}`);
   }
   static loadMySubscribers(currentPage) {
-    console.log(currentPage, 'currentpage2');
     return $authHost.get(`profile/subscribers?page=${currentPage}`);
   }
-  static loadPostsUser({id, currentPage = 1}) {
+  static loadPostsUser({id, currentPage}) {
     return $authHost.get(`/posts_api/user/${id}?page=${currentPage}`);
   }
   static deletedPost(id) {

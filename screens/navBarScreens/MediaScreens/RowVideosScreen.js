@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useNavigation} from '@react-navigation/native';
 import IconPlay from 'react-native-vector-icons/AntDesign';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
@@ -78,17 +79,22 @@ export default function RowVideosScreen(props) {
                       onPress={subButton}
                       style={{
                         paddingHorizontal: 10,
-                        backgroundColor: '#A48A66',
+                        //backgroundColor: '#A48A66',
                         paddingVertical: 3,
+                        borderWidth: 1,
                         marginRight: 10,
                         borderRadius: 8,
                         marginLight: 0,
                       }}>
-                      <Text style={{color: 'white', fontSize: 12}}>
-                        {isSubscribe === false
-                          ? t('subscribe')
-                          : t('unSubscribe')}
-                      </Text>
+                      <Ionicons
+                        name={
+                          isSubscribe === false
+                            ? 'ios-person-add-sharp'
+                            : 'ios-person-remove-sharp'
+                        }
+                        size={20}
+                        color={'black'}
+                      />
                     </TouchableOpacity>
                   ) : null}
                 </View>
@@ -150,9 +156,7 @@ export default function RowVideosScreen(props) {
                   marginRight: 10,
                   borderRadius: 8,
                 }}>
-                <Text style={{color: 'white'}}>
-                  {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
-                </Text>
+                <Io />
               </TouchableOpacity>
             ) : null}
           </View>

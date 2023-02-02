@@ -64,6 +64,7 @@ const HorizontalInfinitiScroll = props => {
       <FlatList
         style={{width: '100%'}}
         showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}
         data={posts}
         onEndReached={() => loadMoreItem()}
         keyExtractor={(items, index) => index.toString()}

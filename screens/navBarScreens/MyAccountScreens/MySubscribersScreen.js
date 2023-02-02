@@ -59,7 +59,6 @@ const MySubscribersScreen = () => {
       </View>
     );
   };
-  console.log(subscribers, 'oooooiioiii');
   return (
     <View style={styles.container}>
       <StatusBar
