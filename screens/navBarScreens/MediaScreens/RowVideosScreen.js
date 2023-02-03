@@ -156,7 +156,9 @@ export default function RowVideosScreen(props) {
                   marginRight: 10,
                   borderRadius: 8,
                 }}>
-                <Io />
+                <Text style={{color: 'white'}}>
+                  {isSubscribe === false ? t('subscribe') : t('unSubscribe')}
+                </Text>
               </TouchableOpacity>
             ) : null}
           </View>

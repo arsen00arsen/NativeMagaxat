@@ -168,7 +168,8 @@ const MediaScreen = () => {
                     ) : (
                       <VideoPlayer
                         video={{uri: image?.uri}}
-                        autoplay={false}
+                        //thumbnail=
+                        autoplay={true}
                         defaultMuted={true}
                         style={styles.io}
                         fullscreen={true}

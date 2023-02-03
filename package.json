@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@freakycoder/react-native-bounceable": "^0.2.5",
+    "@n1ru4l/react-in-center-of-screen": "^1.0.0-alpha.4",
     "@pusher/pusher-websocket-react-native": "^1.1.1",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-community/cli": "^7.0.3",

@@ -7,7 +7,11 @@ import ImgComponentpost from '../../../components/ImgComponentpost';
 import VideoComponent from '../../../components/VideoComponent';
 import {useIsFocused} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
-import {loadMyPosts} from '../../../stores/profileMe/profileMeActions';
+import {
+  loadMyPosts,
+  setMyPosts,
+  setMyInitialPosts,
+} from '../../../stores/profileMe/profileMeActions';
 import {useTranslation} from 'react-i18next';
 
 const MyPostsScreen = props => {
@@ -20,8 +24,13 @@ const MyPostsScreen = props => {
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
     if (isFocused) {
-      dispatch(loadMyPosts());
+      dispatch(loadMyPosts(1));
     }
+    return () => {
+      dispatch(setMyPosts([]));
+
+      dispatch(setMyInitialPosts([]));
+    };
   }, [isFocused]);
 
   const loadMoreItem = () => {
@@ -45,7 +54,7 @@ const MyPostsScreen = props => {
       />
     );
   };
-  //console.log(myPosts?.posts?.data, 'myPosts?.posts?.data');
+
   return (
     <View style={styles.container}>
       <StatusBar

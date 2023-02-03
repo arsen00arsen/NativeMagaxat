@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -28,13 +28,24 @@ const VideoComponent = props => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const videoRef = useRef(null);
+  const isFocused = useIsFocused();
   const [longDis, setLongDis] = useState(false);
+  const [displayBlock, setdisplayBlock] = useState(false);
   let user = props?.uri.user;
   let post = props?.uri;
+  //const [pousedVideo, setPousedVideo] = useState(true);
   let likeCounts = post?.likes?.length + 1;
   let postCounts = post.comments?.length;
   const [videoWidth, setVideotWidth] = useState(windowDimensions);
   const [videoHeight, setVideoHeight] = useState(windowDimensions);
+
+  useEffect(() => {
+    if (isFocused) {
+      setdisplayBlock(false);
+    }
+    return () => setdisplayBlock(true);
+  }, [isFocused]);
+
   let isLongDs = () => {
     setLongDis(!longDis);
   };
@@ -60,6 +71,7 @@ const VideoComponent = props => {
   const deletePost = () => {
     dispatch(removeMyPosts(post?.id));
     alert(`${t('postDelete')}`);
+    navigation.navigate('MyAccountScreen');
   };
 
   const time = moment(
@@ -68,7 +80,7 @@ const VideoComponent = props => {
     ),
   ).fromNow();
   const sharePost = async () => {
-    const {data} = await PostService.sharePost(props?.uri?.id);
+    await PostService.sharePost(props?.uri?.id);
     try {
       alert(t('postShared'));
     } catch (error) {
@@ -76,6 +88,7 @@ const VideoComponent = props => {
       alert('Reposted Error');
     }
   };
+
   return (
     <View style={styles.post__container}>
       <View style={styles.post__header}>
@@ -117,41 +130,38 @@ const VideoComponent = props => {
         {post?.title !== 'undefined' && (
           <TouchableOpacity onPress={isLongDs}>{userTitle}</TouchableOpacity>
         )}
-        {/* <View style={styles.post__content__media__view}>
-          <ImageBackground
-            style={[styles.post__content__media]}
-            source={{uri: props?.uri.video_name || props?.uri.image}}
-            blurRadius={90}> */}
-        {/* <View style={styles.post__media__view}> */}
-        {props?.uri?.video_name ? (
-          // <Video
-          //   resizeMode={'cover'}
-          //   ref={videoRef}
-          //   source={{uri: props?.uri?.video}}
-          //   controls={true}
-          //   repeat={true}
-          //   onLoad={response => {
-          //     const {width, height} = response.naturalSize;
-          //     setVideotWidth(width);
-          //     setVideoHeight(height);
-          //   }}
-          //   // defaultMuted={false}
-          //   thumbnail={{uri: props?.uri?.video_name}}
-          //   style={[
-          //     styles.post__media,
-          //     {
-          //       width: windowDimensions + 10,
-          //       height: (windowDimensions / videoWidth) * videoHeight,
-          //     },
-          //   ]}
-          //   pictureInPicture={true}
-          // />
-          <></>
-        ) : null}
 
-        {/* </View> */}
-        {/* </ImageBackground>
-        </View> */}
+        {props?.uri?.video_name ? (
+          <>
+            {displayBlock === false ? (
+              <Video
+                resizeMode={'cover'}
+                ref={videoRef}
+                source={{uri: props?.uri?.video}}
+                controls={true}
+                disableFocus={true}
+                paused={props.post === 'post' ? true : props?.poused}
+                onLoad={response => {
+                  const {width, height} = response.naturalSize;
+                  setVideotWidth(width);
+                  setVideoHeight(height);
+                }}
+                playWhenInactive={false}
+                ignoreSilentSwitch={'ignore'}
+                repeat={true}
+                thumbnail={{uri: props?.uri?.video_name}}
+                style={[
+                  styles.post__media,
+                  {
+                    width: windowDimensions + 10,
+                    height: (windowDimensions / videoWidth) * videoHeight,
+                  },
+                ]}
+                pictureInPicture={true}
+              />
+            ) : null}
+          </>
+        ) : null}
       </View>
       {props.post === 'post' ? null : (
         <LinearGradient

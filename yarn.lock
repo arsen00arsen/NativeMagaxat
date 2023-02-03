@@ -1478,6 +1478,11 @@
   "resolved" "https://registry.npmjs.org/@jsamr/react-native-li/-/react-native-li-2.3.1.tgz"
   "version" "2.3.1"
 
+"@n1ru4l/react-in-center-of-screen@^1.0.0-alpha.4":
+  "integrity" "sha512-JF+d7VPGVAGQdyIkN5U66PIPVGdxzx6RavUl6j8sGnPSdFig0WO9j3sJCOy5l284qMgSlTRKx2VYANKxJkm9Pg=="
+  "resolved" "https://registry.npmjs.org/@n1ru4l/react-in-center-of-screen/-/react-in-center-of-screen-1.0.0-alpha.4.tgz"
+  "version" "1.0.0-alpha.4"
+
 "@native-html/css-processor@1.11.0":
   "integrity" "sha512-NnhBEbJX5M2gBGltPKOetiLlKhNf3OHdRafc8//e2ZQxXN8JaSW/Hy8cm94pnIckQxwaMKxrtaNT3x4ZcffoNQ=="
   "resolved" "https://registry.npmjs.org/@native-html/css-processor/-/css-processor-1.11.0.tgz"

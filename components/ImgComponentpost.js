@@ -98,6 +98,7 @@ const ImgComponentpost = props => {
   const deletePost = () => {
     dispatch(removeMyPosts(post?.id));
     alert(`${t('postDelete')}`);
+    navigation.navigate('MyAccountScreen');
   };
   const time = moment(
     moment(props?.uri.created_at, 'DD/MM/YYYY HH:mm').format(

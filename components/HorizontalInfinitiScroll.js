@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   StyleSheet,
@@ -15,7 +15,22 @@ const HorizontalInfinitiScroll = props => {
   const {t} = useTranslation();
   const {isLoading, posts, loadMoreItem, from} = props;
   const {user} = useSelector(state => state.user);
-  const renderItem = ({item}) => {
+  const [playIndex, setPlayIndex] = useState(0);
+
+  const viewabilityConfig = {
+    viewAreaCoveragePercentThreshold: 40,
+    waitForInteraction: true,
+  };
+
+  const onViewableItemsChanged = React.useCallback(({viewableItems}) => {
+    setPlayIndex(viewableItems[0]?.index);
+  });
+
+  const viewabilityConfigCallbackPairs = React.useRef([
+    {viewabilityConfig, onViewableItemsChanged},
+  ]);
+
+  const renderItem = ({item, index}) => {
     let content;
     if (item?.image) {
       content = (
@@ -31,6 +46,7 @@ const HorizontalInfinitiScroll = props => {
           uri={item}
           key={item.id}
           isMyne={user?.email === item?.user?.email ? true : false}
+          poused={playIndex === index ? false : true}
         />
       );
     }
@@ -47,13 +63,7 @@ const HorizontalInfinitiScroll = props => {
   return (
     <View style={styles.mainContainer}>
       {from === 'Account' ? null : (
-        <View
-          style={styles.lastUsersContainer}
-          // start={{x: 1, y: 0}}
-          // end={{x: 1, y: 1}}
-          // locations={[0.3, 0.8]}
-          // colors={['rgba(228, 227, 225, 0.26)', 'rgba(65, 60, 54, 0.17)']}
-        >
+        <View style={styles.lastUsersContainer}>
           <View style={styles.lastUsersContainercontent}>
             <Text style={styles.lastUsersContainerText}>
               {t('popularPosts')}
@@ -70,6 +80,7 @@ const HorizontalInfinitiScroll = props => {
         keyExtractor={(items, index) => index.toString()}
         ListFooterComponent={renderLoader}
         onEndReachedThreshold={0.5}
+        viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
         renderItem={renderItem}
       />
     </View>
