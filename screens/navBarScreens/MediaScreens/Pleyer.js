@@ -1,24 +1,35 @@
-import * as React from 'react';
+import {useIsFocused} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, ImageBackground} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 
 export default function Pleyer(props) {
+  const [displayBlock, setdisplayBlock] = useState(false);
+  const isFocused = useIsFocused();
+  useEffect(() => {
+    if (isFocused) {
+      setdisplayBlock(false);
+    }
+    return () => setdisplayBlock(true);
+  }, [isFocused]);
   return (
     <View style={styles.column}>
       <ImageBackground
         style={styles.post__content__media}
         source={{uri: props?.video_Image}}
         blurRadius={90}>
-        <VideoPlayer
-          video={{
-            uri: props?.video_path,
-          }}
-          autoplay={true}
-          defaultMuted={false}
-          style={styles.columnVideo}
-          fullscreen={true}
-          // resizeMode={'cover'}
-        />
+        {displayBlock === false ? (
+          <VideoPlayer
+            video={{
+              uri: props?.video_path,
+            }}
+            autoplay={true}
+            defaultMuted={false}
+            style={styles.columnVideo}
+            fullscreen={true}
+            // resizeMode={'cover'}
+          />
+        ) : null}
       </ImageBackground>
     </View>
   );

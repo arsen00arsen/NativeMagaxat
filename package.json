@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@freakycoder/react-native-bounceable": "^0.2.5",
+    "@n1ru4l/react-in-center-of-screen": "^1.0.0-alpha.4",
     "@pusher/pusher-websocket-react-native": "^1.1.1",
     "@react-native-async-storage/async-storage": "^1.17.3",
     "@react-native-community/cli": "^7.0.3",
@@ -49,7 +50,6 @@
     "react-native-image-viewing": "^0.2.2",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-localize": "^2.2.4",
-    "react-native-media-meta": "^0.0.11",
     "react-native-modal-selector": "^2.1.0",
     "react-native-paper": "^4.12.5",
     "react-native-picker-select": "^8.0.4",

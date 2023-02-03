@@ -9,36 +9,54 @@ import {
   SectionList,
   Dimensions,
 } from 'react-native';
-import {useTheme} from '@react-navigation/native';
+import {useIsFocused, useTheme} from '@react-navigation/native';
 import moment from 'moment';
 import VideoPlayer from 'react-native-video-player';
 import ImageModal from 'react-native-image-modal';
 import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
-import {loadPostsUser} from '../../../stores/post/postActions';
+// import {
+//   loadPostsUser,
+//   setUserPostsInitial,
+//   setUserPosts,
+// } from '../../../stores/post/postActions';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import ShareButton from '../../../components/ShareButton';
 import 'moment/locale/hy-am';
 import {useTranslation} from 'react-i18next';
+import {
+  loadBenefactorUserPosts,
+  setUserAccountPostsInitial,
+  setUserAccountPosts,
+} from '../../../stores/userPosts/benAccountUserPost/benAccountUsserPostAction';
 
 const videoWidt = Dimensions.get('window').width;
 const BenefactorUserPageScreen = props => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isSub, setIssub] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   let id = props.route?.params?.id;
-  const {isLoading, usersPosts} = useSelector(state => state.post);
+  const {isLoading, accountUsersPosts} = useSelector(
+    state => state.benefactorAccountUserPosts,
+  );
   const {options} = useAccountProfHome({id, isSub});
   let user = options?.data?.appeals[0];
   useEffect(() => {
-    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
-  }, []);
+    if (isFocused) {
+      dispatch(loadBenefactorUserPosts({currentPage: currentPage, id: id}));
+    }
+    return () => {
+      dispatch(setUserAccountPostsInitial([]));
+      dispatch(setUserAccountPosts([]));
+    };
+  }, [isFocused, id]);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+    dispatch(loadBenefactorUserPosts({currentPage: currentPage + 1, id: id}));
   };
   const _share = async () => {
     Share.share(
@@ -119,7 +137,7 @@ const BenefactorUserPageScreen = props => {
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={usersPosts}
+            posts={accountUsersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />

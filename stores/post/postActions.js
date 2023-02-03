@@ -71,12 +71,10 @@ export const loadPostsUser =
   async dispatch => {
     try {
       dispatch(startLoadPosts(true));
-      const {data} = await PostService.loadPostsUser({currentpage, id});
+      const {data} = await PostService.loadPostsUser({id, currentpage});
       if (currentpage === 1) {
-        console.log(data.data.data, 'lll');
         dispatch(setUserPostsInitial(data.data.data));
       } else {
-        console.log(data.data, 'kkk');
         dispatch(setUserPosts(data.data.data));
       }
     } catch (error) {

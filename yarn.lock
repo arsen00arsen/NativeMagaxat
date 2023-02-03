@@ -1478,6 +1478,11 @@
   "resolved" "https://registry.npmjs.org/@jsamr/react-native-li/-/react-native-li-2.3.1.tgz"
   "version" "2.3.1"
 
+"@n1ru4l/react-in-center-of-screen@^1.0.0-alpha.4":
+  "integrity" "sha512-JF+d7VPGVAGQdyIkN5U66PIPVGdxzx6RavUl6j8sGnPSdFig0WO9j3sJCOy5l284qMgSlTRKx2VYANKxJkm9Pg=="
+  "resolved" "https://registry.npmjs.org/@n1ru4l/react-in-center-of-screen/-/react-in-center-of-screen-1.0.0-alpha.4.tgz"
+  "version" "1.0.0-alpha.4"
+
 "@native-html/css-processor@1.11.0":
   "integrity" "sha512-NnhBEbJX5M2gBGltPKOetiLlKhNf3OHdRafc8//e2ZQxXN8JaSW/Hy8cm94pnIckQxwaMKxrtaNT3x4ZcffoNQ=="
   "resolved" "https://registry.npmjs.org/@native-html/css-processor/-/css-processor-1.11.0.tgz"
@@ -6825,11 +6830,6 @@
   "integrity" "sha512-gVmbyAEQQnBQ8vKlAQchFfIISeId3qT6Lc7LHmKF39nsYWX9KN4PHuG6Hk+7gduMI6IHKeZGKcLsOdh6wvN6cg=="
   "resolved" "https://registry.npmjs.org/react-native-localize/-/react-native-localize-2.2.4.tgz"
   "version" "2.2.4"
-
-"react-native-media-meta@^0.0.11":
-  "integrity" "sha512-8pZA7wCoscLFJZRwd8GAYwsiuwc2XTYDcZm3cp9SN2wnKTnE2n1AW4AvBu0LGc1hyHYGLKPN4MJ6st0rY7H1vA=="
-  "resolved" "https://registry.npmjs.org/react-native-media-meta/-/react-native-media-meta-0.0.11.tgz"
-  "version" "0.0.11"
 
 "react-native-modal-selector@^2.1.0":
   "integrity" "sha512-+Cvoz/yNUFmfIkJ7xkmlLR2nhJOUhx00S6BPqp2Ruy8LkmaiNr7WMZ4BzsgzylyEgZ84Q+42HQ0v0QzJYobviA=="
