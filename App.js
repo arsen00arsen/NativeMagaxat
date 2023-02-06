@@ -15,7 +15,7 @@ import {ActivityIndicator} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {getMe} from './stores/user/userActions';
 import {AuthContainer} from './containers/AuthContainer';
-import {I18nextProvider} from 'react-i18next';
+import {I18nextProvider, useTranslation} from 'react-i18next';
 import Icon from 'react-native-vector-icons/Feather';
 import moment from 'moment';
 import armLocale from 'moment/locale/hy-am';
@@ -27,6 +27,7 @@ Icon.loadFont();
 
 const App = () => {
   const dispatch = useDispatch();
+  const {t} = useTranslation();
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());
@@ -35,31 +36,26 @@ const App = () => {
     //createChanels();
   }, []);
 
-  // const createChanels = async () => {
-  //   PushNotificationIOS.createChannel({
-  //     channelId: 'test',
-  //     channelName: 'Test Channel',
-  //   });
-  // };
-
-  //   createChanels();
-  // }, []);
-
   const createChanels = async () => {
     PushNotification.createChannel({
       channelId: 'test',
       channelName: 'Test Channel',
     });
   };
-  const lang = i18next.language;
 
-  if (lang === 'ru') {
-    moment.locale('ru', [ruLocale]);
-  } else if (lang === 'hy') {
-    moment.locale('hy-am', [armLocale]);
-  } else {
-    moment.locale('en-in', [enLocale]);
-  }
+  const lang = i18next.language;
+  useEffect(() => {
+    function loadMomentLocale() {
+      if (lang === 'ru') {
+        moment.locale('ru', [ruLocale]);
+      } else if (lang === 'hy') {
+        moment.locale('hy-am', [armLocale]);
+      } else {
+        moment.locale('en-in', [enLocale]);
+      }
+    }
+    loadMomentLocale();
+  }, [lang]);
   if (loading) {
     return (
       <LinearGradient

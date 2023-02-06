@@ -11,6 +11,7 @@ import {storiReducer} from '../stores/stories/storiesReducer';
 import {accountUserPostReducer} from '../stores/userPosts/accountUserPost/accountUsserPostReducer';
 import {myAccountUserPostReducer} from '../stores/userPosts/myAccountUserPost/myAccountUsserPostReducer';
 import {benefactorAccountUserPostReducer} from '../stores/userPosts/benAccountUserPost/benAccountUsserPostReducer';
+import {homePageUsersReducer} from '../stores/userPosts/homePageUsers/homePageUsersReducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -25,4 +26,5 @@ export const rootReducer = combineReducers({
   accountUserPosts: accountUserPostReducer,
   myAccountUserPosts: myAccountUserPostReducer,
   benefactorAccountUserPosts: benefactorAccountUserPostReducer,
+  homeAccountUserPosts: homePageUsersReducer,
 });

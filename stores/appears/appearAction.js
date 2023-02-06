@@ -1,4 +1,7 @@
-import {AppearsService, GetBenefactorsService} from '../../http/getUsersService/getUsersService';
+import {
+  AppearsService,
+  GetBenefactorsService,
+} from '../../http/getUsersService/getUsersService';
 import {
   LOAD_APPEARS,
   LOAD_APPEARS_ERROR,
@@ -37,12 +40,12 @@ export const setAppearsError = msg => ({
 });
 
 export const loadAppears =
-  (currentpages = 1) =>
+  (currentPage = 1) =>
   async dispatch => {
     try {
       dispatch(startLoadAppears(true));
-      let {data} = await AppearsService.getAppers(currentpages);
-      if (currentpages === 1) {
+      let {data} = await AppearsService.getAppers(currentPage);
+      if (currentPage === 1) {
         dispatch(setAppears(data.data.data));
       } else {
         dispatch(setInitialAppears(data.data.data));

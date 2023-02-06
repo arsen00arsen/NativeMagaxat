@@ -52,7 +52,7 @@ const MyPageUsersAccount = props => {
   }, [isFocused]);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(loadmyAccountUserPosts({currentPage: currentPage + 1, id: id}));
+    dispatch(loadmyAccountUserPosts({currentPage: currentPage, id: id}));
   };
   const subButton = async () => {
     try {

@@ -15,15 +15,14 @@ import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
-import {
-  loadPostsUser,
-  setUserPostsInitial,
-  setUserPosts,
-} from '../../../stores/post/postActions';
 import {useTranslation} from 'react-i18next';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
 import RadiusButton from '../../../components/RadiusButton';
-import {} from '@react-navigation/native';
+import {
+  loadAccountUserPosts,
+  setUserAccountPosts,
+  setUserAccountPostsInitial,
+} from '../../../stores/userPosts/homePageUsers/homePageUsersAction';
 const AccounProfiletScreen = props => {
   const {t} = useTranslation();
   const theme = useTheme();
@@ -32,7 +31,10 @@ const AccounProfiletScreen = props => {
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params?.id;
-  const {isLoading, usersPosts} = useSelector(state => state.post);
+  //const {isLoading, usersPosts} = useSelector(state => state.post);
+  const {isLoading, accountUsersPosts} = useSelector(
+    state => state.homeAccountUserPosts,
+  );
   const [isSub, setIssub] = useState();
   const {options} = useAccountProfHome({id, isSub});
   let user = options.data;
@@ -40,16 +42,16 @@ const AccounProfiletScreen = props => {
 
   useEffect(() => {
     if (isFocused) {
-      dispatch(loadPostsUser({currentPage: currentPage, id: id}));
+      dispatch(loadAccountUserPosts({currentPage: currentPage, id: id}));
     }
     return () => {
-      dispatch(setUserPostsInitial([]));
-      dispatch(setUserPosts([]));
+      dispatch(setUserAccountPosts([]));
+      dispatch(setUserAccountPostsInitial([]));
     };
   }, [isFocused, id]);
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+    dispatch(loadAccountUserPosts({currentPage: currentPage, id: id}));
   };
   const subButton = async () => {
     try {
@@ -144,7 +146,7 @@ const AccounProfiletScreen = props => {
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={usersPosts}
+            posts={accountUsersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />

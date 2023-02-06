@@ -67,14 +67,14 @@ export const loadPosts =
     }
   };
 export const loadPostsUser =
-  ({currentpage = 1, id}) =>
+  ({currentPage, id}) =>
   async dispatch => {
     try {
       dispatch(startLoadPosts(true));
-      const {data} = await PostService.loadPostsUser({id, currentpage});
-      if (currentpage === 1) {
+      const {data} = await PostService.loadPostsUser({id, currentPage});
+      if (currentPage === 1) {
         dispatch(setUserPostsInitial(data.data.data));
-      } else {
+      } else if (currentPage !== undefined) {
         dispatch(setUserPosts(data.data.data));
       }
     } catch (error) {

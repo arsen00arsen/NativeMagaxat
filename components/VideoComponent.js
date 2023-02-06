@@ -52,13 +52,13 @@ const VideoComponent = props => {
   let userTitle;
   if (longDis === false) {
     userTitle = (
-      <Text style={styles.usersTitle} numberOfLines={2}>
+      <Text style={[styles.usersTitle, {marginBottom: 5}]} numberOfLines={2}>
         {post?.title === 'undefined' ? null : post?.title}
       </Text>
     );
   } else {
     userTitle = (
-      <Text style={styles.longDis}>
+      <Text style={[styles.longDis, {marginBottom: 5}]}>
         {post?.title === 'undefined' ? null : post?.title}
       </Text>
     );
