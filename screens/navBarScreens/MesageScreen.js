@@ -12,7 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {loadChatUser} from '../../stores/chatUsers/chatUsersActions';
 import {MessageService} from '../../http/messageService/messageService';
-import {loadMessages, setMessages} from '../../stores/messages/messageActions';
+import {setMessages} from '../../stores/messages/messageActions';
 import {useTranslation} from 'react-i18next';
 
 const MesageScreen = () => {

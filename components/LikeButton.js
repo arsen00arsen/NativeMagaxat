@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import * as Animated from 'react-native-animatable';
 import {PostLike} from '../http/isLiked/isLiked';

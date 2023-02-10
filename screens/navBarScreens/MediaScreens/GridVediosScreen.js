@@ -20,8 +20,6 @@ export default function GridVediosScreen(props) {
   let user = props.route.params.user;
   const navigation = useNavigation();
   const {medias} = useSelector(state => state.medias);
-  const videoRef = React.useRef(null);
-
   const isSub = user?.user.subscribed;
   const [isSubscribe, setIssub] = useState(isSub);
   const myUser = useSelector(state => state?.user);

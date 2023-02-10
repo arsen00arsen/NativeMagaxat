@@ -5,10 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground,
   Dimensions,
 } from 'react-native';
-import ImageModal from 'react-native-image-modal';
 import {useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

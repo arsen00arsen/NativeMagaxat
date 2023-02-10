@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, TouchableOpacity, View, Text} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {Image, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import DocumentPicker from 'react-native-document-picker';
 

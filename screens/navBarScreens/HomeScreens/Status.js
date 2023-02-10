@@ -8,15 +8,12 @@ import {
   StyleSheet,
   Animated,
   Platform,
-  Pressable,
 } from 'react-native';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Feather from 'react-native-vector-icons/Feather';
 import Video from 'react-native-video';
 import {useDispatch} from 'react-redux';
 import {removeMyStory} from '../../../stores/stories/storiesAction';
-import RadiusButton from '../../../components/RadiusButton';
 import {useIsFocused} from '@react-navigation/native';
 
 const Status = ({route, navigation}) => {

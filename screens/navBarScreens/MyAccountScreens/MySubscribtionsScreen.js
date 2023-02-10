@@ -6,7 +6,6 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';

@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Text, Image} from 'react-native';
+import {View, StyleSheet, Text} from 'react-native';
 import {AvatarAdd} from './ImageVedioUpload/AvatarAdd';
 import {useSelector} from 'react-redux';
 import moment from 'moment';

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   StatusBar,
   TouchableOpacity,
-  ScrollView,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';
 import HeaderBackSearchSecond from '../../../components/HeaderComponents/HeaderBackSearchSecond';

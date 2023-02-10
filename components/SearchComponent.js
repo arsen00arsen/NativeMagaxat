@@ -3,7 +3,7 @@ import {Text, StyleSheet, TouchableOpacity, Platform} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
 import * as Animatable from 'react-native-animatable';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 // import TestSerachBar from './TestSerachBar';
 
 const SearchComponent = props => {

@@ -1,14 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
   View,
   StyleSheet,
   Text,
   StatusBar,
   TouchableOpacity,
-  Linking,
   ScrollView,
 } from 'react-native';
-import {Controller, useForm} from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import LinearGradient from 'react-native-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';

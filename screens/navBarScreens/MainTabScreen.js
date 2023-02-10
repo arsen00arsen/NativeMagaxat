@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {TouchableOpacity, StyleSheet, Image, Platform} from 'react-native';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import LinearGradient from 'react-native-linear-gradient';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -19,7 +19,6 @@ import IconSec from 'react-native-vector-icons/FontAwesome5';
 import MesageScreen from './MesageScreen';
 import {View} from 'react-native-animatable';
 import Status from './HomeScreens/Status';
-
 
 const Tab = createMaterialBottomTabNavigator();
 const HomePage = createStackNavigator();
@@ -141,7 +140,6 @@ const MessageStack = ({navigation}) => (
       },
       headerLeft: () => {
         return (
-
           <View style={styles.leftCont}>
             <LinearGradient
               style={styles.badgedIcon}

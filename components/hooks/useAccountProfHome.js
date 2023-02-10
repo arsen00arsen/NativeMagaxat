@@ -1,9 +1,6 @@
 import {useIsFocused} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
-import {
-  GetBenUserService,
-  GetUserService,
-} from '../../http/getUserBYIdService/getUserBYIdService';
+import {GetUserService} from '../../http/getUserBYIdService/getUserBYIdService';
 
 export const useAccountProfHome = ({id, isSub}) => {
   const [options, setOptions] = useState([]);

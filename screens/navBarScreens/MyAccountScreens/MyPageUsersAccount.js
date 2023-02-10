@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   StatusBar,
-  ScrollView,
   SectionList,
 } from 'react-native';
 import {useTheme} from '@react-navigation/native';

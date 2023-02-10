@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  ScrollView,
   FlatList,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';

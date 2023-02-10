@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadStori, setSingleStori} from '../stores/stories/storiesAction';
 import {baseUrl2} from '../http';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 const Stories = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();

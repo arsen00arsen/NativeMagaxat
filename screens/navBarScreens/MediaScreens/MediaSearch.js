@@ -7,7 +7,6 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
-  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTheme} from '@react-navigation/native';
@@ -17,7 +16,7 @@ import SearchComponent from '../../../components/SearchComponent';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTranslation} from 'react-i18next';
 
-const MediaSearch = props => {
+const MediaSearch = () => {
   const {t} = useTranslation();
   const [data, setData] = useState('');
   const [list, setList] = useState([]);
