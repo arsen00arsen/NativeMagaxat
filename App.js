@@ -47,11 +47,11 @@ const App = () => {
   useEffect(() => {
     function loadMomentLocale() {
       if (lang === 'ru') {
-        moment.locale('ru', [ruLocale]);
+        moment.updateLocale('ru', [ruLocale]);
       } else if (lang === 'hy') {
-        moment.locale('hy-am', [armLocale]);
+        moment.updateLocale('hy-am', [armLocale]);
       } else {
-        moment.locale('en-in', [enLocale]);
+        moment.updateLocale('en-in', [enLocale]);
       }
     }
     loadMomentLocale();

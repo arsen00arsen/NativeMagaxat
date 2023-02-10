@@ -27,6 +27,7 @@ export default function Pleyer(props) {
             defaultMuted={false}
             style={styles.columnVideo}
             fullscreen={true}
+            playArrow={{color: '#C582FF'}}
             // resizeMode={'cover'}
           />
         ) : null}

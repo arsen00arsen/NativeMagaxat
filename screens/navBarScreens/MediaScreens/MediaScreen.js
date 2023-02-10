@@ -183,7 +183,7 @@ const MediaScreen = () => {
                     style={styles.postImg}
                     onPress={submitFormHandler}>
                     <PostIcons name="post-add" size={24} color="#1f1f1f" />
-                    <Text style={styles.textAdd}>{t('addPost')}</Text>
+                    <Text style={styles.textAdd}>{t('addPostButton')}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.postVedio}
