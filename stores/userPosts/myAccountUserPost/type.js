@@ -1,7 +1,0 @@
-export const LOAD_ACCOUNT_USER_POSTS =
-  'myAccountUserPosts/LOAD_ACCOUNT_USER_POSTS';
-export const LOAD_ACCOUNT_USER_POSTS_INITIAL_SUCCESS =
-  'myAccountUserPosts/LOAD_ACCOUNT_USER_POSTS_INITIAL_SUCCESS';
-export const LOAD_ACCOUNT_USER_POSTS_ERROR =
-  'myAccountUserPosts/LOAD_ACCOUNT_USER_POSTS_ERROR';
-export const LOAD_POSTS = 'accountUserPosts/LOAD_POSTS';

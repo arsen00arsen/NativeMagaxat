@@ -1,6 +1,0 @@
-export const LOAD_MESSAGES = 'messages/LOAD_MESSAGES';
-export const MESSAGES_COUNT = 'messages/MESSAGES_COUNT';
-export const SET_SINGLE_MESSAGES = 'messages/SET_SINGLE_MESSAGES';
-export const LOAD_MESSAGES_ERROR = 'messages/LOAD_MESSAGES_ERROR';
-export const LOAD_MESSAGES_SUCCESS = 'messages/LOAD_MESSAGES_SUCCESS';
-export const LOAD_ALL_MESSAGES_SUCCESS = 'messages/LOAD_ALL_MESSAGES_SUCCESS';
