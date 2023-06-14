@@ -9,5 +9,8 @@ export default StyleSheet.create({
   content__container: {
     flex: 1,
   },
-  //text colors
+  justifyBetween: {
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  }
 });

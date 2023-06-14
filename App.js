@@ -7,11 +7,16 @@
  */
 import React from 'react';
 import 'react-native-gesture-handler';
-import {View, Text} from 'react-native';
 import {AuthContainer} from './src/Container/AuthContainer';
+import {StatusBar} from 'react-native';
 
 const App = () => {
-  return <AuthContainer />;
+  return (
+    <>
+      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+      <AuthContainer />
+    </>
+  );
 };
 
 export default App;

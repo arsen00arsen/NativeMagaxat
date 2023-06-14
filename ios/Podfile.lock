@@ -273,6 +273,8 @@ PODS:
   - React-jsinspector (0.71.1)
   - React-logger (0.71.1):
     - glog
+  - react-native-date-picker (4.2.13):
+    - React-Core
   - react-native-netinfo (9.3.6):
     - React-Core
   - react-native-render-html (6.3.4):
@@ -411,6 +413,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - "react-native-netinfo (from `../node_modules/@react-native-community/netinfo`)"
   - react-native-render-html (from `../node_modules/react-native-render-html`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
@@ -493,6 +496,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-date-picker:
+    :path: "../node_modules/react-native-date-picker"
   react-native-netinfo:
     :path: "../node_modules/@react-native-community/netinfo"
   react-native-render-html:
@@ -579,6 +584,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 60cf272aababc5212410e4249d17cea14fc36caa
   React-jsinspector: ff56004b0c974b688a6548c156d5830ad751ae07
   React-logger: 60a0b5f8bed667ecf9e24fecca1f30d125de6d75
+  react-native-date-picker: 04e866ba4e7857f83abd504ad42e787f0f02ae00
   react-native-netinfo: f80db8cac2151405633324cb645c60af098ee461
   react-native-render-html: 984dfe2294163d04bf5fe25d7c9f122e60e05ebe
   react-native-safe-area-context: 99b24a0c5acd0d5dcac2b1a7f18c49ea317be99a
