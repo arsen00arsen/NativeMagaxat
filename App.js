@@ -13,7 +13,7 @@ import {StatusBar} from 'react-native';
 const App = () => {
   return (
     <>
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+      {/* <StatusBar backgroundColor="transparent" barStyle="dark-content" /> */}
       <AuthContainer />
     </>
   );

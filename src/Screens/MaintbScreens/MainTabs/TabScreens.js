@@ -1,24 +1,38 @@
 import * as React from 'react';
-import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-
+import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
 import PatronScreen from '../PatronsScreen/PatronScreen';
 import FreandScreen from '../FreandsScreens/FreandScreen';
 import MyProfileScreen from '../MyProfileScreens/MyProfileScreen';
 import HomeStak from '../../Stacks/HomeStack';
 import GlobalStyles from '../../../Configs/GlobalStyles';
-import {Image, TouchableOpacity, View} from 'react-native';
-import AddPost from '../AddPost/AddPost';
-const Tab = createMaterialBottomTabNavigator();
 
+import AddPost from '../AddPost/AddPost';
+
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+const Tab = createBottomTabNavigator();
 const TabScreens = () => {
+  const CustomTabBarButton = ({children, onPress}) => (
+    <View style={styles.custopButtonStyles}>
+      <TouchableOpacity>
+        <View>{children}</View>
+      </TouchableOpacity>
+    </View>
+  );
   return (
     <Tab.Navigator
-      barStyle={
-        {
-          // position: 'absolute',
-          // backgroundColor: 'red',
-        }
-      }>
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          borderTopRightRadius: 15,
+          borderTopLeftRadius: 15,
+          position: 'absolute',
+          bottom: 0,
+          height: 90,
+        },
+        tabBarActiveTintColor: '#100E34',
+        tabBarInactiveTintColor: '#BFC8D2',
+      }}>
       <Tab.Screen
         name="Home"
         component={HomeStak}
@@ -59,30 +73,18 @@ const TabScreens = () => {
         name=" "
         component={AddPost}
         options={{
-          tabBarIcon: ({focused}) => (
-            <TouchableOpacity
+          tabBarIcon: () => (
+            <Image
+              source={require('../../../../assets/icons/Add.png')}
+              resizeMode="cover"
               style={{
-                // top: -50,
-                position: 'relative',
-                justifyContent: 'center',
-                alignItems: 'center',
-                zIndex: 5,
-              }}>
-              {/* <View style={[GlobalStyles.justifyBetween]}> */}
-              <Image
-                source={require('../../../../assets/icons/Add.png')}
-                resizeMode="contain"
-                style={{
-                  // position: 'absolute',
-                  top: -50,
-                  zIndex: 5,
-                  height: 40,
-                  tintColor: focused ? '#100E34' : '#BFC8D2',
-                }}
-              />
-              {/* </View> */}
-            </TouchableOpacity>
+                height: 40,
+                width: 40,
+                tintColor: '#4F48EC',
+              }}
+            />
           ),
+          tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
       <Tab.Screen
@@ -96,6 +98,7 @@ const TabScreens = () => {
                 resizeMode="contain"
                 style={{
                   height: 24,
+                  borderRadius: 20,
                   tintColor: focused ? '#100E34' : '#BFC8D2',
                 }}
               />
@@ -125,3 +128,15 @@ const TabScreens = () => {
   );
 };
 export default TabScreens;
+
+const styles = StyleSheet.create({
+  custopButtonStyles: {
+    top: -15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+  },
+});

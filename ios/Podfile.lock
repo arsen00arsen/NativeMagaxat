@@ -387,6 +387,9 @@ PODS:
     - React-Core
   - RNLocalize (2.2.4):
     - React-Core
+  - RNScreens (3.21.0):
+    - React-Core
+    - React-RCTImage
   - RNVectorIcons (9.2.0):
     - React-Core
   - Yoga (1.14.0)
@@ -439,6 +442,7 @@ DEPENDENCIES:
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNLocalize (from `../node_modules/react-native-localize`)
+  - RNScreens (from `../node_modules/react-native-screens`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -548,6 +552,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-gesture-handler"
   RNLocalize:
     :path: "../node_modules/react-native-localize"
+  RNScreens:
+    :path: "../node_modules/react-native-screens"
   RNVectorIcons:
     :path: "../node_modules/react-native-vector-icons"
   Yoga:
@@ -610,9 +616,10 @@ SPEC CHECKSUMS:
   RNFBMessaging: 35a027803f202ecaf911e66a940ca0c5690cb6a0
   RNGestureHandler: 026038a97d4c8649ce397a22e162ca58b4e6c230
   RNLocalize: 0df7970cfc60389f00eb62fd7c097dc75af3fb4f
+  RNScreens: d037903436160a4b039d32606668350d2a808806
   RNVectorIcons: fcc2f6cb32f5735b586e66d14103a74ce6ad61f8
   Yoga: 921eb014669cf9c718ada68b08d362517d564e0c
 
-PODFILE CHECKSUM: 1e712f31ac462a5c7b524afb4fba7cf4edb121c4
+PODFILE CHECKSUM: 16aa5c86ea92c04a8fe60d3c91c9b2368e6a0c40
 
 COCOAPODS: 1.11.3
