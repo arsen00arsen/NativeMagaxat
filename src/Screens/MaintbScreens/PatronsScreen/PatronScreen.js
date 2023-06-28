@@ -1,10 +1,13 @@
 import * as React from 'react';
 import {Text, View} from 'react-native';
+import SearchComponent from '../../../Elements/SearchComponent';
+import PatronsContent from './PatronsContent';
 
 function PatronScreen() {
   return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>PatronScreen!</Text>
+    <View style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
+      <SearchComponent />
+      <PatronsContent />
     </View>
   );
 }

@@ -9,6 +9,7 @@ import GlobalStyles from '../../../Configs/GlobalStyles';
 import AddPost from '../AddPost/AddPost';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import PatronsStak from '../../Stacks/PatronsStak';
 
 const Tab = createBottomTabNavigator();
 const TabScreens = () => {
@@ -53,7 +54,7 @@ const TabScreens = () => {
       />
       <Tab.Screen
         name="Patrons"
-        component={PatronScreen}
+        component={PatronsStak}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={[GlobalStyles.justifyBetween]}>

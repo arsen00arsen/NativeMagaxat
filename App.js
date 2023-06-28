@@ -8,7 +8,7 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import {AuthContainer} from './src/Container/AuthContainer';
-import {StatusBar} from 'react-native';
+// import {StatusBar} from 'react-native';
 
 const App = () => {
   return (
