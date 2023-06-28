@@ -82,8 +82,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 15,
     justifyContent: 'space-between',
-    // alignItems: 'center',
-    // borderTopColor: 'red',
     borderWidth: 0.5,
     borderColor: '#CFCCCC',
   },
