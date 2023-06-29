@@ -10,6 +10,7 @@ import AddPost from '../AddPost/AddPost';
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import PatronsStak from '../../Stacks/PatronsStak';
+import FeandsStack from '../../Stacks/FeandsStack';
 
 const Tab = createBottomTabNavigator();
 const TabScreens = () => {
@@ -89,8 +90,8 @@ const TabScreens = () => {
         }}
       />
       <Tab.Screen
-        name="Freands"
-        component={FreandScreen}
+        name="FeandsStack"
+        component={FeandsStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={[GlobalStyles.justifyBetween]}>

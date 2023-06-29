@@ -9,9 +9,11 @@ import Icon from '../../Elements/Icon';
 import Text from '../../Elements/Text';
 import PatronScreen from '../MaintbScreens/PatronsScreen/PatronScreen';
 import PatronsSinglePage from '../MaintbScreens/PatronsScreen/PatronsSinglePage';
+import FreandScreen from '../MaintbScreens/FreandsScreens/FreandScreen';
+import FreandsSingleScreen from '../MaintbScreens/FreandsScreens/FreandsSingleScreen';
 
-const Patrons = createStackNavigator();
-const PatronsStak = ({navigation, route}) => {
+const Freands = createStackNavigator();
+const FeandsStack = ({navigation, route}) => {
   const insets = useSafeAreaInsets();
 
   const _headerleft = () => {
@@ -32,7 +34,7 @@ const PatronsStak = ({navigation, route}) => {
   };
 
   return (
-    <Patrons.Navigator
+    <Freands.Navigator
       initialRouteName="PatronScreen"
       screenOptions={{
         hideWhenScrolling: true,
@@ -53,11 +55,11 @@ const PatronsStak = ({navigation, route}) => {
       options={{
         headerShown: true,
       }}>
-      <Patrons.Screen
-        name="PatronScreen"
-        component={PatronScreen}
+      <Freands.Screen
+        name="FreandScreen"
+        component={FreandScreen}
         options={{
-          headerTitle: 'Patron',
+          headerTitle: 'Freands',
           // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
@@ -68,11 +70,11 @@ const PatronsStak = ({navigation, route}) => {
           },
         }}
       />
-      <Patrons.Screen
-        name="PatronsSinglePage"
-        component={PatronsSinglePage}
+      <Freands.Screen
+        name="FreandsSingleScreen"
+        component={FreandsSingleScreen}
         options={{
-          headerTitle: 'Posts',
+          headerTitle: 'Friends Single Page',
           // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
@@ -83,7 +85,7 @@ const PatronsStak = ({navigation, route}) => {
           },
         }}
       />
-    </Patrons.Navigator>
+    </Freands.Navigator>
   );
 };
-export default PatronsStak;
+export default FeandsStack;

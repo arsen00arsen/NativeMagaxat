@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import Icon from '../../../Elements/Icon';
-import Button from '../../../Elements/Button';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Share,
+} from 'react-native';
 
-function PatronsContent({}) {
+function ShareIt({}) {
   const [longDes, setLongDes] = useState(false);
-  const navigation = useNavigation();
+
   const isLongDs = () => {
     setLongDes(!longDes);
   };
@@ -34,22 +38,6 @@ function PatronsContent({}) {
   }
   return (
     <View style={styles.container}>
-      <View style={styles.component}>
-        <Image
-          source={require('../../../../assets/fakeImages/png1.png')}
-          style={{width: 78, height: 78, borderRadius: 45}}
-        />
-        <View style={{width: '70%', marginHorizontal: 15}}>
-          <View style={styles.titleContent}>
-            <Text style={styles.title}>Sport Masters HK</Text>
-            <Icon name="trophy" isPrimary size={36} />
-          </View>
-          <View style={styles.titleContent}>
-            <Text style={styles.email}>infosportmasters@gmail.com</Text>
-            <Icon name="telegram" color={'#5F5F5F'} size={20} />
-          </View>
-        </View>
-      </View>
       <View>
         <Text
           style={{
@@ -65,44 +53,57 @@ function PatronsContent({}) {
           <Text style={{color: 'red', textAlign: 'right'}}>Reade More</Text>
         </TouchableOpacity>
       </View>
-      <View style={{width: '60%', marginTop: 20}}>
-        <Button
-          isPrimary
-          onPress={() => navigation.navigate('PatronsSinglePage')}>
-          <Text style={{color: 'white', fontWeight: 600, fontSize: 18}}>
-            Learn More
-          </Text>
-        </Button>
+      <View style={styles.shareContent}>
+        <Text
+          style={{
+            color: '#000',
+            fontSize: 24,
+            fontWeight: 700,
+            marginBottom: 50,
+          }}>
+          Share It
+        </Text>
+        <TouchableOpacity
+          delayPressIn={0}
+          onPress={() =>
+            Share.share(
+              {
+                url: 'https://sponsor.am/en',
+              },
+              {
+                dialogTitle: 'Share your',
+                excludedActivityTypes: [
+                  'com.apple.UIKit.activity.PostToTwitter',
+                ],
+              },
+            )
+          }>
+          <Image
+            source={require('../../../assets/ShareIt.png')}
+            style={{width: 300, height: 150}}
+          />
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
-export default PatronsContent;
+export default ShareIt;
 const styles = StyleSheet.create({
   container: {
     width: '100%',
     backgroundColor: 'white',
     flexDirection: 'column',
+    alignItems: 'center',
     padding: 15,
     justifyContent: 'space-between',
     borderWidth: 0.5,
     borderColor: '#CFCCCC',
   },
-  component: {
-    flexDirection: 'row',
+  shareContent: {
+    width: '80%',
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  title: {
-    color: '#242424',
-    fontSize: 32,
-  },
-  email: {
-    color: '#5F5F5F',
-    fontSize: 16,
-  },
-  titleContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
+    marginBottom: 150,
+    marginTop: 50,
   },
 });
