@@ -9,21 +9,20 @@ import Icon from '../../Elements/Icon';
 import Text from '../../Elements/Text';
 import PatronScreen from '../MaintbScreens/PatronsScreen/PatronScreen';
 import PatronsSinglePage from '../MaintbScreens/PatronsScreen/PatronsSinglePage';
-import FreandScreen from '../MaintbScreens/FreandsScreens/FreandScreen';
-import FreandsSingleScreen from '../MaintbScreens/FreandsScreens/FreandsSingleScreen';
+import AddPost from '../MaintbScreens/AddPost/AddPost';
 
-const Freands = createStackNavigator();
-const FeandsStack = ({navigation, route}) => {
+const Post = createStackNavigator();
+const PostStack = ({navigation, route}) => {
   const insets = useSafeAreaInsets();
 
-  const _headerleft = () => {
-    return (
-      <Image
-        source={require('../../../assets/RootScreens/logoWhite.png')}
-        style={{width: 90, height: 12, tintColor: '#ED7B12'}}
-      />
-    );
-  };
+  // const _headerleft = () => {
+  //   return (
+  //     <Image
+  //       source={require('../../../assets/RootScreens/logoWhite.png')}
+  //       style={{width: 90, height: 12, tintColor: '#ED7B12'}}
+  //     />
+  //   );
+  // };
   const _headeright = () => {
     return (
       <Image
@@ -34,8 +33,8 @@ const FeandsStack = ({navigation, route}) => {
   };
 
   return (
-    <Freands.Navigator
-      initialRouteName="FreandScreen"
+    <Post.Navigator
+      initialRouteName="AddPost"
       screenOptions={{
         hideWhenScrolling: true,
         headerTitleAlign: 'center',
@@ -55,11 +54,11 @@ const FeandsStack = ({navigation, route}) => {
       options={{
         headerShown: true,
       }}>
-      <Freands.Screen
-        name="FreandScreen"
-        component={FreandScreen}
+      <Post.Screen
+        name="AddPost"
+        component={AddPost}
         options={{
-          headerTitle: 'Freands',
+          headerTitle: 'Patron',
           // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
@@ -70,22 +69,7 @@ const FeandsStack = ({navigation, route}) => {
           },
         }}
       />
-      <Freands.Screen
-        name="FreandsSingleScreen"
-        component={FreandsSingleScreen}
-        options={{
-          headerTitle: 'Friends Single Page',
-          // headerLeft: () => _headerleft(),
-          headerRight: () => _headeright(),
-          headerLeftContainerStyle: {
-            paddingLeft: 15,
-          },
-          headerRightContainerStyle: {
-            paddingRight: 15,
-          },
-        }}
-      />
-    </Freands.Navigator>
+    </Post.Navigator>
   );
 };
-export default FeandsStack;
+export default PostStack;

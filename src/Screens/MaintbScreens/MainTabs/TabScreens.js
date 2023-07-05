@@ -1,22 +1,18 @@
 import * as React from 'react';
 import {Image, TouchableOpacity, View, StyleSheet} from 'react-native';
-import PatronScreen from '../PatronsScreen/PatronScreen';
-import FreandScreen from '../FreandsScreens/FreandScreen';
-import MyProfileScreen from '../MyProfileScreens/MyProfileScreen';
 import HomeStak from '../../Stacks/HomeStack';
 import GlobalStyles from '../../../Configs/GlobalStyles';
-
-import AddPost from '../AddPost/AddPost';
-
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import PatronsStak from '../../Stacks/PatronsStak';
 import FeandsStack from '../../Stacks/FeandsStack';
+import ProfileStack from '../../Stacks/ProfileStack';
+import PostStack from '../../Stacks/PostStack';
 
 const Tab = createBottomTabNavigator();
-const TabScreens = () => {
-  const CustomTabBarButton = ({children, onPress}) => (
+const TabScreens = ({navigation}) => {
+  const CustomTabBarButton = ({children}) => (
     <View style={styles.custopButtonStyles}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('PostStack')}>
         <View>{children}</View>
       </TouchableOpacity>
     </View>
@@ -72,8 +68,8 @@ const TabScreens = () => {
         }}
       />
       <Tab.Screen
-        name=" "
-        component={AddPost}
+        name="PostStack"
+        component={PostStack}
         options={{
           tabBarIcon: () => (
             <Image
@@ -110,7 +106,7 @@ const TabScreens = () => {
       />
       <Tab.Screen
         name="My Profile"
-        component={MyProfileScreen}
+        component={ProfileStack}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={[GlobalStyles.justifyBetween]}>

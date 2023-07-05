@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, StyleSheet, TouchableOpacity, Image} from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
 import {SelectList} from 'react-native-dropdown-select-list';
 import SafeAreaViewContainer from '../../Elements/SafeAreaViewContainer';
@@ -9,21 +9,26 @@ import Button from '../../Elements/Button';
 import TextField from '../../Elements/TextField';
 import {ScrollView} from 'react-native-gesture-handler';
 import CustomDataPicker from '../../Elements/CustomDataPicker';
+import ImagePicker from 'react-native-image-crop-picker';
+import UserService from '../../http/Account/account';
 
 const Registration = () => {
   const {control, handleSubmit, setValue} = useForm({});
+  const [selectedImages, setSelectedImages] = React.useState([]);
   const [selected, setSelected] = React.useState('');
-  const selectedData = [
-    [
-      {key: 1, value: 'Female'},
-      {key: 2, value: 'Male'},
-      {key: 3, value: 'Custom'},
-    ],
-    [{key: 1, value: 'Armenia'}],
+  const [categories, setCategories] = React.useState([]);
+  const s = [
+    {key: '1', value: 'Mobiles', disabled: true},
+    {key: '2', value: 'Appliances'},
+    {key: '3', value: 'Cameras'},
+    {key: '4', value: 'Computers', disabled: true},
+    {key: '5', value: 'Vegetables'},
+    {key: '6', value: 'Diary Products'},
+    {key: '7', value: 'Drinks'},
   ];
   const firsInputs = [
     {
-      name: 'first_name',
+      name: 'name',
       control: control,
       placeholder: 'Name',
       title: 'Your First Name*',
@@ -55,12 +60,65 @@ const Registration = () => {
       title: 'Profession*',
     },
     {
-      name: 'telephone',
+      name: 'phone',
       control: control,
       placeholder: '+374',
       title: 'Telephone*',
     },
+    {
+      name: 'bio',
+      control: control,
+      placeholder: 'I love life...',
+      title: 'Bio*',
+    },
+
+    {
+      name: 'Sport, Dance...',
+      control: control,
+      placeholder: 'Sport, Dance...',
+      title: 'Your Habits*',
+    },
   ];
+  useEffect(() => {
+    getCategories();
+    getCountry();
+  }, []);
+  const getCategories = async () => {
+    try {
+      const {data} = await UserService.getCategories();
+      setCategories(data.data);
+    } catch (err) {
+      console.log(err, ';;');
+    }
+  };
+  const getCountry = async () => {
+    try {
+      const {data} = await UserService.getCountry();
+      console.log(data.data, 'country');
+    } catch (err) {
+      console.log(err, ';;');
+    }
+  };
+  const pickImages = () => {
+    ImagePicker.openPicker({
+      multiple: false,
+      includeBase64: true,
+      width: 300,
+      height: 400,
+      cropping: true,
+    }).then(images => {
+      setSelectedImages([images]);
+      setValue('avatar', 'data:image/jpeg;base64,' + images.data);
+    });
+  };
+  const submitFormHandler = handleSubmit(async data => {
+    try {
+      const datas = await UserService.registre(data);
+      console.log(datas);
+    } catch (err) {
+      console.log(err);
+    }
+  });
   return (
     <View style={styles.container}>
       <SafeAreaViewContainer>
@@ -114,27 +172,44 @@ const Registration = () => {
                 );
               })}
               <View>
-                {selectedData.map((elem, index) => {
-                  return (
-                    <View key={index}>
-                      <Text isSecondary hasMargin>
-                        Select your gender*
-                      </Text>
-                      <SelectList
-                        setSelected={val => setSelected(val)}
-                        boxStyles={{
-                          backgroundColor: '#fff',
-                          borderWidth: 1,
-                          borderColor: '#98A2B3',
-                          marginTop: 5,
-                        }}
-                        defaultOption={{key: elem[0].key, value: elem[0].value}}
-                        data={elem}
-                        save="value"
+                {/* {categories.map((elem, index) => {
+                  return ( */}
+                <View>
+                  <Text isSecondary hasMargin>
+                    Select your gender*
+                  </Text>
+
+                  <SelectList
+                    setSelected={val => setSelected(val)}
+                    data={s}
+                    save="value"
+                  />
+                </View>
+                {/* );
+                })} */}
+              </View>
+              <View>
+                <TouchableOpacity onPress={pickImages} style={[styles.button]}>
+                  <Image
+                    source={require('../../../assets/icons/Upload.png')}
+                    resizeMode="cover"
+                    style={styles.iconImage}
+                  />
+                  <Text isBod style={{color: '#98A2B3', fontSize: 18}}>
+                    Upload Photo
+                  </Text>
+                </TouchableOpacity>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                  {selectedImages.map((uri, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        source={{uri: uri.sourceURL}}
+                        style={styles.image}
                       />
-                    </View>
-                  );
-                })}
+                    );
+                  })}
+                </View>
               </View>
               {secondInputs.map((elem, index) => {
                 return (
@@ -151,13 +226,7 @@ const Registration = () => {
                           {elem.title}
                         </Text>
                         <TextField
-                          style={[
-                            {
-                              backgroundColor: '#fff',
-                              borderWidth: 1,
-                              borderColor: '#98A2B3',
-                            },
-                          ]}
+                          style={[styles.textFiled]}
                           hasMargin
                           placeholder={elem.placeholder}
                           secureTextEntry={false}
@@ -165,9 +234,7 @@ const Registration = () => {
                           onChangeText={onChange}
                           onBlur={onBlur}
                         />
-                        {_error?.message && (
-                          <Text style={{color: 'red'}}>{_error?.message}</Text>
-                        )}
+                        {_error?.message && <Text>{_error?.message}</Text>}
                       </View>
                     )}
                   />
@@ -182,7 +249,7 @@ const Registration = () => {
             </View>
             <Button
               style={{marginTop: 30, marginBottom: 10}}
-              onPress={() => console.log('Registration')}>
+              onPress={submitFormHandler}>
               <Text isWhite isBold>
                 Create Account
               </Text>
@@ -215,10 +282,43 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   subtitle: {
-    // fontFamily: 'SF-Pro-Display-Bold',
     fontSize: 52,
   },
   text: {
     fontSize: 17,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 10,
+    marginRight: 10,
+  },
+  button: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#98A2B3',
+    height: 80,
+    borderRadius: 8,
+    marginVertical: 30,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textFiled: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#98A2B3',
+  },
+  boxStyle: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: '#98A2B3',
+    marginTop: 5,
+  },
+  iconImage: {
+    height: 25,
+    width: 25,
+    tintColor: '#98A2B3',
+    marginRight: 10,
   },
 });

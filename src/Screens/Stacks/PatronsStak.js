@@ -14,14 +14,14 @@ const Patrons = createStackNavigator();
 const PatronsStak = ({navigation, route}) => {
   const insets = useSafeAreaInsets();
 
-  const _headerleft = () => {
-    return (
-      <Image
-        source={require('../../../assets/RootScreens/logoWhite.png')}
-        style={{width: 90, height: 12, tintColor: '#ED7B12'}}
-      />
-    );
-  };
+  // const _headerleft = () => {
+  //   return (
+  //     <Image
+  //       source={require('../../../assets/RootScreens/logoWhite.png')}
+  //       style={{width: 90, height: 12, tintColor: '#ED7B12'}}
+  //     />
+  //   );
+  // };
   const _headeright = () => {
     return (
       <Image

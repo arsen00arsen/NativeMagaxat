@@ -1,8 +1,8 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer, StatusBar} from '@react-navigation/native';
-import RootStackScreen from '../Screens/RootStackScreen/RootStackScreen';
+import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
 import TabScreens from '../Screens/MaintbScreens/MainTabs/TabScreens';
 import {createStackNavigator} from '@react-navigation/stack';
+import RootStackScreen from '../Screens/RootStackScreen/RootStackScreen';
 const Stack = createStackNavigator();
 export const AuthContainer = () => {
   let content = (
@@ -18,8 +18,8 @@ export const AuthContainer = () => {
   );
   return (
     <NavigationContainer>
-      {/* <RootStackScreen /> */}
-      {content}
+      <RootStackScreen />
+      {/* {content} */}
     </NavigationContainer>
   );
 };

@@ -9,11 +9,16 @@ import Icon from '../../Elements/Icon';
 import Text from '../../Elements/Text';
 import ChatRoom from '../MaintbScreens/HomeScreens/ChatRoom';
 import {ChatContent} from '../MaintbScreens/HomeScreens/ChatContent';
+import MyProfileScreen from '../MaintbScreens/MyProfileScreens/MyProfileScreen';
 
-const Home = createStackNavigator();
-const HomeStak = ({navigation}) => {
+const Profile = createStackNavigator();
+const ProfileStack = ({navigation, route}) => {
   const insets = useSafeAreaInsets();
-
+  if (route.state && route.state.index > 0) {
+    navigation.setOptions({tabBarVisible: false});
+  } else {
+    navigation.setOptions({tabBarVisible: false});
+  }
   const _headerleft = () => {
     return (
       <Image
@@ -53,17 +58,9 @@ const HomeStak = ({navigation}) => {
       />
     );
   };
-  // const goBacks = () => {
-  //   <Button
-  //     isTransparent
-  //     onPress={() => navigation.goBack()}
-  //     style={{borderWidth: 0}}
-  //     icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
-  //   />;
-  // };
   return (
-    <Home.Navigator
-      initialRouteName="HomeScreen"
+    <Profile.Navigator
+      initialRouteName="MyProfileScreen"
       screenOptions={{
         hideWhenScrolling: true,
         headerTitleAlign: 'center',
@@ -83,12 +80,12 @@ const HomeStak = ({navigation}) => {
       options={{
         headerShown: true,
       }}>
-      <Home.Screen
-        name="HomeScreen"
-        component={HomeScreen}
+      <Profile.Screen
+        name="MyProfileScreen"
+        component={MyProfileScreen}
         options={{
-          headerTitle: '',
-          headerLeft: () => _headerleft(),
+          headerTitle: 'My Profile',
+          // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -98,7 +95,7 @@ const HomeStak = ({navigation}) => {
           },
         }}
       />
-      <Home.Screen
+      {/* <Profile.Screen
         name="ChatRoom"
         component={ChatRoom}
         options={{
@@ -113,7 +110,7 @@ const HomeStak = ({navigation}) => {
           },
         }}
       />
-      <Home.Screen
+      <Profile.Screen
         name="ChatContent"
         component={ChatContent}
         options={{
@@ -126,8 +123,8 @@ const HomeStak = ({navigation}) => {
             paddingRight: 15,
           },
         }}
-      />
-    </Home.Navigator>
+      /> */}
+    </Profile.Navigator>
   );
 };
-export default HomeStak;
+export default ProfileStack;
