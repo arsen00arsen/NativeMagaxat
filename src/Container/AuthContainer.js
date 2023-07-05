@@ -18,8 +18,8 @@ export const AuthContainer = () => {
   );
   return (
     <NavigationContainer>
-      <RootStackScreen />
-      {/* {content} */}
+      {/* <RootStackScreen /> */}
+      {content}
     </NavigationContainer>
   );
 };
