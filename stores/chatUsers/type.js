@@ -1,3 +1,0 @@
-export const LOAD_CHAT_USERS = 'chatUsers/LOAD_CHAT_USERS';
-export const LOAD_CHAT_USERS_ERROR = 'chatUsers/LOAD_CHAT_USERS_ERROR';
-export const LOAD_CHAT_USERS_SUCCESS = 'chatUsers/LOAD_CHAT_USERS_SUCCESS';
