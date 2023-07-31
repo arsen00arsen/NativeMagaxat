@@ -8,13 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* AwesomeProjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* AwesomeProjectTests.m */; };
-		09DC0CADCDE81B83D6672BDE /* libPods-SponsorAM-SponsorAMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FBD0740F055DCD160E2E593F /* libPods-SponsorAM-SponsorAMTests.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		68DA0C5E54E593D7D4BFC71B /* libPods-SponsorAM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 39069E3A46707E1A2014DDB4 /* libPods-SponsorAM.a */; };
+		7EF5FD82B193325A55970103 /* libPods-SponsorAM-SponsorAMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F046D5F2D2904BCFE0012581 /* libPods-SponsorAM-SponsorAMTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		9B23E5E52A77A3EE003AF22F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */; };
 		9BA643EB28F026C900E7291F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA643EA28F026C900E7291F /* libBVLinearGradient.a */; };
+		FD5AA290F96417BE7EB2876B /* libPods-SponsorAM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6624F933E334A0BA5557855E /* libPods-SponsorAM.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,14 +40,15 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = AwesomeProject/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AwesomeProject/main.m; sourceTree = "<group>"; };
 		189A8A74CB0A4CA48A3A3646 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Medium.ttf"; path = "../assets/fonts/Roboto-Medium.ttf"; sourceTree = "<group>"; };
-		39069E3A46707E1A2014DDB4 /* libPods-SponsorAM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SponsorAM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3DCBA0DDFBAC4B788528FA4C /* Roboto-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-MediumItalic.ttf"; path = "../assets/fonts/Roboto-MediumItalic.ttf"; sourceTree = "<group>"; };
 		4090D3A3D8BB79F0D0291A6A /* Pods-SponsorAM.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SponsorAM.release.xcconfig"; path = "Target Support Files/Pods-SponsorAM/Pods-SponsorAM.release.xcconfig"; sourceTree = "<group>"; };
 		629F89939A9144988C1BEBC4 /* Roboto-Thin.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Thin.ttf"; path = "../assets/fonts/Roboto-Thin.ttf"; sourceTree = "<group>"; };
+		6624F933E334A0BA5557855E /* libPods-SponsorAM.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SponsorAM.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6D185276110E454A8B7B5467 /* Roboto-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-BlackItalic.ttf"; path = "../assets/fonts/Roboto-BlackItalic.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FF11CF9E000D9DE08FFA261 /* Pods-SponsorAM-SponsorAMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SponsorAM-SponsorAMTests.debug.xcconfig"; path = "Target Support Files/Pods-SponsorAM-SponsorAMTests/Pods-SponsorAM-SponsorAMTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99DB87C9822A41AAAED1F407 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../assets/fonts/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
+		9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9B260B262869EB450065022C /* AwesomeProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AwesomeProject.entitlements; path = AwesomeProject/AwesomeProject.entitlements; sourceTree = "<group>"; };
 		9BA643EA28F026C900E7291F /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9BF7F2272866094700A647B9 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
@@ -71,10 +73,10 @@
 		DFA8B630ED3F4E798DA7BCF3 /* Roboto-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Light.ttf"; path = "../assets/fonts/Roboto-Light.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		EEB34D7F3B544334AE7945B2 /* Roboto-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; };
+		F046D5F2D2904BCFE0012581 /* libPods-SponsorAM-SponsorAMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SponsorAM-SponsorAMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F12FCB47D0104F379B53EAAD /* Roboto-Italic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-Italic.ttf"; path = "../assets/fonts/Roboto-Italic.ttf"; sourceTree = "<group>"; };
 		F4469BEE6EC0965F87C827D1 /* Pods-SponsorAM-SponsorAMTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SponsorAM-SponsorAMTests.release.xcconfig"; path = "Target Support Files/Pods-SponsorAM-SponsorAMTests/Pods-SponsorAM-SponsorAMTests.release.xcconfig"; sourceTree = "<group>"; };
 		F63BAEAD4FB93553B205D3F7 /* Pods-SponsorAM.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SponsorAM.debug.xcconfig"; path = "Target Support Files/Pods-SponsorAM/Pods-SponsorAM.debug.xcconfig"; sourceTree = "<group>"; };
-		FBD0740F055DCD160E2E593F /* libPods-SponsorAM-SponsorAMTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SponsorAM-SponsorAMTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				09DC0CADCDE81B83D6672BDE /* libPods-SponsorAM-SponsorAMTests.a in Frameworks */,
+				7EF5FD82B193325A55970103 /* libPods-SponsorAM-SponsorAMTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,7 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9BA643EB28F026C900E7291F /* libBVLinearGradient.a in Frameworks */,
-				68DA0C5E54E593D7D4BFC71B /* libPods-SponsorAM.a in Frameworks */,
+				FD5AA290F96417BE7EB2876B /* libPods-SponsorAM.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +120,7 @@
 		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
 			isa = PBXGroup;
 			children = (
+				9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */,
 				9B260B262869EB450065022C /* AwesomeProject.entitlements */,
 				9BF7F2262866092200A647B9 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -135,8 +138,8 @@
 			children = (
 				9BA643EA28F026C900E7291F /* libBVLinearGradient.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				39069E3A46707E1A2014DDB4 /* libPods-SponsorAM.a */,
-				FBD0740F055DCD160E2E593F /* libPods-SponsorAM-SponsorAMTests.a */,
+				6624F933E334A0BA5557855E /* libPods-SponsorAM.a */,
+				F046D5F2D2904BCFE0012581 /* libPods-SponsorAM-SponsorAMTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -237,7 +240,7 @@
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
-				3E954EBB66DE53D2A63DCA7A /* [CP] Copy Pods Resources */,
+				D60B743F407004F50EF80AC2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -259,8 +262,8 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				D3D0821D41F18059CDC79C86 /* [CP] Copy Pods Resources */,
 				E7823A8079DBC182EF150F64 /* [CP-User] [RNFB] Core Configuration */,
+				E44337CE33ADD0ABDE5615BF /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -321,6 +324,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				9B23E5E52A77A3EE003AF22F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -363,7 +367,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3E954EBB66DE53D2A63DCA7A /* [CP] Copy Pods Resources */ = {
+		D60B743F407004F50EF80AC2 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -380,7 +384,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SponsorAM-SponsorAMTests/Pods-SponsorAM-SponsorAMTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D3D0821D41F18059CDC79C86 /* [CP] Copy Pods Resources */ = {
+		E44337CE33ADD0ABDE5615BF /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (

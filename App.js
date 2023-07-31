@@ -30,7 +30,7 @@ const App = () => {
   const {loading, isAuth, user} = useSelector(state => state.user);
   useEffect(() => {
     dispatch(getMe());
-    requestUserPermission;
+    requestUserPermission();
 
     //createChanels();
   }, []);
