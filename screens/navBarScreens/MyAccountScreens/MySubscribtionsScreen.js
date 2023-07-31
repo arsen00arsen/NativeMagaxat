@@ -60,7 +60,6 @@ const MySubscribtionsScreen = props => {
       </View>
     );
   };
-  console.log(subscriptions, 'subscriptionssubscriptionssubscriptions');
   return (
     <View style={styles.container}>
       <StatusBar

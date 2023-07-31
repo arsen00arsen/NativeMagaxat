@@ -10,35 +10,49 @@ import {
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {useTheme} from '@react-navigation/native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useDispatch, useSelector} from 'react-redux';
 import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
 import {useAccountProfHome} from '../../../components/hooks/useAccountProfHome';
 import {UserSubscribe} from '../../../http/isLiked/isLiked';
 import HorizontalInfinitiScroll from '../../../components/HorizontalInfinitiScroll';
-import {loadPostsUser} from '../../../stores/post/postActions';
 import RadiusButton from '../../../components/RadiusButton';
+import {
+  loadAccountUserPosts,
+  setUserAccountPostsInitial,
+  setUserAccountPosts,
+} from '../../../stores/userPosts/accountUserPost/accountUsserPostAction';
 
-// import {useSelector} from 'react-redux';
 const AccountScreen = props => {
   const {t} = useTranslation();
   const theme = useTheme();
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const [isSub, setIssub] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const navigation = useNavigation();
   let id = props.route?.params.user.id;
   const {options} = useAccountProfHome({id, isSub});
-  const {isLoading, usersPosts} = useSelector(state => state.post);
+  const {isLoading, accountUsersPosts} = useSelector(
+    state => state.accountUserPosts,
+  );
   let user = options.data;
   let isS = options.subscribed;
+  //console.log(accountUsersPosts, 'accountUsersPostsaccountUsersPosts');
   useEffect(() => {
-    dispatch(loadPostsUser({currentPage: currentPage, id: id}));
-  }, []);
+    if (isFocused) {
+      dispatch(loadAccountUserPosts({currentPage: currentPage, id: id}));
+    }
+    return () => {
+      dispatch(setUserAccountPostsInitial([]));
+      dispatch(setUserAccountPosts([]));
+    };
+  }, [isFocused, id]);
+
   const loadMoreItem = () => {
     setCurrentPage(currentPage + 1);
-    dispatch(loadPostsUser({currentPage: currentPage + 1, id: id}));
+    dispatch(loadAccountUserPosts({currentPage: currentPage + 1, id: id}));
   };
   const subButton = async () => {
     try {
@@ -135,7 +149,7 @@ const AccountScreen = props => {
         renderItem={() => (
           <HorizontalInfinitiScroll
             isLoading={isLoading}
-            posts={usersPosts}
+            posts={accountUsersPosts}
             loadMoreItem={loadMoreItem}
             from="Account"
           />

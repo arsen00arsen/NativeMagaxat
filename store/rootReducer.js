@@ -8,6 +8,9 @@ import {myPostReducer} from '../stores/profileMe/profileMeReducer';
 import {chatUserReducer} from '../stores/chatUsers/chatUsersReducer';
 import {messagesReducer} from '../stores/messages/messageReducer';
 import {storiReducer} from '../stores/stories/storiesReducer';
+import {accountUserPostReducer} from '../stores/userPosts/accountUserPost/accountUsserPostReducer';
+import {myAccountUserPostReducer} from '../stores/userPosts/myAccountUserPost/myAccountUsserPostReducer';
+import {benefactorAccountUserPostReducer} from '../stores/userPosts/benAccountUserPost/benAccountUsserPostReducer';
 
 export const rootReducer = combineReducers({
   user: userReducer,
@@ -19,4 +22,7 @@ export const rootReducer = combineReducers({
   chatUsers: chatUserReducer,
   messages: messagesReducer,
   stori: storiReducer,
+  accountUserPosts: accountUserPostReducer,
+  myAccountUserPosts: myAccountUserPostReducer,
+  benefactorAccountUserPosts: benefactorAccountUserPostReducer,
 });

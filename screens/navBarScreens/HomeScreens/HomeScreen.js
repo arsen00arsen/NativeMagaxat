@@ -19,7 +19,7 @@ import Stories from '../../../components/Storises';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useIsFocused} from '@react-navigation/native';
 import {messagesCount} from '../../../stores/messages/messageActions';
-
+//import VerticalInfinitiScroll from '../../../components/VerticalInfinitiScroll';
 const HomeScreen = props => {
   const {t} = useTranslation();
   const dispatch = useDispatch();

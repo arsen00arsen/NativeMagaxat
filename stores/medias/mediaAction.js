@@ -20,6 +20,7 @@ export const loadAllMedias = () => async dispatch => {
   try {
     dispatch(startLoadMedias(true));
     const {data} = await MediaService.loadMedias();
+    console.log(data.data)
     dispatch(setMedias(data.data));
   } catch (error) {
     dispatch(setMediasError(error));

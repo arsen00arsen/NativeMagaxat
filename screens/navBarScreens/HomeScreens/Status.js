@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Animated,
   Platform,
+  Pressable,
 } from 'react-native';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -16,12 +17,20 @@ import Video from 'react-native-video';
 import {useDispatch} from 'react-redux';
 import {removeMyStory} from '../../../stores/stories/storiesAction';
 import RadiusButton from '../../../components/RadiusButton';
+import {useIsFocused} from '@react-navigation/native';
 
 const Status = ({route, navigation}) => {
   const dispatch = useDispatch();
   const videoRef = useRef(null);
+  const isFocused = useIsFocused();
+  const [displayBlock, setdisplayBlock] = useState(false);
   const {name, image, user, video, isMy, id} = route.params;
-
+  useEffect(() => {
+    if (isFocused) {
+      setdisplayBlock(false);
+    }
+    return () => setdisplayBlock(true);
+  }, [isFocused]);
   useEffect(() => {
     let timer = setTimeout(() => {
       navigation.goBack();
@@ -63,29 +72,46 @@ const Status = ({route, navigation}) => {
         </View>
         <View style={styles.storiContent}>
           <Text style={styles.storiText}>{name}</Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          {/* <Pressable
+            style={{width: 20, height: 20, borderWidth: 1, borderColor: 'red'}}
+            onPress={() => {
+              console.log(1111111);
+            }}>
             <Ionic
               name="close"
-              style={{fontSize: 20, color: 'white', opacity: 0.6}}
+              style={{fontSize: 20, color: 'white', opacity: 0.6, zIndex: 5}}
             />
-            {/* {isMy !== true ?  : null} */}
-          </TouchableOpacity>
+            <Text style={{color: 'white'}}>aaaaaaa</Text>
+          </Pressable> */}
         </View>
       </View>
       {image === null ? (
-        <Video
-          ref={videoRef}
-          source={{uri: video}}
-          style={styles.storiVideo}
-          resizeMod={'contain'}
-        />
+        <>
+          {displayBlock === false ? (
+            <Video
+              ref={videoRef}
+              source={{uri: video}}
+              style={styles.storiVideo}
+              resizeMod={'contain'}
+            />
+          ) : null}
+        </>
       ) : (
         <Image source={{uri: image}} style={styles.storiImage} />
       )}
       <View style={styles.storiView}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Feather
+          {/* <Feather
             name="navigation"
+            style={{
+              fontSize: 30,
+              color: 'white',
+              marginLeft: 'auto',
+              marginBottom: 30,
+            }}
+          /> */}
+          <Ionic
+            name="close"
             style={{
               fontSize: 30,
               color: 'white',
@@ -160,10 +186,11 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-around',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginVertical: 10,
     width: '100%',
+    paddingHorizontal: 20,
   },
   storiText: {color: 'white', fontSize: 15, paddingLeft: 10},
   storiImage: {
