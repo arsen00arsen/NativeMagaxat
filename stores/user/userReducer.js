@@ -3,12 +3,7 @@ const initialUserState = {
   loading: false,
   error: null,
   isAuth: false,
-  data: {
-    interesting_type: [],
-  },
-  infoChange: {
-    interesting_type: [],
-  },
+  asGuest: '',
   report: '',
 };
 
@@ -28,6 +23,13 @@ export const userReducer = (state = initialUserState, action) => {
         isAuth: true,
         error: null,
       };
+    case 'LOGIN_AS_GUEST':
+      return {
+        ...state,
+        asGuest: payload,
+        isAuth: true,
+        error: null,
+      };
     case 'LOGIN_ERROR':
       return {
         ...state,
@@ -35,9 +37,6 @@ export const userReducer = (state = initialUserState, action) => {
         user: {},
         isAuth: false,
         error: payload,
-        data: {
-          interesting_type: [],
-        },
       };
 
     case 'FIRST_STEP_SUBMIT':
@@ -48,34 +47,10 @@ export const userReducer = (state = initialUserState, action) => {
           ...payload,
         },
       };
-    case 'INFOCHANGE_STEP_SUBMIT':
-      return {
-        ...state,
-        infoChange: {
-          ...state.infoChange,
-          ...payload,
-        },
-      };
-    case 'INFOCHANGE_INTERESTEDS_STEP_SUBMIT':
-      return {
-        ...state,
-        infoChange: {
-          ...state.infoChange,
-          interesting_type: [...state.infoChange.interesting_type, ...payload],
-        },
-      };
     case 'REPORT_INFO':
       return {
         ...state,
         report: payload,
-      };
-    case 'INTERESTEDS_STEP_SUBMIT':
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          interesting_type: [...state.data.interesting_type, ...payload],
-        },
       };
     default:
       return state;

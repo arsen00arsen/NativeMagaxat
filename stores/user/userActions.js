@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import UserService from '../../http/authService/authService';
+import UserService from '../../src/http/Account/account';
 
 export const startLogin = () => ({
   type: 'LOGIN_START',
@@ -20,25 +20,25 @@ export const userInfoChange = payload => ({
   payload,
 });
 
-export const loginUser = (email, password) => async dispatch => {
+export const loginUser = dateTosend => async dispatch => {
   try {
     dispatch(startLogin());
-    const {data} = await UserService.login({email, password});
-    dispatch(loginSuccess(data.data));
-    await AsyncStorage.setItem('token', data.token);
+    const {data} = await UserService.login(dateTosend);
+    // dispatch(loginSuccess(data.data));
+    await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
-    alert(error);
-    console.log(error.message)
     dispatch(loginError(error.message));
+  } finally {
+    dispatch(getMe());
   }
 };
 
 export const registerUser = dataToSend => async dispatch => {
   try {
     dispatch(startLogin());
-    const {data} = await UserService.register(dataToSend);
-    dispatch(loginSuccess(data.data));
-    await AsyncStorage.setItem('token', data.token);
+    const {data} = await UserService.registre(dataToSend);
+    dispatch(loginSuccess(data.data.user));
+    await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
     alert(error);
     dispatch(loginError(error.message));
@@ -47,22 +47,21 @@ export const registerUser = dataToSend => async dispatch => {
   }
 };
 
-export const userPhotoChange = imgUpload => async dispatch => {
-  try {
-    await dispatch(
-      userInfoChange({
-        name: imgUpload.name,
-        email: imgUpload.email,
-        image: imgUpload.image,
-        lastname: imgUpload.lastname,
-        type: imgUpload.type,
-      }),
-    );
-  } catch (error) {
-    console.log(error);
-    dispatch(loginError(error.message));
-  }
-};
+// export const userPhotoChange = imgUpload => async dispatch => {
+//   try {
+//     await dispatch(
+//       userInfoChange({
+//         name: imgUpload.name,
+//         email: imgUpload.email,
+//         image: imgUpload.image,
+//         lastname: imgUpload.lastname,
+//         type: imgUpload.type,
+//       }),
+//     );
+//   } catch (error) {
+//     dispatch(loginError(error.message));
+//   }
+// };
 
 export const getMe = () => async dispatch => {
   try {
@@ -82,7 +81,7 @@ export const getMe = () => async dispatch => {
 export const logoutUser = () => async dispatch => {
   try {
     dispatch(startLogin());
-    await UserService.logout();
+    // await UserService.logout();
     await AsyncStorage.removeItem('token');
     dispatch(loginError('Logged out'));
   } catch (error) {
@@ -90,14 +89,14 @@ export const logoutUser = () => async dispatch => {
   }
 };
 
-export const remove = id => async dispatch => {
-  try {
-    dispatch(startLogin());
-    await UserService.deleteUser(id);
-    dispatch(loginError('Logged out'));
-    await AsyncStorage.removeItem('token');
-  } catch (error) {
-    dispatch(loginError(error.message));
-  } finally {
-  }
-};
+// export const remove = id => async dispatch => {
+//   try {
+//     dispatch(startLogin());
+//     await UserService.deleteUser(id);
+//     dispatch(loginError('Logged out'));
+//     await AsyncStorage.removeItem('token');
+//   } catch (error) {
+//     dispatch(loginError(error.message));
+//   } finally {
+//   }
+// };
