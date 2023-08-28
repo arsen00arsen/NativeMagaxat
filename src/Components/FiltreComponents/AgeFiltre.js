@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 const AgeFiltre = ({age, setCategoryAge, categoryAge}) => {
-  console.log(categoryAge, 'categoryAge')
+  console.log(categoryAge)
   return (
     <View style={styles.container}>
       {age?.map((elem, index) => {
