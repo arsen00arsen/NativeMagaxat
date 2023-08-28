@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Text, View, StyleSheet, Image} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
-import Video from 'react-native-video';
+
 function Gallery({post}) {
   const imageArray = post?.filter(item => item.type.startsWith('image'));
   const videoArray = post?.filter(item => item.type.startsWith('video'));
@@ -19,9 +19,6 @@ function Gallery({post}) {
                 borderRadius: 8,
               }}>
               <VideoPlayer
-                // video={{
-                //   uri: 'https://assets.mixkit.co/videos/download/mixkit-countryside-meadow-4075.mp4',
-                // }}
                 video={{uri: elem.url}}
                 style={{
                   width: '100%',

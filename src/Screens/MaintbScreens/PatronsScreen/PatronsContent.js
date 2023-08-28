@@ -6,15 +6,24 @@ import Button from '../../../Elements/Button';
 
 function PatronsContent({user}) {
   const [longDes, setLongDes] = useState(false);
+  const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const navigation = useNavigation();
   const isLongDs = () => {
     setLongDes(!longDes);
   };
-
+  const handleTextLayout = e => {
+    const {lines} = e.nativeEvent;
+    if (lines.length > 4) {
+      setIsDescriptionTooLong(true);
+    }
+  };
   let description;
   if (longDes === false) {
     description = (
-      <Text style={[styles.usersTitle, {marginBottom: 5}]} numberOfLines={5}>
+      <Text
+        style={[styles.usersTitle, {marginBottom: 5}]}
+        numberOfLines={5}
+        onTextLayout={handleTextLayout}>
         {user.description}
       </Text>
     );
@@ -56,9 +65,13 @@ function PatronsContent({user}) {
           Description
         </Text>
         {description}
-        <TouchableOpacity onPress={isLongDs}>
-          <Text style={{color: 'red', textAlign: 'right'}}>Reade More</Text>
-        </TouchableOpacity>
+        {isDescriptionTooLong && (
+          <TouchableOpacity onPress={isLongDs}>
+            <Text style={{color: 'red', textAlign: 'right'}}>
+              Reade {!longDes ? 'More' : 'Less'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={{width: '60%', marginTop: 20}}>
         <Button

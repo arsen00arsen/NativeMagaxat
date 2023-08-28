@@ -8,6 +8,7 @@ import {
   Pressable,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import VideoPlayer from 'react-native-video-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ShareButton from '../Elements/ShareButton';
@@ -47,11 +48,25 @@ const UserInfo = ({user}) => {
             />
           </View>
         </View>
-        <Image
-          source={{uri: user.files[0].url}}
-          // source={require('../../assets/fakeImages/png1.png')}
-          style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
-        />
+        {user.files.some(file => file.type.includes('video')) ? (
+          <VideoPlayer
+            video={{uri: user.files[0].url}}
+            style={{
+              width: '100%',
+              height: 250,
+            }}
+            autoplay={false}
+            defaultMuted={true}
+            fullscreen={true}
+            resizeMode="contain"
+          />
+        ) : (
+          <Image
+            source={{uri: user.files[0].url}}
+            style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
+          />
+        )}
+
         <View>
           <View
             style={[

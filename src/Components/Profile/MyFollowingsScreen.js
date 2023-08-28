@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, View, StyleSheet, FlatList} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import UserInfo from '../../../Components/UserInfo';
-import UserService from '../../../http/Account/account';
+import UserInfo from '../../Components/UserInfo';
+import UserService from '../../http/Account/account';
 
-const HomeScreen = () => {
+const MyFollowingsScreen = () => {
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ const HomeScreen = () => {
     />
   );
 };
-export default HomeScreen;
+export default MyFollowingsScreen;
 const styles = StyleSheet.create({
   loadings: {
     flex: 1,

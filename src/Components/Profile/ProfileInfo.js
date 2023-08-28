@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {View, Text, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
 function ProfileInfo({user}) {
@@ -28,7 +28,11 @@ function ProfileInfo({user}) {
           {justifyContent: 'space-between', paddingTop: 20},
         ]}>
         <Text style={styles.info}>Followers ({user.followers}) </Text>
-        <Text style={styles.info}>Followings ({user.followings}) </Text>
+        <Text
+          style={styles.info}
+          onPress={() => navigation.navigate('MyFollowings')}>
+          Followings ({user.followings}){' '}
+        </Text>
         <Text style={styles.info}>My Posts({user.patrons.length})</Text>
       </View>
     </View>

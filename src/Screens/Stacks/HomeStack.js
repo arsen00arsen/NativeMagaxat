@@ -10,6 +10,7 @@ import Text from '../../Elements/Text';
 import ChatRoom from '../MaintbScreens/HomeScreens/ChatRoom';
 import {ChatContent} from '../MaintbScreens/HomeScreens/ChatContent';
 import CommentScreen from '../MaintbScreens/HomeScreens/CommentScreen';
+import NotificationsScreen from '../MaintbScreens/HomeScreens/NotificationsScreen';
 
 const Home = createStackNavigator();
 const HomeStak = ({navigation}) => {
@@ -28,6 +29,7 @@ const HomeStak = ({navigation}) => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Button
           isTransparent
+          onPress={() => navigation.navigate('Notifications')}
           style={{borderWidth: 0}}
           icon={<Icon isPrimary name="bell-o" size={20} />}
         />
@@ -90,6 +92,21 @@ const HomeStak = ({navigation}) => {
         options={{
           headerTitle: '',
           headerLeft: () => _headerleft(),
+          headerRight: () => _headeright(),
+          headerLeftContainerStyle: {
+            paddingLeft: 15,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+        }}
+      />
+      <Home.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+        options={{
+          headerTitle: 'Notifications',
+          // headerLeft: () => _headerleft(),
           // headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,

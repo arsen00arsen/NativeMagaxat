@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserService from '../../src/http/Account/account';
-
+import {Alert} from 'react-native';
 export const startLogin = () => ({
   type: 'LOGIN_START',
 });
@@ -22,15 +22,17 @@ export const userInfoChange = payload => ({
 
 export const loginUser = dateTosend => async dispatch => {
   try {
-    dispatch(startLogin());
+    // dispatch(startLogin());
     const {data} = await UserService.login(dateTosend);
-    // dispatch(loginSuccess(data.data));
+    dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
-    dispatch(loginError(error.message));
-  } finally {
-    dispatch(getMe());
+    Alert.alert(error.response.data.message);
+    dispatch(loginError());
   }
+  // finally {
+  //   dispatch(getMe());
+  // }
 };
 
 export const registerUser = dataToSend => async dispatch => {

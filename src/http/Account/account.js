@@ -38,6 +38,9 @@ export default class UserService {
       `/post?start=&end=&country_id=&category_id=${categoryId}&page=${page}`,
     );
   }
+  static getFollowings(page) {
+    return $authHost.get(`/followings?page=${page}`);
+  }
   static follow(id) {
     return $authHost.post(`/follow/${id}`);
   }

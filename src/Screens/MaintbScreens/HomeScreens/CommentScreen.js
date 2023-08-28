@@ -121,10 +121,45 @@ const CommentScreen = ({route}) => {
       behavior={Platform.OS === 'ios' ? 'position' : null}>
       <View style={styles.container} keyboardShouldPersistTaps="handled">
         <SectionList
-          style={{width: '100%', height: '100%'}}
+          style={{
+            width: '100%',
+            height: '100%',
+
+          }}
+          contentContainerStyle={{
+            justifyContent: 'space-between',
+          }}
           showsVerticalScrollIndicator={false}
           stickySectionHeadersEnabled={false}
           sections={SECTIONS}
+          renderSectionHeader={() => (
+            <>
+              <View>
+                <Text style={{fontSize: 18, fontWeight: '700'}}>Sponsor</Text>
+                <Text
+                  style={{fontSize: 16, color: '#5E5E5E', paddingBottom: 15}}>
+                  {post.added}
+                </Text>
+              </View>
+              <Image
+                source={{uri: post.files[0].url}}
+                style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
+              />
+              <Text style={{paddingHorizontal: 20, marginTop: 10}}>
+                {post.bio}
+              </Text>
+            </>
+          )}
+          renderItem={() => (
+            <FlatList
+              contentContainerStyle={{flexGrow: 1}}
+              data={comments}
+              renderItem={renderItem}
+              keyExtractor={item => item.id.toString()}
+              onEndReached={onEndReached}
+              onEndReachedThreshold={0.5}
+            />
+          )}
           renderSectionFooter={() => (
             <View style={styles.inner}>
               <Controller
@@ -155,34 +190,6 @@ const CommentScreen = ({route}) => {
                 />
               </TouchableOpacity>
             </View>
-          )}
-          renderSectionHeader={() => (
-            <>
-              <View>
-                <Text style={{fontSize: 18, fontWeight: '700'}}>Sponsor</Text>
-                <Text
-                  style={{fontSize: 16, color: '#5E5E5E', paddingBottom: 15}}>
-                  {post.added}
-                </Text>
-              </View>
-              <Image
-                source={{uri: post.files[0].url}}
-                style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
-              />
-              <Text style={{paddingHorizontal: 20, marginTop: 10}}>
-                {post.bio}
-              </Text>
-            </>
-          )}
-          renderItem={() => (
-            <FlatList
-              contentContainerStyle={{flexGrow: 1}}
-              data={comments}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              onEndReached={onEndReached}
-              onEndReachedThreshold={0.5}
-            />
           )}
         />
       </View>

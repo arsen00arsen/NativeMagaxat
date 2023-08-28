@@ -40,7 +40,7 @@ function PatronsSinglePage({route}) {
         <HeaderPosts name={user?.name} />
         <SinglePtareonsContent user={user} post={post} />
         <Gallery post={post?.file} />
-        <ShareIt />
+        <ShareIt post={post?.description} />
       </View>
     </ScrollView>
   );

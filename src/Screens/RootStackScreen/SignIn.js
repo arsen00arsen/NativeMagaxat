@@ -44,12 +44,6 @@ const SignIn = ({navigation}) => {
     let fcmToken = await AsyncStorage.getItem('fcmToken');
     sendingData.device_name = fcmToken;
     dispatch(loginUser(sendingData));
-    // try {
-    //   const {data} = await UserService.login(sendingData);
-    //   console.log(data);
-    // } catch (err) {
-    //   console.log(err.response);
-    // }
   });
 
   return (

@@ -7,6 +7,8 @@ import Text from '../../Elements/Text';
 import MyProfileScreen from '../MaintbScreens/MyProfileScreens/MyProfileScreen';
 import Language from '../MaintbScreens/MyProfileScreens/Language';
 import MyPostsScreen from '../MaintbScreens/MyProfileScreens/MyPostsScreen';
+import MyFollowersScreen from '../MaintbScreens/MyProfileScreens/MyFollowersScreen';
+import MyFollowingsScreen from '../MaintbScreens/MyProfileScreens/MyFollowingsScreen';
 
 const Profile = createStackNavigator();
 
@@ -97,6 +99,34 @@ const ProfileStack = ({navigation, route}) => {
         component={MyPostsScreen}
         options={{
           headerTitle: 'My Posts',
+          headerRight: () => _headerRithChat(),
+          headerLeftContainerStyle: {
+            paddingLeft: 15,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+        }}
+      />
+      <Profile.Screen
+        name="MyFollowings"
+        component={MyFollowingsScreen}
+        options={{
+          headerTitle: 'My Followings',
+          headerRight: () => _headerRithChat(),
+          headerLeftContainerStyle: {
+            paddingLeft: 15,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+        }}
+      />
+      <Profile.Screen
+        name="MyFollowers"
+        component={MyFollowersScreen}
+        options={{
+          headerTitle: 'My Followers',
           headerRight: () => _headerRithChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,

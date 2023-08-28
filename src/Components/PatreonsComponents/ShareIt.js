@@ -8,32 +8,31 @@ import {
   Share,
 } from 'react-native';
 
-function ShareIt({}) {
+function ShareIt({post}) {
   const [longDes, setLongDes] = useState(false);
-
+  const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
+  const handleTextLayout = e => {
+    const {lines} = e.nativeEvent;
+    if (lines.length > 4) {
+      setIsDescriptionTooLong(true);
+    }
+  };
   const isLongDs = () => {
     setLongDes(!longDes);
   };
   let description;
   if (longDes === false) {
     description = (
-      <Text style={[styles.usersTitle, {marginBottom: 5}]} numberOfLines={5}>
-        It is a long established fact that a reader will be distracted by the
-        readable content of a page when looking at its layout. The point of
-        using Lorem Ipsum is that it has a more-or-less normal distribution of
-        letters, as opposed to using 'Content here, content here', making it
-        look like readable English.
+      <Text
+        style={[styles.usersTitle, {marginBottom: 5}]}
+        numberOfLines={5}
+        onTextLayout={handleTextLayout}>
+        {post}
       </Text>
     );
   } else {
     description = (
-      <Text style={[styles.longDis, {marginBottom: 5}]}>
-        It is a long established fact that a reader will be distracted by the
-        readable content of a page when looking at its layout. The point of
-        using Lorem Ipsum is that it has a more-or-less normal distribution of
-        letters, as opposed to using 'Content here, content here', making it
-        look like readable English.
-      </Text>
+      <Text style={[styles.longDis, {marginBottom: 5}]}>{post}</Text>
     );
   }
   return (
@@ -49,9 +48,13 @@ function ShareIt({}) {
           Description
         </Text>
         {description}
-        <TouchableOpacity onPress={isLongDs}>
-          <Text style={{color: 'red', textAlign: 'right'}}>Reade More</Text>
-        </TouchableOpacity>
+        {isDescriptionTooLong && (
+          <TouchableOpacity onPress={isLongDs}>
+            <Text style={{color: 'red', textAlign: 'right'}}>
+              Reade {!longDes ? 'More' : 'Less'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
       <View style={styles.shareContent}>
         <Text

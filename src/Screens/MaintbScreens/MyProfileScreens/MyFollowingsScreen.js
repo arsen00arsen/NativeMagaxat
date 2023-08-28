@@ -1,10 +1,16 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, View, StyleSheet, FlatList} from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  Text,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import UserInfo from '../../../Components/UserInfo';
 import UserService from '../../../http/Account/account';
 
-const HomeScreen = () => {
+const MyFollowingsScreen = () => {
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -14,15 +20,15 @@ const HomeScreen = () => {
     if (isFocused) {
       getUsers();
     }
-  }, [isFocused]);
+  }, []);
 
   const getUsers = async () => {
     setLoading(true);
     try {
-      const {data} = await UserService.home(1);
+      const {data} = await UserService.getFollowings(1);
       setUser(data.data);
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -31,20 +37,33 @@ const HomeScreen = () => {
   const onEndReached = async () => {
     setPage(page + 1);
     try {
-      const {data} = await UserService.home({page: page});
+      const {data} = await UserService.getFollowings({page: page});
       if (data.links.last_page > page) {
         setUser([...data, ...this.state.data]);
       } else {
         return;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const renderItem = ({item}) => <UserInfo user={item} />;
+  const renderItem = ({item}) => {
+    return (
+      <View style={styles.userComponent}>
+        <Image
+          source={{uri: item?.avatar}}
+          style={{width: 78, height: 78, borderRadius: 45, marginRight: 15}}
+        />
+        <View>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.email}>{item.email}</Text>
+        </View>
+      </View>
+    );
+  };
 
   if (loading && page === 1) {
     return (
@@ -64,11 +83,24 @@ const HomeScreen = () => {
     />
   );
 };
-export default HomeScreen;
+export default MyFollowingsScreen;
 const styles = StyleSheet.create({
   loadings: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  userComponent: {
+    flexDirection: 'row',
+    padding: 15,
+    alignItems: 'center',
+  },
+  name: {
+    color: '#242424',
+    fontSize: 32,
+  },
+  email: {
+    color: '#5F5F5F',
+    fontSize: 16,
   },
 });

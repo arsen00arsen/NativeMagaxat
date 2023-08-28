@@ -4,7 +4,7 @@ import {useIsFocused} from '@react-navigation/native';
 import UserInfo from '../../../Components/UserInfo';
 import UserService from '../../../http/Account/account';
 
-const HomeScreen = () => {
+const MyFollowersScreen = () => {
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,7 @@ const HomeScreen = () => {
     />
   );
 };
-export default HomeScreen;
+export default MyFollowersScreen;
 const styles = StyleSheet.create({
   loadings: {
     flex: 1,
