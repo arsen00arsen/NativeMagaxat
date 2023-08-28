@@ -11,12 +11,15 @@ const DropDownFilterComponent = ({
   catId,
   setCategoryAge,
   categoryAge,
+  setCategorycategoryCountry,
+  categoryCountry,
 }) => {
   const [active, setActive] = useState(1);
   const [age, setAge] = useState(false);
-
+  const [country, setCountry] = useState(false);
   useEffect(() => {
     getCategoriesAge();
+    getCategoriesCountries();
   }, []);
 
   const getCategoriesAge = async () => {
@@ -27,7 +30,14 @@ const DropDownFilterComponent = ({
       console.log(err.response);
     }
   };
-
+  const getCategoriesCountries = async () => {
+    try {
+      const {data} = await UserService.getCountry();
+      setCountry(data.data);
+    } catch (err) {
+      console.log(err.response);
+    }
+  };
   const titles = isCategory
     ? [{id: 1, title: 'Category'}]
     : [
@@ -47,7 +57,13 @@ const DropDownFilterComponent = ({
       />
     );
   } else {
-    content = <CountryFiltre />;
+    content = (
+      <CountryFiltre
+        country={country}
+        setCategorycategoryCountry={setCategorycategoryCountry}
+        categoryCountry={categoryCountry}
+      />
+    );
   }
   return (
     <View style={styles.container}>

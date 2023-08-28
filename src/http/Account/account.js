@@ -22,9 +22,12 @@ export default class UserService {
   static home() {
     return $authHost.get('/home');
   }
-  static getFreands({page, categoryId}) {
+  static getFreands({page, categoryId, start, end, countryId}) {
+    console.log(
+      `/friends?start=${start}&end=${end}&country_id=${countryId}&category_id=${categoryId}&page=${page}`,
+    );
     return $authHost.get(
-      `/friends?start=&end=&country_id=&category_id=${categoryId}&page=${page}`,
+      `/friends?start=${start}&end=${end}&country_id=${countryId}&category_id=${categoryId}&page=${page}`,
     );
   }
   static getSingleFreand(id) {

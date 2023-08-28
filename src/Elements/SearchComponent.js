@@ -12,6 +12,8 @@ const SearchComponent = ({
   categoryId,
   categoryAge,
   setCategoryAge,
+  setCategorycategoryCountry,
+  categoryCountry,
 }) => {
   const [showComponent, setShowComponent] = useState(false);
   const navigation = useNavigation();
@@ -44,6 +46,8 @@ const SearchComponent = ({
           catId={categoryId}
           categoryAge={categoryAge}
           setCategoryAge={setCategoryAge}
+          setCategorycategoryCountry={setCategorycategoryCountry}
+          categoryCountry={categoryCountry}
         />
       )}
     </>

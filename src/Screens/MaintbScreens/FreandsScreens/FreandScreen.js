@@ -8,19 +8,22 @@ function FreandScreen() {
   const [user, setUser] = useState([]);
   const [categoryId, setCategoryId] = useState('');
   const [categoryAge, setCategoryAge] = useState('');
+  const [categoryCountry, setCategorycategoryCountry] = useState('');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     getCategories();
-  }, [categoryId]);
+  }, [categoryCountry, categoryAge, categoryId]);
   const getCategories = async () => {
     setLoading(true);
     try {
       const {data} = await UserService.getFreands({
         page: 1,
         categoryId: categoryId,
+        start: categoryAge !== '' ? categoryAge.start : '',
+        end: categoryAge !== '' ? categoryAge.end : '',
+        countryId: categoryCountry,
       });
-
       setUser(data.data);
     } catch (err) {
     } finally {
@@ -31,10 +34,14 @@ function FreandScreen() {
   const onEndReached = async () => {
     setPage(page + 1);
     try {
-      const {data} = await UserService.home({
+      const {data} = await UserService.getFreands({
         page: page,
         categoryId: categoryId,
+        start: categoryAge !== '' ? categoryAge.start : null,
+        end: categoryAge !== '' ? categoryAge.end : null,
+        countryId: categoryCountry,
       });
+      console.log(data)
       if (data.links.last_page > page) {
         setUser([...data, ...this.state.data]);
       } else {
@@ -66,9 +73,11 @@ function FreandScreen() {
       <SearchComponent
         isFreandsScreen
         categoryId={categoryId}
+        setCategoryId={setCategoryId}
         categoryAge={categoryAge}
         setCategoryAge={setCategoryAge}
-        setCategoryId={setCategoryId}
+        setCategorycategoryCountry={setCategorycategoryCountry}
+        categoryCountry={categoryCountry}
       />
       <FlatList
         contentContainerStyle={{flexGrow: 1, paddingBottom: 180}}

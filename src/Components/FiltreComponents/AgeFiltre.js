@@ -2,7 +2,6 @@ import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 
 const AgeFiltre = ({age, setCategoryAge, categoryAge}) => {
-  console.log(categoryAge)
   return (
     <View style={styles.container}>
       {age?.map((elem, index) => {
@@ -12,9 +11,11 @@ const AgeFiltre = ({age, setCategoryAge, categoryAge}) => {
             style={styles.button}
             onPress={() => setCategoryAge(elem)}>
             <View style={styles.radioInput}>
-              <View style={styles.radioInputChild} />
+              {categoryAge.end === elem.end &&
+                categoryAge.start === elem.start && (
+                  <View style={styles.radioInputChild} />
+                )}
             </View>
-
             <Text>
               {elem?.start}-{elem?.end}
             </Text>
