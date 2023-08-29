@@ -1,26 +1,42 @@
 export default {
   language_title: 'Լեզու',
-  delete_account_prompt: 'Վստահ եք, որ ուզում եք ջնջել ձեր հաշիվը',
-  delete_account_no: 'Ոչ',
-  delete_account_yes: 'Այո',
-  sign_out: 'Դուրս գալ',
-  delete_account: 'Ջնջել հաշիվը',
-  my_account_general: 'Հիմնական',
+  followers: 'Հետևորդ',
+  following: 'Հետևում է',
+  posts: 'Գրառում',
+  bio: 'Կենսագրություն',
+  profession: 'Մասնագիտություն',
+  education: 'Կրթություն',
+  country: 'Երկիր',
+  phoneNumber: 'Հեռախոս',
+  myBio: 'Իմ կենսագրությունը',
+  myProfile: 'Հաշիվ',
+  date: 'Ծննդյան օր',
   my_account_posts: 'Իմ գրառումները',
   my_account_folowers: 'Հետևորդներ',
   my_account_folower: 'Հետևում եմ',
+  sign_out: 'Դուրս գալ',
+  delete_account: 'Ջնջել հաշիվը',
+  delete_account_prompt: 'Վստահ եք, որ ուզում եք ջնջել ձեր հաշիվը',
+  delete_account_no: 'Ոչ',
+  delete_account_yes: 'Այո',
+  sign_out_account_prompt: 'Իսկապե՞ս ուզում եք դուրս գալ',
+
+
+
+
+
+
+  my_account_general: 'Հիմնական',
+
   my_account_settings: 'Կարգավորումներ',
   name: 'Անուն',
   lastName: 'Ազգանուն',
-  date: 'Ծննդյան օր',
-  phoneNumber: 'Հեռախոս',
+
+
   save: 'Պահպանել',
   infoChangeSaved: 'Կարգավորումները պահպանվել են',
-  myProfile: 'Հաշիվ',
+
   users: 'Օգտվող',
-  posts: 'Գրառում',
-  followers: 'Հետևորդ',
-  following: 'Հետևում է',
   subscribe: 'Հետևել',
   unSubscribe: 'Չհետևել',
   messaging: 'Նամակ',

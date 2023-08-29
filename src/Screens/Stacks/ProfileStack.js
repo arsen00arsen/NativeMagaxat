@@ -1,6 +1,8 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
+import { useTranslation } from 'react-i18next';
+import {useSelector} from 'react-redux';
 import Button from '../../Elements/Button';
 import Icon from '../../Elements/Icon';
 import Text from '../../Elements/Text';
@@ -9,37 +11,30 @@ import Language from '../MaintbScreens/MyProfileScreens/Language';
 import MyPostsScreen from '../MaintbScreens/MyProfileScreens/MyPostsScreen';
 import MyFollowersScreen from '../MaintbScreens/MyProfileScreens/MyFollowersScreen';
 import MyFollowingsScreen from '../MaintbScreens/MyProfileScreens/MyFollowingsScreen';
+import MyBioScreen from '../MaintbScreens/MyProfileScreens/MyBioScreen';
+
 
 const Profile = createStackNavigator();
 
 const ProfileStack = ({navigation, route}) => {
-  const _headeright = () => {
+  const {t} = useTranslation();
+  const {user} = useSelector(state => state.user);
+  const _headerLeft = () => {
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Button
+          onPress={() => navigation.navigate('MyProfileScreen')}
           isTransparent
           style={{borderWidth: 0}}
-          icon={<Icon isPrimary name="bell-o" size={20} />}
+          icon={<Icon isPrimary name="chevron-left" size={25} />}
         />
-        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          4
-        </Text>
-        <Button
-          isTransparent
-          onPress={() => navigation.navigate('ChatRoom')}
-          style={{borderWidth: 0}}
-          icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
-        />
-        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          7
-        </Text>
       </View>
     );
   };
   const _headerRithChat = () => {
     return (
       <Image
-        source={require('../../../assets/fakeImages/png1.png')}
+        source={{uri: user?.avatar}}
         style={{width: 30, height: 30, borderRadius: 15}}
       />
     );
@@ -70,7 +65,7 @@ const ProfileStack = ({navigation, route}) => {
         name="MyProfileScreen"
         component={MyProfileScreen}
         options={{
-          headerTitle: 'My Profile',
+          headerTitle: t('myProfile'),
           // headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -84,7 +79,8 @@ const ProfileStack = ({navigation, route}) => {
         name="Language"
         component={Language}
         options={{
-          headerTitle: 'Language',
+          headerTitle: t('language_title'),
+          headerLeft: () => _headerLeft(),
           headerRight: () => _headerRithChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -98,8 +94,9 @@ const ProfileStack = ({navigation, route}) => {
         name="MyPosts"
         component={MyPostsScreen}
         options={{
-          headerTitle: 'My Posts',
+          headerTitle: t('my_account_posts'),
           headerRight: () => _headerRithChat(),
+          headerLeft: () => _headerLeft(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
           },
@@ -112,7 +109,8 @@ const ProfileStack = ({navigation, route}) => {
         name="MyFollowings"
         component={MyFollowingsScreen}
         options={{
-          headerTitle: 'My Followings',
+          headerTitle: t('my_account_folowers'),
+          headerLeft: () => _headerLeft(),
           headerRight: () => _headerRithChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -126,8 +124,24 @@ const ProfileStack = ({navigation, route}) => {
         name="MyFollowers"
         component={MyFollowersScreen}
         options={{
-          headerTitle: 'My Followers',
+          headerTitle: t('my_account_folower'),
+          headerLeft: () => _headerLeft(),
           headerRight: () => _headerRithChat(),
+          headerLeftContainerStyle: {
+            paddingLeft: 15,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+        }}
+      />
+      <Profile.Screen
+        name="MyBio"
+        component={MyBioScreen}
+        options={{
+          headerTitle: t('myBio'),
+          headerRight: () => _headerRithChat(),
+          headerLeft: () => _headerLeft(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
           },

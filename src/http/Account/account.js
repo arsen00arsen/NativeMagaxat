@@ -41,6 +41,9 @@ export default class UserService {
   static getFollowings(page) {
     return $authHost.get(`/followings?page=${page}`);
   }
+  static getFollowers(page) {
+    return $authHost.get(`/followers?page=${page}`);
+  }
   static follow(id) {
     return $authHost.post(`/follow/${id}`);
   }

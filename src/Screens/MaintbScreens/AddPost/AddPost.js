@@ -26,7 +26,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from '../../../Elements/Icon';
 import {black} from 'react-native-paper/lib/typescript/styles/colors';
 const Name_Surname_Regex = /^(?=.{3,20}$)/i;
-
+const URL_REGEX =
+  /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 const AddPost = ({navigation}) => {
   const {control, handleSubmit, setValue} = useForm({});
   const [selectedImages, setSelectedImages] = useState([]);
@@ -85,8 +86,8 @@ const AddPost = ({navigation}) => {
       title: 'Social Media Link (preferably Linkedin)*',
       rules: {
         required: 'This field is required',
-        minLenght: {
-          value: 1,
+        pattern: {
+          value: URL_REGEX,
           message: 'This field is required',
         },
       },

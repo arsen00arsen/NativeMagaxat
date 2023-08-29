@@ -1,10 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, View, StyleSheet, FlatList} from 'react-native';
+import {
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  FlatList,
+  Image,
+  Text,
+  Pressable,
+} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
-import UserInfo from '../../../Components/UserInfo';
 import UserService from '../../../http/Account/account';
 
-const MyFollowersScreen = () => {
+const MyFollowersScreen = ({navigation}) => {
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -14,15 +21,15 @@ const MyFollowersScreen = () => {
     if (isFocused) {
       getUsers();
     }
-  }, [isFocused]);
+  }, []);
 
   const getUsers = async () => {
     setLoading(true);
     try {
-      const {data} = await UserService.home(1);
+      const {data} = await UserService.getFollowers(1);
       setUser(data.data);
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -31,20 +38,40 @@ const MyFollowersScreen = () => {
   const onEndReached = async () => {
     setPage(page + 1);
     try {
-      const {data} = await UserService.home({page: page});
+      const {data} = await UserService.getFollowers({page: page});
       if (data.links.last_page > page) {
         setUser([...data, ...this.state.data]);
       } else {
         return;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     } finally {
       setLoading(false);
     }
   };
 
-  const renderItem = ({item}) => <UserInfo user={item} />;
+  const renderItem = ({item}) => {
+    return (
+      <Pressable
+        style={styles.userComponent}
+        onPress={() =>
+          navigation.navigate('Profiles', {
+            screen: 'FreandsSingleScreen',
+            params: {id: item.id},
+          })
+        }>
+        <Image
+          source={{uri: item?.avatar}}
+          style={{width: 78, height: 78, borderRadius: 45, marginRight: 15}}
+        />
+        <View>
+          <Text style={styles.name}>{item.name}</Text>
+          <Text style={styles.email}>{item.email}</Text>
+        </View>
+      </Pressable>
+    );
+  };
 
   if (loading && page === 1) {
     return (
@@ -70,5 +97,18 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  userComponent: {
+    flexDirection: 'row',
+    padding: 15,
+    alignItems: 'center',
+  },
+  name: {
+    color: '#242424',
+    fontSize: 32,
+  },
+  email: {
+    color: '#5F5F5F',
+    fontSize: 16,
   },
 });

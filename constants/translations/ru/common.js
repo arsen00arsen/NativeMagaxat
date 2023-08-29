@@ -1,26 +1,44 @@
 export default {
   language_title: 'Язык',
-  delete_account_prompt: 'Вы уверенны, что хотите удалить профиль?',
-  delete_account_no: 'Нет',
-  delete_account_yes: 'Да',
-  sign_out: 'Выйти',
-  delete_account: 'Удалить профиль',
-  my_account_general: 'Основное',
-  my_account_posts: 'Мои посты',
-  my_account_folowers: 'Мои подписки',
-  my_account_folower: 'Мои подписчики',
-  my_account_settings: 'Настройки',
-  name: 'Имя',
-  lastName: 'Фамилия',
-  date: 'Дата рождения',
-  phoneNumber: 'Номер телефона',
-  save: 'Сохранить',
-  infoChangeSaved: 'Ваша информация сохранена',
-  myProfile: 'Профиль',
-  users: 'Пользователи',
   posts: 'Публикации',
   followers: 'Подписчики',
   following: 'Подписки',
+  bio: 'Биография',
+  profession: 'Профессия',
+  education: 'Образование',
+  country: 'Страна',
+  phoneNumber: 'Номер телефона',
+  myBio: 'Моя биография',
+  myProfile: 'Профиль',
+  date: 'Дата рождения',
+  my_account_posts: 'Мои посты',
+  my_account_folowers: 'Мои подписки',
+  my_account_folower: 'Мои подписчики',
+  delete_account: 'Удалить профиль',
+  sign_out: 'Выйти',
+  delete_account_prompt: 'Вы уверенны, что хотите удалить профиль?',
+  delete_account_no: 'Нет',
+  delete_account_yes: 'Да',
+  sign_out_account_prompt: 'Вы уверены, что хотите выйти?',
+
+  my_account_general: 'Основное',
+
+
+  my_account_settings: 'Настройки',
+  name: 'Имя',
+  lastName: 'Фамилия',
+
+
+
+
+
+
+
+  save: 'Сохранить',
+  infoChangeSaved: 'Ваша информация сохранена',
+
+  users: 'Пользователи',
+
   subscribe: 'Подписаться',
   unSubscribe: 'Oтписаться',
   messaging: 'Сообщение',

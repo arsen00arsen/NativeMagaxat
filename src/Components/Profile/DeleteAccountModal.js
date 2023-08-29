@@ -7,14 +7,13 @@ import Button from '../../Elements/Button';
 import PostService from '../../http/Post/post';
 import UserService from '../../http/Account/account';
 
-const DeleteAccountModal = ({modalVisible, setModalVisible, id}) => {
+const DeleteAccountModal = ({modalVisible, setModalVisible}) => {
   const {t} = useTranslation();
 
   const deleteAccount = async () => {
     try {
       const {data} = await UserService.delete();
     } catch (error) {
-      console.log(error.response, ';;;;');
     } finally {
       setModalVisible(false);
     }
@@ -38,7 +37,7 @@ const DeleteAccountModal = ({modalVisible, setModalVisible, id}) => {
                   fontSize: 25,
                   fontWeight: '700',
                 }}>
-                Delete Account ?
+                {t('delete_account')}
               </Text>
               <Text
                 style={{
@@ -47,7 +46,7 @@ const DeleteAccountModal = ({modalVisible, setModalVisible, id}) => {
                   fontSize: 18,
                   fontWeight: '400',
                 }}>
-                Are you sure want to delete account?
+                {t('delete_account_prompt')}
               </Text>
               <View style={styles.buttons}>
                 <Button
@@ -59,7 +58,9 @@ const DeleteAccountModal = ({modalVisible, setModalVisible, id}) => {
                     justifyContent: 'center',
                     flexDirection: 'row',
                   }}>
-                  <Text style={{color: '#4F48EC', fontSize: 18}}>Cancel</Text>
+                  <Text style={{color: '#4F48EC', fontSize: 18}}>
+                    {t('delete_account_no')}
+                  </Text>
                 </Button>
                 <Button
                   style={{
@@ -69,7 +70,9 @@ const DeleteAccountModal = ({modalVisible, setModalVisible, id}) => {
                     flexDirection: 'row',
                   }}
                   onPress={deleteAccount}>
-                  <Text style={{color: 'white', fontSize: 18}}>Delete</Text>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    {t('delete_account_yes')}
+                  </Text>
                 </Button>
               </View>
             </View>

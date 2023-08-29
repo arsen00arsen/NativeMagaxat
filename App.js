@@ -31,12 +31,10 @@ const App = () => {
     );
   }
   return (
-    <>
-      <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <I18nextProvider i18n={i18n}>
+    <I18nextProvider i18n={i18n}>
+        <StatusBar backgroundColor="transparent" barStyle="dark-content" />
         <AuthContainer isAuth={isAuth} />
-      </I18nextProvider>
-    </>
+    </I18nextProvider>
   );
 };
 

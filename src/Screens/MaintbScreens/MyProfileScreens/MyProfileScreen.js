@@ -1,57 +1,66 @@
 import React, {useState, useEffect} from 'react';
 import {Pressable, Text, StyleSheet, View, ScrollView} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {useIsFocused} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
 import ProfileInfo from '../../../Components/Profile/ProfileInfo';
-import {getMe, logoutUser} from '../../../../stores/user/userActions';
 import DeleteAccountModal from '../../../Components/Profile/DeleteAccountModal';
 import LogOutModal from '../../../Components/Profile/LogOutModal';
+import UserService from '../../../http/Account/account';
 
 function MyProfileScreen({navigation}) {
+  const {t} = useTranslation();
   const isFocused = useIsFocused();
   const [modalVisible, setModalVisible] = useState(false);
   const [logOutModal, setLogOutModal] = useState(false);
-  const {user} = useSelector(state => state.user);
-  const buttons = [
-    {id: 1, title: 'Language'},
-    // {id: 2, title: 'Bio'},
-    // {id: 3, title: , goto: 'MyPosts'},
-    // {id: 6, title: 'Settings'},
-    // {id: 7, title: 'Logout'},
-  ];
-  //   useEffect(() => {
-  // console.log(1111)
-  //   }, [isFocused]);
+  const [user, setUserInfos] = useState();
+
+  useEffect(() => {
+    if (isFocused) {
+      userInfo();
+    }
+  }, [isFocused]);
+  const userInfo = async () => {
+    try {
+      const {data} = await UserService.getMe();
+      setUserInfos(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <ScrollView>
       <View style={styles.container}>
-        <ProfileInfo user={user} />
+        <ProfileInfo user={user} t={t} />
         <View style={styles.component}>
-          {buttons.map(elem => {
-            return (
-              <Pressable
-                key={elem.id}
-                style={styles.botton}
-                onPress={() => navigation.navigate('Language')}>
-                <Text style={styles.title}>{elem.title}</Text>
-                <Ionicons
-                  name="ios-chevron-forward-sharp"
-                  color={'#B5B5BE'}
-                  size={20}
-                />
-              </Pressable>
-            );
-          })}
-
+          <Pressable
+            style={styles.botton}
+            onPress={() => navigation.navigate('Language')}>
+            <Text style={styles.title}>{t('language_title')}</Text>
+            <Ionicons
+              name="ios-chevron-forward-sharp"
+              color={'#B5B5BE'}
+              size={20}
+            />
+          </Pressable>
+          <Pressable
+            style={styles.botton}
+            onPress={() => navigation.navigate('MyBio', {user: user})}>
+            <Text style={styles.title}>{t('bio')}</Text>
+            <Ionicons
+              name="ios-chevron-forward-sharp"
+              color={'#B5B5BE'}
+              size={20}
+            />
+          </Pressable>
           <Pressable
             style={styles.botton}
             onPress={() =>
               navigation.navigate('MyPosts', {posts: user?.patrons})
             }>
-            <Text style={styles.title}>My Posts</Text>
+            <Text style={styles.title}>{t('my_account_posts')}</Text>
             <Ionicons
               name="ios-chevron-forward-sharp"
               color={'#B5B5BE'}
@@ -61,7 +70,7 @@ function MyProfileScreen({navigation}) {
           <Pressable
             style={styles.botton}
             onPress={() => setModalVisible(true)}>
-            <Text style={styles.title}>Delete Profile</Text>
+            <Text style={styles.title}>{t('delete_account')}</Text>
             <Ionicons
               name="ios-chevron-forward-sharp"
               color={'#B5B5BE'}
@@ -69,7 +78,7 @@ function MyProfileScreen({navigation}) {
             />
           </Pressable>
           <Pressable style={styles.botton} onPress={() => setLogOutModal(true)}>
-            <Text style={styles.title}>Log Out</Text>
+            <Text style={styles.title}>{t('sign_out')}</Text>
             <Feather name="log-out" color={'#B5B5BE'} size={20} />
           </Pressable>
         </View>

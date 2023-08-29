@@ -2,23 +2,23 @@ import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-function ProfileInfo({user}) {
+function ProfileInfo({user, t}) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.component}>
         <Image
-          source={{uri: user.avatar}}
+          source={{uri: user?.avatar}}
           style={{width: 78, height: 78, borderRadius: 45}}
         />
         <View style={{width: '70%', marginHorizontal: 15}}>
           <View style={styles.titleContent}>
             <Text style={styles.title}>
-              {user.name} {user.last_name}
+              {user?.name} {user?.last_name}
             </Text>
           </View>
           <View style={styles.titleContent}>
-            <Text style={styles.email}>{user.email}</Text>
+            <Text style={styles.email}>{user?.email}</Text>
           </View>
         </View>
       </View>
@@ -27,13 +27,19 @@ function ProfileInfo({user}) {
           styles.component,
           {justifyContent: 'space-between', paddingTop: 20},
         ]}>
-        <Text style={styles.info}>Followers ({user.followers}) </Text>
+        <Text
+          style={styles.info}
+          onPress={() => navigation.navigate('MyFollowers')}>
+          {t('my_account_folower')} ({user?.followers}){' '}
+        </Text>
         <Text
           style={styles.info}
           onPress={() => navigation.navigate('MyFollowings')}>
-          Followings ({user.followings}){' '}
+          {t('my_account_folowers')} ({user?.followings}){' '}
         </Text>
-        <Text style={styles.info}>My Posts({user.patrons.length})</Text>
+        <Text style={styles.info}>
+          {t('posts')} ({user?.post_count})
+        </Text>
       </View>
     </View>
   );
@@ -46,8 +52,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     padding: 15,
     justifyContent: 'space-between',
-    // borderWidth: 0.5,
-    // borderColor: '#CFCCCC',
   },
   component: {
     flexDirection: 'row',

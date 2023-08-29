@@ -1,15 +1,11 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity, Modal, Text} from 'react-native';
-import {RadioButton} from 'react-native-paper';
+import {StyleSheet, View, Modal, Text} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../../Elements/Button';
-import PostService from '../../http/Post/post';
-import UserService from '../../http/Account/account';
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../../../stores/user/userActions';
 
-const LogOutModal = ({modalVisible, setModalVisible, id}) => {
+const LogOutModal = ({modalVisible, setModalVisible}) => {
   const dispatch = useDispatch();
   const {t} = useTranslation();
 
@@ -35,7 +31,7 @@ const LogOutModal = ({modalVisible, setModalVisible, id}) => {
                   fontSize: 25,
                   fontWeight: '700',
                 }}>
-                Logout ?
+                {t('sign_out')} ?
               </Text>
               <Text
                 style={{
@@ -44,7 +40,7 @@ const LogOutModal = ({modalVisible, setModalVisible, id}) => {
                   fontSize: 18,
                   fontWeight: '400',
                 }}>
-                Are you sure want to logout?
+                {t('sign_out_account_prompt')}
               </Text>
               <View style={styles.buttons}>
                 <Button
@@ -56,7 +52,10 @@ const LogOutModal = ({modalVisible, setModalVisible, id}) => {
                     justifyContent: 'center',
                     flexDirection: 'row',
                   }}>
-                  <Text style={{color: '#4F48EC', fontSize: 18}}>Cancel</Text>
+                  <Text style={{color: '#4F48EC', fontSize: 18}}>
+                    {' '}
+                    {t('delete_account_no')}
+                  </Text>
                 </Button>
                 <Button
                   style={{
@@ -66,7 +65,9 @@ const LogOutModal = ({modalVisible, setModalVisible, id}) => {
                     flexDirection: 'row',
                   }}
                   onPress={logout}>
-                  <Text style={{color: 'white', fontSize: 18}}>Log Out</Text>
+                  <Text style={{color: 'white', fontSize: 18}}>
+                    {t('delete_account_yes')}
+                  </Text>
                 </Button>
               </View>
             </View>

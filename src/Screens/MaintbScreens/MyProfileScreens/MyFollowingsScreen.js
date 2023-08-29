@@ -6,11 +6,12 @@ import {
   FlatList,
   Image,
   Text,
+  Pressable,
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import UserService from '../../../http/Account/account';
 
-const MyFollowingsScreen = () => {
+const MyFollowingsScreen = ({navigation}) => {
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -52,7 +53,14 @@ const MyFollowingsScreen = () => {
 
   const renderItem = ({item}) => {
     return (
-      <View style={styles.userComponent}>
+      <Pressable
+        style={styles.userComponent}
+        onPress={() =>
+          navigation.navigate('Profiles', {
+            screen: 'FreandsSingleScreen',
+            params: {id: item.id},
+          })
+        }>
         <Image
           source={{uri: item?.avatar}}
           style={{width: 78, height: 78, borderRadius: 45, marginRight: 15}}
@@ -61,7 +69,7 @@ const MyFollowingsScreen = () => {
           <Text style={styles.name}>{item.name}</Text>
           <Text style={styles.email}>{item.email}</Text>
         </View>
-      </View>
+      </Pressable>
     );
   };
 

@@ -19,6 +19,12 @@ export default class PostService {
   static getSinglePost(id) {
     return $authHost.get(`/post/${id}`);
   }
+  static readNotifications(id) {
+    return $authHost.put(`/notifications/${id}`);
+  }
+  static getNotification() {
+    return $authHost.get('/notifications');
+  }
   static sendComment(data) {
     return $authHost.post('/comment', data);
   }
