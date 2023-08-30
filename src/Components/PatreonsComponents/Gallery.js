@@ -1,13 +1,15 @@
 import * as React from 'react';
+import {useTranslation} from 'react-i18next';
 import {Text, View, StyleSheet, Image} from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 
 function Gallery({post}) {
+  const {t} = useTranslation();
   const imageArray = post?.filter(item => item.type.startsWith('image'));
   const videoArray = post?.filter(item => item.type.startsWith('video'));
   return (
     <View style={styles.container}>
-      <Text style={{fontWeight: '700', marginBottom: 20}}>Gallery</Text>
+      <Text style={{fontWeight: '700', marginBottom: 20}}>{t('gallery')}</Text>
       <View style={styles.imageContainer}>
         {videoArray?.map(elem => {
           return (

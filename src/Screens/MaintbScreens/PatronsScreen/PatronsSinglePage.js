@@ -34,7 +34,7 @@ function PatronsSinglePage({route}) {
     );
   }
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       <View
         style={{flex: 1, justifyContent: 'flex-start', alignItems: 'center'}}>
         <HeaderPosts name={user?.name} />

@@ -1,20 +1,15 @@
-// import { useTranslation } from 'react-i18next';
 import React from 'react';
-import {Image, View} from 'react-native';
+import {Image} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
-import HomeScreen from '../MaintbScreens/HomeScreens/HomeScreen';
-import Button from '../../Elements/Button';
-import Icon from '../../Elements/Icon';
-import Text from '../../Elements/Text';
-import PatronScreen from '../MaintbScreens/PatronsScreen/PatronScreen';
-import PatronsSinglePage from '../MaintbScreens/PatronsScreen/PatronsSinglePage';
 import AddPost from '../MaintbScreens/AddPost/AddPost';
 import AddedPost from '../MaintbScreens/AddPost/AddedPost';
 
 const Post = createStackNavigator();
-const PostStack = ({navigation, route}) => {
+const PostStack = () => {
+  const {t} = useTranslation();
   const {user} = useSelector(state => state.user);
   const insets = useSafeAreaInsets();
 
@@ -61,7 +56,7 @@ const PostStack = ({navigation, route}) => {
         name="AddPost"
         component={AddPost}
         options={{
-          headerTitle: 'Posts',
+          headerTitle: t('create_post'),
           // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
@@ -76,7 +71,7 @@ const PostStack = ({navigation, route}) => {
         name="AddedPost"
         component={AddedPost}
         options={{
-          headerTitle: 'Post Added',
+          headerTitle: t('post_added'),
           headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {

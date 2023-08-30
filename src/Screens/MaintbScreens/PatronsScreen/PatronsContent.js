@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import Icon from '../../../Elements/Icon';
 import Button from '../../../Elements/Button';
 
-function PatronsContent({user}) {
+function PatronsContent({user, t}) {
   const [longDes, setLongDes] = useState(false);
   const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const navigation = useNavigation();
@@ -50,7 +50,7 @@ function PatronsContent({user}) {
           </View>
           <View style={styles.titleContent}>
             <Text style={styles.email}>{user.email}</Text>
-            <Icon name="telegram" color={'#5F5F5F'} size={20} />
+            <Image source={require('../../../../assets/icons/Message.png')} />
           </View>
         </View>
       </View>
@@ -61,14 +61,15 @@ function PatronsContent({user}) {
             fontSize: 16,
             fontWeight: '500',
             marginBottom: 10,
+            marginTop: 10,
           }}>
-          Description
+          {t('description')}
         </Text>
         {description}
         {isDescriptionTooLong && (
           <TouchableOpacity onPress={isLongDs}>
             <Text style={{color: 'red', textAlign: 'right'}}>
-              Reade {!longDes ? 'More' : 'Less'}
+              {!longDes ? t('read_more') : t('read_less')}
             </Text>
           </TouchableOpacity>
         )}
@@ -80,7 +81,7 @@ function PatronsContent({user}) {
             navigation.navigate('PatronsSinglePage', {user: user})
           }>
           <Text style={{color: 'white', fontWeight: '600', fontSize: 18}}>
-            Learn More
+            {t('learn_more')}
           </Text>
         </Button>
       </View>

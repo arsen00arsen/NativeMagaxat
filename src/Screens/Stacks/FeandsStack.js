@@ -13,19 +13,21 @@ import PatronsSinglePage from '../MaintbScreens/PatronsScreen/PatronsSinglePage'
 import FreandScreen from '../MaintbScreens/FreandsScreens/FreandScreen';
 import FreandsSingleScreen from '../MaintbScreens/FreandsScreens/FreandsSingleScreen';
 import FreandSearchScreen from '../MaintbScreens/FreandsScreens/FreandSearchScreen';
+import { useTranslation } from 'react-i18next';
 
 const Freands = createStackNavigator();
 const FeandsStack = ({navigation, route}) => {
   const insets = useSafeAreaInsets();
+  const {t} = useTranslation();
   const {user} = useSelector(state => state.user);
-  const _headerleft = () => {
-    return (
-      <Image
-        source={require('../../../assets/RootScreens/logoWhite.png')}
-        style={{width: 90, height: 12, tintColor: '#ED7B12'}}
-      />
-    );
-  };
+  // const _headerleft = () => {
+  //   return (
+  //     <Image
+  //       source={require('../../../assets/RootScreens/logoWhite.png')}
+  //       style={{width: 90, height: 12, tintColor: '#ED7B12'}}
+  //     />
+  //   );
+  // };
   const _headeright = () => {
     return (
       <Image
@@ -61,8 +63,7 @@ const FeandsStack = ({navigation, route}) => {
         name="FreandScreen"
         component={FreandScreen}
         options={{
-          headerTitle: 'Freands',
-          // headerLeft: () => _headerleft(),
+          headerTitle: t('users'),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -92,7 +93,7 @@ const FeandsStack = ({navigation, route}) => {
         component={FreandSearchScreen}
         options={{
           headerTitle: 'Friends Search',
-          // headerLeft: () => _headerleft(),
+          headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,

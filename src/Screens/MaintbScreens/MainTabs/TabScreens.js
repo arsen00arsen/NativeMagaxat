@@ -65,6 +65,7 @@ const TabScreens = ({navigation}) => {
               />
             </View>
           ),
+  
         }}
       />
       <Tab.Screen
@@ -76,12 +77,14 @@ const TabScreens = ({navigation}) => {
               source={require('../../../../assets/icons/Add.png')}
               resizeMode="cover"
               style={{
+                marginTop: 13,
                 height: 40,
                 width: 40,
                 tintColor: '#4F48EC',
               }}
             />
           ),
+          tabBarLabel: '',
           tabBarButton: props => <CustomTabBarButton {...props} />,
         }}
       />
@@ -136,5 +139,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
+    borderWidth: 0.3,
+    borderColor: 'silver'
   },
 });

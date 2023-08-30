@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   View,
   Text,
@@ -9,6 +10,7 @@ import {
 } from 'react-native';
 
 function ShareIt({post}) {
+  const {t} = useTranslation();
   const [longDes, setLongDes] = useState(false);
   const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const handleTextLayout = e => {
@@ -45,13 +47,13 @@ function ShareIt({post}) {
             fontWeight: '500',
             marginBottom: 10,
           }}>
-          Description
+          {t('description')}
         </Text>
         {description}
         {isDescriptionTooLong && (
           <TouchableOpacity onPress={isLongDs}>
             <Text style={{color: 'red', textAlign: 'right'}}>
-              Reade {!longDes ? 'More' : 'Less'}
+              {!longDes ? t('read_more') : t('read_less')}
             </Text>
           </TouchableOpacity>
         )}
@@ -64,7 +66,7 @@ function ShareIt({post}) {
             fontWeight: '700',
             marginBottom: 50,
           }}>
-          Share It
+          {t('share')}
         </Text>
         <TouchableOpacity
           delayPressIn={0}

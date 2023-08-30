@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
-
+import {useTranslation} from 'react-i18next';
 import PostService from '../../../http/Post/post';
 
 const PatronsSearch = ({navigation}) => {
@@ -19,7 +19,7 @@ const PatronsSearch = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [name, setName] = useState('');
-
+  const {t} = useTranslation();
   useEffect(() => {
     if (isFocused) {
       getPosts();
@@ -74,7 +74,7 @@ const PatronsSearch = ({navigation}) => {
         iconColor="#BB9E79"
         shadowColor="#282828"
         cancelIconColor="#BB9E79"
-        placeholder="Search post by title"
+        placeholder={t('post_search_title')}
         onChangeText={text => {
           setName(text);
           setPage(1); // Reset page when search text changes

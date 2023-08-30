@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
+import { useTranslation } from 'react-i18next';
 import SearchComponent from '../../../Elements/SearchComponent';
 import FreandsContent from '../../../Components/FreandsComponent/FreandsContent';
 import UserService from '../../../http/Account/account';
 
 function FreandScreen() {
+  const {t} = useTranslation();
   const [user, setUser] = useState([]);
   const [categoryId, setCategoryId] = useState('');
   const [categoryAge, setCategoryAge] = useState('');
@@ -19,10 +21,10 @@ function FreandScreen() {
     try {
       const {data} = await UserService.getFreands({
         page: 1,
-        categoryId: categoryId,
+        categoryId: categoryId !== '' ? categoryId : '',
         start: categoryAge !== '' ? categoryAge.start : '',
         end: categoryAge !== '' ? categoryAge.end : '',
-        countryId: categoryCountry,
+        countryId: categoryCountry !== '' ? categoryCountry : '',
       });
       setUser(data.data);
     } catch (err) {
@@ -36,19 +38,18 @@ function FreandScreen() {
     try {
       const {data} = await UserService.getFreands({
         page: page,
-        categoryId: categoryId,
-        start: categoryAge !== '' ? categoryAge.start : null,
-        end: categoryAge !== '' ? categoryAge.end : null,
-        countryId: categoryCountry,
+        categoryId: categoryId !== '' ? categoryId : '',
+        start: categoryAge !== '' ? categoryAge.start : '',
+        end: categoryAge !== '' ? categoryAge.end : '',
+        countryId: categoryCountry !== '' ? categoryCountry : '',
       });
-      console.log(data)
       if (data.links.last_page > page) {
         setUser([...data, ...this.state.data]);
       } else {
         return;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -71,6 +72,7 @@ function FreandScreen() {
         width: '100%',
       }}>
       <SearchComponent
+        searchTitle={t('searchUsers')}
         isFreandsScreen
         categoryId={categoryId}
         setCategoryId={setCategoryId}

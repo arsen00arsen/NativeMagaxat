@@ -11,9 +11,11 @@ import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Button from '../../Elements/Button';
 import UserService from '../../http/Account/account';
+import {useTranslation} from 'react-i18next';
 
 function FreandsContent({user}) {
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const [folow, isFollowed] = useState(false);
   const isFollow = async id => {
     try {
@@ -56,7 +58,8 @@ function FreandsContent({user}) {
             </View>
             <View style={styles.titleContent}>
               <Text style={[styles.email, {fontSize: 15, color: '#333'}]}>
-                Followers({user?.followers}), Followings({user?.followings})
+                {t('followers')} ({user?.followers}), {t('following')} (
+                {user?.followings})
               </Text>
             </View>
           </View>
@@ -81,7 +84,7 @@ function FreandsContent({user}) {
                 fontSize: 18,
                 paddingHorizontal: 40,
               }}>
-              {!user.if_follow && !folow ? 'Follow' : 'Unfollow'}
+              {!user.if_follow && !folow ? t('follow') : t('unfollow')}
             </Text>
           </Button>
           <Button
@@ -94,7 +97,7 @@ function FreandsContent({user}) {
                 fontSize: 18,
                 paddingHorizontal: 40,
               }}>
-              Message
+              {t('messaging')}
             </Text>
           </Button>
         </View>

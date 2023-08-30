@@ -4,27 +4,26 @@ import {View, StyleSheet, Text} from 'react-native';
 import SafeAreaViewContainer from '../../../Elements/SafeAreaViewContainer';
 import Button from '../../../Elements/Button';
 import {useSelector} from 'react-redux';
+import {useTranslation} from 'react-i18next';
 
 const AddedPost = ({navigation}) => {
+  const {t} = useTranslation();
   const {user} = useSelector(state => state.user);
   return (
     <View style={styles.container}>
       <SafeAreaViewContainer>
         <View style={{height: '80%', justifyContent: 'space-between'}}>
           <View>
-            <Text style={styles.mainTitle}>Thank you {user.name}!</Text>
-            <Text style={styles.subTitle}>
-              Thank you, our moderator will check your announcement, if
-              approved, it will appear in the announcements section
+            <Text style={styles.mainTitle}>
+              {t('thank_you')} {user.name}!
             </Text>
-            <Text style={styles.subTitle}>
-              If you have anymore to share, please add it below.
-            </Text>
+            <Text style={styles.subTitle}>{t('added_post_text1')}</Text>
+            <Text style={styles.subTitle}>{t('added_post_text2')}</Text>
           </View>
           <Button
             style={{marginTop: 50, marginBottom: 10}}
             onPress={() => navigation.navigate('Home')}>
-            <Text style={styles.buttonTitle}>Back To Home</Text>
+            <Text style={styles.buttonTitle}>{t('back_home')}</Text>
           </Button>
         </View>
       </SafeAreaViewContainer>

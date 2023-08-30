@@ -1,18 +1,17 @@
 import React from 'react';
 import {Image, View} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {useSelector} from 'react-redux';
 import Button from '../../Elements/Button';
 import Icon from '../../Elements/Icon';
-import Text from '../../Elements/Text';
+
 import MyProfileScreen from '../MaintbScreens/MyProfileScreens/MyProfileScreen';
 import Language from '../MaintbScreens/MyProfileScreens/Language';
 import MyPostsScreen from '../MaintbScreens/MyProfileScreens/MyPostsScreen';
 import MyFollowersScreen from '../MaintbScreens/MyProfileScreens/MyFollowersScreen';
 import MyFollowingsScreen from '../MaintbScreens/MyProfileScreens/MyFollowingsScreen';
 import MyBioScreen from '../MaintbScreens/MyProfileScreens/MyBioScreen';
-
 
 const Profile = createStackNavigator();
 

@@ -11,6 +11,8 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useTranslation} from 'react-i18next';
 import {Controller, useForm} from 'react-hook-form';
 import SafeAreaViewContainer from '../../../Elements/SafeAreaViewContainer';
 import GlobalStyles from '../../../Configs/GlobalStyles';
@@ -22,13 +24,12 @@ import Video from 'react-native-video';
 import UserService from '../../../http/Account/account';
 import {MultipleSelectList} from 'react-native-dropdown-select-list';
 import CustomDataPicker from '../../../Elements/CustomDataPicker';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from '../../../Elements/Icon';
-import {black} from 'react-native-paper/lib/typescript/styles/colors';
-const Name_Surname_Regex = /^(?=.{3,20}$)/i;
+
 const URL_REGEX =
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 const AddPost = ({navigation}) => {
+  const {t} = useTranslation();
   const {control, handleSubmit, setValue} = useForm({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -40,40 +41,39 @@ const AddPost = ({navigation}) => {
     {
       name: 'title',
       control: control,
-      placeholder: 'Title',
-      title: 'Title*',
+      placeholder: t('title_placeholder'),
+      title: t('title'),
       rules: {
-        required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        required: t('inputRequired'),
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
     {
       name: 'role',
       control: control,
-      placeholder:
-        "Allows the moderator to specify their role or position within the app's community.",
-      title: 'Role',
+      placeholder: t('role_placeholder'),
+      title: t('role'),
       rules: {
-        required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        required: t('inputRequired'),
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
     {
       name: 'group_or_single',
       control: control,
-      placeholder: 'Are you working on a project in a group or alone?',
-      title: 'Group or Single',
+      placeholder: t('group_single_placeholder'),
+      title: t('group_single'),
       rules: {
-        required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        required: t('inputRequired'),
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -82,40 +82,39 @@ const AddPost = ({navigation}) => {
     {
       name: 'url',
       control: control,
-      placeholder: 'Add Link',
-      title: 'Social Media Link (preferably Linkedin)*',
+      placeholder: t('link'),
+      title: t('link_placeholder'),
       rules: {
-        required: 'This field is required',
+        required: t('inputRequired'),
         pattern: {
           value: URL_REGEX,
-          message: 'This field is required',
+          message: t('inputRequired'),
         },
       },
     },
-    {
-      name: 'description',
-      control: control,
-      placeholder:
-        'Let people know about your work, creativity & inspiration about this work',
-      title: 'Description*',
-      rules: {
-        required: 'This field is required',
-        minLenght: {
-          value: 1,
-          message: 'This field is required',
-        },
-      },
-    },
+    // {
+    //   name: 'description',
+    //   control: control,
+    //   placeholder: t('description_placeholder'),
+    //   title: t('description'),
+    //   rules: {
+    //     required: t('inputRequired'),
+    //     minLenght: {
+    //       value: 1,
+    //       message: t('inputRequired'),
+    //     },
+    //   },
+    // },
     {
       name: 'price',
       control: control,
-      placeholder: 'Enter ETH amount',
-      title: 'Price*',
+      placeholder: t('price_placeholder'),
+      title: t('price'),
       rules: {
-        required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        required: t('inputRequired'),
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -123,6 +122,7 @@ const AddPost = ({navigation}) => {
   useEffect(() => {
     getCategories();
   }, []);
+
   const getCategories = async () => {
     try {
       const {data} = await UserService.getCategories();
@@ -192,7 +192,7 @@ const AddPost = ({navigation}) => {
     setSelectedImages(newSelectedImages);
   };
   const [inputValue, setInputValue] = useState('');
-  const [inputHeight, setInputHeight] = useState(40);
+  const [inputHeight, setInputHeight] = useState(50);
 
   const handleContentSizeChange = (contentWidth, contentHeight) => {
     setInputHeight(contentHeight + 10); // Add some padding
@@ -267,7 +267,7 @@ const AddPost = ({navigation}) => {
                         justifyContent: 'center',
                       },
                     ]}>
-                    <Text hasMargin>Upload Photo/Video</Text>
+                    <Text hasMargin>{t('upload_media')}</Text>
                   </TouchableOpacity>
                   <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
                     {selectedImages.map((uri, index) => {
@@ -302,7 +302,7 @@ const AddPost = ({navigation}) => {
                     })}
                   </View>
                   <CustomDataPicker
-                    title="Duration*"
+                    title={t('duration')}
                     control={control}
                     name="duration"
                     rules={{required: 'This field is required'}}
@@ -311,7 +311,7 @@ const AddPost = ({navigation}) => {
                 </View>
                 <View>
                   <Text isSecondary hasMargin style={{paddingBottom: 10}}>
-                    Your Habits*
+                    {t('hobbie')}
                   </Text>
                   <MultipleSelectList
                     setSelected={val => setSelected(val)}
@@ -320,6 +320,61 @@ const AddPost = ({navigation}) => {
                     save="name"
                   />
                 </View>
+
+                <Controller
+                  control={control}
+                  name="description"
+                  rules={{
+                    required: t('inputRequired'),
+                    minLenght: {
+                      value: 1,
+                      message: t('inputRequired'),
+                    },
+                  }}
+                  render={({
+                    field: {value, onChange, onBlur},
+                    fieldState: {error: _error},
+                  }) => (
+                    <View>
+                      <Text isSecondary hasMargin>
+                        {t('description')}
+                      </Text>
+                      <TextInput
+                        style={[
+                          styles.textField,
+                          {
+                            height: inputHeight,
+                            color: '#000000',
+                            backgroundColor: '#fff',
+                            borderWidth: 1,
+                            borderColor: '#98A2B3',
+                            paddingBottom: 5,
+                            // height: 50,
+                          },
+                        ]}
+                        // onChangeText={onChange}
+                        onBlur={onBlur}
+                        placeholder={t('description_placeholder')}
+                        multiline={true}
+                        value={inputValue}
+                        onChangeText={text => {
+                          setInputValue(text), onChange(text);
+                        }}
+                        // onChangeText={onChange}
+                        onContentSizeChange={e =>
+                          handleContentSizeChange(
+                            e.nativeEvent.contentSize.width,
+                            e.nativeEvent.contentSize.height,
+                          )
+                        }
+                      />
+                      {_error?.message && (
+                        <Text isError>{_error?.message}</Text>
+                      )}
+                    </View>
+                  )}
+                />
+
                 {secondInputs.map((elem, index) => {
                   return (
                     <Controller
@@ -358,27 +413,12 @@ const AddPost = ({navigation}) => {
                     />
                   );
                 })}
-                {/* <View style={styles.container2}> */}
-                {/* <TextInput
-                  style={[styles.textInput, {height: inputHeight}]}
-                  placeholder="Type here..."
-                  multiline={true}
-                  value={inputValue}
-                  onChangeText={text => setInputValue(text)}
-                  onContentSizeChange={e =>
-                    handleContentSizeChange(
-                      e.nativeEvent.contentSize.width,
-                      e.nativeEvent.contentSize.height,
-                    )
-                  }
-                /> */}
-                {/* </View> */}
               </View>
               <Button
                 style={{marginTop: 30, marginBottom: 100}}
                 onPress={submitFormHandler}>
                 <Text isWhite isBold>
-                  Create Post
+                  {t('create_post')}
                 </Text>
               </Button>
             </View>
@@ -447,5 +487,11 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     paddingHorizontal: 8,
     fontSize: 16,
+  },
+  textField: {
+    flex: 1,
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 10,
   },
 });

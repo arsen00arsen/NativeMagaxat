@@ -7,12 +7,14 @@ import {
   SafeAreaView,
   Text,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {useIsFocused} from '@react-navigation/native';
 import SearchComponent from '../../../Elements/SearchComponent';
 import PatronsContent from './PatronsContent';
 import UserService from '../../../http/Account/account';
 
 function PatronScreen() {
+  const {t} = useTranslation();
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
@@ -58,7 +60,7 @@ function PatronScreen() {
       setLoading(false);
     }
   };
-  const renderItem = ({item}) => <PatronsContent user={item} />;
+  const renderItem = ({item}) => <PatronsContent user={item} t={t} />;
 
   if (loading && page === 1) {
     return (
@@ -71,6 +73,7 @@ function PatronScreen() {
   return (
     <SafeAreaView>
       <SearchComponent
+        searchTitle={t('searchPosts')}
         setCategoryId={setCategoryId}
         categoryId={categoryId}
         isCategory

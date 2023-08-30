@@ -11,11 +11,24 @@ import ChatRoom from '../MaintbScreens/HomeScreens/ChatRoom';
 import {ChatContent} from '../MaintbScreens/HomeScreens/ChatContent';
 import CommentScreen from '../MaintbScreens/HomeScreens/CommentScreen';
 import NotificationsScreen from '../MaintbScreens/HomeScreens/NotificationsScreen';
+import {useTranslation} from 'react-i18next';
 
 const Home = createStackNavigator();
 const HomeStak = ({navigation}) => {
+  const {t} = useTranslation();
   const insets = useSafeAreaInsets();
-
+  const _headerLeft = () => {
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Button
+          onPress={() => navigation.navigate('HomeScreen')}
+          isTransparent
+          style={{borderWidth: 0}}
+          icon={<Icon isPrimary name="chevron-left" size={25} />}
+        />
+      </View>
+    );
+  };
   const _headerleft = () => {
     return (
       <Image
@@ -105,8 +118,8 @@ const HomeStak = ({navigation}) => {
         name="Notifications"
         component={NotificationsScreen}
         options={{
-          headerTitle: 'Notifications',
-          // headerLeft: () => _headerleft(),
+          headerTitle: t('notifications'),
+          headerLeft: () => _headerLeft(),
           // headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -149,7 +162,8 @@ const HomeStak = ({navigation}) => {
         name="CommentScreen"
         component={CommentScreen}
         options={{
-          headerTitle: 'Chat',
+          headerTitle: t('comment'),
+          headerLeft: () => _headerLeft(),
           headerRight: () => _headerRithChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,

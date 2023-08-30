@@ -27,7 +27,6 @@ const NotificationsScreen = () => {
     setLoading(true);
     try {
       const {data} = await PostService.getNotification(1);
-      console.log(data.data);
       setUser(data.data);
     } catch (err) {
       console.log(err);
@@ -62,14 +61,12 @@ const NotificationsScreen = () => {
       });
 
       setUser(updatedArray);
-      console.log(updatedArray);
     } catch (error) {
       console.log(error.response);
     } finally {
     }
   };
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <Pressable
         style={[styles.contentTitle, {alignItems: 'flex-start'}]}

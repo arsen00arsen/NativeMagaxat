@@ -4,6 +4,7 @@ import CategoryFiltre from './CategoryFiltre';
 import AgeFiltre from './AgeFiltre';
 import CountryFiltre from './CountryFiltre';
 import UserService from '../../http/Account/account';
+import {useTranslation} from 'react-i18next';
 
 const DropDownFilterComponent = ({
   setCategoryId,
@@ -15,6 +16,7 @@ const DropDownFilterComponent = ({
   categoryCountry,
 }) => {
   const [active, setActive] = useState(1);
+  const {t} = useTranslation();
   const [age, setAge] = useState(false);
   const [country, setCountry] = useState(false);
   useEffect(() => {
@@ -39,11 +41,11 @@ const DropDownFilterComponent = ({
     }
   };
   const titles = isCategory
-    ? [{id: 1, title: 'Category'}]
+    ? [{id: 1, title: t('category')}]
     : [
-        {id: 1, title: 'Category'},
-        {id: 2, title: 'Age'},
-        {id: 3, title: 'Country/City'},
+        {id: 1, title: t('category')},
+        {id: 2, title: t('age')},
+        {id: 3, title: t('country')},
       ];
   let content;
   if (active === 1) {

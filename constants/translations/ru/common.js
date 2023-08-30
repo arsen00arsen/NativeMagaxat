@@ -1,6 +1,7 @@
 export default {
   language_title: 'Язык',
   posts: 'Публикации',
+  post: 'Публикация',
   followers: 'Подписчики',
   following: 'Подписки',
   bio: 'Биография',
@@ -20,28 +21,72 @@ export default {
   delete_account_no: 'Нет',
   delete_account_yes: 'Да',
   sign_out_account_prompt: 'Вы уверены, что хотите выйти?',
+  users: 'Профили',
+  searchUsers: 'Поиск Профили...',
+  category: 'Категория:',
+  age: 'Возраст',
+  follow: 'Подписаца',
+  unfollow: 'Oдписаца',
+  messaging: 'Сообщение',
+  title: 'Заголовок*',
+  title_placeholder: 'Заголовок',
+  role: 'Роль*',
+  role_placeholder:
+    'Позволяет модератору указать свою роль или положение в сообществе приложения.',
+  inputRequired: 'Это поле обязательно к заполнению',
+  group_single: 'Группа или одиночный*',
+  group_single_placeholder:
+    'Вы работаете над проектом в группе или в одиночку?',
+  link: 'Добавить ссылку',
+  link_placeholder: 'Ссылка на социальные сети (желательно LinkedIn)*',
+  description: 'Описание*',
+  description_placeholder:
+    'Расскажите людям о вашей работе, творчестве и вдохновении в этой работе.',
+  price: 'Сумма*',
+  price_placeholder: 'Введите сумму ETH',
+  upload_media: 'Загрузить фото/видео',
+  duration: 'Продолжительность*',
+  hobbie: 'Ваши привычки*',
+  create_post: 'Создать пост',
+  thank_you: 'Спасибо',
+  added_post_text1:
+    'Спасибо, наш модератор проверит ваше объявление, в случае одобрения оно появится в разделе объявлений.',
+  added_post_text2:
+    'Если вам есть чем поделиться, пожалуйста, добавьте это ниже.',
+  back_home: 'Главная страница',
+  post_added: 'Добавлено',
+  patron: 'Покровитель',
+  searchPosts: 'Поиск постoв...',
+  read_more: 'Подробнее',
+  read_less: 'Читайте меньше',
+  learn_more: 'Узнать больше',
+  post_search: 'Поиск постoв',
+  post_search_title: 'Искать пост по названию',
+  gallery: 'Галерея',
+  share: 'Поделиться',
+  comment: 'Комментарий',
+  addComment: 'Добавьте свой комментарий',
+  notifications: 'Уведомления',
+
+
+
+
+
+
+
 
   my_account_general: 'Основное',
-
 
   my_account_settings: 'Настройки',
   name: 'Имя',
   lastName: 'Фамилия',
 
-
-
-
-
-
-
   save: 'Сохранить',
   infoChangeSaved: 'Ваша информация сохранена',
 
-  users: 'Пользователи',
-
   subscribe: 'Подписаться',
   unSubscribe: 'Oтписаться',
-  messaging: 'Сообщение',
+
   youHavntUsers: 'У вас нет пользоватеьeй',
   maksSizeOfImage: 'Максимальный размер для фото не должен превысить 2mb',
   maksSizeOfVideo: 'Максимальный размер для видео не должен превысить 10mb',
@@ -70,12 +115,12 @@ export default {
   reasonForBlock: 'Причина блокировки ...',
   colse: 'Закрывать',
   havntAnyMessage: 'У вас нет сообщений',
-  share: 'Поделиться',
-  addComment: 'Добавьте свой комментарий',
+
+
   havntAnyPosts: 'У вас еще нет постoв',
   postDelete: 'Ваш пост удалитeн',
   reportSend: 'Спасибо, ваш отчет отправлен',
-  searchUsers: 'Поиск пользователей...',
+
   xelcomTo: 'Добро пожаловать',
   next: 'Далее',
   login: 'Вход',
@@ -91,7 +136,7 @@ export default {
   profils: 'Профили',
   media: 'Mедиа',
   writeResonMessage: 'Пожалуйста, напишите сообщение',
-  inputRequired: 'Это поле обязательно к заполнению',
+
   inValidEmail: 'Электронная почта недействительна',
   passwordLenght: 'Пароль должен быть не менее 8 символов',
   passwordMatch: 'Пароли не совпадают',

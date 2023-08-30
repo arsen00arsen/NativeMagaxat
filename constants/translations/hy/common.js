@@ -2,7 +2,8 @@ export default {
   language_title: 'Լեզու',
   followers: 'Հետևորդ',
   following: 'Հետևում է',
-  posts: 'Գրառում',
+  posts: 'Գրառումներ',
+  post: 'Գրառում',
   bio: 'Կենսագրություն',
   profession: 'Մասնագիտություն',
   education: 'Կրթություն',
@@ -20,6 +21,53 @@ export default {
   delete_account_no: 'Ոչ',
   delete_account_yes: 'Այո',
   sign_out_account_prompt: 'Իսկապե՞ս ուզում եք դուրս գալ',
+  users: 'Պրոֆիլներ',
+  searchUsers: 'Որոնել Պրոֆիլներ...',
+  category: 'Խմբեր',
+  age: 'Տարիք',
+  follow: 'Հետևել',
+  unfollow: 'Չհետևել',
+  title: 'Վերնագիր*',
+  title_placeholder: 'Վերնագիր',
+  role: 'Դեր*',
+  role_placeholder:
+    'Թույլ է տալիս մոդերատորին նշել իր դերը կամ դիրքը հավելվածի համայնքում:',
+  inputRequired: 'Այս դաշտը պարտադիր է լրացնել:',
+  group_single: 'Խմբային կամ միայնակ*',
+  group_single_placeholder:
+    'Դուք աշխատում եք նախագծի վրա խմբայի՞ն, թե՞ միայնակ',
+  link: 'Ավելացնել հղում',
+  link_placeholder: 'Սոցիալական մեդիայի հղում (ցանկալի է Linkedin)*',
+  description: 'Նկարագրություն*',
+  description_placeholder:
+    'Թող մարդիկ իմանան ձեր աշխատանքի, ստեղծագործության և այս աշխատանքի վերաբերյալ ոգեշնչվածության մասին',
+  price: 'Գումար*',
+  price_placeholder: 'Մուտքագրեք ETH գումարը',
+  upload_media: 'Վերբեռնեք լուսանկար/վիդեո',
+  duration: 'Տեւողությունը*',
+  hobbie: 'Ձեր սովորությունները*',
+  create_post: 'Ստեղծել գրառում',
+  thank_you: 'Շնորհակալություն',
+  added_post_text1:
+    'Շնորհակալություն, մեր մոդերատորը կստուգի Ձեր հայտարարությունը, հաստատվելու դեպքում այն կհայտնվի հայտարարությունների բաժնում',
+  added_post_text2:
+    'Եթե այլ ևս ունեք կիսվելու, խնդրում ենք ավելացնել այն ստորև:',
+  back_home: 'Հիմնական էջ',
+  post_added: 'Ավելացված է',
+  patron: 'հովանավոր',
+  searchPosts: 'Որոնել գրառումներ...',
+  read_more: 'Կարդալ ավելին',
+  read_less: 'Կարդացեք քիչ',
+  learn_more: 'Իմացեք ավելին',
+  post_search: 'Գրառման որոնում',
+  post_search_title: 'Փնտրեք գրառումը ըստ վերնագրի',
+  gallery: 'Պատկերներ',
+  share: 'Կիսվել',
+  comment: 'Մեկնաբանություն',
+  addComment: 'Ավելացրեք մեկնաբանություն',
+  notifications: 'Ծանուցումներ',
+
+
 
 
 
@@ -32,14 +80,13 @@ export default {
   name: 'Անուն',
   lastName: 'Ազգանուն',
 
-
   save: 'Պահպանել',
   infoChangeSaved: 'Կարգավորումները պահպանվել են',
+  messaging: 'Նամակ',
 
-  users: 'Օգտվող',
   subscribe: 'Հետևել',
   unSubscribe: 'Չհետևել',
-  messaging: 'Նամակ',
+
   youHavntUsers: 'Դուք չունեք ոչ մի օգտվող',
   maksSizeOfImage: 'Առավելագույն բեռնման ծավալը նկարի համար 2mb է',
   maksSizeOfVideo: 'Առավելագույն բեռնման ծավալը վիդեոի համար 2mb է',
@@ -68,12 +115,12 @@ export default {
   reasonForBlock: 'Արգելափակելու պատտճառ',
   colse: 'Փակել',
   havntAnyMessage: 'Դուք չունեք ոչ մի նամակ',
-  share: 'Կիսվել',
-  addComment: 'Ավելացրեք մեկնաբանություն',
+
+
   havntAnyPosts: 'Դուք չունեք ոչ մի գրառում',
   postDelete: 'Ձեր գրառումը հեռացված է',
   reportSend: 'Շնորհակալություն ձեր բողոքը ուղարկվել է',
-  searchUsers: 'Որոնել օգտվողներ...',
+
   xelcomTo: 'Բարի գալուստ',
   next: 'Հաջորդը',
   login: 'Մուտք',
@@ -89,7 +136,7 @@ export default {
   profils: 'Օգտվող',
   media: 'Մեդիա',
   writeResonMessage: 'Խնդրում ենք թողեք հաղորդագրություն',
-  inputRequired: 'Այս դաշտը պարտադիր է լրացնել:',
+
   inValidEmail: 'Էլփոստն անվավեր է',
   passwordLenght: 'Գաղտնաբառը պետք է լինի առնվազն 8 նիշ',
   passwordMatch: 'Գաղտնաբառերը չեն համընկնում',

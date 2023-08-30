@@ -7,6 +7,7 @@ import DropDownFilterComponent from '../Components/FiltreComponents/DropDownFilt
 import {useNavigation} from '@react-navigation/native';
 
 const SearchComponent = ({
+  searchTitle,
   isFreandsScreen,
   setCategoryId,
   categoryId,
@@ -29,7 +30,7 @@ const SearchComponent = ({
           }>
           <Ionicons name={'search'} size={25} color={'#8E8E92'} />
           <Text style={{color: '#8E8E92', fontSize: 18, marginHorizontal: 10}}>
-            Search
+            {searchTitle}
           </Text>
         </Pressable>
         <Button

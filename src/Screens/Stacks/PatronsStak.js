@@ -11,19 +11,25 @@ import Text from '../../Elements/Text';
 import PatronScreen from '../MaintbScreens/PatronsScreen/PatronScreen';
 import PatronsSinglePage from '../MaintbScreens/PatronsScreen/PatronsSinglePage';
 import PatronsSearch from '../MaintbScreens/PatronsScreen/PatronsSearch';
+import {useTranslation} from 'react-i18next';
 
 const Patrons = createStackNavigator();
-const PatronsStak = ({navigation, route}) => {
+const PatronsStak = ({navigation}) => {
+  const {t} = useTranslation();
   const insets = useSafeAreaInsets();
   const {user} = useSelector(state => state.user);
-  // const _headerleft = () => {
-  //   return (
-  //     <Image
-  //       source={require('../../../assets/RootScreens/logoWhite.png')}
-  //       style={{width: 90, height: 12, tintColor: '#ED7B12'}}
-  //     />
-  //   );
-  // };
+  const _headerleft = () => {
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Button
+          onPress={() => navigation.navigate('PatronScreen')}
+          isTransparent
+          style={{borderWidth: 0}}
+          icon={<Icon isPrimary name="chevron-left" size={25} />}
+        />
+      </View>
+    );
+  };
   const _headeright = () => {
     return (
       <Image
@@ -59,7 +65,7 @@ const PatronsStak = ({navigation, route}) => {
         name="PatronScreen"
         component={PatronScreen}
         options={{
-          headerTitle: 'Patron',
+          headerTitle: t('patron'),
           // headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
@@ -74,8 +80,8 @@ const PatronsStak = ({navigation, route}) => {
         name="PatronsSinglePage"
         component={PatronsSinglePage}
         options={{
-          headerTitle: 'Posts',
-          // headerLeft: () => _headerleft(),
+          headerTitle: t('post'),
+          headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -89,8 +95,8 @@ const PatronsStak = ({navigation, route}) => {
         name="PatronsSearch"
         component={PatronsSearch}
         options={{
-          headerTitle: 'Post Search',
-          // headerLeft: () => _headerleft(),
+          headerTitle: t('post_search'),
+          headerLeft: () => _headerleft(),
           headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,

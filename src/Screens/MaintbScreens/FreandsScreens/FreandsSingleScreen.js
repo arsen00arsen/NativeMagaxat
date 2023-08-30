@@ -70,8 +70,8 @@ function FreandsSingleScreen({route}) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <FreandsContent />
-        <Gallery /> */}
+        {/* <FreandsContent />*/}
+        {/* <Gallery  post={post?.file} />  */}
         <View style={{paddingHorizontal: 15}}>
           <Text
             style={{

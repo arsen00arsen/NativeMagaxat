@@ -6,27 +6,17 @@ import {
   StyleSheet,
   Text,
   FlatList,
-  TouchableWithoutFeedback,
-  Keyboard,
   Image,
-  ScrollView,
-  ImageBackground,
   TouchableOpacity,
   ActivityIndicator,
   Platform,
 } from 'react-native';
 import {Controller, useForm} from 'react-hook-form';
+import VideoPlayer from 'react-native-video-player';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import VideoPlayer from 'react-native-video-player';
-import {useDispatch, useSelector} from 'react-redux';
-// import {sendComment} from '../../../stores/post/postActions';
-// import HeaderBackSearch from '../../../components/HeaderComponents/HeaderBackSearch';
-import {useNavigation} from '@react-navigation/native';
-// import RadiusButton from '../../../components/RadiusButton';
 import {useTranslation} from 'react-i18next';
 import PostService from '../../../http/Post/post';
 import {TextInput} from 'react-native-gesture-handler';
-import TextField from '../../../Elements/TextField';
 
 const CommentScreen = ({route}) => {
   const {t} = useTranslation();
@@ -87,11 +77,9 @@ const CommentScreen = ({route}) => {
     return (
       <View
         style={{
-          // borderWidth: 1,
           borderRadius: 8,
           padding: 5,
           marginBottom: 10,
-          // borderColor: '#5E5E5E',
         }}>
         <View style={{flexDirection: 'row'}}>
           <Image source={{uri: item.avatar}} style={styles.coverPhoto} />
@@ -124,7 +112,6 @@ const CommentScreen = ({route}) => {
           style={{
             width: '100%',
             height: '100%',
-
           }}
           contentContainerStyle={{
             justifyContent: 'space-between',
@@ -141,24 +128,45 @@ const CommentScreen = ({route}) => {
                   {post.added}
                 </Text>
               </View>
-              <Image
-                source={{uri: post.files[0].url}}
-                style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
-              />
+              {post.files.some(file => file.type.includes('video')) ? (
+                <VideoPlayer
+                  video={{uri: post.files[0].url}}
+                  style={{
+                    width: '100%',
+                    height: 250,
+                  }}
+                  autoplay={false}
+                  defaultMuted={true}
+                  fullscreen={true}
+                  resizeMode="contain"
+                />
+              ) : (
+                <Image
+                  source={{uri: post.files[0].url}}
+                  style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
+                />
+              )}
+
               <Text style={{paddingHorizontal: 20, marginTop: 10}}>
                 {post.bio}
               </Text>
             </>
           )}
           renderItem={() => (
-            <FlatList
-              contentContainerStyle={{flexGrow: 1}}
-              data={comments}
-              renderItem={renderItem}
-              keyExtractor={item => item.id.toString()}
-              onEndReached={onEndReached}
-              onEndReachedThreshold={0.5}
-            />
+            <>
+              {comments.length > 0 ? (
+                <FlatList
+                  contentContainerStyle={{flexGrow: 1}}
+                  data={comments}
+                  renderItem={renderItem}
+                  keyExtractor={item => item.id.toString()}
+                  onEndReached={onEndReached}
+                  onEndReachedThreshold={0.5}
+                />
+              ) : (
+                <View style={{height: 200}} />
+              )}
+            </>
           )}
           renderSectionFooter={() => (
             <View style={styles.inner}>
@@ -172,7 +180,7 @@ const CommentScreen = ({route}) => {
                 }) => (
                   <TextInput
                     style={styles.textinput}
-                    placeholder={'Comment ...'}
+                    placeholder={t('addComment')}
                     multiline
                     secureTextEntry={false}
                     value={value}
