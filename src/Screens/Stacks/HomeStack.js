@@ -46,7 +46,7 @@ const HomeStak = ({navigation}) => {
           style={{borderWidth: 0}}
           icon={<Icon isPrimary name="bell-o" size={20} />}
         />
-        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
+        {/* <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
           4
         </Text>
         <Button
@@ -57,7 +57,7 @@ const HomeStak = ({navigation}) => {
         />
         <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
           7
-        </Text>
+        </Text> */}
       </View>
     );
   };

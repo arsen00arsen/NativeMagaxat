@@ -12,6 +12,7 @@ import {useIsFocused} from '@react-navigation/native';
 import SearchBar from 'react-native-dynamic-search-bar';
 
 import PostService from '../../../http/Post/post';
+import {useTranslation} from 'react-i18next';
 
 const FreandSearchScreen = ({navigation}) => {
   const [user, setUser] = useState([]);
@@ -19,7 +20,7 @@ const FreandSearchScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [name, setName] = useState('');
-
+  const {t} = useTranslation();
   useEffect(() => {
     if (isFocused) {
       getPosts();
@@ -51,10 +52,11 @@ const FreandSearchScreen = ({navigation}) => {
   };
 
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <Pressable
-        onPress={() => navigation.navigate('PatronsSinglePage', {user: item})}
+        onPress={() =>
+          navigation.navigate('FreandsSingleScreen', {id: item.id})
+        }
         style={styles.mainContent}>
         <Image source={{uri: item.avatar}} style={styles.postImage} />
         <View style={{width: '80%'}}>
@@ -73,7 +75,7 @@ const FreandSearchScreen = ({navigation}) => {
         iconColor="#BB9E79"
         shadowColor="#282828"
         cancelIconColor="#BB9E79"
-        placeholder="Search post by title"
+        placeholder={t('user_search_title')}
         onChangeText={text => {
           setName(text);
           setPage(1); // Reset page when search text changes

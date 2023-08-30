@@ -66,27 +66,30 @@ export default {
   comment: 'Մեկնաբանություն',
   addComment: 'Ավելացրեք մեկնաբանություն',
   notifications: 'Ծանուցումներ',
-
-
-
-
-
-
-
-
-  my_account_general: 'Հիմնական',
-
-  my_account_settings: 'Կարգավորումներ',
+  user_search_title: 'Որոնել օգտվողին անունով',
+  xelcomTo: 'Բարի գալուստ',
+  fuel_dreams: 'Լրացրեք ձեր երազանքները, գտեք ձեր չեմպիոնին:',
+  get_started: 'Սկսել',
+  as_guest: 'Որպես Հյուր',
+  registracion: 'Գրանցվել',
+  log_in_account: 'Մուտք գործեք ձեր հաշիվ',
+  signIn: 'Մուտք',
+  password: 'Գաղտնաբառ',
+  email: 'Էլ փոստ',
+  inValidEmail: 'Էլփոստն անվավեր է',
+  passwordLenght: 'Գաղտնաբառը պետք է լինի առնվազն 6 նիշ',
+  dont_have_account: 'Չունե՞ք հաշիվ:',
   name: 'Անուն',
   lastName: 'Ազգանուն',
+
+  my_account_general: 'Հիմնական',
+  my_account_settings: 'Կարգավորումներ',
 
   save: 'Պահպանել',
   infoChangeSaved: 'Կարգավորումները պահպանվել են',
   messaging: 'Նամակ',
-
   subscribe: 'Հետևել',
   unSubscribe: 'Չհետևել',
-
   youHavntUsers: 'Դուք չունեք ոչ մի օգտվող',
   maksSizeOfImage: 'Առավելագույն բեռնման ծավալը նկարի համար 2mb է',
   maksSizeOfVideo: 'Առավելագույն բեռնման ծավալը վիդեոի համար 2mb է',
@@ -116,18 +119,15 @@ export default {
   colse: 'Փակել',
   havntAnyMessage: 'Դուք չունեք ոչ մի նամակ',
 
-
   havntAnyPosts: 'Դուք չունեք ոչ մի գրառում',
   postDelete: 'Ձեր գրառումը հեռացված է',
   reportSend: 'Շնորհակալություն ձեր բողոքը ուղարկվել է',
 
-  xelcomTo: 'Բարի գալուստ',
+
   next: 'Հաջորդը',
   login: 'Մուտք',
-  registracion: 'Գրանցվել',
-  signIn: 'Մուտք',
-  password: 'Գաղտնաբառ',
-  email: 'Էլ փոստ',
+
+
   createPrifile: 'Ստեղծեք ձեր հաշիվը',
   confirmPassword: 'Հաստատել գաղտնաբառը',
   privacePoliceText: 'Ես համաձայն եմ օգտագործման պայմանների հետ',
@@ -137,8 +137,7 @@ export default {
   media: 'Մեդիա',
   writeResonMessage: 'Խնդրում ենք թողեք հաղորդագրություն',
 
-  inValidEmail: 'Էլփոստն անվավեր է',
-  passwordLenght: 'Գաղտնաբառը պետք է լինի առնվազն 8 նիշ',
+ 
   passwordMatch: 'Գաղտնաբառերը չեն համընկնում',
   postShared: 'Գրառումը հաջողությամբ տարածվեց',
   sposnorTitle: 'Բարերար',

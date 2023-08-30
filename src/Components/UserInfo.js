@@ -6,8 +6,10 @@ import {
   Text,
   TouchableOpacity,
   Pressable,
+  useWindowDimensions,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import ImageModal from 'react-native-image-modal';
 import VideoPlayer from 'react-native-video-player';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -18,7 +20,7 @@ import ModalComponent from './PostsComponent/ModalComponent';
 const UserInfo = ({user}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
-
+  const {width} = useWindowDimensions();
   return (
     <View style={styles.container}>
       <View style={styles.userCard}>
@@ -61,9 +63,10 @@ const UserInfo = ({user}) => {
             resizeMode="contain"
           />
         ) : (
-          <Image
+          <ImageModal
             source={{uri: user.files[0].url}}
-            style={{width: '100%', minHeight: 250, resizeMode: 'cover'}}
+            resizeMode="contain"
+            style={{width: width, minHeight: 250}}
           />
         )}
 

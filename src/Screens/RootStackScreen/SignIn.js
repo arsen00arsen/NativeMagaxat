@@ -17,24 +17,26 @@ import {ScrollView} from 'react-native-gesture-handler';
 import UserService from '../../http/Account/account';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {loginUser} from '../../../stores/user/userActions';
+import {useTranslation} from 'react-i18next';
 
 const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 const SignIn = ({navigation}) => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const {control, handleSubmit} = useForm({});
   const firsInputs = [
     {
       name: 'email',
       control: control,
-      placeholder: 'Email',
+      placeholder: t('email'),
       title: 'Your Email Address*',
       rules: {
-        required: 'This field is required',
+        required: t('inValidEmail'),
         pattern: {
           value: EMAIL_REGEX,
-          message: 'The email address is wrong',
+          message: t('inValidEmail'),
         },
       },
     },
@@ -60,10 +62,10 @@ const SignIn = ({navigation}) => {
                 },
               ]}>
               <Text isHeadingTitle isCenter style={{color: '#ED7B12'}} isBold>
-                Welcome back!
+                {t('xelcomTo')}
               </Text>
               <View style={{marginTop: 60}}>
-                <Text style={styles.title}>Log In to your account</Text>
+                <Text style={styles.title}>{t('log_in_account')}</Text>
                 {firsInputs.map((elem, index) => {
                   return (
                     <Controller
@@ -107,10 +109,10 @@ const SignIn = ({navigation}) => {
                   name={'password'}
                   secureTextEntry={false}
                   rules={{
-                    required: 'This field is required',
+                    required: t('inputRequired'),
                     minLength: {
                       value: 6,
-                      message: 'Passwords must be at least 6 characters long',
+                      message: t('passwordLenght'),
                     },
                   }}
                   render={({
@@ -127,7 +129,7 @@ const SignIn = ({navigation}) => {
                           },
                         ]}
                         hasMargin
-                        placeholder={'Password'}
+                        placeholder={t('password')}
                         secureTextEntry={true}
                         value={value}
                         onChangeText={onChange}
@@ -144,7 +146,7 @@ const SignIn = ({navigation}) => {
                 style={{marginTop: 30, marginBottom: 10}}
                 onPress={submitFormHandler}>
                 <Text isWhite isBold>
-                  Sign In
+                  {t('signIn')}
                 </Text>
               </Button>
             </View>
@@ -156,9 +158,11 @@ const SignIn = ({navigation}) => {
                   justifyContent: 'flex-start',
                 },
               ]}>
-              <Text style={styles.title}>Dont’t have an account? </Text>
+              <Text style={styles.title}>{t('dont_have_account')} </Text>
               <Pressable onPress={() => navigation.navigate('Registration')}>
-                <Text style={[styles.title, {color: '#4F48EC'}]}>Sign Up</Text>
+                <Text style={[styles.title, {color: '#4F48EC'}]}>
+                  {t('registracion')}
+                </Text>
               </Pressable>
             </View>
           </ScrollView>

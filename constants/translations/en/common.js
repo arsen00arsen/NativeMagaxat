@@ -64,13 +64,27 @@ export default {
   comment: 'Comment',
   addComment: 'Add your comment',
   notifications: 'Notifications',
+  user_search_title: 'Search user by name',
+  xelcomTo: 'Welcome',
+  fuel_dreams: 'Fuel Your Dreams, Find Your Champion!',
+  get_started: 'Get Started',
+  as_guest: 'As a Guest !',
+  registracion: 'Signup',
+  log_in_account: 'Log In to your account',
+  signIn: 'Signin',
+  password: 'Password',
+  email: 'Email',
+  inValidEmail: 'Email is invalid',
+  passwordLenght: 'Password must be at least 8 characters',
+  dont_have_account: 'Dont’t have an account?',
+  name: 'First Name',
+  lastName: 'Last Name',
 
 
 
   my_account_general: 'General',
   my_account_settings: 'Settings',
-  name: 'First Name',
-  lastName: 'Last Name',
+
   save: 'Save',
   infoChangeSaved: 'Your settings was saved',
   youHavntUsers: 'You dont have any users',
@@ -101,17 +115,13 @@ export default {
   colse: 'Close',
   havntAnyMessage: 'You dont have any messages',
 
-
   havntAnyPosts: 'You dont have any post',
   postDelete: 'Your post was deleted',
   reportSend: 'Thank you, your report was sent',
-  xelcomTo: 'Welcome',
   next: 'Next',
   login: 'Signin',
-  registracion: 'Signup',
-  signIn: 'Signin',
-  password: 'Password',
-  email: 'Email',
+
+
   createPrifile: 'Create ypour profile',
   confirmPassword: 'Confirm your password',
   privacePoliceText: 'I agree with EULA an privacy terms',
@@ -120,8 +130,8 @@ export default {
   profils: 'Profile',
   media: 'Media',
   writeResonMessage: 'Please write a message',
-  inValidEmail: 'Email is invalid',
-  passwordLenght: 'Password must be at least 8 characters',
+
+
   passwordMatch: 'The passwords do not match',
   postShared: 'Post shared successfully',
   sposnorTitle: 'Sponsor',

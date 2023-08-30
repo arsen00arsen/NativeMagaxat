@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, StyleSheet, Image, Dimensions} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import SafeAreaViewContainer from '../../Elements/SafeAreaViewContainer';
 import GlobalStyles from '../../Configs/GlobalStyles';
 import Text from '../../Elements/Text';
@@ -8,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 
 const SplashScreen = ({navigation}) => {
+  const {t} = useTranslation();
   let height = Dimensions.get('window').height;
   let width = Dimensions.get('window').width;
   const dispatch = useDispatch();
@@ -54,23 +56,23 @@ const SplashScreen = ({navigation}) => {
           />
           <View>
             <Text isWhite style={styles.subtitle}>
-              Welcome
+              {t('xelcomTo')}
             </Text>
             <Text isWhite isBold style={styles.text}>
-              Fuel Your Dreams, Find Your Champion!
+              {t('fuel_dreams')}
             </Text>
             <Button
               style={{marginTop: 50, marginBottom: 10}}
               onPress={() => navigation.navigate('SignIn')}>
               <Text isWhite isBold>
-                Get Started
+                {t('get_started')}
               </Text>
             </Button>
             <Button
               isTransparent
               onPress={() => navigation.navigate('Registration')}>
               <Text isWhite isBold>
-                Register
+                {t('registracion')}
               </Text>
             </Button>
             {/* <Button
@@ -78,7 +80,7 @@ const SplashScreen = ({navigation}) => {
               style={{marginTop: 10, marginBottom: 10}}
               onPress={signInAsGuest}>
               <Text isWhite isBold>
-                As a Guest !
+                {t('as_guest')}
               </Text>
             </Button> */}
           </View>
@@ -110,7 +112,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     // fontFamily: 'SF-Pro-Display-Bold',
-    fontSize: 52,
+    fontSize: 48,
   },
   text: {
     fontSize: 17,

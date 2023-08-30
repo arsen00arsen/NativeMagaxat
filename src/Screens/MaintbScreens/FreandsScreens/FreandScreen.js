@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {FlatList, View, ActivityIndicator, StyleSheet} from 'react-native';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import SearchComponent from '../../../Elements/SearchComponent';
 import FreandsContent from '../../../Components/FreandsComponent/FreandsContent';
 import UserService from '../../../http/Account/account';

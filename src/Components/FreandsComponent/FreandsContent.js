@@ -47,8 +47,9 @@ function FreandsContent({user}) {
           <View style={{width: '70%', marginHorizontal: 10}}>
             <TouchableOpacity
               style={styles.titleContent}
-              onPress={() =>
-                navigation.navigate('FreandsSingleScreen', {id: user.id})
+              onPress={
+                () => console.log(1)
+                // navigation.navigate('FreandsSingleScreen', {id: user.id})
               }>
               <Text style={styles.title}>{user?.name}</Text>
               {/* <Ionicons name="md-star" color={'#4F48EC'} size={30} /> */}

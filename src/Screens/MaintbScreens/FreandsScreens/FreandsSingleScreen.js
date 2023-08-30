@@ -24,7 +24,7 @@ function FreandsSingleScreen({route}) {
   useEffect(() => {
     getUser();
   }, []);
-
+console.log(user)
   const getUser = async () => {
     setLoading(true);
     try {
@@ -70,7 +70,7 @@ function FreandsSingleScreen({route}) {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <FreandsContent />*/}
+        {/* <FreandsContent user={user} /> */}
         {/* <Gallery  post={post?.file} />  */}
         <View style={{paddingHorizontal: 15}}>
           <Text
