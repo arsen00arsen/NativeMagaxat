@@ -17,6 +17,7 @@ const TabScreens = ({navigation}) => {
       </TouchableOpacity>
     </View>
   );
+  
   return (
     <Tab.Navigator
       screenOptions={{

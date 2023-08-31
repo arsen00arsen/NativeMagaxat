@@ -1,9 +1,10 @@
 import React from 'react';
 import {StyleSheet, FlatList, SafeAreaView} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import PatronsContent from '../PatronsScreen/PatronsContent';
 
 function MyPostsScreen({route}) {
-  //   const [user, setUser] = useState([]);
+  const {t} = useTranslation();
   const posts = route?.params?.posts;
 
   //   useEffect(() => {
@@ -42,7 +43,7 @@ function MyPostsScreen({route}) {
   //       setLoading(false);
   //     }
   //   };
-  const renderItem = ({item}) => <PatronsContent user={item} />;
+  const renderItem = ({item}) => <PatronsContent user={item} t={t} />;
 
   //   if (loading && page === 1) {
   //     return (

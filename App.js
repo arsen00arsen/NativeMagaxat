@@ -12,9 +12,9 @@ import {I18nextProvider} from 'react-i18next';
 import {AuthContainer} from './src/Container/AuthContainer';
 import {requestUserPermission} from './src/utils/requestUserPermission';
 import {getMe} from './stores/user/userActions';
-import {ActivityIndicator, StatusBar, View} from 'react-native';
+import {ActivityIndicator, StatusBar, View, Alert} from 'react-native';
 import i18n from './i18n';
-
+import messaging from '@react-native-firebase/messaging';
 const App = () => {
   const dispatch = useDispatch();
   const {loading, isAuth} = useSelector(state => state.user);
@@ -22,7 +22,13 @@ const App = () => {
     requestUserPermission();
     dispatch(getMe());
   }, []);
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    });
 
+    return unsubscribe;
+  }, []);
   if (loading) {
     return (
       <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
