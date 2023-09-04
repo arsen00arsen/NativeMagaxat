@@ -13,8 +13,8 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7EF5FD82B193325A55970103 /* libPods-SponsorAM-SponsorAMTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F046D5F2D2904BCFE0012581 /* libPods-SponsorAM-SponsorAMTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		9B23E5E52A77A3EE003AF22F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */; };
 		9BA643EB28F026C900E7291F /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9BA643EA28F026C900E7291F /* libBVLinearGradient.a */; };
+		9BA80DF32AA22916009BC2C1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9BA80DF22AA22915009BC2C1 /* GoogleService-Info.plist */; };
 		FD5AA290F96417BE7EB2876B /* libPods-SponsorAM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6624F933E334A0BA5557855E /* libPods-SponsorAM.a */; };
 /* End PBXBuildFile section */
 
@@ -48,9 +48,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = AwesomeProject/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8FF11CF9E000D9DE08FFA261 /* Pods-SponsorAM-SponsorAMTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SponsorAM-SponsorAMTests.debug.xcconfig"; path = "Target Support Files/Pods-SponsorAM-SponsorAMTests/Pods-SponsorAM-SponsorAMTests.debug.xcconfig"; sourceTree = "<group>"; };
 		99DB87C9822A41AAAED1F407 /* Roboto-ThinItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Roboto-ThinItalic.ttf"; path = "../assets/fonts/Roboto-ThinItalic.ttf"; sourceTree = "<group>"; };
-		9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9B260B262869EB450065022C /* AwesomeProject.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = AwesomeProject.entitlements; path = AwesomeProject/AwesomeProject.entitlements; sourceTree = "<group>"; };
 		9BA643EA28F026C900E7291F /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9BA80DF22AA22915009BC2C1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		9BF7F2272866094700A647B9 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
 		9BF7F2282866094700A647B9 /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
 		9BF7F2292866094700A647B9 /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 		13B07FAE1A68108700A75B9A /* AwesomeProject */ = {
 			isa = PBXGroup;
 			children = (
-				9B23E5E42A77A3EE003AF22F /* GoogleService-Info.plist */,
+				9BA80DF22AA22915009BC2C1 /* GoogleService-Info.plist */,
 				9B260B262869EB450065022C /* AwesomeProject.entitlements */,
 				9BF7F2262866092200A647B9 /* Fonts */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -324,7 +324,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				9B23E5E52A77A3EE003AF22F /* GoogleService-Info.plist in Resources */,
+				9BA80DF32AA22916009BC2C1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +558,8 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AwesomeProject/AwesomeProject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 66T5LS8HXN;
 				ENABLE_BITCODE = NO;
@@ -634,6 +636,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.sposnor;
 				PRODUCT_NAME = SponsorAM;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -653,6 +656,8 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = AwesomeProject/AwesomeProject.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 66T5LS8HXN;
 				INFOPLIST_FILE = AwesomeProject/Info.plist;
@@ -728,6 +733,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.sposnor;
 				PRODUCT_NAME = SponsorAM;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;

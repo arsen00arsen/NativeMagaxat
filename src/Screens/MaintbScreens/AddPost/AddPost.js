@@ -155,7 +155,7 @@ const AddPost = ({navigation}) => {
           }
         }
       }
-      const response = await fetch('http://167.71.7.108/api/post', {
+      const response = await fetch('http://161.35.89.36/api/post', {
         method: 'POST',
         body: formData,
         headers: {

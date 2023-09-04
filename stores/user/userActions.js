@@ -22,7 +22,7 @@ export const userInfoChange = payload => ({
 
 export const loginUser = dateTosend => async dispatch => {
   try {
-    // dispatch(startLogin());
+    dispatch(startLogin());
     const {data} = await UserService.login(dateTosend);
     dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);

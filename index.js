@@ -5,13 +5,13 @@
 import {AppRegistry} from 'react-native';
 import React from 'react';
 import App from './App';
-import messaging from '@react-native-firebase/messaging';
+// import messaging from '@react-native-firebase/messaging';
 import {name as appName} from './app.json';
 import configureStore from './store/configureStore';
 import {Provider} from 'react-redux';
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
-});
+// messaging().setBackgroundMessageHandler(async remoteMessage => {
+//   console.log('Message handled in the background!', remoteMessage);
+// });
 
 const store = configureStore();
 const RNRedux = () => {
