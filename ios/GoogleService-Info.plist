@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>442729071615-ht7s349je8fd1318t1djs3c23kom2t6e.apps.googleusercontent.com</string>
+	<string>867450598354-koectnhuecqq1aq96js9po6n1f6u4a2g.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.442729071615-ht7s349je8fd1318t1djs3c23kom2t6e</string>
+	<string>com.googleusercontent.apps.867450598354-koectnhuecqq1aq96js9po6n1f6u4a2g</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDljjGEBhbSH5-uaK2g4NXiOoXLAAROTQw</string>
+	<string>AIzaSyCUGUwdwK9y1h0uC0rc6WJ2kgfidE_jQaI</string>
 	<key>GCM_SENDER_ID</key>
-	<string>442729071615</string>
+	<string>867450598354</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>sponsor</string>
+	<string>org.reactjs.native.sposnor</string>
 	<key>PROJECT_ID</key>
-	<string>sponsor-e5b4f</string>
+	<string>sponsoram-47a4f</string>
 	<key>STORAGE_BUCKET</key>
-	<string>sponsor-e5b4f.appspot.com</string>
+	<string>sponsoram-47a4f.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:442729071615:ios:cba29debb7025acf079dca</string>
+	<string>1:867450598354:ios:94eb8b9437e58f91b34e0b</string>
 </dict>
 </plist>
