@@ -17,7 +17,7 @@ const SplashScreen = ({navigation}) => {
     await AsyncStorage.setItem('USER_GUEST_TOKEN', 'AS_GUEST');
     try {
       const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
-      dispatch({type: 'LOGIN_AS_GUEST', data: userAsGuest});
+      dispatch({type: 'LOGIN_AS_GUEST', payload: userAsGuest});
     } catch (error) {
       console.log(error);
     }
@@ -75,14 +75,14 @@ const SplashScreen = ({navigation}) => {
                 {t('registracion')}
               </Text>
             </Button>
-            {/* <Button
+            <Button
               isTransparent
               style={{marginTop: 10, marginBottom: 10}}
               onPress={signInAsGuest}>
               <Text isWhite isBold>
                 {t('as_guest')}
               </Text>
-            </Button> */}
+            </Button>
           </View>
         </View>
       </SafeAreaViewContainer>

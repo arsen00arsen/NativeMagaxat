@@ -65,10 +65,11 @@ export const registerUser = dataToSend => async dispatch => {
 //   }
 // };
 
-export const getMe = () => async dispatch => {
+export const getMe = setUserToken => async dispatch => {
   try {
     dispatch(startLogin());
     const token = await AsyncStorage.getItem('token');
+    setUserToken(token)
     if (token) {
       const {data} = await UserService.getMe();
       dispatch(loginSuccess(data.data));
@@ -85,6 +86,7 @@ export const logoutUser = () => async dispatch => {
     dispatch(startLogin());
     // await UserService.logout();
     await AsyncStorage.removeItem('token');
+    await AsyncStorage.removeItem('USER_GUEST_TOKEN');
     dispatch(loginError('Logged out'));
   } catch (error) {
     dispatch(loginError(error.message));

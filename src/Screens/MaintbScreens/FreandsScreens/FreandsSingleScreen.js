@@ -10,11 +10,14 @@ import {
 import Gallery from '../../../Components/PatreonsComponents/Gallery';
 import FreandsContent from '../../../Components/FreandsComponent/FreandsContent';
 import UserService from '../../../http/Account/account';
+import {useTranslation} from 'react-i18next';
 
 function FreandsSingleScreen({route}) {
+  const {t} = useTranslation();
   const id = route?.params?.id;
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
+  const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const [longDes, setLongDes] = useState(false);
 
   const isLongDs = () => {
@@ -24,7 +27,7 @@ function FreandsSingleScreen({route}) {
   useEffect(() => {
     getUser();
   }, []);
-console.log(user)
+  console.log(user);
   const getUser = async () => {
     setLoading(true);
     try {
@@ -44,51 +47,57 @@ console.log(user)
     );
   }
 
-  let description;
-  if (longDes === false) {
-    description = (
-      <Text style={[styles.usersTitle, {marginBottom: 5}]} numberOfLines={5}>
-        It is a long established fact that a reader will be distracted by the
-        readable content of a page when looking at its layout. The point of
-        using Lorem Ipsum is that it has a more-or-less normal distribution of
-        letters, as opposed to using 'Content here, content here', making it
-        look like readable English.
-      </Text>
-    );
-  } else {
-    description = (
-      <Text style={[styles.longDis, {marginBottom: 5}]}>
-        It is a long established fact that a reader will be distracted by the
-        readable content of a page when looking at its layout. The point of
-        using Lorem Ipsum is that it has a more-or-less normal distribution of
-        letters, as opposed to using 'Content here, content here', making it
-        look like readable English.
-      </Text>
-    );
-  }
-
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* <FreandsContent user={user} /> */}
-        {/* <Gallery  post={post?.file} />  */}
-        <View style={{paddingHorizontal: 15}}>
-          <Text
-            style={{
-              color: '#000',
-              fontSize: 16,
-              fontWeight: '500',
-              marginBottom: 10,
-            }}>
-            Description
-          </Text>
-          {description}
-          <TouchableOpacity onPress={isLongDs}>
-            <Text style={{color: '#ED7B12', textAlign: 'right'}}>
-              Reade More
-            </Text>
-          </TouchableOpacity>
-        </View>
+        <FreandsContent user={user} />
+        {user?.patrons.map((elem, index) => {
+          const handleTextLayout = e => {
+            const {lines} = e.nativeEvent;
+            if (lines.length > 4) {
+              setIsDescriptionTooLong(true);
+            }
+          };
+          let description;
+          if (longDes === false) {
+            description = (
+              <Text
+                style={[styles.usersTitle, {marginBottom: 5}]}
+                numberOfLines={5}
+                onTextLayout={handleTextLayout}>
+                {elem.description}
+              </Text>
+            );
+          } else {
+            description = (
+              <Text style={[styles.longDis, {marginBottom: 5}]}>
+                {elem.description}
+              </Text>
+            );
+          }
+          return (
+            <View style={{paddingHorizontal: 15, width: '100%'}} key={index}>
+              <Gallery post={elem?.file} />
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  marginBottom: 10,
+                }}>
+                Description
+              </Text>
+              {description}
+              {isDescriptionTooLong && (
+                <TouchableOpacity onPress={isLongDs}>
+                  <Text style={{color: 'red', textAlign: 'right'}}>
+                    {!longDes ? t('read_more') : t('read_less')}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          );
+        })}
       </View>
     </ScrollView>
   );

@@ -79,7 +79,7 @@ export default {
   dont_have_account: 'Dont’t have an account?',
   name: 'First Name',
   lastName: 'Last Name',
-
+  havntAnyPosts: 'You dont have any post',
 
 
   my_account_general: 'General',
@@ -115,7 +115,7 @@ export default {
   colse: 'Close',
   havntAnyMessage: 'You dont have any messages',
 
-  havntAnyPosts: 'You dont have any post',
+
   postDelete: 'Your post was deleted',
   reportSend: 'Thank you, your report was sent',
   next: 'Next',

@@ -29,13 +29,13 @@ function ProfileInfo({user, t}) {
         ]}>
         <Text
           style={styles.info}
-          onPress={() => navigation.navigate('MyFollowers')}>
-          {t('my_account_folower')} ({user?.followers}){' '}
+          onPress={() => navigation.navigate('MyFollowings')}>
+          {t('my_account_folower')} ({user?.followings}){' '}
         </Text>
         <Text
           style={styles.info}
-          onPress={() => navigation.navigate('MyFollowings')}>
-          {t('my_account_folowers')} ({user?.followings}){' '}
+          onPress={() => navigation.navigate('MyFollowers')}>
+          {t('my_account_folowers')} ({user?.followers}){' '}
         </Text>
         <Text style={styles.info}>
           {t('posts')} ({user?.post_count})

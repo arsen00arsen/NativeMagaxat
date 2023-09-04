@@ -17,9 +17,13 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 import PostService from '../../../http/Post/post';
 import {TextInput} from 'react-native-gesture-handler';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../../../stores/user/userActions';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CommentScreen = ({route}) => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const post = route?.params?.post;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -45,14 +49,19 @@ const CommentScreen = ({route}) => {
   });
 
   const getComments = async () => {
-    setLoading(true);
-    try {
-      const {data} = await PostService.getComments({id: post?.id, page: 1});
-      setComments(data.data);
-    } catch (err) {
-      console.log(err.response);
-    } finally {
-      setLoading(false);
+    const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
+    if (userAsGuest === 'AS_GUEST') {
+      dispatch(logoutUser());
+    } else {
+      setLoading(true);
+      try {
+        const {data} = await PostService.getComments({id: post?.id, page: 1});
+        setComments(data.data);
+      } catch (err) {
+        console.log(err.response);
+      } finally {
+        setLoading(false);
+      }
     }
   };
   const onEndReached = async () => {

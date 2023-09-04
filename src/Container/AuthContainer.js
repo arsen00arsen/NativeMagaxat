@@ -3,24 +3,39 @@ import {NavigationContainer} from '@react-navigation/native';
 import TabScreens from '../Screens/MaintbScreens/MainTabs/TabScreens';
 import {createStackNavigator} from '@react-navigation/stack';
 import RootStackScreen from '../Screens/RootStackScreen/RootStackScreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {PusherProvider} from '@harelpls/use-pusher/react-native';
 const Stack = createStackNavigator();
-export const AuthContainer = ({isAuth}) => {
+export const AuthContainer = ({isAuth, userToken}) => {
+  let content;
 
-  let content = (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="TabScreens"
-        options={{
-          headerShown: false,
-        }}
-        component={TabScreens}
-      />
-    </Stack.Navigator>
-  );
-  return (
-    <NavigationContainer>
-      {isAuth ? content : <RootStackScreen />}
-    </NavigationContainer>
-  );
+  if (isAuth && userToken) {
+    const config = {
+      clientKey: 'sponsor-app',
+      cluster: 'mt1',
+      authEndpoint: 'http://161.35.89.36/api/broadcast/auth',
+      auth: {
+        headers: {Authorization: `Bearer ${userToken}`},
+      },
+      httpsPort: 443,
+      wsHost: '161.35.89.36',
+      forceTLS: true,
+    };
+    content = (
+      <PusherProvider {...config}>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="TabScreens"
+            options={{
+              headerShown: false,
+            }}
+            component={TabScreens}
+          />
+        </Stack.Navigator>
+      </PusherProvider>
+    );
+  } else if (isAuth === 'false') {
+    content = <RootStackScreen />;
+  }
+
+  return <NavigationContainer>{content}</NavigationContainer>;
 };

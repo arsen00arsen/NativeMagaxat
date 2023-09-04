@@ -12,11 +12,24 @@ import {ChatContent} from '../MaintbScreens/HomeScreens/ChatContent';
 import CommentScreen from '../MaintbScreens/HomeScreens/CommentScreen';
 import NotificationsScreen from '../MaintbScreens/HomeScreens/NotificationsScreen';
 import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../../stores/user/userActions';
 
 const Home = createStackNavigator();
 const HomeStak = ({navigation}) => {
   const {t} = useTranslation();
+  const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
+
+  const _checkIfGuest = async screen => {
+    const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
+    if (userAsGuest === 'AS_GUEST') {
+      dispatch(logoutUser());
+    } else {
+      navigation.navigate(screen);
+    }
+  };
   const _headerLeft = () => {
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -37,12 +50,13 @@ const HomeStak = ({navigation}) => {
       />
     );
   };
+
   const _headeright = () => {
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Button
           isTransparent
-          onPress={() => navigation.navigate('Notifications')}
+          onPress={() => _checkIfGuest('Notifications')}
           style={{borderWidth: 0}}
           icon={<Icon isPrimary name="bell-o" size={20} />}
         />
@@ -51,7 +65,7 @@ const HomeStak = ({navigation}) => {
         </Text>
         <Button
           isTransparent
-          onPress={() => navigation.navigate('ChatRoom')}
+          onPress={() => _checkIfGuest('ChatRoom')}
           style={{borderWidth: 0}}
           icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
         />
@@ -171,6 +185,9 @@ const HomeStak = ({navigation}) => {
           headerRightContainerStyle: {
             paddingRight: 15,
           },
+        }}
+        listeners={{
+          tabPress: e => _checkIfGuest('CommentScreen'),
         }}
       />
     </Home.Navigator>

@@ -2,23 +2,32 @@ import React, {useState} from 'react';
 import {Pressable, View, Text, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UserService from '../http/Account/account';
+import {useDispatch} from 'react-redux';
+import AsyncStorage, {useAsyncStorage} from '@react-native-async-storage/async-storage';
+import {logoutUser} from '../../stores/user/userActions';
 // import * as Animated from 'react-native-animatable';
 // import {PostLike} from '../http/isLiked/isLiked';
 
 const LikeButton = ({id, likeCounts, authLiked}) => {
   const [liked, setLiked] = useState(authLiked || false);
-  const [count, setcount] = useState(likeCounts - 1);
+  const [count, setcount] = useState(likeCounts);
+  const dispatch = useDispatch();
 
   const userLiked = async () => {
-    try {
-      setLiked(isLike => !isLike);
-      const {data} = await UserService.isLike({
-        model_id: id,
-        model_type: 'App\\Models\\Post',
-      });
-      !liked ? setcount(count + 1) : setcount(count - 1);
-    } catch (error) {
-      console.log(error.response);
+    const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
+    if (userAsGuest === 'AS_GUEST') {
+      dispatch(logoutUser());
+    } else {
+      try {
+        setLiked(isLike => !isLike);
+        const {data} = await UserService.isLike({
+          model_id: id,
+          model_type: 'App\\Models\\Post',
+        });
+        !liked ? setcount(count + 1) : setcount(count - 1);
+      } catch (error) {
+        console.log(error.response);
+      }
     }
   };
   return (

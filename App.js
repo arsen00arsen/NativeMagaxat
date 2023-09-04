@@ -5,7 +5,7 @@
  * @format
  * @flow
  */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import {I18nextProvider} from 'react-i18next';
@@ -17,38 +17,18 @@ import i18n from './i18n';
 import messaging from '@react-native-firebase/messaging';
 const App = () => {
   const dispatch = useDispatch();
+  const [userToken, setUserToken] = useState('');
   const {loading, isAuth} = useSelector(state => state.user);
+
   useEffect(() => {
     requestUserPermission();
-    dispatch(getMe());
-    // showLoacalNotifications();
+    dispatch(getMe(setUserToken));
   }, []);
 
   useEffect(() => {
-    // messaging().onNotificationOpenedApp(remoteMessage => {
-    //   console.log(
-    //     'Notification caused app to open from background state:',
-    //     remoteMessage.notification,
-    //   );
-    //   // navigation.navigate(remoteMessage.data.type);
-    // });
     messaging().onMessage(message => {
       console.log(message);
     });
-    // Check whether an initial notification is available
-    messaging()
-      .getInitialNotification()
-      .then(remoteMessage => {
-        if (remoteMessage) {
-          console.log(
-            'Notification caused app to open from quit state:',
-            remoteMessage.notification,
-          );
-          // setInitialRoute(remoteMessage.data.type); // e.g. "Settings"
-        }
-        // setLoading(false);
-      })
-      .catch(err => console.log(err));
   }, []);
   if (loading) {
     return (
@@ -60,7 +40,7 @@ const App = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <AuthContainer isAuth={isAuth} />
+      <AuthContainer isAuth={isAuth} userToken={userToken} />
     </I18nextProvider>
   );
 };

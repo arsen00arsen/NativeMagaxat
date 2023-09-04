@@ -7,17 +7,31 @@ import PatronsStak from '../../Stacks/PatronsStak';
 import FeandsStack from '../../Stacks/FeandsStack';
 import ProfileStack from '../../Stacks/ProfileStack';
 import PostStack from '../../Stacks/PostStack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {logoutUser} from '../../../../stores/user/userActions';
 
 const Tab = createBottomTabNavigator();
 const TabScreens = ({navigation}) => {
+  const dispatch = useDispatch();
+
+  const _checkIfGuest = async ({stack, screen}) => {
+    const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
+    if (userAsGuest === 'AS_GUEST') {
+      dispatch(logoutUser());
+    } else {
+      navigation.navigate(stack, {screen: screen});
+    }
+  };
   const CustomTabBarButton = ({children}) => (
     <View style={styles.custopButtonStyles}>
-      <TouchableOpacity onPress={() => navigation.navigate('PostStack')}>
+      <TouchableOpacity
+        onPress={() => _checkIfGuest({stack: 'PostStack', screen: 'AddPost'})}>
         <View>{children}</View>
       </TouchableOpacity>
     </View>
   );
-  
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -66,7 +80,6 @@ const TabScreens = ({navigation}) => {
               />
             </View>
           ),
-  
         }}
       />
       <Tab.Screen
@@ -107,6 +120,10 @@ const TabScreens = ({navigation}) => {
             </View>
           ),
         }}
+        listeners={{
+          tabPress: e =>
+            _checkIfGuest({stack: 'Profiles', screen: 'FreandScreen'}),
+        }}
       />
       <Tab.Screen
         name="My Profile"
@@ -141,6 +158,6 @@ const styles = StyleSheet.create({
     height: 80,
     borderRadius: 40,
     borderWidth: 0.3,
-    borderColor: 'silver'
+    borderColor: 'silver',
   },
 });

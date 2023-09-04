@@ -30,7 +30,7 @@ const URL_REGEX =
   /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
 const AddPost = ({navigation}) => {
   const {t} = useTranslation();
-  const {control, handleSubmit, setValue} = useForm({});
+  const {control, handleSubmit, setValue, reset} = useForm({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -169,6 +169,7 @@ const AddPost = ({navigation}) => {
         throw new Error(errorResponse.message); // Throw an error with the error message from the response
       } else {
         // Alert.alert('Succes');
+        reset({}, {keepValues: false});
         navigation.navigate('AddedPost');
       }
     } catch (error) {

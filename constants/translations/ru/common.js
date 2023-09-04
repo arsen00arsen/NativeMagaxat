@@ -82,7 +82,7 @@ export default {
   dont_have_account: 'У вас нет учетной записи?',
   name: 'Имя',
   lastName: 'Фамилия',
-
+  havntAnyPosts: 'У вас еще нет постoв',
 
 
   
@@ -126,7 +126,7 @@ export default {
   colse: 'Закрывать',
   havntAnyMessage: 'У вас нет сообщений',
 
-  havntAnyPosts: 'У вас еще нет постoв',
+
   postDelete: 'Ваш пост удалитeн',
   reportSend: 'Спасибо, ваш отчет отправлен',
 

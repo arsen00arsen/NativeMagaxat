@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, View, StyleSheet, FlatList} from 'react-native';
+import {useChannel, useEvent} from '@harelpls/use-pusher/react-native';
 import {useIsFocused} from '@react-navigation/native';
 import UserInfo from '../../../Components/UserInfo';
 import UserService from '../../../http/Account/account';
@@ -12,11 +13,13 @@ const HomeScreen = () => {
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-
+  const channel = useChannel(`private-app.user.notification.4`);
+  useEvent(channel, 'new_notification', data => {
+    console.log(data);
+  });
   useEffect(() => {
     if (isFocused) {
       getUsers();
-      // dispatch(getNotifications());
     }
   }, [isFocused]);
 

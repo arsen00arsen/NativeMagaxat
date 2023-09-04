@@ -43,7 +43,7 @@ const PostStack = () => {
         animation: 'slide_from_bottom',
         navigationBarHidden: true,
         headerStyle: {backgroundColor: 'white'},
-        contentStyle: {backgroundColor: 'red'},
+        contentStyle: {backgroundColor: 'white'},
         cardStyle: {
           backgroundColor: 'white',
         },

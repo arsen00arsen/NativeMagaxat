@@ -81,7 +81,10 @@ export default {
   dont_have_account: 'Չունե՞ք հաշիվ:',
   name: 'Անուն',
   lastName: 'Ազգանուն',
+  havntAnyPosts: 'Դուք չունեք ոչ մի գրառում',
 
+
+  
   my_account_general: 'Հիմնական',
   my_account_settings: 'Կարգավորումներ',
 
@@ -119,7 +122,6 @@ export default {
   colse: 'Փակել',
   havntAnyMessage: 'Դուք չունեք ոչ մի նամակ',
 
-  havntAnyPosts: 'Դուք չունեք ոչ մի գրառում',
   postDelete: 'Ձեր գրառումը հեռացված է',
   reportSend: 'Շնորհակալություն ձեր բողոքը ուղարկվել է',
 

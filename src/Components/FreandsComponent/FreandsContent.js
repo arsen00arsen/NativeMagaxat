@@ -20,6 +20,7 @@ function FreandsContent({user}) {
   const isFollow = async id => {
     try {
       const {data} = await UserService.follow(id);
+      console.log(data)
       isFollowed(true);
     } catch (err) {
       console.log(err.response);
@@ -29,6 +30,7 @@ function FreandsContent({user}) {
   const unFollow = async id => {
     try {
       const {data} = await UserService.unFollow(id);
+      console.log(data)
       isFollowed(false);
     } catch (err) {
       console.log(err.response);
@@ -47,9 +49,8 @@ function FreandsContent({user}) {
           <View style={{width: '70%', marginHorizontal: 10}}>
             <TouchableOpacity
               style={styles.titleContent}
-              onPress={
-                () => console.log(1)
-                // navigation.navigate('FreandsSingleScreen', {id: user.id})
+              onPress={() =>
+                navigation.navigate('FreandsSingleScreen', {id: user.id})
               }>
               <Text style={styles.title}>{user?.name}</Text>
               {/* <Ionicons name="md-star" color={'#4F48EC'} size={30} /> */}
@@ -74,7 +75,7 @@ function FreandsContent({user}) {
           <Button
             isPrimary
             onPress={() => {
-              !user.if_follow && !folow
+              !user?.if_follow && !folow
                 ? isFollow(user?.id)
                 : unFollow(user?.id);
             }}>
@@ -85,7 +86,7 @@ function FreandsContent({user}) {
                 fontSize: 18,
                 paddingHorizontal: 40,
               }}>
-              {!user.if_follow && !folow ? t('follow') : t('unfollow')}
+              {!user?.if_follow && !folow ? t('follow') : t('unfollow')}
             </Text>
           </Button>
           <Button

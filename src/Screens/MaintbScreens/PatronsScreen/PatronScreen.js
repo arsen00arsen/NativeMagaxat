@@ -80,7 +80,7 @@ function PatronScreen() {
       />
       {user.length === 0 && (
         <View style={{alignItems: 'center', justifyContent: 'center'}}>
-          <Text>Chka</Text>
+          <Text>{t('havntAnyPosts')}</Text>
         </View>
       )}
       <FlatList

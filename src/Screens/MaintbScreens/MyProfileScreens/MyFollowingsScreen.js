@@ -34,7 +34,7 @@ const MyFollowingsScreen = ({navigation}) => {
       setLoading(false);
     }
   };
-
+console.log(user, 'pppp')
   const onEndReached = async () => {
     setPage(page + 1);
     try {

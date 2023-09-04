@@ -16,11 +16,24 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ShareButton from '../Elements/ShareButton';
 import LikeButton from '../Elements/LikeButton';
 import ModalComponent from './PostsComponent/ModalComponent';
+import {useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {logoutUser} from '../../stores/user/userActions';
 
 const UserInfo = ({user}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const {width} = useWindowDimensions();
+  const dispatch = useDispatch();
+
+  const _checkIfGuest = async () => {
+    const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
+    if (userAsGuest === 'AS_GUEST') {
+      dispatch(logoutUser());
+    } else {
+      setModalVisible(true);
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.userCard}>
@@ -40,14 +53,14 @@ const UserInfo = ({user}) => {
             </View>
           </View>
           <View style={styles.contentTitle}>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
+            <TouchableOpacity onPress={_checkIfGuest}>
               <MaterialCommunityIcons name="dots-horizontal" size={25} />
             </TouchableOpacity>
-            <MaterialCommunityIcons
+            {/* <MaterialCommunityIcons
               name="close"
               size={25}
               style={{marginLeft: 10}}
-            />
+            /> */}
           </View>
         </View>
         {user.files.some(file => file.type.includes('video')) ? (
