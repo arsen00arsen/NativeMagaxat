@@ -142,6 +142,10 @@ const TabScreens = ({navigation}) => {
             </View>
           ),
         }}
+        listeners={{
+          tabPress: e =>
+            _checkIfGuest({stack: 'My Profile', screen: 'MyProfileScreen'}),
+        }}
       />
     </Tab.Navigator>
   );

@@ -26,7 +26,7 @@ const NotificationsScreen = () => {
   const getUsers = async () => {
     setLoading(true);
     try {
-      const {data} = await PostService.getNotification(1);
+      const {data} = await PostService.getNotification({page: 1});
       setUser(data.data);
     } catch (err) {
       console.log(err);
@@ -38,9 +38,10 @@ const NotificationsScreen = () => {
   const onEndReached = async () => {
     setPage(page + 1);
     try {
-      const {data} = await PostService.getNotification({page: page});
+      const {data} = await PostService.getNotification({page: page + 1});
       if (data.links.last_page > page) {
-        setUser([...data, ...this.state.data]);
+        const newData = data.data;
+        user.push(...newData);
       } else {
         return;
       }
@@ -50,12 +51,13 @@ const NotificationsScreen = () => {
       setLoading(false);
     }
   };
+
   const isRead = async id => {
     try {
       const {data} = await PostService.readNotifications(id);
       const updatedArray = user.map(item => {
         if (item.id === id) {
-          return {...item, created_at: '1'};
+          return {...item, read_at: '1'};
         }
         return item;
       });
@@ -73,7 +75,11 @@ const NotificationsScreen = () => {
         onPress={() => isRead(item.id)}>
         <View>
           <Image
-            source={require('../../../../assets/Logo.png')}
+            source={
+              item?.avatar === null
+                ? require('../../../../assets/Logo.png')
+                : {uri: item?.avatar}
+            }
             style={styles.coverPhoto}
           />
           {item.read_at === null ? (
@@ -84,10 +90,13 @@ const NotificationsScreen = () => {
             </View>
           ) : null}
         </View>
-        <View style={{marginLeft: 5}}>
-          <Text style={{fontSize: 18, fontWeight: '700'}}>Sponsor</Text>
+        <View style={{marginLeft: 5, width: '80%'}}>
+          <Text style={{fontSize: 18, fontWeight: '700'}}>{item?.title}</Text>
           <Text style={{fontSize: 16, color: '#5E5E5E'}}>
-            {item.created_at}
+            {item?.description}
+          </Text>
+          <Text style={{fontSize: 12, color: '#5E5E5E', marginLeft: 'auto'}}>
+            {item?.created_at}
           </Text>
         </View>
       </Pressable>
@@ -124,6 +133,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   contentTitle: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',

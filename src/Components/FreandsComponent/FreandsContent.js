@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -17,24 +18,27 @@ function FreandsContent({user}) {
   const navigation = useNavigation();
   const {t} = useTranslation();
   const [folow, isFollowed] = useState(false);
+  const [loading, setLoading] = useState(false);
   const isFollow = async id => {
+    setLoading(true);
     try {
       const {data} = await UserService.follow(id);
-      console.log(data)
       isFollowed(true);
     } catch (err) {
       console.log(err.response);
     } finally {
+      setLoading(false);
     }
   };
   const unFollow = async id => {
+    setLoading(true);
     try {
       const {data} = await UserService.unFollow(id);
-      console.log(data)
       isFollowed(false);
     } catch (err) {
       console.log(err.response);
     } finally {
+      setLoading(false);
     }
   };
 
@@ -74,8 +78,9 @@ function FreandsContent({user}) {
           }}>
           <Button
             isPrimary
+            style={{width: '50%'}}
             onPress={() => {
-              !user?.if_follow && !folow
+              !user?.if_follow || !folow
                 ? isFollow(user?.id)
                 : unFollow(user?.id);
             }}>
@@ -84,9 +89,14 @@ function FreandsContent({user}) {
                 color: 'white',
                 fontWeight: '600',
                 fontSize: 18,
-                paddingHorizontal: 40,
               }}>
-              {!user?.if_follow && !folow ? t('follow') : t('unfollow')}
+              {loading ? (
+                <ActivityIndicator />
+              ) : !user?.if_follow || !folow ? (
+                t('follow')
+              ) : (
+                t('unfollow')
+              )}
             </Text>
           </Button>
           <Button

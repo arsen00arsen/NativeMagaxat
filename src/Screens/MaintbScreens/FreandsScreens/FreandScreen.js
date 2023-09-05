@@ -37,14 +37,15 @@ function FreandScreen() {
     setPage(page + 1);
     try {
       const {data} = await UserService.getFreands({
-        page: page,
+        page: page + 1,
         categoryId: categoryId !== '' ? categoryId : '',
         start: categoryAge !== '' ? categoryAge.start : '',
         end: categoryAge !== '' ? categoryAge.end : '',
         countryId: categoryCountry !== '' ? categoryCountry : '',
       });
       if (data.links.last_page > page) {
-        setUser([...data, ...this.state.data]);
+        const newData = data.data;
+        user.push(...newData);
       } else {
         return;
       }

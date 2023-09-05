@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
 import {Text, View, StyleSheet, Image} from 'react-native';
+import ImageModal from 'react-native-image-modal';
 import VideoPlayer from 'react-native-video-player';
 
 function Gallery({post}) {
@@ -46,16 +47,20 @@ function Gallery({post}) {
           }}>
           {imageArray?.map(elem => {
             return (
-              <Image
+              <ImageModal
                 source={{uri: elem.url}}
-                style={{
-                  width: 105,
-                  height: 122,
-                  marginRight: 10,
-                  backgroundColor: '#C8C8C8',
-                  borderRadius: 8,
-                }}
+                resizeMode="contain"
+                style={{width: 105, height: 122}}
               />
+              // <Image
+
+              //   style={{
+
+              //     marginRight: 10,
+              //     backgroundColor: '#C8C8C8',
+              //     borderRadius: 8,
+              //   }}
+              // />
             );
           })}
         </View>

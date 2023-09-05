@@ -22,8 +22,9 @@ export default class PostService {
   static readNotifications(id) {
     return $authHost.put(`/notifications/${id}`);
   }
-  static getNotification() {
-    return $authHost.get('/notifications');
+  static getNotification({page}) {
+    console.log(page, 'pppp')
+    return $authHost.get(`/notifications?page=${page}`);
   }
   static sendComment(data) {
     return $authHost.post('/comment', data);

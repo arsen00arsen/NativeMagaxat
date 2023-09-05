@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //const url = 'https://vardantravel.elbakyan.am/api';
-const url = 'http://161.35.89.36/api/';
+const url = 'https://sponsor.am/api/';
 
 // const url = 'http://192.168.0.170:8088/api/';
 

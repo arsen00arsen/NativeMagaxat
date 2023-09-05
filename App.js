@@ -15,6 +15,7 @@ import {getMe} from './stores/user/userActions';
 import {ActivityIndicator, StatusBar, View, Alert} from 'react-native';
 import i18n from './i18n';
 import messaging from '@react-native-firebase/messaging';
+import Toast from 'react-native-toast-message';
 const App = () => {
   const dispatch = useDispatch();
   const [userToken, setUserToken] = useState('');
@@ -27,7 +28,11 @@ const App = () => {
 
   useEffect(() => {
     messaging().onMessage(message => {
-      console.log(message);
+      Toast.show({
+        type: 'success',
+        text1: message.data.notification.titl,
+        text2: 'This is some something 👋'
+      });
     });
   }, []);
   if (loading) {

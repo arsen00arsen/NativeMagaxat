@@ -50,7 +50,8 @@ function PatronScreen() {
         categoryId: categoryId,
       });
       if (data.links.last_page > page) {
-        setUser([...data, ...this.state.data]);
+        const newData = data.data;
+        user.push(...newData);
       } else {
         return;
       }

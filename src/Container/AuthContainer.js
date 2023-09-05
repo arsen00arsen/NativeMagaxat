@@ -4,20 +4,21 @@ import TabScreens from '../Screens/MaintbScreens/MainTabs/TabScreens';
 import {createStackNavigator} from '@react-navigation/stack';
 import RootStackScreen from '../Screens/RootStackScreen/RootStackScreen';
 import {PusherProvider} from '@harelpls/use-pusher/react-native';
+import Toast from 'react-native-toast-message';
 const Stack = createStackNavigator();
 export const AuthContainer = ({isAuth, userToken}) => {
   let content;
 
   if (isAuth && userToken) {
     const config = {
-      clientKey: 'sponsor-app',
+      clientKey: 'sponsor1222',
       cluster: 'mt1',
-      authEndpoint: 'http://161.35.89.36/api/broadcast/auth',
+      authEndpoint: 'https://sponsor.am/api/broadcast/auth',
       auth: {
         headers: {Authorization: `Bearer ${userToken}`},
       },
       httpsPort: 443,
-      wsHost: '161.35.89.36',
+      wsHost: 'sponsor.am',
       forceTLS: true,
     };
     content = (
@@ -31,9 +32,10 @@ export const AuthContainer = ({isAuth, userToken}) => {
             component={TabScreens}
           />
         </Stack.Navigator>
+        <Toast />
       </PusherProvider>
     );
-  } else if (isAuth === 'false') {
+  } else {
     content = <RootStackScreen />;
   }
 

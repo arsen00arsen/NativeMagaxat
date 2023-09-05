@@ -34,13 +34,14 @@ const MyFollowingsScreen = ({navigation}) => {
       setLoading(false);
     }
   };
-console.log(user, 'pppp')
+
   const onEndReached = async () => {
     setPage(page + 1);
     try {
       const {data} = await UserService.getFollowings({page: page});
       if (data.links.last_page > page) {
-        setUser([...data, ...this.state.data]);
+        const newData = data.data;
+        user.push(...newData);
       } else {
         return;
       }

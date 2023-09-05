@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Image, View, StyleSheet, Text} from 'react-native';
+import {Image, View, StyleSheet, Text, Linking} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 function SinglePtareonsContent({user, post}) {
@@ -30,7 +30,9 @@ function SinglePtareonsContent({user, post}) {
           <View style={[styles.titleContent, {marginTop: 20}]}>
             <View style={{justifyContent: 'flex-start', flexDirection: 'row'}}>
               <AntDesign name="link" color={'#5F5F5F'} size={20} />
-              <Text style={[styles.email, {color: '#168BF8', paddingLeft: 10}]}>
+              <Text
+                onPress={() => Linking.openURL(post?.url)}
+                style={[styles.email, {color: '#168BF8', paddingLeft: 10}]}>
                 {post?.url}
               </Text>
             </View>

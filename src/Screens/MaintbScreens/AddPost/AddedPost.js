@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
-
 import SafeAreaViewContainer from '../../../Elements/SafeAreaViewContainer';
 import Button from '../../../Elements/Button';
 import {useSelector} from 'react-redux';

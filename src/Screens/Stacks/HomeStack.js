@@ -1,10 +1,11 @@
 // import { useTranslation } from 'react-i18next';
-import React from 'react';
+import React, {useState} from 'react';
 import {Image, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
 import HomeScreen from '../MaintbScreens/HomeScreens/HomeScreen';
 import Button from '../../Elements/Button';
+import {useChannel, useEvent} from '@harelpls/use-pusher/react-native';
 import Icon from '../../Elements/Icon';
 import Text from '../../Elements/Text';
 import ChatRoom from '../MaintbScreens/HomeScreens/ChatRoom';
@@ -13,15 +14,20 @@ import CommentScreen from '../MaintbScreens/HomeScreens/CommentScreen';
 import NotificationsScreen from '../MaintbScreens/HomeScreens/NotificationsScreen';
 import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {logoutUser} from '../../../stores/user/userActions';
 
 const Home = createStackNavigator();
 const HomeStak = ({navigation}) => {
+  const {user} = useSelector(state => state.user);
   const {t} = useTranslation();
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
-
+  const [notif, setNotif] = useState(0);
+  const channel = useChannel(`private-app.user.notification.${user?.id}`);
+  useEvent(channel, 'new_notification', data => {
+    setNotif(data.count);
+  });
   const _checkIfGuest = async screen => {
     const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
     if (userAsGuest === 'AS_GUEST') {
@@ -60,10 +66,12 @@ const HomeStak = ({navigation}) => {
           style={{borderWidth: 0}}
           icon={<Icon isPrimary name="bell-o" size={20} />}
         />
-        {/* <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          4
+        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
+          {user?.unread_notifications > 0 && notif === 0
+            ? user?.unread_notifications
+            : notif}
         </Text>
-        <Button
+        {/* <Button
           isTransparent
           onPress={() => _checkIfGuest('ChatRoom')}
           style={{borderWidth: 0}}
