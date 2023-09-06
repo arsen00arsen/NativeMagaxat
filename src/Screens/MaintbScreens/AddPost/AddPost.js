@@ -399,6 +399,7 @@ const AddPost = ({navigation}) => {
                                 borderColor: '#98A2B3',
                               },
                             ]}
+                            placeholderTextColor={'#98A2B3'}
                             hasMargin
                             placeholder={elem.placeholder}
                             secureTextEntry={false}

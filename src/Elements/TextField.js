@@ -33,7 +33,7 @@ const TextField = ({
       <TextInput
         style={[{color: '#000000'}, styles.textField, style]}
         placeholderTextColor={'#98A2B3'}
-        underlineColorAndroid="transparent"
+        underlineColorAndroid="white"
         {...rest}
         secureTextEntry={secureTextEntry ? true : false}
       />
