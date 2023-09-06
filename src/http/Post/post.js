@@ -23,10 +23,18 @@ export default class PostService {
     return $authHost.put(`/notifications/${id}`);
   }
   static getNotification({page}) {
-    console.log(page, 'pppp')
     return $authHost.get(`/notifications?page=${page}`);
   }
   static sendComment(data) {
     return $authHost.post('/comment', data);
+  }
+  static getAllMessages({page}) {
+    return $authHost.get(`/message?page=${page}`);
+  }
+  static getSingleMessages({page, id}) {
+    return $authHost.get(`/message/${id}?page=${page}`);
+  }
+  static sendMessages(data) {
+    return $authHost.post('/message', data);
   }
 }

@@ -321,7 +321,7 @@ const Registration = () => {
   };
   const pickImages = () => {
     ImagePicker.openPicker({
-      multiple: false,
+      // multiple: false,
       includeBase64: true,
       width: 300,
       height: 400,

@@ -101,7 +101,12 @@ function FreandsContent({user}) {
           </Button>
           <Button
             isTransparent
-            onPress={() => console.log('PatronsSinglePage')}>
+            onPress={() =>
+              navigation.navigate('Home', {
+                screen: 'ChatContent',
+                params: {chatUser: user},
+              })
+            }>
             <Text
               style={{
                 color: '#4F48EC',

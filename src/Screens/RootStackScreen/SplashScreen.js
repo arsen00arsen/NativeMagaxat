@@ -7,6 +7,7 @@ import Text from '../../Elements/Text';
 import Button from '../../Elements/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
+import {requestUserPermission} from '../../utils/requestUserPermission';
 
 const SplashScreen = ({navigation}) => {
   const {t} = useTranslation();
@@ -63,14 +64,18 @@ const SplashScreen = ({navigation}) => {
             </Text>
             <Button
               style={{marginTop: 50, marginBottom: 10}}
-              onPress={() => navigation.navigate('SignIn')}>
+              onPress={() => {
+                navigation.navigate('SignIn'), requestUserPermission();
+              }}>
               <Text isWhite isBold>
                 {t('get_started')}
               </Text>
             </Button>
             <Button
               isTransparent
-              onPress={() => navigation.navigate('Registration')}>
+              onPress={() => {
+                navigation.navigate('Registration'), requestUserPermission();
+              }}>
               <Text isWhite isBold>
                 {t('registracion')}
               </Text>

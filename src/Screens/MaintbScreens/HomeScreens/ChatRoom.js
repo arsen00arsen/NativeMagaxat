@@ -1,44 +1,125 @@
-import * as React from 'react';
-import {View, Image, Text, Pressable} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Image,
+  Text,
+  Pressable,
+  FlatList,
+  ActivityIndicator,
+  StyleSheet,
+} from 'react-native';
 import GlobalStyles from '../../../Configs/GlobalStyles';
+import PostService from '../../../http/Post/post';
+import {useIsFocused} from '@react-navigation/native';
 
 const ChatRoom = ({navigation}) => {
-  return (
-    <View
-      style={[
-        GlobalStyles.main__container,
-        {
-          flex: 1,
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          backgroundColor: 'white',
-        },
-      ]}>
+  const [user, setUser] = useState([]);
+  const isFocused = useIsFocused();
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    if (isFocused) {
+      getUsers();
+    }
+  }, [isFocused]);
+
+  const getUsers = async () => {
+    setLoading(true);
+    try {
+      const {data} = await PostService.getAllMessages({page: 1});
+      setUser(data.data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onEndReached = async () => {
+    setPage(page + 1);
+    try {
+      const {data} = await PostService.getAllMessages({page: page + 1});
+      if (data.links.last_page > page) {
+        const newData = data.data;
+        user.push(...newData);
+      } else {
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderItem = ({item}) => {
+    return (
       <Pressable
-        onPress={() => navigation.navigate('ChatContent')}
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: 'white',
-          paddingVertical: 10,
-          width: '100%',
-        }}>
-        <Image
-          source={require('./../../../../assets/fakeImages/png1.png')}
-          style={{width: 50, height: 50, borderRadius: 25, marginRight: 5}}
-        />
+        onPress={() => navigation.navigate('ChatContent', {chatUser: item})}
+        style={styles.user}>
+        <Image source={{uri: item.owner_image}} style={styles.userImage} />
         <View style={{width: '70%'}}>
-          <Text style={{color: '#111315', fontWeight: '500', fontSize: 17}}>
-            Margar Khazaryan
-          </Text>
-          <Text style={{color: '#98A2B3', fontSize: 12}}>
+          <Text style={styles.usernames}>{item.owner}</Text>
+          <Text style={styles.message}>
             Barev axpers mi hat harmaracnes zangi
           </Text>
         </View>
         <Text style={{width: '20%'}}>22:10</Text>
       </Pressable>
-    </View>
+    );
+  };
+
+  if (loading && page === 1) {
+    return (
+      <View style={styles.loadings}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+  return (
+    <FlatList
+      contentContainerStyle={{
+        flexGrow: 1,
+        paddingBottom: 150,
+        paddingHorizontal: 15,
+      }}
+      data={user}
+      renderItem={renderItem}
+      keyExtractor={item => item.id.toString()}
+      onEndReached={onEndReached}
+      onEndReachedThreshold={0.5}
+    />
   );
 };
 export default ChatRoom;
+const styles = StyleSheet.create({
+  loadings: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  user: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingVertical: 10,
+    width: '100%',
+  },
+  userImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 5,
+  },
+  usernames: {
+    color: '#111315',
+    fontWeight: '500',
+    fontSize: 17,
+  },
+  message: {
+    color: '#98A2B3',
+    fontSize: 12,
+  },
+});

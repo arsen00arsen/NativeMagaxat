@@ -24,9 +24,14 @@ const HomeStak = ({navigation}) => {
   const dispatch = useDispatch();
   const insets = useSafeAreaInsets();
   const [notif, setNotif] = useState(0);
+  const [messageCount, setmessageCount] = useState(0);
   const channel = useChannel(`private-app.user.notification.${user?.id}`);
   useEvent(channel, 'new_notification', data => {
     setNotif(data.count);
+  });
+  const channel2 = useChannel(`private-user.message.${user?.id}`);
+  useEvent(channel2, 'new_message', data => {
+    setmessageCount(data.count);
   });
   const _checkIfGuest = async screen => {
     const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
@@ -41,6 +46,18 @@ const HomeStak = ({navigation}) => {
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         <Button
           onPress={() => navigation.navigate('HomeScreen')}
+          isTransparent
+          style={{borderWidth: 0}}
+          icon={<Icon isPrimary name="chevron-left" size={25} />}
+        />
+      </View>
+    );
+  };
+  const _headerLeftChat = () => {
+    return (
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <Button
+          onPress={() => navigation.navigate('ChatRoom')}
           isTransparent
           style={{borderWidth: 0}}
           icon={<Icon isPrimary name="chevron-left" size={25} />}
@@ -63,42 +80,35 @@ const HomeStak = ({navigation}) => {
         <Button
           isTransparent
           onPress={() => _checkIfGuest('Notifications')}
-          style={{borderWidth: 0}}
-          icon={<Icon isPrimary name="bell-o" size={20} />}
-        />
-        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          {user?.unread_notifications > 0 && notif === 0
-            ? user?.unread_notifications
-            : notif}
-        </Text>
-        {/* <Button
+          style={{borderWidth: 0, marginHorizontal: 10}}
+          icon={<Icon isPrimary name="bell-o" size={20} />}>
+          <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
+            {user?.unread_notifications > 0 && notif === 0
+              ? user?.unread_notifications
+              : notif}
+          </Text>
+        </Button>
+        <Button
           isTransparent
           onPress={() => _checkIfGuest('ChatRoom')}
           style={{borderWidth: 0}}
           icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
         />
         <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          7
-        </Text> */}
+          {messageCount}
+        </Text>
       </View>
     );
   };
   const _headerRithChat = () => {
     return (
       <Image
-        source={require('../../../assets/fakeImages/png1.png')}
+        source={{uri: user?.avatar}}
         style={{width: 30, height: 30, borderRadius: 15}}
       />
     );
   };
-  const goBacks = () => {
-    <Button
-      isTransparent
-      onPress={() => navigation.goBack()}
-      style={{borderWidth: 0}}
-      icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
-    />;
-  };
+
   return (
     <Home.Navigator
       initialRouteName="HomeScreen"
@@ -142,7 +152,6 @@ const HomeStak = ({navigation}) => {
         options={{
           headerTitle: t('notifications'),
           headerLeft: () => _headerLeft(),
-          // headerRight: () => _headeright(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
           },
@@ -155,8 +164,8 @@ const HomeStak = ({navigation}) => {
         name="ChatRoom"
         component={ChatRoom}
         options={{
-          headerTitle: 'Chats',
-          // headerLeft: ,
+          headerTitle: '',
+          headerLeft: () => _headerLeft(),
           headerRight: () => _headerRithChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
@@ -170,8 +179,7 @@ const HomeStak = ({navigation}) => {
         name="ChatContent"
         component={ChatContent}
         options={{
-          headerTitle: 'Chat',
-          headerRight: () => _headerRithChat(),
+          headerLeft: () => _headerLeftChat(),
           headerLeftContainerStyle: {
             paddingLeft: 15,
           },
