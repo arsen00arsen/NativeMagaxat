@@ -6,23 +6,26 @@ import RootStackScreen from '../Screens/RootStackScreen/RootStackScreen';
 import {PusherProvider} from '@harelpls/use-pusher/react-native';
 import Toast from 'react-native-toast-message';
 const Stack = createStackNavigator();
+
+const getConfig = token => {
+  return {
+    clientKey: 'sponsor1222',
+    cluster: 'mt1',
+    authEndpoint: 'https://sponsor.am/api/broadcast/auth',
+    auth: {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+    httpsPort: 443,
+    wsHost: 'sponsor.am',
+    forceTLS: true,
+  };
+};
 export const AuthContainer = ({isAuth, userToken}) => {
   let content;
 
   if (isAuth && userToken) {
-    const config = {
-      clientKey: 'sponsor1222',
-      cluster: 'mt1',
-      authEndpoint: 'https://sponsor.am/api/broadcast/auth',
-      auth: {
-        headers: {Authorization: `Bearer ${userToken}`},
-      },
-      httpsPort: 443,
-      wsHost: 'sponsor.am',
-      forceTLS: true,
-    };
     content = (
-      <PusherProvider {...config}>
+      <PusherProvider {...getConfig(userToken)}>
         <Stack.Navigator>
           <Stack.Screen
             name="TabScreens"
@@ -36,6 +39,7 @@ export const AuthContainer = ({isAuth, userToken}) => {
       </PusherProvider>
     );
   } else {
+    console.log('config is ERRRRORR');
     content = <RootStackScreen />;
   }
 

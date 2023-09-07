@@ -58,9 +58,7 @@ const ChatRoom = ({navigation}) => {
       setLoading(false);
     }
   };
-  console.log(user?.id);
   const renderItem = ({item}) => {
-    console.log(item);
     return (
       <Pressable
         onPress={() =>
