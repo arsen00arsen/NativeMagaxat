@@ -69,9 +69,19 @@ const ChatRoom = ({navigation}) => {
         }
         style={styles.user}>
         <View style={{width: '70%', flexDirection: 'row'}}>
-          <Image source={{uri: item.user.image}} style={styles.userImage} />
+          <Image
+            source={{
+              uri:
+                item.owner_id !== user.id ? item.user.image : item.owner.image,
+            }}
+            style={styles.userImage}
+          />
           <View>
-            <Text style={styles.usernames}>{item.user.full_name}</Text>
+            <Text style={styles.usernames}>
+              {item.owner_id !== user.id
+                ? item.user.full_name
+                : item.owner.full_name}
+            </Text>
             <Text style={styles.message}>{item.last_message}</Text>
           </View>
         </View>
