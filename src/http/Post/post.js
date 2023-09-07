@@ -28,14 +28,14 @@ export default class PostService {
   static sendComment(data) {
     return $authHost.post('/comment', data);
   }
-  static getAllMessages({page}) {
-    return $authHost.get(`/message?page=${page}`);
+  static getAllMessages() {
+    return $authHost.get('/message');
   }
   static getSingleMessages({page, id}) {
     return $authHost.get(`/message/${id}?page=${page}`);
   }
   static sendMessages(data) {
-    console.log(data, 'oooooo')
+    console.log(data, 'oooooo');
     return $authHost.post('/message', data);
   }
 }

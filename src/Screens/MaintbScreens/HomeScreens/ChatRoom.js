@@ -18,23 +18,62 @@ const ChatRoom = ({navigation}) => {
   const [users, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
-  const channelName = `private-user.message.${user?.id}`;
+  const channelName = `private-message.${user?.id}`;
   const channel = useChannel(channelName);
+  const [updates, setUpdate] = useState(false);
   useEvent(channel, 'new_message', data => {
-    console.log(data);
+    console.log(data, 'ppppp');
+    let updated = false; // Reset updated flag
+
+    const updatedUsers = users.map(userObj => {
+      if (
+        userObj &&
+        userObj.user_id === data.message.user_id &&
+        userObj.owner_id === data.message.owner_id
+      ) {
+        // If they are the same, update the properties
+        updated = true;
+
+        return {
+          ...userObj,
+          last_message: data.message.last_message,
+          last_message_updated_at: data.message.last_message_updated_at,
+        };
+      } else {
+        return userObj;
+      }
+    });
+
+    if (!updated) {
+      setUpdate(true);
+      console.log(222);
+      // If no update was made, push the new object to the array
+      updatedUsers.push(data);
+    }
+
+    setUser(updatedUsers);
   });
+
   useEffect(() => {
     if (isFocused) {
+      console.log(111);
       getUsers();
     }
-  }, [isFocused]);
+  }, [isFocused, updates]);
 
   const getUsers = async () => {
     setLoading(true);
     try {
-      const {data} = await PostService.getAllMessages({page: 1});
-      setUser(data.data);
+      const {data} = await PostService.getAllMessages();
+      setUser(
+        data.data
+          .sort(
+            (a, b) =>
+              a.last_message_updated_at_timstamp -
+              b.last_message_updated_at_timstamp,
+          )
+          .reverse(),
+      );
     } catch (err) {
       console.log(err);
     } finally {
@@ -42,30 +81,14 @@ const ChatRoom = ({navigation}) => {
     }
   };
 
-  const onEndReached = async () => {
-    setPage(page + 1);
-    try {
-      const {data} = await PostService.getAllMessages({page: page + 1});
-      if (data.links.last_page > page) {
-        const newData = data.data;
-        user.push(...newData);
-      } else {
-        return;
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
   const renderItem = ({item}) => {
     return (
       <Pressable
         onPress={() =>
           navigation.navigate('ChatContent', {
-            chatUser: item.user,
-            owner_ids: item.owner_id,
-            getId: item.id,
+            chatUser: item?.user,
+            owner_ids: item?.owner_id,
+            getId: item?.id,
           })
         }
         style={styles.user}>
@@ -73,27 +96,31 @@ const ChatRoom = ({navigation}) => {
           <Image
             source={{
               uri:
-                item.owner_id === user.id ? item.user.image : item.owner.image,
+                item?.owner_id === user?.id
+                  ? item?.user?.image
+                  : item?.owner?.image,
             }}
             style={styles.userImage}
           />
           <View>
             <Text style={styles.usernames}>
-              {item.owner_id === user.id
-                ? item.user.full_name
-                : item.owner.full_name}
+              {item?.owner_id === user?.id
+                ? item?.user?.full_name
+                : item?.owner?.full_name}
             </Text>
-            <Text style={styles.message}>{item.last_message}</Text>
+            <Text style={styles.message} numberOfLines={2}>
+              {item?.last_message}
+            </Text>
           </View>
         </View>
         <Text style={{width: '25%', fontSize: 12}}>
-          {item.last_message_created_at}
+          {item?.last_message_updated_at}
         </Text>
       </Pressable>
     );
   };
 
-  if (loading && page === 1) {
+  if (loading) {
     return (
       <View style={styles.loadings}>
         <ActivityIndicator />
@@ -109,9 +136,7 @@ const ChatRoom = ({navigation}) => {
       }}
       data={users}
       renderItem={renderItem}
-      keyExtractor={item => item.id.toString()}
-      onEndReached={onEndReached}
-      onEndReachedThreshold={0.5}
+      keyExtractor={item => item?.id?.toString()}
     />
   );
 };
@@ -144,5 +169,6 @@ const styles = StyleSheet.create({
   message: {
     color: '#98A2B3',
     fontSize: 12,
+    width: '50%',
   },
 });

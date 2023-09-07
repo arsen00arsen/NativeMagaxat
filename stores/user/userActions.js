@@ -70,7 +70,7 @@ export const getMe = setUserToken => async dispatch => {
   try {
     dispatch(startLogin());
     const token = await AsyncStorage.getItem('token');
-    setUserToken(token)
+    setUserToken(token);
     if (token) {
       const {data} = await UserService.getMe();
       dispatch(loginSuccess(data.data));

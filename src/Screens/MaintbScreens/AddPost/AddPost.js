@@ -316,6 +316,7 @@ const AddPost = ({navigation}) => {
                     {t('hobbie')}
                   </Text>
                   <MultipleSelectList
+                    search={false}
                     setSelected={val => setSelected(val)}
                     multiple={true}
                     data={categories}

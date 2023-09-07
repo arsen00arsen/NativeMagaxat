@@ -404,6 +404,7 @@ const Registration = () => {
                       Your Habits*
                     </Text>
                     <MultipleSelectList
+                      search={false}
                       setSelected={val => setSelected(val)}
                       multiple={true}
                       data={categories}
@@ -422,6 +423,7 @@ const Registration = () => {
                           Your Country*
                         </Text>
                         <SelectList
+                          search={false}
                           setSelected={val => onChange(val)}
                           data={countries}
                           save="name"
@@ -445,6 +447,7 @@ const Registration = () => {
                           Select your gender*
                         </Text>
                         <SelectList
+                          search={false}
                           setSelected={val => onChange(val)}
                           data={genders}
                           save="value"
