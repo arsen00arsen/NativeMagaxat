@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import GlobalStyles from '../../../Configs/GlobalStyles';
+import {useChannel, useEvent} from '@harelpls/use-pusher/react-native';
 import PostService from '../../../http/Post/post';
 import {useIsFocused} from '@react-navigation/native';
 
@@ -17,7 +17,11 @@ const ChatRoom = ({navigation}) => {
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-
+  const channelName = `private-user.message.${user?.id}`;
+  const channel = useChannel(channelName);
+  useEvent(channel, 'new_message', data => {
+    console.log(data);
+  });
   useEffect(() => {
     if (isFocused) {
       getUsers();
@@ -56,13 +60,18 @@ const ChatRoom = ({navigation}) => {
   const renderItem = ({item}) => {
     return (
       <Pressable
-        onPress={() => navigation.navigate('ChatContent', {chatUser: item})}
+        onPress={() =>
+          navigation.navigate('ChatContent', {
+            chatUser: item.user,
+            owner_ids: item.owner_id,
+          })
+        }
         style={styles.user}>
         <View style={{width: '70%', flexDirection: 'row'}}>
-          <Image source={{uri: item.owner_image}} style={styles.userImage} />
+          <Image source={{uri: item.user.image}} style={styles.userImage} />
           <View>
-          <Text style={styles.usernames}>{item.owner}</Text>
-          <Text style={styles.message}>{item.last_message}</Text>
+            <Text style={styles.usernames}>{item.user.full_name}</Text>
+            <Text style={styles.message}>{item.last_message}</Text>
           </View>
         </View>
         <Text style={{width: '25%', fontSize: 12}}>

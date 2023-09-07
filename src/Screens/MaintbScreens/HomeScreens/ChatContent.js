@@ -10,13 +10,13 @@ import {useSelector} from 'react-redux';
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 export function ChatContent({navigation, route}) {
   const [messages, setMessages] = useState([]);
-  const {chatUser} = route?.params;
+  const {chatUser, owner_ids} = route?.params;
+  console.log(owner_ids, 'owner_id');
   const [owner_id, setOwner] = useState(null);
   const {user} = useSelector(state => state.user);
-  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const channelName = `private-message.${owner_id}.${user?.id}`;
+  const channelName = `private-message_thread.${owner_id}.${user?.id}`;
   const channel = useChannel(channelName);
 
   if (channel) {
@@ -24,16 +24,14 @@ export function ChatContent({navigation, route}) {
       console.log('Connected!!!!');
     });
   }
-  console.log(user?.id, 'p');
-  useEvent(channel, 'new_message', data => {
-    console.log(data);
+  useEvent(channel, 'new_message_thread', data => {
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, {
         _id: data.message_thread.id,
         text: data.message_thread.message,
         createdAt: new Date(),
         user: {
-          avatar: chatUser.owner_image ? chatUser.owner_image : chatUser.avatar,
+          avatar: chatUser.image ? chatUser.image : chatUser.avatar,
           _id: user?.id === data.message_thread.user_id ? 1 : 2,
         },
       }),
@@ -54,13 +52,13 @@ export function ChatContent({navigation, route}) {
     navigation.setOptions({
       headerTitle: () => (
         <Text style={[styles.userFullName]}>
-          {chatUser.owner ? chatUser.owner : chatUser.name}
+          {chatUser.full_name ? chatUser.full_name : chatUser.name}
         </Text>
       ),
       headerRight: () => (
         <Image
           source={{
-            uri: chatUser.owner_image ? chatUser.owner_image : chatUser.avatar,
+            uri: chatUser.image ? chatUser.image : chatUser.avatar,
           }}
           style={styles.headerImage}
         />
@@ -77,7 +75,6 @@ export function ChatContent({navigation, route}) {
     });
     if (currentPage === 1) {
       setOwner(newMessages?.data?.data[0]?.message_id);
-      setIsLoading(false);
     }
     setMessages(previousMessages => [
       ...previousMessages,
@@ -99,7 +96,7 @@ export function ChatContent({navigation, route}) {
   const onSend = useCallback(
     (messagess = []) => {
       PostService.sendMessages({
-        owner_id: chatUser.owner_id ? chatUser.owner_id : chatUser.id,
+        owner_id: owner_ids ? owner_ids : chatUser.id,
         message_id: messages.length === 0 ? null : owner_id,
         message: messagess[0].text,
       })
