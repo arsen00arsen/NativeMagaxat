@@ -168,7 +168,8 @@ const AddPost = ({navigation}) => {
         const errorResponse = await response.json();
         throw new Error(errorResponse.message); // Throw an error with the error message from the response
       } else {
-        // Alert.alert('Succes');
+        setSelectedImages([]);
+        setSelected([]);
         reset({}, {keepValues: false});
         navigation.navigate('AddedPost');
       }

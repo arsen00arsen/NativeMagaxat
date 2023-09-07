@@ -58,14 +58,16 @@ const ChatRoom = ({navigation}) => {
       <Pressable
         onPress={() => navigation.navigate('ChatContent', {chatUser: item})}
         style={styles.user}>
-        <Image source={{uri: item.owner_image}} style={styles.userImage} />
-        <View style={{width: '70%'}}>
+        <View style={{width: '70%', flexDirection: 'row'}}>
+          <Image source={{uri: item.owner_image}} style={styles.userImage} />
+          <View>
           <Text style={styles.usernames}>{item.owner}</Text>
-          <Text style={styles.message}>
-            Barev axpers mi hat harmaracnes zangi
-          </Text>
+          <Text style={styles.message}>{item.last_message}</Text>
+          </View>
         </View>
-        <Text style={{width: '20%'}}>22:10</Text>
+        <Text style={{width: '25%', fontSize: 12}}>
+          {item.last_message_created_at}
+        </Text>
       </Pressable>
     );
   };

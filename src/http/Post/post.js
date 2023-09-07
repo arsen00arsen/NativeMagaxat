@@ -35,6 +35,7 @@ export default class PostService {
     return $authHost.get(`/message/${id}?page=${page}`);
   }
   static sendMessages(data) {
+    console.log(data, 'oooooo')
     return $authHost.post('/message', data);
   }
 }

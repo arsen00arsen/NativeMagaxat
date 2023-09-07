@@ -1,17 +1,45 @@
 import React, {useState, useCallback, useEffect, useLayoutEffect} from 'react';
-import {Text, StyleSheet, Image} from 'react-native';
+import {Text, StyleSheet, Image, LogBox} from 'react-native';
+import {useChannel, useEvent} from '@harelpls/use-pusher/react-native';
 import {GiftedChat, Bubble, Send, InputToolbar} from 'react-native-gifted-chat';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import PostService from '../../../http/Post/post';
 import {useSelector} from 'react-redux';
+
+LogBox.ignoreLogs(['EventEmitter.removeListener']);
 export function ChatContent({navigation, route}) {
   const [messages, setMessages] = useState([]);
   const {chatUser} = route?.params;
-  console.log(chatUser, 'chatUser');
+  const [owner_id, setOwner] = useState(null);
   const {user} = useSelector(state => state.user);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+
+  const channelName = `private-message.${owner_id}.${user?.id}`;
+  const channel = useChannel(channelName);
+
+  if (channel) {
+    channel.bind('pusher:subscription_succeeded', function () {
+      console.log('Connected!!!!');
+    });
+  }
+  console.log(user?.id, 'p');
+  useEvent(channel, 'new_message', data => {
+    console.log(data);
+    setMessages(previousMessages =>
+      GiftedChat.append(previousMessages, {
+        _id: data.message_thread.id,
+        text: data.message_thread.message,
+        createdAt: new Date(),
+        user: {
+          avatar: chatUser.owner_image ? chatUser.owner_image : chatUser.avatar,
+          _id: user?.id === data.message_thread.user_id ? 1 : 2,
+        },
+      }),
+    );
+  });
+  // }
   useEffect(() => {
     navigation
       .getParent()
@@ -48,36 +76,43 @@ export function ChatContent({navigation, route}) {
       page: currentPage,
     });
     if (currentPage === 1) {
+      setOwner(newMessages?.data?.data[0]?.message_id);
       setIsLoading(false);
     }
     setMessages(previousMessages => [
       ...previousMessages,
       ...newMessages.data.data.map(sms => {
+        // console.log(sms.user, 'sms.user')
         return {
           _id: sms.id,
           text: sms.message,
           createdAt: new Date(),
           user: {
-            _id: user.id !== chatUser?.id ? 1 : 2,
+            _id: user.id === sms.user.id ? 1 : 2,
             avatar: chatUser.owner_image,
           },
         };
       }),
     ]);
   };
-  const onSend = useCallback((messages = []) => {
-    PostService.sendMessages({
-      owner_id: chatUser.owner_id ? chatUser.owner_id : chatUser.id,
-      message: messages[0].text,
-    })
-      .then(res => {
-        // console.log(res);
+
+  const onSend = useCallback(
+    (messagess = []) => {
+      PostService.sendMessages({
+        owner_id: chatUser.owner_id ? chatUser.owner_id : chatUser.id,
+        message_id: messages.length === 0 ? null : owner_id,
+        message: messagess[0].text,
       })
-      .catch(err => console.log(err.response));
-    setMessages(previousMessages =>
-      GiftedChat.append(previousMessages, messages),
-    );
-  }, []);
+        .then(res => {
+          // console.log(res);
+        })
+        .catch(err => console.log(err.response, 'ppppppp'));
+      setMessages(previousMessages =>
+        GiftedChat.append(previousMessages, messagess),
+      );
+    },
+    [messages],
+  );
 
   const renderSend = props => {
     return (
