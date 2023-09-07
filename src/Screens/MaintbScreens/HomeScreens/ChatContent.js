@@ -41,6 +41,7 @@ export function ChatContent({navigation, route}) {
     navigation
       .getParent()
       ?.setOptions({tabBarStyle: {display: 'none'}, tabBarVisible: false});
+
     return () =>
       navigation
         .getParent()
@@ -64,8 +65,16 @@ export function ChatContent({navigation, route}) {
       ),
     });
     onLoadEarlier();
+    _sendIDsForRead();
   }, [navigation]);
 
+  const _sendIDsForRead = async () => {
+    try {
+      await PostService.messageThread(messages[0]._id);
+    } catch (error) {
+      console.log(error.response.data);
+    }
+  };
   const onLoadEarlier = async () => {
     setCurrentPage(currentPage + 1);
     const newMessages = await PostService.getSingleMessages({
@@ -78,7 +87,6 @@ export function ChatContent({navigation, route}) {
     setMessages(previousMessages => [
       ...previousMessages,
       ...newMessages.data.data.map(sms => {
-        // console.log(sms.user, 'sms.user')
         return {
           _id: sms.id,
           text: sms.message,
@@ -147,6 +155,7 @@ export function ChatContent({navigation, route}) {
   const renderToolbar = props => {
     return <InputToolbar {...props} containerStyle={styles.inputToolbar} />;
   };
+
   return (
     <GiftedChat
       messages={messages}

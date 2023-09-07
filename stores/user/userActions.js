@@ -24,47 +24,25 @@ export const loginUser = dateTosend => async dispatch => {
   try {
     dispatch(startLogin());
     const {data} = await UserService.login(dateTosend);
-
-    dispatch(loginSuccess(data.data.user));
+    await dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
     Alert.alert(error.response.data.message);
     dispatch(loginError());
   }
-  // finally {
-  //   dispatch(getMe());
-  // }
 };
 
 export const registerUser = dataToSend => async dispatch => {
   try {
     dispatch(startLogin());
     const {data} = await UserService.registre(dataToSend);
-    dispatch(loginSuccess(data.data.user));
+    await dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
     alert(error);
     dispatch(loginError(error.message));
-  } finally {
-    dispatch(getMe());
   }
 };
-
-// export const userPhotoChange = imgUpload => async dispatch => {
-//   try {
-//     await dispatch(
-//       userInfoChange({
-//         name: imgUpload.name,
-//         email: imgUpload.email,
-//         image: imgUpload.image,
-//         lastname: imgUpload.lastname,
-//         type: imgUpload.type,
-//       }),
-//     );
-//   } catch (error) {
-//     dispatch(loginError(error.message));
-//   }
-// };
 
 export const getMe = setUserToken => async dispatch => {
   try {

@@ -25,14 +25,19 @@ const HomeStak = ({navigation}) => {
   const insets = useSafeAreaInsets();
   const [notif, setNotif] = useState(0);
   const [messageCount, setmessageCount] = useState(0);
+
   const channel = useChannel(`private-app.user.notification.${user?.id}`);
   useEvent(channel, 'new_notification', data => {
+    console.log(data, 'new_notification');
     setNotif(data.count);
   });
-  const channel2 = useChannel(`private-user.message.${user?.id}`);
+
+  const channel2 = useChannel(`private-message.${user?.id}`);
   useEvent(channel2, 'new_message', data => {
+    console.log(data, 'messageCount');
     setmessageCount(data.count);
   });
+
   const _checkIfGuest = async screen => {
     const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
     if (userAsGuest === 'AS_GUEST') {
@@ -92,11 +97,13 @@ const HomeStak = ({navigation}) => {
           isTransparent
           onPress={() => _checkIfGuest('ChatRoom')}
           style={{borderWidth: 0}}
-          icon={<Icon isPrimary useAntDesign name="message1" size={20} />}
-        />
-        <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
-          {messageCount}
-        </Text>
+          icon={<Icon isPrimary useAntDesign name="message1" size={20} />}>
+          <Text isPrimary style={{fontSize: 18, paddingHorizontal: 5}}>
+            {user?.unread_messages > 0 && messageCount === 0
+              ? user?.unread_messages
+              : messageCount}
+          </Text>
+        </Button>
       </View>
     );
   };

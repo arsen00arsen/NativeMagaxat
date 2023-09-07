@@ -1,10 +1,18 @@
 import React, {useState} from 'react';
-import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Pressable,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import Icon from '../../../Elements/Icon';
 import Button from '../../../Elements/Button';
 
-function PatronsContent({user, t}) {
+function PatronsContent({user, t, myPosts}) {
+  // const myUser = useSelector(state => state.user);
   const [longDes, setLongDes] = useState(false);
   const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const navigation = useNavigation();
@@ -34,9 +42,11 @@ function PatronsContent({user, t}) {
       </Text>
     );
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.component}>
+        {console.log(user)}
         <Image
           source={{uri: user.avatar}}
           style={{width: 78, height: 78, borderRadius: 45}}
@@ -48,10 +58,21 @@ function PatronsContent({user, t}) {
             </Text>
             {/* <Icon name="trophy" isPrimary size={36} /> */}
           </View>
-          <View style={styles.titleContent}>
-            <Text style={styles.email}>{user.email}</Text>
-            <Image source={require('../../../../assets/icons/Message.png')} />
-          </View>
+          {console.log(user, 'pp')}
+          {myPosts ? null : (
+            <Pressable
+              style={styles.titleContent}
+              onPress={() =>
+                navigation.navigate('Home', {
+                  screen: 'ChatContent',
+                  params: {chatUser: user},
+                })
+              }>
+              <Text style={styles.email}>{user.email}</Text>
+
+              <Image source={require('../../../../assets/icons/Message.png')} />
+            </Pressable>
+          )}
         </View>
       </View>
       <View>

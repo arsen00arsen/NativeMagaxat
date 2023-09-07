@@ -22,16 +22,13 @@ const ChatRoom = ({navigation}) => {
   const channel = useChannel(channelName);
   const [updates, setUpdate] = useState(false);
   useEvent(channel, 'new_message', data => {
-    console.log(data, 'ppppp');
     let updated = false; // Reset updated flag
-
     const updatedUsers = users.map(userObj => {
       if (
         userObj &&
         userObj.user_id === data.message.user_id &&
         userObj.owner_id === data.message.owner_id
       ) {
-        // If they are the same, update the properties
         updated = true;
 
         return {
@@ -46,17 +43,13 @@ const ChatRoom = ({navigation}) => {
 
     if (!updated) {
       setUpdate(true);
-      console.log(222);
-      // If no update was made, push the new object to the array
       updatedUsers.push(data);
     }
-
     setUser(updatedUsers);
   });
 
   useEffect(() => {
     if (isFocused) {
-      console.log(111);
       getUsers();
     }
   }, [isFocused, updates]);
@@ -82,26 +75,38 @@ const ChatRoom = ({navigation}) => {
   };
 
   const renderItem = ({item}) => {
+    const _sendIDsForRead = async () => {
+      try {
+        navigation.navigate('ChatContent', {
+          chatUser: item?.user,
+          owner_ids: item?.owner_id,
+          getId: item?.id,
+        });
+        await PostService.realAllMEssages(item.id);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
     return (
-      <Pressable
-        onPress={() =>
-          navigation.navigate('ChatContent', {
-            chatUser: item?.user,
-            owner_ids: item?.owner_id,
-            getId: item?.id,
-          })
-        }
-        style={styles.user}>
+      <Pressable onPress={_sendIDsForRead} style={styles.user}>
         <View style={{width: '70%', flexDirection: 'row'}}>
-          <Image
-            source={{
-              uri:
-                item?.owner_id === user?.id
-                  ? item?.user?.image
-                  : item?.owner?.image,
-            }}
-            style={styles.userImage}
-          />
+          <View>
+            <Image
+              source={{
+                uri:
+                  item?.owner_id === user?.id
+                    ? item?.user?.image
+                    : item?.owner?.image,
+              }}
+              style={styles.userImage}
+            />
+            {console.log(item, '/////')}
+            {item?.unread_count > 0 ? (
+              <View style={styles.messageCount}>
+                <Text style={styles.countText}>{item?.unread_count}</Text>
+              </View>
+            ) : null}
+          </View>
           <View>
             <Text style={styles.usernames}>
               {item?.owner_id === user?.id
@@ -159,7 +164,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    marginRight: 5,
+    marginRight: 15,
   },
   usernames: {
     color: '#111315',
@@ -170,5 +175,21 @@ const styles = StyleSheet.create({
     color: '#98A2B3',
     fontSize: 12,
     width: '50%',
+  },
+  messageCount: {
+    backgroundColor: '#4F48EC',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    right: 0,
+    marginTop: -10,
+    marginRight: 5,
+  },
+  countText: {
+    color: 'white',
+    fontWeight: '600',
   },
 });

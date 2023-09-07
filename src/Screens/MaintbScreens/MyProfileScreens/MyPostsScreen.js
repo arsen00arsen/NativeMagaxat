@@ -5,53 +5,10 @@ import PatronsContent from '../PatronsScreen/PatronsContent';
 
 function MyPostsScreen({route}) {
   const {t} = useTranslation();
-  const posts = route?.params?.posts;
+  const {posts} = route?.params;
 
-  //   useEffect(() => {
-  //     if (isFocused) {
-  //       getCategories();
-  //     }
-  //   }, [isFocused]);
+  const renderItem = ({item}) => <PatronsContent user={item} t={t} myPosts />;
 
-  //   const getCategories = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const {data} = await UserService.filtre({
-  //         page: 1,
-  //         categoryId: categoryId,
-  //       });
-  //       setUser(data.data);
-  //     } catch (err) {
-  //       console.log(err.response);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   const onEndReached = async () => {
-  //     setPage(page + 1);
-  //     try {
-  //       const {data} = await UserService.filtre({page: page + 1});
-  //       if (data.links.last_page > page) {
-  //         setUser([...data, ...this.state.data]);
-  //       } else {
-  //         return;
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  const renderItem = ({item}) => <PatronsContent user={item} t={t} />;
-
-  //   if (loading && page === 1) {
-  //     return (
-  //       <View style={styles.loadings}>
-  //         <ActivityIndicator />
-  //       </View>
-  //     );
-  //   }
   return (
     <SafeAreaView>
       <FlatList
