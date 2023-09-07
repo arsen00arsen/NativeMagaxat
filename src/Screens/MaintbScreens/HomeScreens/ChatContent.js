@@ -10,7 +10,7 @@ import {useSelector} from 'react-redux';
 LogBox.ignoreLogs(['EventEmitter.removeListener']);
 export function ChatContent({navigation, route}) {
   const [messages, setMessages] = useState([]);
-  const {chatUser, owner_ids} = route?.params;
+  const {chatUser, owner_ids, getId} = route?.params;
   console.log(owner_ids, 'owner_id');
   const [owner_id, setOwner] = useState(null);
   const {user} = useSelector(state => state.user);
@@ -70,7 +70,7 @@ export function ChatContent({navigation, route}) {
   const onLoadEarlier = async () => {
     setCurrentPage(currentPage + 1);
     const newMessages = await PostService.getSingleMessages({
-      id: chatUser?.id,
+      id: getId,
       page: currentPage,
     });
     if (currentPage === 1) {

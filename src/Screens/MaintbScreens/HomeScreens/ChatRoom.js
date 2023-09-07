@@ -64,6 +64,7 @@ const ChatRoom = ({navigation}) => {
           navigation.navigate('ChatContent', {
             chatUser: item.user,
             owner_ids: item.owner_id,
+            getId: item.id,
           })
         }
         style={styles.user}>
