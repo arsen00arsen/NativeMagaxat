@@ -11,7 +11,6 @@ LogBox.ignoreLogs(['EventEmitter.removeListener']);
 export function ChatContent({navigation, route}) {
   const [messages, setMessages] = useState([]);
   const {chatUser, owner_ids, getId} = route?.params;
-  console.log(owner_ids, 'owner_id');
   const [owner_id, setOwner] = useState(null);
   const {user} = useSelector(state => state.user);
   const [currentPage, setCurrentPage] = useState(1);

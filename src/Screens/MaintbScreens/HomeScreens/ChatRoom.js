@@ -11,9 +11,11 @@ import {
 import {useChannel, useEvent} from '@harelpls/use-pusher/react-native';
 import PostService from '../../../http/Post/post';
 import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const ChatRoom = ({navigation}) => {
-  const [user, setUser] = useState([]);
+  const {user} = useSelector(state => state.user);
+  const [users, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -56,8 +58,9 @@ const ChatRoom = ({navigation}) => {
       setLoading(false);
     }
   };
-
+  console.log(user?.id);
   const renderItem = ({item}) => {
+    console.log(item);
     return (
       <Pressable
         onPress={() =>
@@ -72,13 +75,13 @@ const ChatRoom = ({navigation}) => {
           <Image
             source={{
               uri:
-                item.owner_id !== user.id ? item.user.image : item.owner.image,
+                item.owner_id === user.id ? item.user.image : item.owner.image,
             }}
             style={styles.userImage}
           />
           <View>
             <Text style={styles.usernames}>
-              {item.owner_id !== user.id
+              {item.owner_id === user.id
                 ? item.user.full_name
                 : item.owner.full_name}
             </Text>
@@ -106,7 +109,7 @@ const ChatRoom = ({navigation}) => {
         paddingBottom: 150,
         paddingHorizontal: 15,
       }}
-      data={user}
+      data={users}
       renderItem={renderItem}
       keyExtractor={item => item.id.toString()}
       onEndReached={onEndReached}
