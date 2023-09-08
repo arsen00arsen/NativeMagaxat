@@ -23,7 +23,11 @@ export function ChatContent({navigation, route}) {
       console.log('Connected!!!!');
     });
   }
+  useEffect(() => {
+    onLoadEarlier();
+  }, []);
   useEvent(channel, 'new_message_thread', data => {
+    console.log(data);
     setMessages(previousMessages =>
       GiftedChat.append(previousMessages, {
         _id: data.message_thread.id,
@@ -65,7 +69,7 @@ export function ChatContent({navigation, route}) {
         />
       ),
     });
-    onLoadEarlier();
+
     _sendIDsForRead();
   }, [navigation]);
 
@@ -76,6 +80,7 @@ export function ChatContent({navigation, route}) {
       console.log(error.response.data);
     }
   };
+
   const onLoadEarlier = async () => {
     setCurrentPage(currentPage + 1);
     const newMessages = await PostService.getSingleMessages({
@@ -100,23 +105,40 @@ export function ChatContent({navigation, route}) {
       }),
     ]);
   };
-
   const onSend = useCallback(
-    (messagess = []) => {
-      PostService.sendMessages({
-        owner_id: owner_ids ? owner_ids : chatUser.id,
-        message_id: messages.length === 0 ? null : owner_id,
-        message: messagess[0].text,
-      })
-        .then(res => {
-          // console.log(res);
+    (messages = []) => {
+      const newMessage = messages[0];
+
+      if (newMessage) {
+        // Ensure the new message has a unique _id
+        newMessage._id = Math.random().toString(36).substring(7); // Generate a unique _id
+        newMessage.createdAt = new Date();
+        newMessage.user = {
+          _id: 1, // Assuming the user is always the sender (you can adjust this as needed)
+        };
+
+        // Update the messages state with the new message
+        setMessages(previousMessages =>
+          GiftedChat.append(previousMessages, newMessage),
+        );
+
+        // Send the message to the server
+        PostService.sendMessages({
+          owner_id: owner_ids ? owner_ids : chatUser.id,
+          message_id: owner_id,
+          message: newMessage.text,
         })
-        .catch(err => console.log(err.response, 'ppppppp'));
-      setMessages(previousMessages =>
-        GiftedChat.append(previousMessages, messagess),
-      );
+          .then(res => {
+            // Handle the response as needed
+            // console.log('Message sent successfully', res);
+          })
+          .catch(err => {
+            // Handle any errors
+            // console.error('Error sending message', err);
+          });
+      }
     },
-    [messages],
+    [owner_id, owner_ids],
   );
 
   const renderSend = props => {
@@ -135,7 +157,7 @@ export function ChatContent({navigation, route}) {
   const scrollToBottomComponent = () => {
     return <FontAwesome name="angle-double-down" size={22} color="#333" />;
   };
-
+  console.log(messages);
   const renderBubble = props => {
     return (
       <Bubble
