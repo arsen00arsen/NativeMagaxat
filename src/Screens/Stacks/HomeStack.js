@@ -1,5 +1,5 @@
 // import { useTranslation } from 'react-i18next';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, View} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -16,16 +16,33 @@ import {useTranslation} from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import {logoutUser} from '../../../stores/user/userActions';
+import {useIsFocused} from '@react-navigation/native';
+import UserService from '../../http/Account/account';
 
 const Home = createStackNavigator();
 const HomeStak = ({navigation}) => {
-  const {user} = useSelector(state => state.user);
+  // const {user} = useSelector(state => state.user);
   const {t} = useTranslation();
   const dispatch = useDispatch();
+  const [user, setUserInfos] = useState();
   const insets = useSafeAreaInsets();
   const [notif, setNotif] = useState(0);
+  const isFocused = useIsFocused();
   const [messageCount, setmessageCount] = useState(0);
-
+  useEffect(() => {
+    if (isFocused) {
+      userInfo();
+    }
+  }, [isFocused]);
+  const userInfo = async () => {
+    try {
+      const {data} = await UserService.getMe();
+      setUserInfos(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(user, 'ppppp');
   const channel = useChannel(`private-app.user.notification.${user?.id}`);
   useEvent(channel, 'new_notification', data => {
     setNotif(data.count);

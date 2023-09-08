@@ -39,7 +39,7 @@ export function ChatContent({navigation, route}) {
         },
       }),
     );
-    // _sendIDsForRead();
+    _sendIDsForRead();
   });
   // }
   useEffect(() => {
@@ -47,10 +47,12 @@ export function ChatContent({navigation, route}) {
       .getParent()
       ?.setOptions({tabBarStyle: {display: 'none'}, tabBarVisible: false});
 
-    return () =>
+    return () => {
+      // _sendIDsForRead();
       navigation
         .getParent()
         ?.setOptions({tabBarStyle: undefined, tabBarVisible: undefined});
+    };
   }, [navigation]);
 
   useLayoutEffect(() => {
@@ -75,6 +77,7 @@ export function ChatContent({navigation, route}) {
 
   const _sendIDsForRead = async () => {
     try {
+      await PostService.realAllMEssages(owner_id);
       await PostService.messageThread(messages[0]._id);
     } catch (error) {
       console.log(error.response.data);

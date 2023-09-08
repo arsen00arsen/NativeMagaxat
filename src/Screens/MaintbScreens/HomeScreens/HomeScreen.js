@@ -3,8 +3,11 @@ import {ActivityIndicator, View, StyleSheet, FlatList} from 'react-native';
 import {useIsFocused} from '@react-navigation/native';
 import UserInfo from '../../../Components/UserInfo';
 import UserService from '../../../http/Account/account';
+import {useDispatch} from 'react-redux';
+import {getMe} from '../../../../stores/user/userActions';
 
 const HomeScreen = () => {
+  const dispatch = useDispatch();
   const [user, setUser] = useState([]);
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
