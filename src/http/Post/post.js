@@ -41,6 +41,6 @@ export default class PostService {
     return $authHost.put(`message/real_all/${message}`);
   }
   static messageThread(messageThread) {
-    return $authHost.put(`message_thread/${messageThread}`);
+    return $authHost.put(`message_thread/${messageThread}`, {read: true});
   }
 }

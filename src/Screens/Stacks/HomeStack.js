@@ -28,14 +28,12 @@ const HomeStak = ({navigation}) => {
 
   const channel = useChannel(`private-app.user.notification.${user?.id}`);
   useEvent(channel, 'new_notification', data => {
-    console.log(data, 'new_notification');
     setNotif(data.count);
   });
 
   const channel2 = useChannel(`private-message.${user?.id}`);
   useEvent(channel2, 'new_message', data => {
-    console.log(data, 'messageCount');
-    setmessageCount(data.count);
+    setmessageCount(data.count_unread);
   });
 
   const _checkIfGuest = async screen => {

@@ -35,6 +35,7 @@ export function ChatContent({navigation, route}) {
         },
       }),
     );
+    // _sendIDsForRead();
   });
   // }
   useEffect(() => {
