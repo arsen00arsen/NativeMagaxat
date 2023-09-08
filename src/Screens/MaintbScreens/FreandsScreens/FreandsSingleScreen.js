@@ -27,7 +27,7 @@ function FreandsSingleScreen({route}) {
   useEffect(() => {
     getUser();
   }, []);
-  console.log(user);
+
   const getUser = async () => {
     setLoading(true);
     try {

@@ -46,7 +46,6 @@ function PatronsContent({user, t, myPosts}) {
   return (
     <View style={styles.container}>
       <View style={styles.component}>
-        {console.log(user)}
         <Image
           source={{uri: user.avatar}}
           style={{width: 78, height: 78, borderRadius: 45}}
@@ -58,7 +57,7 @@ function PatronsContent({user, t, myPosts}) {
             </Text>
             {/* <Icon name="trophy" isPrimary size={36} /> */}
           </View>
-          {console.log(user, 'pp')}
+
           {myPosts ? null : (
             <Pressable
               style={styles.titleContent}

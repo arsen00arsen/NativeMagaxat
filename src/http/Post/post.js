@@ -35,15 +35,12 @@ export default class PostService {
     return $authHost.get(`/message/${id}?page=${page}`);
   }
   static sendMessages(data) {
-    console.log(data);
     return $authHost.post('/message', data);
   }
   static realAllMEssages(message) {
-    console.log(message, 'message');
     return $authHost.put(`message/real_all/${message}`);
   }
   static messageThread(messageThread) {
-    console.log(messageThread, 'messageThread');
     return $authHost.put(`message_thread/${messageThread}`);
   }
 }

@@ -100,7 +100,6 @@ const ChatRoom = ({navigation}) => {
               }}
               style={styles.userImage}
             />
-            {console.log(item, '/////')}
             {item?.unread_count > 0 ? (
               <View style={styles.messageCount}>
                 <Text style={styles.countText}>{item?.unread_count}</Text>
