@@ -39,7 +39,6 @@ export const AuthContainer = ({isAuth, userToken}) => {
       </PusherProvider>
     );
   } else {
-    console.log('config is ERRRRORR');
     content = <RootStackScreen />;
   }
 

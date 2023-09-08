@@ -23,6 +23,7 @@ function FreandsContent({user}) {
     setLoading(true);
     try {
       const {data} = await UserService.follow(id);
+      user.if_follow = 1;
       isFollowed(true);
     } catch (err) {
       console.log(err.response);
@@ -34,6 +35,7 @@ function FreandsContent({user}) {
     setLoading(true);
     try {
       const {data} = await UserService.unFollow(id);
+      user.if_follow = 0;
       isFollowed(false);
     } catch (err) {
       console.log(err.response);

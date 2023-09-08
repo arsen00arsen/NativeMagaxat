@@ -167,9 +167,9 @@ android {
     defaultConfig {
         applicationId "com.sponsoram"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdk 31
-        versionCode 22
-        versionName "2.0.1"
+        targetSdk 33
+        versionCode 35
+        versionName "2.0.2"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
