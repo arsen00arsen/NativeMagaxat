@@ -9,11 +9,12 @@ const HomeScreen = () => {
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-
+  const [isPlay, setIsPlay] = useState(true);
   useEffect(() => {
     if (isFocused) {
       getUsers();
     }
+    return () => setIsPlay(false);
   }, [isFocused]);
 
   const getUsers = async () => {
@@ -45,7 +46,7 @@ const HomeScreen = () => {
     }
   };
 
-  const renderItem = ({item}) => <UserInfo user={item} />;
+  const renderItem = ({item}) => <UserInfo user={item} isPlay={isPlay} />;
 
   if (loading && page === 1) {
     return (

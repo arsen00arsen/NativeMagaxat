@@ -144,7 +144,6 @@ const HomeStak = ({navigation}) => {
         animation: 'slide_from_bottom',
         navigationBarHidden: true,
         headerStyle: {backgroundColor: 'white'},
-        contentStyle: {backgroundColor: 'red'},
         cardStyle: {
           backgroundColor: 'white',
         },

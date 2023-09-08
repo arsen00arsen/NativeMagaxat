@@ -32,8 +32,8 @@ const App = () => {
     messaging().onMessage(message => {
       Toast.show({
         type: 'success',
-        text1: message.data.notification.title,
-        text2: message.data.notification.description,
+        text1: message.data.title,
+        text2: message.notification.title,
       });
     });
   }, []);

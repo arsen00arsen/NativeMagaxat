@@ -9,6 +9,7 @@ const TextField = ({
   style,
   containerStyle,
   hasMargin,
+  type,
   ...rest
 }) => {
   let margin = 0;
@@ -35,6 +36,7 @@ const TextField = ({
         placeholderTextColor={'#98A2B3'}
         underlineColorAndroid="white"
         {...rest}
+        keyboardType={type ? type : null}
         secureTextEntry={secureTextEntry ? true : false}
       />
     </View>

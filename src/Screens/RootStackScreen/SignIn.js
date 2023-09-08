@@ -31,6 +31,7 @@ const SignIn = ({navigation}) => {
       name: 'email',
       control: control,
       placeholder: t('email'),
+      type: 'default',
       title: 'Your Email Address*',
       rules: {
         required: t('inValidEmail'),
@@ -87,6 +88,7 @@ const SignIn = ({navigation}) => {
                                 borderColor: '#98A2B3',
                               },
                             ]}
+                            type={elem.type}
                             hasMargin
                             placeholder={elem.placeholder}
                             secureTextEntry={false}

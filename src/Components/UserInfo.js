@@ -20,7 +20,7 @@ import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logoutUser} from '../../stores/user/userActions';
 
-const UserInfo = ({user}) => {
+const UserInfo = ({user, isPlay}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const {width} = useWindowDimensions();
@@ -34,6 +34,23 @@ const UserInfo = ({user}) => {
       setModalVisible(true);
     }
   };
+  const [currentlyPlayingVideo, setCurrentlyPlayingVideo] = useState(null);
+
+  const handleVideoPlay = videoPlayer => {
+    setCurrentlyPlayingVideo(videoPlayer);
+    // Pause all videos except for the current video player.
+    const otherVideoPlayers = document.querySelectorAll('.VideoPlayer');
+    otherVideoPlayers.forEach(videoPlayer => {
+      if (videoPlayer !== currentlyPlayingVideo) {
+        videoPlayer.pause();
+      }
+    });
+  };
+
+  const handleVideoStop = () => {
+    setCurrentlyPlayingVideo(null);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.userCard}>
@@ -56,24 +73,23 @@ const UserInfo = ({user}) => {
             <TouchableOpacity onPress={_checkIfGuest}>
               <MaterialCommunityIcons name="dots-horizontal" size={25} />
             </TouchableOpacity>
-            {/* <MaterialCommunityIcons
-              name="close"
-              size={25}
-              style={{marginLeft: 10}}
-            /> */}
           </View>
         </View>
         {user.files.some(file => file.type.includes('video')) ? (
           <VideoPlayer
             video={{uri: user.files[0].url}}
+            ref={videoPlayer => {
+              this.videoRef = videoPlayer;
+            }}
             style={{
               width: '100%',
               height: 250,
             }}
-            autoplay={false}
+            autoplay={isPlay}
             defaultMuted={true}
             fullscreen={true}
-            resizeMode="contain"
+            onPlay={handleVideoPlay}
+            onStop={handleVideoStop}
           />
         ) : (
           <ImageModal

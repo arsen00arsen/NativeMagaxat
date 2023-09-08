@@ -51,7 +51,7 @@ export function ChatContent({navigation, route}) {
       // _sendIDsForRead();
       navigation
         .getParent()
-        ?.setOptions({tabBarStyle: undefined, tabBarVisible: undefined});
+        ?.setOptions({tabBarStyle: {height: 90}, tabBarVisible: undefined});
     };
   }, [navigation]);
 

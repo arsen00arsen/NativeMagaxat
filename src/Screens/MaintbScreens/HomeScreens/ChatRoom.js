@@ -68,7 +68,7 @@ const ChatRoom = ({navigation}) => {
           .reverse(),
       );
     } catch (err) {
-      console.log(err);
+      console.log(err.response.data);
     } finally {
       setLoading(false);
     }

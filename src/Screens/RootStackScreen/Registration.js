@@ -27,6 +27,7 @@ import UserService from '../../http/Account/account';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch} from 'react-redux';
 import {registerUser} from '../../../stores/user/userActions';
+import {useTranslation} from 'react-i18next';
 const genders = [
   {key: '1', value: 'Male'},
   {key: '2', value: 'Female'},
@@ -34,8 +35,9 @@ const genders = [
 ];
 const EMAIL_REGEX =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-const Name_Surname_Regex = /^(?=.{3,20}$)/i;
+
 const Registration = () => {
+  const {t} = useTranslation();
   const dispatch = useDispatch();
   const {control, handleSubmit, watch, setValue} = useForm({});
   const [selectedImages, setSelectedImages] = React.useState([]);
@@ -51,25 +53,27 @@ const Registration = () => {
       name: 'name',
       control: control,
       placeholder: 'Name',
+      type: 'default',
       title: 'Your First Name*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
     {
       name: 'last_name',
       control: control,
+      type: 'default',
       placeholder: 'Last name',
       title: 'Your Last Name*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -77,6 +81,7 @@ const Registration = () => {
       name: 'email',
       control: control,
       placeholder: 'Email',
+      type: 'email',
       title: 'Your Email Address*',
       rules: {
         required: 'This field is required',
@@ -92,12 +97,13 @@ const Registration = () => {
       name: 'education',
       control: control,
       placeholder: 'Education',
+      type: 'default',
       title: 'Your Education*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -105,12 +111,13 @@ const Registration = () => {
       name: 'profession',
       control: control,
       placeholder: 'Profession',
+      type: 'default',
       title: 'Profession*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -118,25 +125,27 @@ const Registration = () => {
       name: 'phone',
       control: control,
       placeholder: '+374',
+      type: 'phone-pad',
       title: 'Telephone*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
     {
       name: 'bio',
       control: control,
+      type: 'default',
       placeholder: 'I love life...',
       title: 'Bio*',
       rules: {
         required: 'This field is required',
-        pattern: {
-          value: Name_Surname_Regex,
-          message: 'This field is required',
+        minLenght: {
+          value: 1,
+          message: t('inputRequired'),
         },
       },
     },
@@ -321,10 +330,7 @@ const Registration = () => {
   };
   const pickImages = () => {
     ImagePicker.openPicker({
-      // multiple: false,
       includeBase64: true,
-      width: 300,
-      height: 400,
       cropping: true,
     }).then(images => {
       setSelectedImages([images]);
@@ -382,6 +388,7 @@ const Registration = () => {
                               },
                             ]}
                             hasMargin
+                            type={elem.type}
                             placeholder={elem.placeholder}
                             secureTextEntry={false}
                             value={value}
@@ -407,7 +414,7 @@ const Registration = () => {
                       search={false}
                       setSelected={val => setSelected(val)}
                       multiple={true}
-                      data={categories}
+                      data={categories.slice(1)}
                       save="name"
                     />
                   </View>
@@ -480,7 +487,7 @@ const Registration = () => {
                       return (
                         <Image
                           key={index}
-                          source={{uri: uri.sourceURL}}
+                          source={{uri: uri.path}}
                           style={styles.image}
                         />
                       );
@@ -505,6 +512,7 @@ const Registration = () => {
                           <TextField
                             style={[styles.textFiled]}
                             hasMargin
+                            type={elem.type}
                             placeholder={elem.placeholder}
                             secureTextEntry={false}
                             value={value}

@@ -64,7 +64,7 @@ function PatronsContent({user, t, myPosts}) {
               onPress={() =>
                 navigation.navigate('Home', {
                   screen: 'ChatContent',
-                  params: {chatUser: user},
+                  params: {chatUser: user, getId: user.chat_id},
                 })
               }>
               <Text style={styles.email}>{user.email}</Text>

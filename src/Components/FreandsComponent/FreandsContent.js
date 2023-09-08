@@ -106,7 +106,7 @@ function FreandsContent({user}) {
             onPress={() =>
               navigation.navigate('Home', {
                 screen: 'ChatContent',
-                params: {chatUser: user},
+                params: {chatUser: user, getId: user.chat_id},
               })
             }>
             <Text

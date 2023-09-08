@@ -41,6 +41,7 @@ const AddPost = ({navigation}) => {
     {
       name: 'title',
       control: control,
+      type: 'default',
       placeholder: t('title_placeholder'),
       title: t('title'),
       rules: {
@@ -54,6 +55,7 @@ const AddPost = ({navigation}) => {
     {
       name: 'role',
       control: control,
+      type: 'default',
       placeholder: t('role_placeholder'),
       title: t('role'),
       rules: {
@@ -67,6 +69,7 @@ const AddPost = ({navigation}) => {
     {
       name: 'group_or_single',
       control: control,
+      type: 'default',
       placeholder: t('group_single_placeholder'),
       title: t('group_single'),
       rules: {
@@ -82,6 +85,7 @@ const AddPost = ({navigation}) => {
     {
       name: 'url',
       control: control,
+      type: 'default',
       placeholder: t('link'),
       title: t('link_placeholder'),
       rules: {
@@ -92,22 +96,10 @@ const AddPost = ({navigation}) => {
         },
       },
     },
-    // {
-    //   name: 'description',
-    //   control: control,
-    //   placeholder: t('description_placeholder'),
-    //   title: t('description'),
-    //   rules: {
-    //     required: t('inputRequired'),
-    //     minLenght: {
-    //       value: 1,
-    //       message: t('inputRequired'),
-    //     },
-    //   },
-    // },
     {
       name: 'price',
       control: control,
+      type: 'numeric',
       placeholder: t('price_placeholder'),
       title: t('price'),
       rules: {
@@ -239,6 +231,7 @@ const AddPost = ({navigation}) => {
                                 borderColor: '#98A2B3',
                               },
                             ]}
+                            type={elem.type}
                             hasMargin
                             placeholder={elem.placeholder}
                             secureTextEntry={false}
@@ -277,7 +270,7 @@ const AddPost = ({navigation}) => {
                         <View key={index}>
                           {uri.mime.includes('image') ? (
                             <Image
-                              source={{uri: uri.sourceURL}}
+                              source={{uri: uri.path}}
                               style={styles.imageVideo}
                             />
                           ) : (
@@ -319,7 +312,7 @@ const AddPost = ({navigation}) => {
                     search={false}
                     setSelected={val => setSelected(val)}
                     multiple={true}
-                    data={categories}
+                    data={categories.slice(1)}
                     save="name"
                   />
                 </View>
@@ -401,6 +394,7 @@ const AddPost = ({navigation}) => {
                                 borderColor: '#98A2B3',
                               },
                             ]}
+                            type={elem.type}
                             placeholderTextColor={'#98A2B3'}
                             hasMargin
                             placeholder={elem.placeholder}
