@@ -31,7 +31,7 @@ export function ChatContent({navigation, route}) {
         createdAt: new Date(),
         user: {
           avatar: chatUser.image ? chatUser.image : chatUser.avatar,
-          _id: user?.id === data.message_thread.user_id ? 1 : 2,
+          _id: user?.id !== data.message_thread.user_id ? 1 : 2,
         },
       }),
     );
@@ -92,7 +92,7 @@ export function ChatContent({navigation, route}) {
           text: sms.message,
           createdAt: new Date(),
           user: {
-            _id: user.id === sms.user.id ? 1 : 2,
+            _id: user.id !== sms.user.id ? 1 : 2,
             avatar: chatUser.owner_image,
           },
         };
