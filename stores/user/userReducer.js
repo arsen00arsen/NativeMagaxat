@@ -38,20 +38,6 @@ export const userReducer = (state = initialUserState, action) => {
         isAuth: false,
         error: payload,
       };
-
-    case 'FIRST_STEP_SUBMIT':
-      return {
-        ...state,
-        data: {
-          ...state.data,
-          ...payload,
-        },
-      };
-    case 'REPORT_INFO':
-      return {
-        ...state,
-        report: payload,
-      };
     default:
       return state;
   }

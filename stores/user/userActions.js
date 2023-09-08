@@ -22,13 +22,12 @@ export const userInfoChange = payload => ({
 
 export const loginUser = dateTosend => async dispatch => {
   try {
-    dispatch(startLogin());
     const {data} = await UserService.login(dateTosend);
     await dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
     Alert.alert(error.response.data.message);
-    dispatch(loginError());
+    // dispatch(loginError());
   }
 };
 
@@ -39,6 +38,7 @@ export const registerUser = dataToSend => async dispatch => {
     await dispatch(loginSuccess(data.data.user));
     await AsyncStorage.setItem('token', data.data.token);
   } catch (error) {
+    console.log(error.response.data, 'ppppoooooooooo');
     alert(error);
     dispatch(loginError(error.message));
   }
@@ -71,15 +71,3 @@ export const logoutUser = () => async dispatch => {
     dispatch(loginError(error.message));
   }
 };
-
-// export const remove = id => async dispatch => {
-//   try {
-//     dispatch(startLogin());
-//     await UserService.deleteUser(id);
-//     dispatch(loginError('Logged out'));
-//     await AsyncStorage.removeItem('token');
-//   } catch (error) {
-//     dispatch(loginError(error.message));
-//   } finally {
-//   }
-// };

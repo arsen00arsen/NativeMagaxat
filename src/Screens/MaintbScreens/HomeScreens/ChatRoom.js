@@ -78,7 +78,7 @@ const ChatRoom = ({navigation}) => {
     const _sendIDsForRead = async () => {
       try {
         navigation.navigate('ChatContent', {
-          chatUser: item?.owner_id === user?.id ? item?.user : item.owner,
+          chatUser: item?.user,
           owner_ids: item?.owner_id,
           getId: item?.id,
         });

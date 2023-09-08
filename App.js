@@ -19,12 +19,14 @@ import Toast from 'react-native-toast-message';
 const App = () => {
   const dispatch = useDispatch();
   const [userToken, setUserToken] = useState('');
-  const {loading, isAuth} = useSelector(state => state.user);
+  const {loading, isAuth, asGuest} = useSelector(state => state.user);
 
   useEffect(() => {
     requestUserPermission();
-    dispatch(getMe(setUserToken));
-  }, []);
+    if (asGuest !== 'AS_GUEST') {
+      dispatch(getMe(setUserToken));
+    }
+  }, [isAuth]);
 
   useEffect(() => {
     messaging().onMessage(message => {
@@ -45,7 +47,10 @@ const App = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-      <AuthContainer isAuth={isAuth} userToken={userToken} />
+      <AuthContainer
+        isAuth={isAuth}
+        userToken={userToken ? userToken : asGuest}
+      />
     </I18nextProvider>
   );
 };

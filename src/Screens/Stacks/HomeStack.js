@@ -42,7 +42,7 @@ const HomeStak = ({navigation}) => {
       console.log(error);
     }
   };
-  console.log(user, 'ppppp');
+
   const channel = useChannel(`private-app.user.notification.${user?.id}`);
   useEvent(channel, 'new_notification', data => {
     setNotif(data.count);

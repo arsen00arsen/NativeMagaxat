@@ -7,6 +7,9 @@ export default class UserService {
   static login(data) {
     return $host.post('/login', data);
   }
+  static logout() {
+    return $authHost.post('/logout');
+  }
   static getCategories() {
     return $host.get('/category');
   }
