@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "442729071615",
-    "project_id": "sponsor-e5b4f",
-    "storage_bucket": "sponsor-e5b4f.appspot.com"
+    "project_number": "867450598354",
+    "firebase_url": "https://sponsoram-47a4f-default-rtdb.firebaseio.com",
+    "project_id": "sponsoram-47a4f",
+    "storage_bucket": "sponsoram-47a4f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:442729071615:android:b85b35bd6f10c74e079dca",
+        "mobilesdk_app_id": "1:867450598354:android:852e011036e377fab34e0b",
         "android_client_info": {
           "package_name": "com.sponsoram"
         }
       },
       "oauth_client": [
         {
-          "client_id": "442729071615-04rpf1u4k9uirqki1dn76c0ll1u3ar7s.apps.googleusercontent.com",
+          "client_id": "867450598354-qc2fds07lphn9gf6a277j2jutah8am4o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyC7g4BlIejuXw_FNVht7fv2QpqajdSLVB0"
+          "current_key": "AIzaSyCcZX5L03uyDTCbB8wO4Ri5ND_ZVbzsFww"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "442729071615-04rpf1u4k9uirqki1dn76c0ll1u3ar7s.apps.googleusercontent.com",
+              "client_id": "867450598354-qc2fds07lphn9gf6a277j2jutah8am4o.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "867450598354-koectnhuecqq1aq96js9po6n1f6u4a2g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.sposnor"
+              }
             }
           ]
         }
