@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import {
   View,
   Image,
@@ -8,9 +8,9 @@ import {
   Pressable,
   useWindowDimensions,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useIsFocused} from '@react-navigation/native';
 import ImageModal from 'react-native-image-modal';
-import VideoPlayer from 'react-native-video-player';
+import Video from 'react-native-video';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import ShareButton from '../Elements/ShareButton';
@@ -20,11 +20,13 @@ import {useDispatch} from 'react-redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {logoutUser} from '../../stores/user/userActions';
 
-const UserInfo = ({user, isPlay}) => {
+const UserInfo = ({user, poused}) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const {width} = useWindowDimensions();
+  const videoRef = useRef(null);
   const dispatch = useDispatch();
+  const screenIsFocused = useIsFocused();
 
   const _checkIfGuest = async () => {
     const userAsGuest = await AsyncStorage.getItem('USER_GUEST_TOKEN');
@@ -76,21 +78,38 @@ const UserInfo = ({user, isPlay}) => {
           </View>
         </View>
         {user.files.some(file => file.type.includes('video')) ? (
-          <VideoPlayer
-            video={{uri: user.files[0].url}}
-            ref={videoPlayer => {
-              this.videoRef = videoPlayer;
-            }}
-            style={{
-              width: '100%',
-              height: 250,
-            }}
-            autoplay={isPlay}
-            defaultMuted={true}
-            fullscreen={true}
-            onPlay={handleVideoPlay}
-            onStop={handleVideoStop}
-          />
+          <>
+            <Video
+              resizeMode={'cover'}
+              ref={videoRef}
+              source={{uri: user.files[0].url}}
+              controls={true}
+              disableFocus={true}
+              paused={poused && screenIsFocused}
+              playWhenInactive={false}
+              ignoreSilentSwitch={'ignore'}
+              repeat={true}
+              // thumbnail={{uri: props?.uri?.video_name}}
+              style={{
+                width: '100%',
+                height: 250,
+              }}
+              pictureInPicture={true}
+            />
+            {/* <VideoPlayer
+              video={{uri: user.files[0].url}}
+              // ref={videoPlayer => {
+              //   this.videoRef = videoPlayer;
+              // }}
+
+              // pause={true}
+              autoplay={poused}
+              defaultMuted={false}
+              fullscreen={true}
+              // onPlay={a === true ? handleVideoPlay : handleVideoStop}
+              // onStop={handleVideoStop}
+            /> */}
+          </>
         ) : (
           <ImageModal
             source={{uri: user.files[0].url}}

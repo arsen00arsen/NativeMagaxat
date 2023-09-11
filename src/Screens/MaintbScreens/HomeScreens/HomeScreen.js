@@ -9,12 +9,13 @@ const HomeScreen = () => {
   const isFocused = useIsFocused();
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [isPlay, setIsPlay] = useState(true);
+  const [playIndex, setPlayIndex] = useState(0);
+
   useEffect(() => {
     if (isFocused) {
       getUsers();
     }
-    return () => setIsPlay(false);
+    // return () => setIsPlay(false);
   }, [isFocused]);
 
   const getUsers = async () => {
@@ -45,8 +46,21 @@ const HomeScreen = () => {
       setLoading(false);
     }
   };
+  const viewabilityConfig = {
+    viewAreaCoveragePercentThreshold: 60,
+    waitForInteraction: true,
+  };
 
-  const renderItem = ({item}) => <UserInfo user={item} isPlay={isPlay} />;
+  const onViewableItemsChanged = React.useCallback(({viewableItems}) => {
+    setPlayIndex(viewableItems[0]?.index);
+  });
+
+  const viewabilityConfigCallbackPairs = React.useRef([
+    {viewabilityConfig, onViewableItemsChanged},
+  ]);
+  const renderItem = ({item, index}) => (
+    <UserInfo user={item} poused={playIndex === index ? false : true} />
+  );
 
   if (loading && page === 1) {
     return (
@@ -63,6 +77,7 @@ const HomeScreen = () => {
       keyExtractor={item => item.id.toString()}
       onEndReached={onEndReached}
       onEndReachedThreshold={0.5}
+      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
     />
   );
 };
