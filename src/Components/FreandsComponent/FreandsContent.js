@@ -59,7 +59,6 @@ function FreandsContent({user}) {
                 navigation.navigate('FreandsSingleScreen', {id: user.id})
               }>
               <Text style={styles.title}>{user?.name}</Text>
-              {/* <Ionicons name="md-star" color={'#4F48EC'} size={30} /> */}
             </TouchableOpacity>
             <View style={styles.titleContent}>
               <Text style={styles.email}>{user?.email}</Text>

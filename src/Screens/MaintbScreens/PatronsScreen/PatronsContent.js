@@ -10,9 +10,10 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import Icon from '../../../Elements/Icon';
 import Button from '../../../Elements/Button';
+import {useSelector} from 'react-redux';
 
 function PatronsContent({user, t, myPosts}) {
-  // const myUser = useSelector(state => state.user);
+  const myUser = useSelector(state => state.user);
   const [longDes, setLongDes] = useState(false);
   const [isDescriptionTooLong, setIsDescriptionTooLong] = useState(false);
   const navigation = useNavigation();
@@ -25,6 +26,7 @@ function PatronsContent({user, t, myPosts}) {
       setIsDescriptionTooLong(true);
     }
   };
+
   let description;
   if (longDes === false) {
     description = (
@@ -47,7 +49,7 @@ function PatronsContent({user, t, myPosts}) {
     <View style={styles.container}>
       <View style={styles.component}>
         <Image
-          source={{uri: user.avatar}}
+          source={{uri: myUser?.user?.avatar}}
           style={{width: 78, height: 78, borderRadius: 45}}
         />
         <View style={{width: '70%', marginHorizontal: 15}}>

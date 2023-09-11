@@ -20,6 +20,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {logoutUser} from '../../../../stores/user/userActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useIsFocused} from '@react-navigation/native';
 
 const CommentScreen = ({route}) => {
   const {t} = useTranslation();
@@ -27,8 +28,9 @@ const CommentScreen = ({route}) => {
   const post = route?.params?.post;
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const screenIsFocused = useIsFocused();
   const [comments, setComments] = useState([]);
-  const {control, handleSubmit, reset, setValue} = useForm({});
+  const {control, handleSubmit, reset} = useForm({});
   useEffect(() => {
     getComments();
   }, [post]);
@@ -144,7 +146,7 @@ const CommentScreen = ({route}) => {
                     width: '100%',
                     height: 250,
                   }}
-                  autoplay={false}
+                  autoplay={screenIsFocused ? true : false}
                   defaultMuted={true}
                   fullscreen={true}
                   resizeMode="contain"

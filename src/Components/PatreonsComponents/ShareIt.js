@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { useTranslation } from 'react-i18next';
+import {useTranslation} from 'react-i18next';
 import {
   View,
   Text,
@@ -39,7 +39,7 @@ function ShareIt({post}) {
   }
   return (
     <View style={styles.container}>
-      <View>
+      <View style={{width: '100%'}}>
         <Text
           style={{
             color: '#000',

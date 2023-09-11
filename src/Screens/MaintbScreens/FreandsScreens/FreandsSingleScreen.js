@@ -46,7 +46,6 @@ function FreandsSingleScreen({route}) {
       </View>
     );
   }
-
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -76,8 +75,19 @@ function FreandsSingleScreen({route}) {
             );
           }
           return (
-            <View style={{paddingHorizontal: 15, width: '100%'}} key={index}>
-              <Gallery post={elem?.file} />
+            <View style={{padding: 15, width: '100%'}} key={index}>
+              <Text
+                style={[
+                  styles.usersTitle,
+                  {
+                    marginBottom: 5,
+                    textAlign: 'right',
+                    fontSize: 12,
+                    color: 'silver',
+                  },
+                ]}>
+                {elem?.duration}
+              </Text>
               <Text
                 style={{
                   color: '#000',
@@ -85,7 +95,32 @@ function FreandsSingleScreen({route}) {
                   fontWeight: '500',
                   marginBottom: 10,
                 }}>
-                Description
+                {t('title')}
+              </Text>
+              <Text style={[styles.usersTitle, {marginBottom: 5}]}>
+                {elem?.title}
+              </Text>
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  marginBottom: 10,
+                }}>
+                {t('price')}
+              </Text>
+              <Text style={[styles.usersTitle, {marginBottom: 5}]}>
+                {elem?.price}
+              </Text>
+
+              <Text
+                style={{
+                  color: '#000',
+                  fontSize: 16,
+                  fontWeight: '500',
+                  marginBottom: 10,
+                }}>
+                {t('description')}
               </Text>
               {description}
               {isDescriptionTooLong && (
@@ -95,6 +130,7 @@ function FreandsSingleScreen({route}) {
                   </Text>
                 </TouchableOpacity>
               )}
+              <Gallery post={elem?.file} />
             </View>
           );
         })}

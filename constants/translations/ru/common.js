@@ -83,13 +83,11 @@ export default {
   name: 'Имя',
   lastName: 'Фамилия',
   havntAnyPosts: 'У вас еще нет постoв',
+  support: 'Поддерживать',
 
-
-  
   my_account_general: 'Основное',
 
   my_account_settings: 'Настройки',
-
 
   save: 'Сохранить',
   infoChangeSaved: 'Ваша информация сохранена',
@@ -126,14 +124,11 @@ export default {
   colse: 'Закрывать',
   havntAnyMessage: 'У вас нет сообщений',
 
-
   postDelete: 'Ваш пост удалитeн',
   reportSend: 'Спасибо, ваш отчет отправлен',
 
-
   next: 'Далее',
   login: 'Вход',
-
 
   createPrifile: 'Создайте Ваш профиль',
   confirmPassword: 'Подтвердить Пароль',
@@ -143,7 +138,6 @@ export default {
   profils: 'Профили',
   media: 'Mедиа',
   writeResonMessage: 'Пожалуйста, напишите сообщение',
-
 
   passwordMatch: 'Пароли не совпадают',
   postShared: 'Публикация успешно опубликована',

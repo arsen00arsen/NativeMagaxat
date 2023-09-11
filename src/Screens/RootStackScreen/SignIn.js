@@ -31,7 +31,7 @@ const SignIn = ({navigation}) => {
       name: 'email',
       control: control,
       placeholder: t('email'),
-      type: 'default',
+      type: 'email-address',
       title: 'Your Email Address*',
       rules: {
         required: t('inValidEmail'),

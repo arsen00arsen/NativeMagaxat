@@ -63,38 +63,23 @@ const UserInfo = ({user, poused}) => {
           </View>
         </View>
         {user.files.some(file => file.type.includes('video')) ? (
-          <>
-            <Video
-              resizeMode={'cover'}
-              ref={videoRef}
-              source={{uri: user.files[0].url}}
-              controls={Platform.OS === 'ios' ? true : false}
-              disableFocus={true}
-              paused={poused && screenIsFocused}
-              playWhenInactive={false}
-              ignoreSilentSwitch={'ignore'}
-              repeat={true}
-              // thumbnail={{uri: props?.uri?.video_name}}
-              style={{
-                width: '100%',
-                height: 250,
-              }}
-              pictureInPicture={true}
-            />
-            {/* <VideoPlayer
-              video={{uri: user.files[0].url}}
-              // ref={videoPlayer => {
-              //   this.videoRef = videoPlayer;
-              // }}
-
-              // pause={true}
-              autoplay={poused}
-              defaultMuted={false}
-              fullscreen={true}
-              // onPlay={a === true ? handleVideoPlay : handleVideoStop}
-              // onStop={handleVideoStop}
-            /> */}
-          </>
+          <Video
+            resizeMode={'cover'}
+            ref={videoRef}
+            source={{uri: user.files[0].url}}
+            controls={Platform.OS === 'ios' ? true : false}
+            disableFocus={true}
+            paused={poused && screenIsFocused}
+            playWhenInactive={false}
+            ignoreSilentSwitch={'ignore'}
+            repeat={true}
+            // thumbnail={{uri: props?.uri?.video_name}}
+            style={{
+              width: '100%',
+              height: 250,
+            }}
+            pictureInPicture={true}
+          />
         ) : (
           <ImageModal
             source={{uri: user.files[0].url}}

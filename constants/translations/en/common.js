@@ -80,7 +80,7 @@ export default {
   name: 'First Name',
   lastName: 'Last Name',
   havntAnyPosts: 'You dont have any post',
-
+  support: 'Support',
 
   my_account_general: 'General',
   my_account_settings: 'Settings',
@@ -115,12 +115,10 @@ export default {
   colse: 'Close',
   havntAnyMessage: 'You dont have any messages',
 
-
   postDelete: 'Your post was deleted',
   reportSend: 'Thank you, your report was sent',
   next: 'Next',
   login: 'Signin',
-
 
   createPrifile: 'Create ypour profile',
   confirmPassword: 'Confirm your password',
@@ -130,7 +128,6 @@ export default {
   profils: 'Profile',
   media: 'Media',
   writeResonMessage: 'Please write a message',
-
 
   passwordMatch: 'The passwords do not match',
   postShared: 'Post shared successfully',

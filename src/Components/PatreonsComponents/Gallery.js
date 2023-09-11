@@ -1,11 +1,13 @@
+import {useIsFocused} from '@react-navigation/native';
 import * as React from 'react';
 import {useTranslation} from 'react-i18next';
-import {Text, View, StyleSheet, Image} from 'react-native';
+import {Text, View, StyleSheet} from 'react-native';
 import ImageModal from 'react-native-image-modal';
 import VideoPlayer from 'react-native-video-player';
 
 function Gallery({post}) {
   const {t} = useTranslation();
+  const screenIsFocused = useIsFocused();
   const imageArray = post?.filter(item => item.type.startsWith('image'));
   const videoArray = post?.filter(item => item.type.startsWith('video'));
   return (
@@ -28,7 +30,7 @@ function Gallery({post}) {
                   height: '100%',
                   borderRadius: 8,
                 }}
-                autoplay={false}
+                autoplay={screenIsFocused ? true : false}
                 defaultMuted={true}
                 fullscreen={true}
                 resizeMode="contain"

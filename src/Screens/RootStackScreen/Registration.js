@@ -81,7 +81,7 @@ const Registration = () => {
       name: 'email',
       control: control,
       placeholder: 'Email',
-      type: 'email',
+      type: 'email-address',
       title: 'Your Email Address*',
       rules: {
         required: 'This field is required',

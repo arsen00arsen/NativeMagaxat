@@ -82,9 +82,8 @@ export default {
   name: 'Անուն',
   lastName: 'Ազգանուն',
   havntAnyPosts: 'Դուք չունեք ոչ մի գրառում',
+  support: 'Աջակցություն',
 
-
-  
   my_account_general: 'Հիմնական',
   my_account_settings: 'Կարգավորումներ',
 
@@ -125,10 +124,8 @@ export default {
   postDelete: 'Ձեր գրառումը հեռացված է',
   reportSend: 'Շնորհակալություն ձեր բողոքը ուղարկվել է',
 
-
   next: 'Հաջորդը',
   login: 'Մուտք',
-
 
   createPrifile: 'Ստեղծեք ձեր հաշիվը',
   confirmPassword: 'Հաստատել գաղտնաբառը',
@@ -139,7 +136,6 @@ export default {
   media: 'Մեդիա',
   writeResonMessage: 'Խնդրում ենք թողեք հաղորդագրություն',
 
- 
   passwordMatch: 'Գաղտնաբառերը չեն համընկնում',
   postShared: 'Գրառումը հաջողությամբ տարածվեց',
   sposnorTitle: 'Բարերար',

@@ -26,6 +26,9 @@ export default class UserService {
     return $authHost.get('/home');
   }
   static getFreands({page, categoryId, start, end, countryId}) {
+    console.log(
+      `/friends?start=${start}&end=${end}&country_id=${countryId}&category_id=${categoryId}&page=${page}`,
+    );
     return $authHost.get(
       `/friends?start=${start}&end=${end}&country_id=${countryId}&category_id=${categoryId}&page=${page}`,
     );
