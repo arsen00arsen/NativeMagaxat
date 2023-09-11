@@ -12,6 +12,7 @@ import MyPostsScreen from '../MaintbScreens/MyProfileScreens/MyPostsScreen';
 import MyFollowersScreen from '../MaintbScreens/MyProfileScreens/MyFollowersScreen';
 import MyFollowingsScreen from '../MaintbScreens/MyProfileScreens/MyFollowingsScreen';
 import MyBioScreen from '../MaintbScreens/MyProfileScreens/MyBioScreen';
+import SuportScreen from '../MaintbScreens/MyProfileScreens/SuportScreen';
 
 const Profile = createStackNavigator();
 
@@ -139,6 +140,21 @@ const ProfileStack = ({navigation, route}) => {
         component={MyBioScreen}
         options={{
           headerTitle: t('myBio'),
+          headerRight: () => _headerRithChat(),
+          headerLeft: () => _headerLeft(),
+          headerLeftContainerStyle: {
+            paddingLeft: 15,
+          },
+          headerRightContainerStyle: {
+            paddingRight: 15,
+          },
+        }}
+      />
+      <Profile.Screen
+        name="SuportScreen"
+        component={SuportScreen}
+        options={{
+          headerTitle: t('support'),
           headerRight: () => _headerRithChat(),
           headerLeft: () => _headerLeft(),
           headerLeftContainerStyle: {

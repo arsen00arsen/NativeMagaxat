@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Pressable,
   useWindowDimensions,
+  Platform,
 } from 'react-native';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import ImageModal from 'react-native-image-modal';
@@ -35,22 +36,6 @@ const UserInfo = ({user, poused}) => {
     } else {
       setModalVisible(true);
     }
-  };
-  const [currentlyPlayingVideo, setCurrentlyPlayingVideo] = useState(null);
-
-  const handleVideoPlay = videoPlayer => {
-    setCurrentlyPlayingVideo(videoPlayer);
-    // Pause all videos except for the current video player.
-    const otherVideoPlayers = document.querySelectorAll('.VideoPlayer');
-    otherVideoPlayers.forEach(videoPlayer => {
-      if (videoPlayer !== currentlyPlayingVideo) {
-        videoPlayer.pause();
-      }
-    });
-  };
-
-  const handleVideoStop = () => {
-    setCurrentlyPlayingVideo(null);
   };
 
   return (
@@ -83,7 +68,7 @@ const UserInfo = ({user, poused}) => {
               resizeMode={'cover'}
               ref={videoRef}
               source={{uri: user.files[0].url}}
-              controls={true}
+              controls={Platform.OS === 'ios' ? true : false}
               disableFocus={true}
               paused={poused && screenIsFocused}
               playWhenInactive={false}

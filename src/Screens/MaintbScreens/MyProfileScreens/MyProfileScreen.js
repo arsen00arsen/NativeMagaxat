@@ -69,6 +69,16 @@ function MyProfileScreen({navigation}) {
           </Pressable>
           <Pressable
             style={styles.botton}
+            onPress={() => navigation.navigate('SuportScreen')}>
+            <Text style={styles.title}>{t('support')}</Text>
+            <Ionicons
+              name="ios-chevron-forward-sharp"
+              color={'#B5B5BE'}
+              size={20}
+            />
+          </Pressable>
+          <Pressable
+            style={styles.botton}
             onPress={() => setModalVisible(true)}>
             <Text style={styles.title}>{t('delete_account')}</Text>
             <Ionicons
