@@ -168,8 +168,8 @@ android {
         applicationId "com.sponsoram"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdk 33
-        versionCode 35
-        versionName "2.0.2"
+        versionCode 38
+        versionName "2.0.7"
         vectorDrawables.useSupportLibrary = true
         multiDexEnabled true
     }
